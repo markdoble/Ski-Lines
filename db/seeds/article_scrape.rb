@@ -6,6 +6,8 @@ EasyTranslate.api_key = ENV['GOOGLE_API_KEY']
 =end
 
 
+
+
 # neveitalia.it/sport/scinordico/
 url = "http://www.neveitalia.it/sport/scinordico/"
 doc = Nokogiri::HTML(open(url))
