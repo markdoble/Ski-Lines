@@ -19,8 +19,6 @@ next unless title_ita && location && description_ita && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_ita.content
-  #article.description = description_ita.content
   article.title = EasyTranslate.translate(title_ita.content, :to => :english)
   article.description = EasyTranslate.translate(description_ita.content, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -143,8 +141,6 @@ next unless title_nor && location && description_nor && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_nor.content
-  #article.description = description_nor.content
   article.title = EasyTranslate.translate(title_nor.content, :to => :english)
   article.description = EasyTranslate.translate(description_nor.content, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -172,8 +168,6 @@ next unless title_rus && location && description_rus && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_rus.content
-  #article.description = description_rus.content
   article.title = EasyTranslate.translate(title_rus.content, :to => :english)
   article.description = EasyTranslate.translate(description_rus.content, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -201,8 +195,6 @@ next unless title_fin && location && description_fin && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_fin
-  #article.description = description_fin
   article.title = EasyTranslate.translate(title_fin, :to => :english)
   article.description = EasyTranslate.translate(description_fin, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -223,13 +215,10 @@ doc.css(".block21").each do |i|
   title_fr = i.at_css(".link")['title']
   description_fr = i.at_css(".ingress p")
   image = "french_flag.png"
-#URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
 next unless title_fr && location && description_fr && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_fr
-  #article.description = description_fr.content
   article.title = EasyTranslate.translate(title_fr, :to => :english)
   article.description = EasyTranslate.translate(description_fr.content, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -250,13 +239,10 @@ doc.css(".block22").each do |i|
   title_fr = i.at_css(".link")['title']
   description_fr = i.at_css(".ingress p")
   image = "french_flag.png"
-#URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
 next unless title_fr && location && description_fr && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_fr
-  #article.description = description_fr.content
   article.title = EasyTranslate.translate(title_fr, :to => :english)
   article.description = EasyTranslate.translate(description_fr.content, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -281,8 +267,6 @@ next unless title_sw && location && description_sw && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_sw
-  #article.description = description_sw
   article.title = EasyTranslate.translate(title_sw, :to => :english)
   article.description = EasyTranslate.translate(description_sw, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -307,8 +291,6 @@ next unless title_sw && location && description_sw && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_sw
-  #article.description = description_sw
   article.title = EasyTranslate.translate(title_sw, :to => :english)
   article.description = EasyTranslate.translate(description_sw, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -359,8 +341,6 @@ next unless title_ger && location && description_ger && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_ger
-  #article.description = description_ger
   article.title = EasyTranslate.translate(title_ger, :to => :english)
   article.description = EasyTranslate.translate(description_ger, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -390,8 +370,6 @@ next unless title_ita && location && description_ita && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_ita
-  #article.description = description_ita
   article.title = EasyTranslate.translate(title_ita, :to => :english)
   article.description = EasyTranslate.translate(description_ita, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -416,8 +394,6 @@ next unless title_kaz && location && description_kaz && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_kaz
-  #article.description = description_kaz
   article.title = EasyTranslate.translate(title_kaz, :to => :english)
   article.description = EasyTranslate.translate(description_kaz, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -442,8 +418,6 @@ next unless title_cze && location && description_cze && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_cze
-  #article.description = description_cze
   article.title = EasyTranslate.translate(title_cze, :to => :english)
   article.description = EasyTranslate.translate(description_cze, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -468,8 +442,6 @@ next unless title_cze && location && description_cze && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_cze
-  #article.description = description_cze
   article.title = EasyTranslate.translate(title_cze, :to => :english)
   article.description = EasyTranslate.translate(description_cze, :to => :english)
   article.date_published = Time.zone.now.to_date
@@ -519,8 +491,6 @@ next unless title_swe && location && description_swe && image
 
 Article.find_or_create_by(location: "#{location}") do |article|
   article.category = "Cross Country"
-  #article.title = title_swe
-  #article.description = description_swe
   article.title = EasyTranslate.translate(title_swe, :to => :english)
   article.description = EasyTranslate.translate(description_swe, :to => :english)
   article.date_published = Time.zone.now.to_date
