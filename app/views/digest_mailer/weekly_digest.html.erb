@@ -19,13 +19,23 @@
 	border-style: solid;
 	border-color: #e8e8e8;
 
-	padding:10px;
+	padding:7px;
 
 
 }
+.email_article_title{
+  text-decoration:none;
+  color:black;
+  font-size:17px;
+}
+.email_article_title:hover{
+  text-decoration:none;
+  color:blue;
+  font-size:17px;
+}
 .email_digest_admin_date{
 
-  padding-bottom:5px;
+
   color:#404040;
 }
 
@@ -61,14 +71,14 @@ h1{
     <div class="col-lg-11 col-md-10 col-sm-12 col-xs-12">
         <% @articles.each do |f| %>
         <div class="article_background">
-          <p style="font-size:16px;"><%= link_to f.title, :controller => "articles", :action => "show",
-      :only_path => false, :id => f.id, :host => "ski-lines.com" %></p>
-          <p style="opacity:0.5;"><%= f.description[0...200] << '...' %></p>
-          <p class="email_digest_admin_date"><%= Date.parse(f.date_published).strftime("%b %d, %Y") %> | <%= f.source %></p>
+          <div class="email_article_title"><%= link_to f.title, :controller => "articles", :action => "show",
+      :only_path => false, :id => f.id, :host => "ski-lines.com", :class => "email_article_title"%></div>
+          <p style="opacity:0.5;"><%= simple_format(f.description[0...200] << ' ...') %></p>
+          <div class="email_digest_admin_date"><%= Date.parse(f.date_published).strftime("%b %d, %Y") %> | <%= f.source %></div>
 
 
         </div>
-        <br />
+
         <%end%>
     </div>
 
