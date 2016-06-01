@@ -1,0 +1,77 @@
+<body class="new_session">
+
+	<div class="container content">
+				<div class="row">
+					<div class="page_logo col-lg-3 col-md-3 col-sm-2 col-xs-12">
+					</div>
+					<div class="page_logo col-lg-6 col-md-6 col-sm-8 col-xs-12">
+						<br />
+						<%=  image_tag('store_logo_bitmap.png', width:"100%") %>
+					</div>
+					<div class="page_logo col-lg-3 col-md-3 col-sm-2 col-xs-12">
+					</div>
+				</div>
+		<br /> <br />
+			 <div class="row">
+				 <div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
+				 </div>
+
+
+
+
+				  <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+
+							 <div class="devise_forms_background">
+									<br />
+									<br />
+							<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+							  <div class="field">
+								  <div class="devise_session_label">
+							    <%= f.label :email, hidden: true  %>
+							      </div>
+							    <%= f.email_field :email, class: "form-control input-lg", autofocus: true, placeholder: "Email" %>
+							  </div>
+
+							  <div class="field">
+								  <div class="devise_session_label">
+							    <%= f.label :password, hidden: true %>
+								  </div>
+							    <%= f.password_field :password, class: "form-control input-lg", autocomplete: "off", placeholder: "Password" %>
+
+							  </div>
+
+
+					        <div class="devise_session_label">
+									  <div class="actions">
+											<br />
+									    <%= f.submit "LOG IN", class: "btn btn-large btn-primary registration_button"%>
+									  </div>
+								  </div>
+									<% end %>
+
+									<br />
+								</div>
+								<br /><br />
+									<div class="devise_forms_background">
+										<br />
+							<h4>Or, apply to become a merchant:</h4>
+
+
+
+
+
+							<%= link_to "APPLY NOW", new_merchant_application_path, class: "btn-primary btn bt-large registration_button"%>
+							<br /><br />
+						</div>
+				</div>
+				<div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+ </body>

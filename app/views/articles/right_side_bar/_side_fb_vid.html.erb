@@ -1,0 +1,15 @@
+
+
+
+   <div class="featured_fb_videos" id="<%=article.date_published%>">
+	    <div class="fb-video" data-href="<%= article.image %>" data-width="350">
+			<div class="fb-xfbml-parse-ignore"><blockquote cite="<%= article.image.chomp('?theater') %>">
+				<a href="<%= article.image.chomp('?theater') %>">
+				<%= article.title %>
+			    </a>
+				<p><%= article.description %> </p>
+				Posted by <a href= "<%= article.source.prepend("http://www.") %>"></a>
+				<%= Date.parse(article.date_published).strftime("%b %d, %Y") %></blockquote>
+		    </div>
+		</div>
+	</div>

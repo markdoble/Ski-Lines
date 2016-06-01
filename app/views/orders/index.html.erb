@@ -1,0 +1,24 @@
+
+
+
+<% if @order_session == nil %>
+
+	<% if @cart.empty? %>
+	<%= render :partial => "orders/empty_cart" %>
+	<% @nofooter = true %>
+	<%else%>
+	<div class="container">
+		<div class="row">
+	<%= render :partial => "orders/cart_exists" %>
+
+	<br /><br />
+		</div>
+	</div>
+	<%end%>
+
+<%else%>
+
+<%= render :partial => "orders/order_session" %>
+
+
+<%end%>

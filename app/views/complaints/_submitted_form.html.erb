@@ -1,0 +1,58 @@
+<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+</div>
+<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+		<% complaint = Complaint.find_by_id(@complaint_session)%>
+			<h3>Thank you for submitting your complaint, <%= complaint.cust_first_name %>! </h3>
+			<p style="text-align:center">We will be in contact with you shortly to discuss possible rememdies. Your case number is: <%= complaint.id %>. </p>
+		<div class="col-xs-12">
+		  <div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<h2>Complaint:</h2>
+		  </div>
+			<div class="row">
+				<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p>Customer Name:</p>
+				</div>
+				<div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p><%= complaint.cust_first_name%> <%= complaint.cust_last_name%></p>
+				</div>
+				<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p>Customer Email:</p>
+				</div>
+				<div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p><%= complaint.customer_email%></p>
+				</div>
+				<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p>Complaint:</p>
+				</div>
+				<div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p><%= complaint.complaint_description%></p>
+				</div>
+				<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p>Seller:</p>
+				</div>
+				<div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p><%= complaint.accused_seller%></p>
+				</div>
+				
+				<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p>Order ID:</p>
+				</div>
+				<div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<p><%= complaint.order_id_number%></p>
+				</div>
+			</div>
+  		  
+  			
+			<br />
+    		  <div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    			
+    		  </div>
+			
+			<br />
+			<div class="clear_merchapp_session">
+			<%= link_to "CLEAR", complaintsubmit_clear_path, class: "btn btn-primary merchant_pro_save" %>
+			</div>
+		</div>
+</div>	
+<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+</div>	

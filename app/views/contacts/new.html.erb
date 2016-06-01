@@ -1,0 +1,58 @@
+<div class="contact_well_main">
+	<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+			<div class="row">
+				<h2 style="text-align:center" >CONTACT US</h2>
+			</div>
+			<div class="row">
+				<p style="text-align:center" >Please write to us for general inquiries and feedback. Or, if you'd prefer to get in touch through email, send us a <%= link_to "message", "mailto:mark@ski-lines.com?Subject=Inquiry" %>.</p>
+			</div>
+			<div class="row">
+				<p style="text-align:center" >(No field is mandatory)</p>
+			</div>
+
+			<%= form_for @contact do |f| %>
+			<div class="row col-lg-12 col-md-12 col-sm-12">
+			  <%= f.label :email, class: "sr-only", :required => true %>
+			  <%= f.text_field :email, class: "form-control ", style: "width:75%", placeholder: "Your Email Address" %><br/>
+			</div>
+			<div class="row">
+				<div class="textarea col-lg-12 col-md-12 col-sm-12">
+				  <%= f.label :comment, class: "sr-only" %>
+				  <%= f.text_area :comment, class: "form-control", :cols => 80, :rows=>6, placeholder: "Comments..." %><br/>
+				</div>
+			</div>
+
+			<div class="row col-lg-12 col-md-12 col-sm-12">
+			<p style="text-align:center">If you run a blog or a news site, please submit your web address for consideration to be incorporated into the daily ski-lines.</p>
+			</div>
+
+
+			<div class="row">
+				<div class="user_website col-lg-12 col-md-12 col-sm-12">
+				  <%= f.label :website, class: "sr-only" %>
+				  <%= f.text_field :website, class: "form-control", :cols => 80, :rows=>6, placeholder: "Your Website URL..." %><br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="actions col-lg-12 col-md-12 col-sm-12">
+				  <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+				</div>
+			</div>
+
+		<% end %>
+		</div>
+		<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+			<div class="google_adsense">
+
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				 <!-- Spring 2016 -->
+				 <ins class="adsbygoogle"
+					 style="display:inline-block;width:300px;height:600px"
+					 data-ad-client="ca-pub-7427467260900360"
+					 data-ad-slot="2795898131"></ins>
+				 <script>
+				 (adsbygoogle = window.adsbygoogle || []).push({});
+				 </script>
+			</div>
+		</div>
+</div>

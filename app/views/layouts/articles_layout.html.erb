@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Cross-Country Ski Racing News, Biathlon News, World Cup Cross-Country Skiing News, all from around the World" %></title>
+	<meta name="description" content="Cross-country ski racing, nordic ski racing, and biathlon racing news from around the world, translated to English. Stay up to date on the latest events in the sport of cross country skiing. The only nordic ski racing news site with full translations of article summaries!">
+    <%= csrf_meta_tags %>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <!-- For third-generation iPad with high-resolution Retina display: -->
+    <!-- Size should be 144 x 144 pixels -->
+    <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144' %>
+
+    <!-- For iPhone with high-resolution Retina display: -->
+    <!-- Size should be 114 x 114 pixels -->
+    <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114' %>
+
+    <!-- For first- and second-generation iPad: -->
+    <!-- Size should be 72 x 72 pixels -->
+    <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72' %>
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <!-- Size should be 57 x 57 pixels -->
+    <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'apple-touch-icon-precomposed', :type => 'image/png' %>
+
+    <!-- For all other devices -->
+    <!-- Size should be 32 x 32 pixels -->
+    <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'shortcut icon' %>
+
+    <%= javascript_include_tag "application" %>
+  </head>
+
+  <body class="application_body" data-spy="scroll" data-target="#myNavbar" data-offset="0" >
+	  <div id="fb-root"></div>
+
+
+<!-- FB Comments Plugin -->
+<script>(function(d, s, id) {
+	    var js, fjs = d.getElementsByTagName(s)[0];
+	    if (d.getElementById(id)) return;
+	    js = d.createElement(s); js.id = id;
+	    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
+	    fjs.parentNode.insertBefore(js, fjs);
+	  }(document, 'script', 'facebook-jssdk'));
+
+</script>
+	<script>      // 2. This code loads the IFrame Player API code asynchronously.
+	      var tag = document.createElement('script');
+	      tag.src = "http://www.youtube.com/player_api";
+	      var firstScriptTag = document.getElementsByTagName('script')[0];
+	      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+	      // 3. This function creates an iframe> (and YouTube player)
+	      //    after the API code downloads.
+	      var player;
+	      function onYouTubePlayerAPIReady() {
+	        player = new YT.Player('player', {
+	          playerVars: { 'autoplay': 1, 'controls': 1,'autohide':1,'wmode':'opaque' },
+	          videoId: 'JW5meKfy3fY',
+	          events: {
+	            'onReady': onPlayerReady}
+	        });
+	      }
+
+	      // 4. The API will call this function when the video player is ready.
+	      function onPlayerReady(event) {
+	        event.target.mute();
+	      }
+	</script>
+
+
+
+
+	<%= render 'navbars/articles_navbar' %>
+
+
+
+  <% if @index_page %>
+
+<div class="full_page_features hidden-md hidden-sm hidden-xs">
+
+      <% @front_page_featured_articles.each do |front_page| %>
+
+      <% if front_page.image.blank? %>
+
+    <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.orig_content_photo.url(:large) %>)">
+       <%else%>
+    <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.image %>)">
+       <%end%>
+       <div class="font_page_spacer">
+         <h4 class="font_page_article_title"><%= link_to front_page.title, article_path(front_page) %></h4>
+         <p class="front_page_source"><%= front_page.source%></p>
+
+       </div>
+    </div>
+
+      <%end%>
+
+
+
+</div>
+<%end%>
+
+
+<div class="container">
+		 <div class="row">
+        <% if @show %>
+
+
+
+          <div class="hidden-lg col-md-12 col-sm-12 hidden-xs google_adsense" style="margin-bottom:15px">
+            <br />
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- Show Page Header -->
+              <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-7427467260900360"
+                 data-ad-slot="3793123335"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+
+          </div>
+
+
+        <div class="hidden-lg hidden-md hidden-sm col-xs-12" style="text-align:center; margin-top:10px; margin-left:0px; padding:0px;">
+
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Mobile Newsfeed -->
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:320px;height:100px"
+                 data-ad-client="ca-pub-7427467260900360"
+                 data-ad-slot="6943236131"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+
+        </div>
+        <%else%>
+        <%nil%>
+        <%end%>
+	       <div class="left_side col-lg-2 col-md-3 col-sm-3 hidden-xs">
+
+                <%= render :partial => "articles/left_side_bar/featured"  %>
+	       </div>
+
+           <div id='main' class="main col-lg-6 col-md-8 col-sm-8 col-xs-12">
+        <!--     <% if @index_page %>
+             <div class="app_layout_spacer_main hidden-md hidden-sm hidden-xs">
+             </div>
+             <%end%>-->
+          <%= bootstrap_flash %>
+          <%= yield %>
+          </div>
+
+          <div class="right_side col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs">
+
+            <% if @show %>
+            <br />
+            <div class="google_adsense hidden-md" style="padding-left:15px; margin-top:10px">
+
+              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+               <!-- Spring 2016 -->
+               <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:600px"
+                 data-ad-client="ca-pub-7427467260900360"
+                 data-ad-slot="2795898131"></ins>
+               <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+               </script>
+            </div>
+            <% else %>
+            <%= render 'articles/right_side_bar/side_contain'  %>
+            <% end %>
+          </div>
+      </div>
+ </div>
+
+
+	 <script>
+	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	    ga('create', 'UA-60189417-1', 'auto');
+	    ga('send', 'pageview');
+
+	  </script>
+
+<script>
+(function trackOutbounds() {
+
+	var hitCallbackHandler = function(url,win) {
+	    if (win) {
+		    window.open(url, win);
+	    } else {
+        	window.location.href = url;
+        }
+    };
+
+    var addEvent = function(el, eventName, handler) {
+
+		if (el.addEventListener) {
+			el.addEventListener(eventName, handler);
+			} else {
+			el.attachEvent('on' + eventName, function(){
+				handler.call(el);
+		    });
+		}
+	}
+
+	if (document.getElementsByTagName) {
+		var el = document.getElementsByTagName('a');
+		var getDomain = document.domain.split('.').reverse()[1] + '.' + document.domain.split('.').reverse()[0];
+
+		// Look thru each a element
+		for (var i=0; i < el.length;i++) {
+
+			// Extract it's href attribute
+			var href = (typeof(el[i].getAttribute('href')) == 'string' ) ? el[i].getAttribute('href') : '';
+
+			// Query the href for the top level domain (xxxxx.com)
+			var myDomain = href.match(getDomain);
+
+			// If link is outbound and is not to this domain
+			if ((href.match(/^(https?:|\/\/)/i)  && !myDomain) || href.match(/^mailto\:/i)) {
+
+				// Add an event to click
+				addEvent(el[i],'click', function(e) {
+					var url = this.getAttribute('href'), win = (typeof(this.getAttribute('target')) == 'string') ? this.getAttribute('target') : '';
+
+							console.log ("add event", url);
+					// Log even to Analytics, once done, go to the link
+					ga('send', 'event', 'outbound', 'click', url,
+						{'hitCallback': hitCallbackHandler(url,win)},
+						{'nonInteraction': 1}
+					);
+
+					e.preventDefault();
+				});
+			}
+		}
+	}
+})();
+</script>
+
+  </body>
+
+</html>

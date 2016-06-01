@@ -1,0 +1,45 @@
+				<%if @subscriber_session == nil %>
+
+<p style="color:red; font-size:20px; text-align:center; font-weight:bold; padding-top:10px; padding-bottom:0px;">NEW!</p>
+        <p style="text-align:center; padding-top:0px; padding-bottom:0px; font-size:16px">Ski-Lines Email Digest!</p>
+
+
+						<%= form_for @subscriber, :url => email_digests_path, remote:true do |f|%>
+							<div class="sidebar_digest_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				        <%= f.label :first_name, "First Name:", hidden: true %>
+				        <%= f.text_field :first_name, class: "form-control input-lg", placeholder:"First Name" %>
+
+							</div>
+							<div class="sidebar_digest_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				        <%= f.label :last_name, "Last Name:", hidden: true  %>
+				        <%= f.text_field :last_name, class: "form-control input-lg", placeholder:"Last Name" %>
+
+							</div>
+
+							<div class="sidebar_digest_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				        <%= f.label :email, "Email:", hidden: true %>
+				        <%= f.email_field :email, class: "form-control input-lg", placeholder: "Email" %>
+
+							</div>
+							<div class="sidebar_digest_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<%= f.hidden_field :status, value: "Active" %>
+				        <%= f.submit "SUBSCRIBE!", class: "btn btn-primary email_digest_sidebar_button input-lg" %>
+								<p><%= link_to "Find Out More", new_email_digest_path %></p>
+								<br />
+
+							</div>
+				    <%end%>
+
+
+				<%else%>
+
+        <br />
+				<p style="text-align:center; font-size:18px; padding:0px; margin:0px"><b> Success! </b></p>
+        <p style="text-align:center; padding:3px">Keep an eye out for our weekly email digests.</p>
+
+				<% session_subscriber = EmailDigest.find_by_id(@subscriber_session)%>
+				<p style="font-size:16px; font-weight:bold; text-align:center">	<%= session_subscriber.first_name %> <%= session_subscriber.last_name %><br />
+				<%= session_subscriber.email %></p>
+
+				<p style="text-align:center">	<%= link_to "Edit Subscription Settings", edit_email_digest_path(session_subscriber.id) %></p>
+				<%end%>

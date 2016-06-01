@@ -1,0 +1,6 @@
+$('.products').append('<%= j render(:partial => 'admin/products/paginate/waxing') %>');
+<% if @waxing.next_page %>
+$('.pagination').replaceWith('<%= j will_paginate(@waxing) %>');
+<% else %>
+$('.pagination').remove();
+<% end %>

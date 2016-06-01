@@ -1,0 +1,83 @@
+<script>
+$(document).ready(function(){
+  var featured_videos_column = $('.featured_videos_column');
+  var right_side_advertisement = $('.right_side_advertisement');
+  var top_contribs = $('.top_contribs');
+  var email_digest_subscription_div = $('.email_digest_form');
+  var email_digest_subscription_height = email_digest_subscription_div.offset().top;
+
+  var $right_side_window = $(window);
+  $right_side_window.scroll(function(){
+
+    if ( $right_side_window.scrollTop() >= (email_digest_subscription_height - 65)) {
+        email_digest_subscription_div.addClass('affix');
+        right_side_advertisement.hide();
+        top_contribs.hide();
+        featured_videos_column.hide();
+
+
+    } else {
+        email_digest_subscription_div.removeClass('affix');
+        right_side_advertisement.show();
+        top_contribs.show();
+        featured_videos_column.show();
+    }
+  });
+});
+</script>
+
+
+ <div class="right_side">
+       <div class="top_contribs">
+         <br />
+         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- Top Right New -->
+            <ins class="adsbygoogle"
+              style="display:inline-block;width:350px;height:280px"
+              data-ad-client="ca-pub-7427467260900360"
+              data-ad-slot="3144844930"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+		   </div>
+       <div class="featured_videos_column">
+           <div class="featured_videos">
+            	 <% @featured_videos.each do |article| %>
+
+
+             	<% if article.image.include? "youtube.com" %>
+
+             	     <%= render :partial => "articles/right_side_bar/side_yt_vid", :locals => {:article => article} %>
+
+                 <% elsif article.image.include? "facebook.com" and "video" %>
+
+             	     <%= render :partial => "articles/right_side_bar/side_fb_vid", :locals => {:article => article} %>
+
+            	 <%else%>
+            	   <%nil%>
+            	 <%end%>
+            	<%end%>
+    	    </div>
+          <div class="featured_videos_title">
+           <%= link_to  "View All Videos", root_path(videos: "videos"), class: "btn btn-primary" %>
+          </div>
+       </div>
+       <div class="right_side_advertisement">
+          <div class="google_adsense" >
+             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- Spring 2016 -->
+              <ins class="adsbygoogle"
+                style="display:inline-block;width:300px;height:600px"
+                data-ad-client="ca-pub-7427467260900360"
+                data-ad-slot="2795898131"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+          </div>
+      </div>
+      <div class="email_digest_form">
+   			<div id="email_digest_form_refresh">
+   				<%= render 'email_digests/sidebar_form' %>
+   			</div>
+   		</div>
+</div>

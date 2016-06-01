@@ -1,0 +1,64 @@
+<!-- Store Front Navbar -->
+
+<%= render 'navbars/products_navbar'%>
+
+
+
+<div class="store_background">
+	<div class="container">
+
+		<div class="row">
+	<br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<div class="hidden-xs">
+	<br /><br /><br /><br /><br />
+	</div>
+
+		 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+
+				<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 hidden-xs" style="text-align:center">
+				<%= image_tag('store_logo_bitmap_7.png', width:'60%') %>
+			    <br />
+				</div>
+				<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 hidden-lg hidden-md hidden-sm" style="text-align:center">
+				<%= image_tag('store_logo_bitmap_7.png', width:'100%') %>
+			    <br />
+				</div>
+
+		   		    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2" >
+
+  		   			   <div class="landing_search ">
+	  		   					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br />
+			   				        <div class="field input-group col-lg-11 col-md-10 col-sm-12 col-xs-12">
+			   				     		 <%= form_tag("/products/all_products", :method => 'get') do %>
+			   				             <%= text_field_tag :query, params[:query], class:"form-control input-lg", style: "width:80%", placeholder: "Find Products..." %>
+			   				                 <span class="input-group-btn">
+			   				                  <button class="btn btn-default input-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			   				   		      <% end %>
+			   				                </span>
+			   				   	    </div>
+	  		   					    <div class="quick_links_index col-lg-offset-1 hidden-xs">
+			  		   						<%= link_to("Clothing", products_clothing_url)%> |
+			  		   						<%= link_to("Skis, Boots, Poles", products_hard_goods_url )%> |
+			  		   						<%= link_to("Waxing", products_waxing_url)%> |
+			  		   						<%= link_to("Accessories", products_accessories_url  )%>
+	  		   						  </div><br /><br />
+	  		   					</div>
+  		   				</div>
+
+		   		  	</div>
+
+		 </div>
+
+
+
+
+		 </div>
+
+
+
+
+
+
+	</div>
+</div>

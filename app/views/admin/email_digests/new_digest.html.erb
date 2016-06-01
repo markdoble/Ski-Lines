@@ -1,0 +1,6 @@
+
+<% if @sent_email %>
+<%= render '/admin/email_digests/sent_email' %>
+<% else  %>
+<%= render '/admin/email_digests/form' %>
+<%end%>

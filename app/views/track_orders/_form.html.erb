@@ -1,0 +1,65 @@
+
+		<h1>Track My Order</h1>
+		<div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
+		</div>
+		<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+			<h4 style="text-align:center">Enter your details so we can find your order.</h4>
+			  <div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+			  </div>
+		  <%= form_tag "/track_orders/track", :method => :get do %>
+
+		   <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			   <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		    <%= label_tag :email, "My Email:"  %>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-9">
+		    <%= text_field_tag :email, params[:email], class: "form-control" %><br />
+				</div>
+		    </div>
+ 		   <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+ 			   <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+ 		    <%= label_tag :first_name, "First Name:"  %>
+ 				</div>
+ 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-9">
+ 		    <%= text_field_tag :first_name, params[:first_name], class: "form-control" %><br />
+ 				</div>
+ 		    </div>
+  		   <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  			   <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+  		    <%= label_tag :last_name, "Last Name:"  %>
+  				</div>
+  				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-9">
+  		    <%= text_field_tag :last_name, params[:last_name], class: "form-control" %><br />
+  				</div>
+  		    </div>
+   		   <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   			   <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+   		    <%= label_tag :order_id, "Order ID:"  %>
+   				</div>
+   				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-9">
+   		    <%= text_field_tag :order_id, params[:order_id], class: "form-control" %><br />
+   				</div>
+   		    </div>
+			<br />
+		  <div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<h2></h2>
+		  </div>
+		  <br />
+			<div class="row">
+				<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+				</div>
+			  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		  		  <div class="edit_merchant_save_button">
+
+		  		   <%= submit_tag "FIND MY ORDER", class: "btn btn-large btn-primary merchant_pro_save" %>
+
+		  		  </div>
+			    </div>
+	  			<div class="col-lg-5 col-md-5 hidden-sm hidden-xs">
+	  			</div>
+		  	</div>
+			<%end%>
+		</div>
+		<div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
+		</div>

@@ -1,0 +1,32 @@
+			<div class="well_main" >
+				<div class="row">
+					
+					<div class="col-lg-4 col-md-2 col-sm-2 col-xs-3">
+		  	 		   <h4 class="well_side_left_title" style="text-align:right">Filter:</h4>
+		 			</div>
+		  	  <%= form_tag("/pages/cross_country", method: "get") do %>
+			  
+			  
+		  	  		<div class="col-lg-5 col-md-7 col-sm-7 col-xs-9" style="text-align:left">
+			  		
+			  <%= radio_button_tag(:all, false, params[:all] == 'false' ? true : false)%>
+		  	  <%= label_tag(:all, "Remove Translated Headlines") %> 
+			  	<br> 
+			  
+		  	  <%= radio_button_tag(:all, true, params[:all] == 'true' ? true : false)%>
+		  	  <%= label_tag(:all, "Show All") %>
+	  
+	  
+	  
+	  
+	  				</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12" >
+		  	  		  	<div class="button_submit" style="text-align:center">
+		  	  <%= button_tag("submit", class: "btn btn-primary")%>
+		        		</div>
+		  	  <%end%>
+		  			</div>
+		  </div>
+			</div>
+			
+

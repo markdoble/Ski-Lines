@@ -1,0 +1,2 @@
+module EmailDigestHelper
+end

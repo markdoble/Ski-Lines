@@ -1,0 +1,29 @@
+<div class="article" id="<%=article.date_published%>">
+
+		<div class="facebook_well_main" style="text-align:center">
+			
+		
+		<div class="fb-video" data-href="<%= article.image %>" data-width="500">
+			<div class="fb-xfbml-parse-ignore"><blockquote cite="<%= article.image.chomp('?theater') %>"><a href="<%= article.image.chomp('?theater') %>">
+				<%= article.title %>
+			</a><p><%= article.description %>  </p>Posted by <a href= "<%= article.source.prepend("http://www.") %>"></a> <%= Date.parse(article.date_published).strftime("%b %d, %Y") %></blockquote>
+			</div>
+		</div>
+	     	    <div class="article_text col-lg-12 col-md-12 col-sm-12" style="text-align:left">  
+	   			<br>
+	     	       <h4 class="article_title"><%= article.title.html_safe %></h4>
+	   	    </div>
+		
+	   		</div>
+	      	 <div class="comments_row">
+	      	     <%= Date.parse(article.date_published).strftime("%b %d, %Y") %>  &nbsp|&nbsp
+	      		 <span class="glyphicon glyphicon-link"></span>&nbsp
+	      		 <%= link_to "facebook.com", "#{article.location}", :target => "_blank"%> &nbsp|&nbsp
+	      		 <%= link_to article_path(article) do %>
+	      		 <span class="glyphicon glyphicon-comment"></span>Comments (<span class="fb-comments-count" data-href="http://www.ski-lines.com/articles/<%=article.id%>"></span>)
+	      		<% end %>
+	      	 </div>
+		 
+
+</div>
+

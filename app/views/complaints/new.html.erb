@@ -1,0 +1,16 @@
+
+<div class="merchant_application">
+	<div class="container">
+	<br /><br />
+		<%if @complaint_session == nil %>
+		<%= render 'complaints/form' %>
+		<%else%>
+		<%= render 'complaints/submitted_form'%>
+		<%end%>
+
+
+
+
+	</div>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

@@ -1,0 +1,18 @@
+
+<div class="merchant_application">
+	<div class="container">
+	<br /><br />
+		<% if @my_order_id == nil %>
+		<%= render :partial => 'track_orders/form' %>
+		<%elsif @my_order_id == 'no_order_found'%>
+		<%= render :partial => 'track_orders/no_order_found'%>
+		<%else%>
+		<%= render :partial => 'track_orders/order'%>
+
+		<%end%>
+
+	</div>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+</div>

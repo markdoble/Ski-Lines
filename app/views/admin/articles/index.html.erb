@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+	  <br /><br />
+      <%= form_tag(admin_articles_path, method: "get") do %>
+      
+	  
+      <p><%= radio_button_tag(:filter, "all", params[:filter] == "all", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "All") %></p>
+	  
+      <p><%= radio_button_tag(:filter, "pub", params[:filter] == "pub", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "Published") %></p>
+      
+	  <p><%= radio_button_tag(:filter, "unpub", params[:filter] == "unpub", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "Unpublished") %></p>
+      
+	  <p><%= radio_button_tag(:filter, "feat", params[:filter] == "feat", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "Featured") %></p>
+      
+	  <p><%= radio_button_tag(:filter, "pending", params[:filter] == "pending", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "Pending") %></p>
+	  
+	  <p><%= radio_button_tag(:filter, "never", params[:filter] == "never", :onclick => "this.form.submit();") %>
+      <%= label_tag(:filter, "Never Publish") %></p>
+      
+       <% end %>
+   </div>
+
+
+   <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12">
+      <div class='articles'>
+		  <%= render 'articles'%>
+	  </div>
+	  <div class='well_main'>
+		  <%=will_paginate(@articles)%>
+	  </div>
+	  
+  </div>
+	  
+   <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+   </div>
+</div>

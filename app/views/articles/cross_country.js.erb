@@ -1,0 +1,17 @@
+
+
+
+$('.articles').append('<%= j render(:partial => 'articles/articles') %>');
+<% if @articles.next_page %>
+$('.pagination').replaceWith('<%= j will_paginate(@articles) %>');
+<% else %>
+$('.pagination').remove();
+<% end %>
+$('[data-spy="scroll"]').each(function () {
+  $(this).scrollspy('refresh');
+});
+FB.XFBML.parse();
+
+
+   
+

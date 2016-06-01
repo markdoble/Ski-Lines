@@ -1,0 +1,103 @@
+<style type="text/css" media="screen">
+
+.welcome_digest_email{font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;}
+.center_text{ text-align:center; }
+.left_align_text{ text-align:left; }
+.email_footer{
+  font-size:12px;
+  text-align:center;
+  opacity:0.7;
+  border-top-style:solid;
+	border-color:#adadad;
+	border-width:thin;
+  padding-top:5px;
+}
+.article_background{
+	background-color:white;
+	border-radius:5px;
+	border-width: thin;
+	border-style: solid;
+	border-color: #e8e8e8;
+
+	padding:10px;
+
+
+}
+.email_digest_admin_date{
+
+
+  color:#404040;
+}
+
+h2{
+	border-bottom-style:solid;
+	border-color:#adadad;
+	border-width:thin;
+  font-size:17px;
+  margin-bottom:0px;
+  padding-bottom:15px;
+}
+h1{
+
+  font-size:20px;
+  margin-bottom:0px;
+  padding-bottom:0px;
+
+}
+</style>
+
+<div class="welcome_digest_email col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+  <div class="center_text">
+    <h1>Sent Email Digest:</h1>
+
+
+  </div>
+
+
+  <div class="left_align_text">
+
+
+    <div class="col-lg-2 col-md-1 hidden-sm hidden-xs">
+    </div>
+    <div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
+      <div class="left_align_text">
+        <h2><%= @sent_subject %></h2>
+      </div>
+      <br />
+      <p>Hi Subscriber,</p>
+      <p>Here's what's been happening in the World of cross-country ski racing:</p>
+        <% @sent_articles.each do |f| %>
+        <div class="article_background">
+          <p style="font-size:16px;"><%= link_to f.title, :controller => "/articles", :action => "show",
+      :only_path => false, :id => f.id, :host => "ski-lines.com" %></p>
+          <p style="opacity:0.5;"><%= f.description[0...200] << '...' %></p>
+          <p class="email_digest_admin_date"><%= Date.parse(f.date_published).strftime("%b %d, %Y") %> | <%= f.source %></p>
+
+
+        </div>
+        <br />
+        <%end%>
+        <p>Be sure to check out our site for these stories and more!</p>
+        <p>Sincerely,</p>
+
+        <p>The Ski-Lines Team</p>
+        <div class="email_footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <p><i>We are focussed on keeping you connected with the sport that you love!</i></p>
+          <%= link_to "Ski-Lines.com", root_url %><br />
+          <%= link_to "Edit Subscription Settings", :controller => "/email_digests", :action => "new",
+      :only_path => false, :host => "ski-lines.com" %><br />
+      <br /><br /><br /><br />
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-1 hidden-sm hidden-xs">
+    </div>
+
+
+
+  </div>
+
+
+
+
+</div>

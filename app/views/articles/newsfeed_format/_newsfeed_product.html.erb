@@ -1,0 +1,82 @@
+
+<div class="article" id="<%=article.date_published%>">
+
+      <div class="row">
+
+        <div id="image" class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+          <%= image_tag(p.photo.url(:large), class: "img-responsive", width:"100%") %>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="product_name">
+                <h3><%= p.name %></h3>
+              </div>
+              <div class="product_price">
+                  <h4 > <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
+              </div>
+              <p><%= simple_format(p.description) %></p>
+           </div>
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div id="content">
+                  <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                       <li class="active"><a data-toggle="tab" href='#<%= p.id%>A'>Merchant</a></li>
+                       <li ><a data-toggle="tab" href='#<%= p.id%>B'>Returns</a></li>
+                   <% unless p.units.any?{|a| a.size == 'n/a' }%>
+                       <li ><a data-toggle="tab" href='#<%= p.id%>C'>Sizing</a></li>
+                   <%end%>
+                   <li ><a data-toggle="tab" href='#<%= p.id%>D'>Shipping</a></li>
+                  </ul>
+                  <div id="my-tab-content" class="tab-content">
+                        <div class="tab-pane active" id='<%= p.id%>A'>
+                          <p>
+                          <% if p.user.merchant_url.blank? %>
+                          <%= p.user.merchant_name %><br />
+                          <%else%>
+                          <i><%= link_to p.user.merchant_name, {:controller => "products", :action => "store", :slug => p.user.slug } %></i><br />
+                          <%end%>
+                          <%= p.user.city %>, <%= p.user.state_prov%>	<br />
+                          </p>
+                            </div>
+                        <div class="tab-pane" id='<%= p.id%>B'>
+                            <% if p.product_return_policy.blank? %>
+                          <p>There is no return policy for this product.</p>
+                        <%else%>
+                          <p><%= simple_format(p.product_return_policy) %></p>
+                        <%end%>
+                            </div>
+                        <% unless p.units.any?{|a| a.size == 'n/a' }%>
+                          <div class="tab-pane" id='<%= p.id%>C'>
+                             <% if p.size_details.blank?%>
+                             <p>No sizing details to show.</p>
+                             <%else%>
+                             <p><%= simple_format(p.size_details) %></p>
+                             <%end%>
+                          </div>
+                        <%end%>
+                          <div class="tab-pane" id='<%= p.id%>D'>
+                            <% if p.shipping_charge.blank? %>
+                            <p>There is no shipping information to show.</p>
+                            <%else%>
+                                <% if p.shipping_charge == 0 %>
+                                <p>This product has free shipping!</p>
+                                <%else%>
+                                <p>
+                                <%= number_to_currency(p.shipping_charge, unit: '$') %> per unit for deliveries within Canada, and
+                                <%= number_to_currency(p.shipping_charge*1.5, unit: '$') %> per unit for deliveries to the U.S..
+                                </p>
+                                <%end%>
+                            <%end%>
+                          <% if p.shipping_charge == 0 %>
+                          <%else%>
+                          <p>Save the shipping fee by picking up the product in person!</p>
+                          <%end%>
+                          </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+      </div>
+</div>

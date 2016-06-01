@@ -1,0 +1,14 @@
+<%= render 'orders/navbar' %>
+<div class="all_merchants col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<br /><br /><br /><br /><br /><br />
+<div class="container">
+	
+	<% @users.each do |f|%>
+
+		<%= link_to f.merchant_name, {:controller => "products", :action => "store", :slug => f.slug } %><br />
+
+	<%end%>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	</div>
+	
+</div>

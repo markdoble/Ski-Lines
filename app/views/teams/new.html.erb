@@ -1,0 +1,90 @@
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-60189417-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+<div class="contact_well_main">
+	<div class="row">
+	<h2 style="text-align:center" class="col-lg-9 col-md-9 col-sm-12">JOIN OUR TEAM</h2>
+</div>
+
+<h4>Details of Position:</h4>
+<div class="row">
+<p style="text-align:left" class="col-lg-12 col-md-12 col-sm-12">We are looking for motivated and talented individuals to join our team. In particular, we are looking for key people interested in growing our brand.</p>
+<p style="text-align:left" class="col-lg-12 col-md-12 col-sm-12">If you are interested in joining our team, we would like to hear from you. Please fill out the form below.</p>
+</div>
+<br>
+<h4>Name and contact:</h4>
+<%= form_for @team do |f| %>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-12">
+  <%= f.label :first_name, class: "sr-only", :required => true %>
+  <%= f.text_field :first_name, class: "form-control ", style: "width:95%", placeholder: "First Name" %><br/>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-12">
+  <%= f.label :last_name, class: "sr-only", :required => true %>
+  <%= f.text_field :last_name, class: "form-control ", style: "width:95%", placeholder: "Last Name" %><br/>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+  <%= f.label :email, class: "sr-only", :required => true %>
+  <%= f.text_field :email, class: "form-control ", style: "width:98%", placeholder: "Email Address" %><br/>
+ </div>
+</div>
+ <h4>Location:</h4>
+ <div class="row">
+ <div class="col-lg-6 col-md-6 col-sm-12">
+  <%= f.label :country, class: "sr-only", :required => true %>
+  <%= f.text_field :country, class: "form-control ", style: "width:95%", placeholder: "Country" %><br/>
+  </div>
+
+  <div class="col-lg-6 col-md-6 col-sm-12">
+  <%= f.label :province, class: "sr-only", :required => true %>
+  <%= f.text_field :province, class: "form-control ", style: "width:95%", placeholder: "Province/State" %><br/>
+  </div>
+
+  <div class="col-lg-6 col-md-6 col-sm-12">
+  <%= f.label :city, class: "sr-only", :required => true %>
+  <%= f.text_field :city, class: "form-control ", style: "width:75%", placeholder: "City" %><br/>
+  </div>
+ </div>
+
+<h4>Summary:</h4>
+<div class="row">
+<div class="textarea col-lg-12 col-md-12 col-sm-12">
+  <%= f.label :summary, class: "sr-only" %>
+  <%= f.text_area :summary, class: "form-control", :cols => 30, :rows=>7, placeholder: "Tell us why you want to join Ski-Lines' team." %><br/>
+</div>
+
+
+<div class="actions col-lg-12 col-md-12 col-sm-12">
+  <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+</div>
+
+<% end %>
+</div>
+<br><br><br><br>
+</div>
+</div>
+<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+  <div class="google_adsense">
+
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+     <!-- Spring 2016 -->
+     <ins class="adsbygoogle"
+       style="display:inline-block;width:300px;height:600px"
+       data-ad-client="ca-pub-7427467260900360"
+       data-ad-slot="2795898131"></ins>
+     <script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+     </script>
+  </div>
+</div>

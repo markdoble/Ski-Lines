@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  merchant_name: MyString
+  email: MyString
+  country: MyString
+  state_prov: MyString
+  zip_postal: MyString
+  city: MyString
+  street_address: MyString
+  contact_name: MyString
+  merchant_phone: MyString
+  current_selling_online: false
+  website_url: MyString
+
+two:
+  merchant_name: MyString
+  email: MyString
+  country: MyString
+  state_prov: MyString
+  zip_postal: MyString
+  city: MyString
+  street_address: MyString
+  contact_name: MyString
+  merchant_phone: MyString
+  current_selling_online: false
+  website_url: MyString

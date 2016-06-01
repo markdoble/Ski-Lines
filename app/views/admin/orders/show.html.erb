@@ -1,0 +1,122 @@
+<div class="admin_order_show">
+<br />
+	<div class="row">
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+			<br /><br /><br />
+			<div class="admin_order_details">
+			<b>Date:</b> <%= @order.created_at.strftime("%b %d, %Y at %H:%M")  %><br />
+			<b>Order:</b> <%= @order.id %>
+			</div>
+			<br /><br />
+			<div class="admin_customer_details">
+				<b>Cutomer Details:</b><br />
+				<%= @order.cust_first_name%> <%= @order.cust_last_name %><br />
+				<%= @order.street_address %><br />
+				<%= @order.city %><br />
+				<%= @order.prov_state %>, <%= @order.country %><br />
+				<%= @order.postal_zip %><br />
+			</div>
+			<br />
+			
+			
+			
+			
+		</div>
+		<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+			<h3>Purchased Products</h3>
+			<br />
+				<% @order.order_units.where.not(quantity: 0).each do |p|%>
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+						<%= image_tag(p.unit.product.photo.url(:large), class: "img-responsive") %> 
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+						<h4><%= p.unit.product.name %></h4>
+						<% if p.unit.size.empty? %>
+						Quantity: <%= p.quantity %><br /><br />
+						<%else%>
+						Size: <%= p.unit.size%><br /> 
+						Quantity: <%= p.quantity %><br /><br />
+						<%end%>
+						
+						<%= p.unit.product.description %>
+					</div>
+				</div>
+				<br /><br />
+			<%end%>
+			
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<h3>Transaction Details</h3>
+					<% if @order.transaction_id  %>
+					<table>
+						<tr>
+							<td><strong>Name on Card:</strong></td>
+							<td><%= @transaction.credit_card_details.cardholder_name %></td>
+						</tr>
+						<tr>
+							<td><strong>Card Type</strong></td>
+							<td><%= @transaction.credit_card_details.card_type %></td>
+					
+						</tr>
+						<tr>
+							<td><strong>Bank I.D. #</strong></td>
+							<td><%= @transaction.credit_card_details.bin %></td>
+						</tr>
+						<tr>
+							<td><strong>Last 4 Digits</strong></td>
+							<td><%= @transaction.credit_card_details.last_4 %></td>
+						</tr>
+					</table>
+					<%end%>
+					
+				</div>
+				<div class="order_merchant_orders col-lg-6 col-md-6 col-sm-6 col-xs-6">
+					<h3>Merchant Orders</h3>
+					<table>
+						<tr>
+							<th>Merchant Name</th>
+							<th>Order Status</th>
+							<th>Shipping</th>
+							<th>Tax</th>
+							<th>Total</th>
+						
+						</tr>
+					
+					<% @order.merchant_orders.each do |m|%>
+					
+						
+						
+						<tr>
+							<td><%= m.user.merchant_name%></td>
+							<td><%= m.order_status %></td>
+							<td></td>
+						</tr>
+					
+					<%end%>
+					</table>
+				</div>
+			</div>
+			<br /><br /><br />
+			<br /><br /><br />
+			<br /><br /><br />
+			
+			
+			
+			
+		</div>
+		
+		
+		</div>
+		
+		
+		
+		
+	</div>
+	
+
+
+
+</div>

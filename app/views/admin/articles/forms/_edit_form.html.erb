@@ -1,0 +1,107 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<br />
+<%= form_for [:admin, @article], html: { multipart: true } do |f| %>
+  <% if @article.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@article.errors.count, "error") %> prohibited this article from being saved:</h2>
+
+      <ul>
+      <% @article.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<%= f.label :title, "Article Title:"%>
+	<%= f.text_area :title, class: "form-control", :cols => 80, :rows=>3 %> 
+<br>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<%= f.label :description, "Article Description:"%>
+	<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>10 %> 
+<br>
+  </div>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+  	<%= f.label :source, "Source:"%>
+  	<%= f.text_field :source, class: "form-control" %> 
+  <br />
+    </div>
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+	<%= f.label :location, "Location:"%>
+	<%= f.text_field :location, class: "form-control", placeholder: "Full Article URL" %> 
+  <br>
+  </div>
+  
+  
+
+</div>
+<div class="row">
+  
+</div>
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+	<%= f.label :date_published, "Date:"%>
+	<%= f.text_field :date_published, class: "form-control", placeholder: "YYYY-MM-DD" %> 
+  <br />
+  </div>
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+	<%= f.label :image, "Image URL:"%>
+	<%= f.text_field :image, class: "form-control" %> 
+  <br />
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<% if @article.orig_content_photo.exists? %>
+	<%= image_tag f.object.orig_content_photo.url(:thumb), class: "img-responsive" %>
+  	<%= f.label :orig_content_photo, "Replace Photo:" %><br />
+    <%= f.file_field :orig_content_photo, class:'file img-responsive' %>
+	
+	<%else%>
+  	<%= f.label :orig_content_photo, "Add Photo:" %><br />
+    <%= f.file_field :orig_content_photo, class:'file img-responsive' %>
+	<%end%>
+	
+  </div>
+</div>
+<br /><br />
+
+
+<div class="row">
+  <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+	<%= f.label :notes, "Article Notes:"%>
+	<%= f.select :notes, options_for_select(["", "Translated", "Sponsor", "Featured"]), class: "form-control", placeholder: "Translated or Advertisement" %> 
+  <br><br>
+  </div>
+
+  <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+	<%= f.label :publish, "Publish:"%>
+	<%= f.select :publish, options_for_select(["No","Yes"]), class: "form-control", placeholder: "Publish: 'Yes' or 'No'" %> 
+	
+  <br>
+  </div>
+<br>
+</div>
+
+<br>
+ 
+
+  <div class="actions">
+    <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+	<td ><%= link_to 'Cancel', admin_articles_path, class: "btn btn-large btn-primary" %></td>
+  </div>
+<% end %>
+<br /><br /><br /><br /><br /><br />
+</div>
+
+
+

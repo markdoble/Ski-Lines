@@ -1,0 +1,14 @@
+<div class="featured_article_well">
+ 	 <div class="row">
+		 <% if article.image.blank? %>
+	   <div class="featured_photo_well col-lg-12 col-md-12" style="background-image: url(<%=article.orig_content_photo.url(:large) %>)">
+		 <%else%>
+   	 <div class="featured_photo_well col-lg-12 col-md-12" style="background-image: url(<%=article.image %>)">
+		 <%end%>
+	     	 <div class="col-lg-12 col-md-12 col-sm-12" >
+	     	    <h4 class="featured_article_title"><%= link_to  article.title, article_path(article) %></h4>
+	    		  <p class="article_date"><%= Date.parse(article.date_published).strftime("%B %d, %Y") %><br /></p>
+	       </div>
+   	  </div>
+ 	  </div>
+</div>

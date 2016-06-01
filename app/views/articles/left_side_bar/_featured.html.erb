@@ -1,0 +1,51 @@
+<script>
+$(document).ready(function(){
+		var left_side_products = $('.left_side_featured_products');
+		var left_side_products_top = left_side_products.offset().top;
+		var feature_headlines = $('.featured_headlines');
+
+		var $left_side_window = $(window);
+		$left_side_window.scroll(function(){
+
+			if ( $left_side_window.scrollTop() >= (left_side_products_top - 65) ) {
+					left_side_products.addClass('affix');
+					feature_headlines.hide();
+			} else {
+					left_side_products.removeClass('affix');
+					feature_headlines.show();
+							}
+		});
+});
+
+</script>
+
+<div class="left_side" >
+	<% if @show %>
+		<br />
+	<%else %>
+
+	<div class="featured_headlines">
+			<h4 class="feature_heading"><span class="glyphicon glyphicon-tags" ></span>Featured Stories</h4>
+			<% @featured_articles.each do |article| %>
+			<% if article.notes == "Featured" %>
+		 <%= render :partial => "articles/left_side_bar/f_standard", :locals => {:article => article} %>
+		<%else%>
+		<%end%>
+	<%end%>
+	</div>
+	<%end%>
+		<div class="left_side_featured_products">
+			<h4></h4>
+  		<% @featured_nf_products.each do |featured_prod| %>
+				<%= render :partial => "articles/left_side_bar/featured_product", :locals => {:featured_prod => featured_prod} %>
+			<%end%>
+			<% if @show %>
+
+			<% nil %>
+			<%else%>
+			<div class="left_side_promo_button"><%= link_to "Sell Product on Ski-Lines", new_merchant_application_path, class: "btn btn-primary"%></div>
+			<div class="left_side_promo_button"><%= link_to "Join Our Team", new_team_path, class: "btn btn-primary"%></div>
+			<%end%>
+		</div>
+
+</div>

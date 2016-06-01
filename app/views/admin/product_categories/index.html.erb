@@ -1,0 +1,46 @@
+<br /><br />
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+		<div class='product_category'>
+			<h4>New Category</h4>
+		</div>
+		<div class="product_subcategory">
+		<%= render 'form' %>
+		</div>
+	</div>
+</div>
+
+<br /><br />
+<div class="row">
+<% @product_categories.each do |pc| %>
+	<div class="col-xs-12">
+		<br />
+		
+		<div class="product_category" style="font-size:15px">
+			<b><%= pc.category %></b>
+			&nbsp|&nbsp <%= link_to 'Edit', edit_admin_product_category_path(pc) %> &nbsp|&nbsp<%= link_to 'Delete', admin_product_category_path(pc), method: :delete, data: { confirm: 'Are you sure?'}%><br /><br />
+		</div>  
+		
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 product_subcategory">
+		<%= form_for [:admin, pc] do |ff|%>
+		
+		<%= ff.fields_for :product_subcategories, 3.times {pc.product_subcategories.build} do |sub|%>
+		
+		
+		<%= sub.label :subcategory, "Sub-category", hidden: true %>
+		<%= sub.text_field :subcategory, class: "form-control" %><br />
+		
+		<%end%>
+		
+		 <%= ff.submit "Save", class: "btn btn-large btn-primary" %>
+		<br />
+		<%end%>
+		</div>
+		
+	</div>
+<%end%>
+
+<br />
+</div>
+<br /><br /><br /><br /><br /><br /><br /><br />
+

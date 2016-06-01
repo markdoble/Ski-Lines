@@ -1,0 +1,38 @@
+<div class="article" id="<%=article.date_published%>">
+
+	<div id="article_well" class="article_well_main">
+	    <div class="photo_well col-lg-12 col-md-12 col-sm-12">
+			<% if article.image.blank? %>
+
+			<%= image_tag article.orig_content_photo.url(:large), class: "img-responsive", width:"100%" %>
+
+			<%else%>
+			<img title="<%=article.title %>" class="media" src="<%=asset_path "#{article.image}", alt:"#{article.title}"%>".html_safe style="width:100%">
+
+			<%end%>
+
+		</div>
+  	    <div class="article_text col-lg-12 col-md-12 col-sm-12" >
+  	       <h4 class="article_title"><%= link_to article.title, article_path(article) %></h4>
+		      <p class="article_description" title="Click to Expand">
+			    <%= article.description.html_safe%>
+		      </p>
+        </div>
+	 </div>
+
+	 <div class="comments_row">
+	     <%= Date.parse(article.date_published).strftime("%b %d, %Y") %>  &nbsp|&nbsp
+		 <span class="glyphicon glyphicon-link"></span>&nbsp
+
+		 <%if article.source == "ski-lines.com" %>
+		 <%= link_to article.source, article_path(article) %>  &nbsp|&nbsp
+		 <%else %>
+		 <%= link_to article.source, "#{article.location}", :target => "_blank"%>  &nbsp|&nbsp
+		 <%end%>
+
+		 <%= link_to article_path(article) do %>
+		 <span class="glyphicon glyphicon-comment"></span>Comments (<span class="fb-comments-count" data-href="http://www.ski-lines.com/articles/<%=article.id%>"></span>)
+		<% end %>
+	 </div>
+
+</div>

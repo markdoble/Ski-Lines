@@ -1,0 +1,35 @@
+<% @teams.each do |t| %>
+
+<div class="contact_well">
+  <div class="row">  
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+  <b>Name:</b> <%= t.first_name %> <%= t.last_name %>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+ <b>Email: </b><%= t.email %>
+    </div>
+  </div>
+  <div class="row">
+	
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<b> Submitted at:</b> <%= t.created_at.to_date %>
+    </div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">  
+  
+ <b> Location:</b> <%= t.city %>, <%= t.province %>, <%= t.country %>
+  
+  
+  
+    </div>
+   
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <b> Summary:</b> <br>   <%= t.summary %>
+    </div>
+    </div>
+  </div>
+
+<%end%>
+
+
+
+   

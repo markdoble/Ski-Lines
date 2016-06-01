@@ -1,0 +1,28 @@
+<div class="contact_well_main">
+	<h2 style="text-align:center">CONTACT US</h2>
+<p style="text-align:center">Please write to us for general inquiries and feedback</p>
+<p style="text-align:center">(No field is mandatory)</p>
+
+<%= form_for @contact do |f| %>
+  <%= f.label :email, class: "sr-only", :required => true %>
+  <%= f.text_field :email, class: "form-control ", style: "width:75%", placeholder: "Your Email Address" %><br/>
+<div class="textarea">
+  <%= f.label :comment, class: "sr-only" %>
+  <%= f.text_area :comment, class: "form-control", :cols => 80, :rows=>6, placeholder: "Comments..." %><br/>
+</div>
+
+	
+<p style="text-align:left">If you run a blog or a news site, please submit your web address for consideration to be incorporated into the daily ski-lines.</p>
+
+
+
+<div class="user_website">
+  <%= f.label :website, class: "sr-only" %>
+  <%= f.text_field :website, class: "form-control", :cols => 80, :rows=>6, placeholder: "Your Website URL..." %><br/>
+</div>
+<div class="actions">
+  <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+</div>
+
+<% end %>
+</div>

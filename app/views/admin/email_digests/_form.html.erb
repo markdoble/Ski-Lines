@@ -1,0 +1,56 @@
+
+
+
+<div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <h3>Send Email Digest</h3>
+
+</div>
+<br />
+  <%= form_tag "/admin/email_digests/send_digest", :method => :get do %>
+
+<div class="col-lg-11 col-md-11 col-sm-12 col-xs-12">
+			  <div class="devise_label col-lg-1 col-md-2 hidden-sm hidden-xs">
+		    <%= label_tag :subject, "Subject:"  %>
+				</div>
+				<div class="col-lg-11 col-md-10 col-sm-12 col-xs-12">
+		    <%= text_field_tag :subject, params[:subject], class: "form-control", placeholder: "Subject" %><br />
+				</div>
+        <div class="devise_label col-lg-1 col-md-2 hidden-sm hidden-xs">
+            <%= label_tag :article, "Articles:" %>
+        </div>
+
+
+        <div class="col-lg-11 col-md-10 col-sm-12 col-xs-12">
+            <% @article_selection.each do |f| %>
+            <div class="article_background">
+              <p style="font-size:20px;"><%= f.title %></p>
+              <p style="opacity:0.5;"><%= f.description[0...200] << '...' %></p>
+              <p class="email_digest_admin_date"><%= Date.parse(f.date_published).strftime("%b %d, %Y") %> | <%= f.source %></p>
+              <b>Add to Digest: </b><%= check_box_tag "article_ids[]", f.id %>
+              <br />
+            </div>
+            <br />
+            <%end%>
+        </div>
+
+
+
+	  <div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<h2></h2>
+	  </div>
+
+	  <div class="row">
+	  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  		  <div class="edit_merchant_save_button">
+  		   <%= submit_tag "SEND DIGEST", class: "btn btn-large btn-primary merchant_pro_save" %>
+  		  </div>
+	    </div>
+  	</div>
+	<%end%>
+
+</div>
+<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+</div>
+<div class="col-xs-12">
+<br /><br /><br /><br /><br />
+</div>

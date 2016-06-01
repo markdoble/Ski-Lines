@@ -1,0 +1,16 @@
+<a href='/cart/"<%= featured_prod.id %>"'>
+<div class="featured_product_well">
+
+      <div class="featured_product_photo col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+      <%= image_tag(featured_prod.photo.url(:medium), class: "img-responsive", width:"100%") %>
+
+      </div>
+      <div class="featured_product_text col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h4><%= featured_prod.name %></h4>
+        <h4 style="color:red"> <%= number_to_currency(featured_prod.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
+        <p>Sold by: <%= featured_prod.user.merchant_name %></p>
+      </div>
+
+</div>
+</a>
