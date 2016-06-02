@@ -72,7 +72,7 @@ h1{
         <% @articles.each do |f| %>
         <div class="article_background">
           <div class="email_article_title"><%= link_to f.title, :controller => "articles", :action => "show",
-      :only_path => false, :id => f.id, :host => "ski-lines.com", :class => "email_article_title"%></div>
+      :only_path => false, :id => f.id, :host => "ski-lines.com" %></div>
           <p style="opacity:0.5;"><%= simple_format(f.description[0...200] << ' ...') %></p>
           <div class="email_digest_admin_date"><%= Date.parse(f.date_published).strftime("%b %d, %Y") %> | <%= f.source %></div>
 
