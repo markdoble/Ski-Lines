@@ -12,7 +12,7 @@ class DigestMailer < ActionMailer::Base
     @articles = articles_arr
 
     delivery_options = { user_name: 'digest@ski-lines.com',
-                         password: ENV['EMAIL_PASS'],
+                         password: ENV["EMAIL_PASS"],
                          address: "smtp.zoho.com"}
 
      mail(to: @subscriber.email,
@@ -26,7 +26,7 @@ class DigestMailer < ActionMailer::Base
     @subscriber = EmailDigest.find_by_id(subscriber_id)
 
     delivery_options = { user_name: 'digest@ski-lines.com',
-                         password: ENV['EMAIL_PASS'],
+                         password: ENV["EMAIL_PASS"],
                          address: "smtp.zoho.com"}
 
      mail(to: @subscriber.email,

@@ -43,7 +43,7 @@ Rails.application.configure do
     :address              => "smtp.zoho.com",
     :port                 => 465,
     :user_name            => 'store@ski-lines.com',
-    :password             => Rails.application.secrets.mail_password,
+    :password             => ENV["EMAIL_PASS"],
 
     :authentication       => :login,
     :tls                  => true,
@@ -53,12 +53,8 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     :storage => :s3,
-    :s3_credentials => {
-      :bucket => 'ski-lines',
-
-    },
     :s3_region => 'US Standard',
-    :bucket => 'ski-lines'
+    :bucket => ENV["SKI_LINES_DEV_BUCKET"]
   }
   Paperclip.options[:command_path] = "/usr/local/bin/"
 

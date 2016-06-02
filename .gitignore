@@ -16,6 +16,7 @@
 /tmp
 
 /config/aws.yml
+/config/application.yml
 /server.csr
 /server.key
 /server.pass.key
