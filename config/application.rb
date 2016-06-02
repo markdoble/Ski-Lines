@@ -6,6 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# load sensitive data for development environment
 if Rails.env.development?
 ENV.update YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
 end

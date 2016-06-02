@@ -2,7 +2,7 @@ class DigestMailer < ActionMailer::Base
   default from: "digest@ski-lines.com"
 
   def weekly_digest(subscriber, article_ids, subject)
-    @url = 'http://www.ski-lines.com'
+    @url = 'https://www.ski-lines.com'
     @subscriber = EmailDigest.find_by_id(subscriber)
     @subject = subject
     articles_arr = []
