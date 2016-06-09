@@ -5,10 +5,10 @@ class EmailDigest < ActiveRecord::Base
   validates :last_name, :presence => {:message => 'Please fill out your last name.'}
 
   def self.send_email_digest(article_ids, subject)
-    subscribers = EmailDigest.where.not(status: "Inactive").ids
+    subscribers = EmailDigest.where(status: "Active")
 
     subscribers.each do |subscriber|
-       DigestMailer.weekly_digest(subscriber, article_ids, subject).deliver_later
+       DigestMailer.weekly_digest(subscriber.id, article_ids, subject).deliver_later
     end
   end
 
