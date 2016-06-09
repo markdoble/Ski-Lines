@@ -106,6 +106,7 @@ $(document).ready(function(){
 		document.getElementById('user_slug').value = this.value.replace(/\W/g, '');
 	});
 
+
 /* New Article Form logic */
 
 	$('.create_reproduced_content_form').click(function(){
@@ -139,6 +140,8 @@ $(document).ready(function(){
 		document.getElementById('article_date_published').value = today;
 
 	});
+
+
 
  // prevent double email_digest form submission
 	$('#new_email_digest').submit(function()
