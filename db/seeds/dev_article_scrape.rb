@@ -4,6 +4,7 @@ require 'nokogiri'
 
 
 
+
 # neveitalia.it/sport/scinordico/
 begin
   url = "http://www.neveitalia.it/sport/scinordico/"
@@ -11,10 +12,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".art-preview-bottom .art-preview-wrapper .art-preview").each do |i|
-      title_ita = i.at_css("h3 a")
-      location = i.at_css("h3 a")[:href].prepend("http://www.neveitalia.it")
-      image = i.at_css(".boxarticolofoto a img")[:src]
-      description_ita = i.at_css("p")
+      begin
+        title_ita = i.at_css("h3 a")
+        location = i.at_css("h3 a")[:href].prepend("http://www.neveitalia.it")
+        image = i.at_css(".boxarticolofoto a img")[:src]
+        description_ita = i.at_css("p")
+      rescue
+        next
+      end
     next unless title_ita && location && description_ita && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -39,13 +44,17 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".hfeed .article").each do |i|
-      location = i.at_css(".entry-title a")[:href]
-      title = i.at_css(".entry-title a")
-      description = i.at_css(".entry-content p")
-      if img = i.at_css(".entry-content img")
-        image = img['src']
-      else
-        image = "american_flag.png"
+      begin
+        location = i.at_css(".entry-title a")[:href]
+        title = i.at_css(".entry-title a")
+        description = i.at_css(".entry-content p")
+        if img = i.at_css(".entry-content img")
+          image = img['src']
+        else
+          image = "american_flag.png"
+        end
+      rescue
+        next
       end
     next unless title && location && description && image
 
@@ -70,9 +79,13 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".newsList li").each do |i|
-      location = i.at_css("h4 a")[:href].prepend("http://www.cccski.com")
-      title = i.at_css("h4 a")
-      description = i.at_css(".description")
+      begin
+        location = i.at_css("h4 a")[:href].prepend("http://www.cccski.com")
+        title = i.at_css("h4 a")
+        description = i.at_css(".description")
+      rescue
+        next
+      end
     next unless title && location && description
 
     Article.find_or_create_by(location: location) do |article|
@@ -95,9 +108,13 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".dcm-newsList li").each do |i|
-      location = i.at_css(".dcm-news .dcm-title a")[:href].prepend("http://www.fis-ski.com")
-      title = i.at_css(".dcm-news .dcm-title a")
-      description = i.at_css(".dcm-news .dcm-summary")
+      begin
+        location = i.at_css(".dcm-news .dcm-title a")[:href].prepend("http://www.fis-ski.com")
+        title = i.at_css(".dcm-news .dcm-title a")
+        description = i.at_css(".dcm-news .dcm-summary")
+      rescue
+        next
+      end
     next unless title && location && description
 
     Article.find_or_create_by(location: location) do |article|
@@ -120,9 +137,13 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".views-field-title").each do |i|
-      location = i.at_css("a")
-      title = i.at_css("a")
-      description = i.at_css("span p")
+      begin
+        location = i.at_css("a")
+        title = i.at_css("a")
+        description = i.at_css("span p")
+      rescue
+        next
+      end
     next unless title && location && description
 
     Article.find_or_create_by(location: location[:href].prepend("http://nordic.usskiteam.com")) do |article|
@@ -145,14 +166,18 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".artikkelarkiv .artarchiverow").each do |i|
-      location = i.at_css(".artarchivetitle .headlinelinkarchive .headlinelinkarchive")[:href].prepend("http://www.langrenn.com/")
-      description_nor = Nokogiri::HTML(open(location)).at_css(".ingressview p")
-      title_nor = i.at_css(".artarchivetitle .headlinelinkarchive .headlinelinkarchive")
-    if img = Nokogiri::HTML(open(location)).at_css(".imgwithtext a img")
-      image = img['src']
-     else
-      image = "norway_flag.png"
-    end
+      begin
+        location = i.at_css(".artarchivetitle .headlinelinkarchive .headlinelinkarchive")[:href].prepend("http://www.langrenn.com/")
+        description_nor = Nokogiri::HTML(open(location)).at_css(".ingressview p")
+        title_nor = i.at_css(".artarchivetitle .headlinelinkarchive .headlinelinkarchive")
+        if img = Nokogiri::HTML(open(location)).at_css(".imgwithtext a img")
+          image = img['src']
+         else
+          image = "norway_flag.png"
+        end
+      rescue
+        next
+      end
     next unless title_nor && location && description_nor && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -175,13 +200,17 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".news-grid .column-row .column-wrap-left .news-item").each do |i|
-      location = i.at_css(".news-text h2 a")[:href].prepend("http://skisport.ru")
-      title_rus = i.at_css(".news-text h2")
-      description_rus = i.at_css(".news-text p")
-      if img = i.at_css(".news-text img")
-        image = img['src'].prepend("http://skisport.ru")
-      else
-        image = "russian_flag.png"
+      begin
+        location = i.at_css(".news-text h2 a")[:href].prepend("http://skisport.ru")
+        title_rus = i.at_css(".news-text h2")
+        description_rus = i.at_css(".news-text p")
+        if img = i.at_css(".news-text img")
+          image = img['src'].prepend("http://skisport.ru")
+        else
+          image = "russian_flag.png"
+        end
+      rescue
+        next
       end
     next unless title_rus && location && description_rus && image
 
@@ -205,13 +234,17 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".items-row").each do |i|
-      location = URI.escape(i.at_css(".item h2 a")[:href].prepend("http://kestavyysurheilu.fi"))
-      title_fin = i.at_css(".item h2 a").content.gsub(/[[:space:]]/, ' ').strip
-      description_fin = Nokogiri::HTML(open(location)).at_css(".item-page > p").content
-      if img = i.at_css(".item .blog-image a img")
-        image = URI.escape(img['src'].prepend("http://kestavyysurheilu.fi"))
-      else
-        image = "fin_flag.png"
+      begin
+        location = URI.escape(i.at_css(".item h2 a")[:href].prepend("http://kestavyysurheilu.fi"))
+        title_fin = i.at_css(".item h2 a").content.gsub(/[[:space:]]/, ' ').strip
+        description_fin = Nokogiri::HTML(open(location)).at_css(".item-page > p").content
+        if img = i.at_css(".item .blog-image a img")
+          image = URI.escape(img['src'].prepend("http://kestavyysurheilu.fi"))
+        else
+          image = "fin_flag.png"
+        end
+      rescue
+        next
       end
     next unless title_fin && location && description_fin && image
 
@@ -236,11 +269,15 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".block21").each do |i|
-      location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.ski-nordique.net")
-      title_fr = i.at_css(".link")['title']
-      description_fr = i.at_css(".ingress p")
-      image = "french_flag.png"
-    #URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
+      begin
+        location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.ski-nordique.net")
+        title_fr = i.at_css(".link")['title']
+        description_fr = i.at_css(".ingress p")
+        image = "french_flag.png"
+      #URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
+      rescue
+        next
+      end
     next unless title_fr && location && description_fr && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -264,11 +301,15 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".block22").each do |i|
-      location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.ski-nordique.net")
-      title_fr = i.at_css(".link")['title']
-      description_fr = i.at_css(".ingress p")
-      image = "french_flag.png"
-    #URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
+      begin
+        location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.ski-nordique.net")
+        title_fr = i.at_css(".link")['title']
+        description_fr = i.at_css(".ingress p")
+        image = "french_flag.png"
+      #URI.escape(i.at_css(".linkimage img")['src'])[12..-1].prepend("http://www.")
+      rescue
+        next
+      end
     next unless title_fr && location && description_fr && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -292,10 +333,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".block21").each do |i|
-      location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.langd.se")
-      title_sw = doc.fragment(i.at_css(".headline .headlinelink")).content.encode("iso-8859-1")
-      description_sw = doc.fragment(i.at_css(".ingress p")).content.force_encoding("utf-8")
-      image = URI.escape(i.at_css(".linkimage img")['src'])
+      begin
+        location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.langd.se")
+        title_sw = doc.fragment(i.at_css(".headline .headlinelink")).content.encode("iso-8859-1")
+        description_sw = doc.fragment(i.at_css(".ingress p")).content.force_encoding("utf-8")
+        image = URI.escape(i.at_css(".linkimage img")['src'])
+      rescue
+        next
+      end
     next unless title_sw && location && description_sw && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -319,10 +364,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".block22").each do |i|
-      location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.langd.se")
-      title_sw = doc.fragment(i.at_css(".headline .headlinelink")).content.encode("iso-8859-1")
-      description_sw = doc.fragment(i.at_css(".ingress p")).content.force_encoding("utf-8")
-      image = URI.escape(i.at_css(".linkimage img")['src'])
+      begin
+        location = i.at_css(".headline .headlinelink")[:href].prepend("http://www.langd.se")
+        title_sw = doc.fragment(i.at_css(".headline .headlinelink")).content.encode("iso-8859-1")
+        description_sw = doc.fragment(i.at_css(".ingress p")).content.force_encoding("utf-8")
+        image = URI.escape(i.at_css(".linkimage img")['src'])
+      rescue
+        next
+      end
     next unless title_sw && location && description_sw && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -338,7 +387,8 @@ else
   end
 end
 
-=begin
+
+
 #adressa.no
 begin
     url = "http://www.adressa.no/100Sport/langrenn/"
@@ -346,26 +396,34 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".gridRow .gridUnit .widget .article").each do |i|
-      title_norw = i.at_css(".inner .text .headline .t100")
-      location = i.at_css("a")[:href]
-      image = i.at_css(".media a img")[:src]
-      description_norw = Nokogiri::HTML(open(URI.escape(location))).at_css(".body p")
-      date_pub = Nokogiri::HTML(open(URI.escape(location))).at_css(".dateline").content[12..23].strip
+      begin
+        title_norw = i.at_css(".inner .text .headline .t100")
+        location = i.at_css("a")[:href]
+        image = i.at_css(".media a img")[:src]
+        description_norw = Nokogiri::HTML(open(URI.escape(location))).at_css(".body p")
+        date_pub = Nokogiri::HTML(open(URI.escape(location))).at_css(".dateline").content[12..23].strip
+      rescue
+        next
+      end
     next unless title_norw && location && description_norw && date_pub && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
-      article.category = "Cross Country"
-      article.title = title_norw.content
-      article.description = description_norw.content
-      article.date_published = Date.parse(date_pub)
-      article.source = "adressa.no"
-      article.notes = "Translated"
-      article.image = image
-      article.publish = "No"
+      begin
+        article.category = "Cross Country"
+        article.title = title_norw.content
+        article.description = description_norw.content
+        article.date_published = Date.parse(date_pub)
+        article.source = "adressa.no"
+        article.notes = "Translated"
+        article.image = image
+        article.publish = "No"
+      rescue
+        next
+      end
     end
   end
 end
-=end
+
 
 #xc-ski.de
 begin
@@ -375,10 +433,14 @@ begin
   rescue OpenURI::HTTPError => e
   else
     doc.css(".row-fluid .column_container .td_mod9").each do |i|
-      location = i.at_css(".item-details .more-link-wrap a")[:href]
-      description_ger = i.at_css(".item-details .td-post-text-excerpt").content
-      title_ger = i.at_css(".item-details .entry-title").content
-      image = i.at_css(".thumb-wrap a img")[:src]
+      begin
+        location = i.at_css(".item-details .more-link-wrap a")[:href]
+        description_ger = i.at_css(".item-details .td-post-text-excerpt").content
+        title_ger = i.at_css(".item-details .entry-title").content
+        image = i.at_css(".thumb-wrap a img")[:src]
+      rescue
+        next
+      end
     next unless title_ger && location && description_ger && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -403,13 +465,17 @@ begin
   rescue OpenURI::HTTPError => e
   else
     doc.css(".itemList div .itemContainer").each do |i|
-      location = i.at_css("article.itemView header h1 a")[:href].prepend("http://www.skitime.it")
-      description_ita = Nokogiri::HTML(open(URI.escape(location))).at_css(".itemBody .itemFullText").content
-      title_ita = i.at_css("article.itemView header h1 a").content
-      if img = i.at_css("article.itemView .itemBlock .itemImageBlock a img")
-        image = URI.escape(img[:src].prepend("http://www.skitime.it"))
-      else
-        image = "ita_flag.jpg"
+      begin
+        location = i.at_css("article.itemView header h1 a")[:href].prepend("http://www.skitime.it")
+        description_ita = Nokogiri::HTML(open(URI.escape(location))).at_css(".itemBody .itemFullText").content
+        title_ita = i.at_css("article.itemView header h1 a").content
+        if img = i.at_css("article.itemView .itemBlock .itemImageBlock a img")
+          image = URI.escape(img[:src].prepend("http://www.skitime.it"))
+        else
+          image = "ita_flag.jpg"
+        end
+      rescue
+        next
       end
     next unless title_ita && location && description_ita && image
 
@@ -434,10 +500,14 @@ begin
   rescue OpenURI::HTTPError => e
   else
     doc.css(".products-holder").each do |i|
-      location = i.at_css(".small-header-text-container .small-header-text a")[:href]
-      description_kaz = i.at_css(".details-area p").content
-      title_kaz = i.at_css(".small-header-text-container .small-header-text a").content
-      image = i.at_css(".full-img-column .gallery-view img")[:src]
+      begin
+        location = i.at_css(".small-header-text-container .small-header-text a")[:href]
+        description_kaz = i.at_css(".details-area p").content
+        title_kaz = i.at_css(".small-header-text-container .small-header-text a").content
+        image = i.at_css(".full-img-column .gallery-view img")[:src]
+      rescue
+        next
+      end
     next unless title_kaz && location && description_kaz && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -461,10 +531,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".article-top .perex").each do |i|
-      location = i.at_css(".content-header h1 a")[:href].prepend("http://www.bezkuj.com")
-      description_cze = i.at_css(".text p").content
-      title_cze = i.at_css(".content-header h1 a").content
-      image = i.at_css(".flt img")[:src]
+      begin
+        location = i.at_css(".content-header h1 a")[:href].prepend("http://www.bezkuj.com")
+        description_cze = i.at_css(".text p").content
+        title_cze = i.at_css(".content-header h1 a").content
+        image = i.at_css(".flt img")[:src]
+      rescue
+        next
+      end
     next unless title_cze && location && description_cze && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -488,10 +562,14 @@ begin
   rescue OpenURI::HTTPError => e
   else
     doc.css(".articles-col2 .content-articles .perex").each do |i|
-      location = i.at_css("a")[:href].prepend("http://www.bezkuj.com")
-      description_cze = i.at_css(".text p").content
-      title_cze = i.at_css("h2 a").content
-      image = i.at_css("a img")[:src]
+      begin
+        location = i.at_css("a")[:href].prepend("http://www.bezkuj.com")
+        description_cze = i.at_css(".text p").content
+        title_cze = i.at_css("h2 a").content
+        image = i.at_css("a img")[:src]
+      rescue
+        next
+      end
     next unless title_cze && location && description_cze && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -516,10 +594,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css(".content-wrapper .container .row .col-sm-12 .row .col-sm-6 .thumbnail").each do |i|
-      location = i.at_css("a")[:href]
-      description = Nokogiri::HTML(open(URI.escape(location))).at_css(".row .col-sm-8").content
-      title = i.at_css("a .caption h3").content
-      image = i.at_css("a img")[:src]
+      begin
+        location = i.at_css("a")[:href]
+        description = Nokogiri::HTML(open(URI.escape(location))).at_css(".row .col-sm-8").content
+        title = i.at_css("a .caption h3").content
+        image = i.at_css("a img")[:src]
+      rescue
+        next
+      end
     next unless title && location && description && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
@@ -546,10 +628,14 @@ else
       doc.encoding = 'UTF-8'
 
       doc.css(".td_block_inner .td-big-grid-wrapper .td-grid-columns .td-animation-stack").each do |i|
-        location = i.at_css(".td-meta-info-container .td-meta-align .td-big-grid-meta h3 a")[:href]
-        description_swe = Nokogiri::HTML(open(URI.escape(location))).at_css(".td-post-content p").content
-        title_swe = i.at_css(".td-meta-info-container .td-meta-align .td-big-grid-meta h3 a").content
-        image = i.at_css(".td-module-thumb a img")[:src]
+        begin
+          location = i.at_css(".td-meta-info-container .td-meta-align .td-big-grid-meta h3 a")[:href]
+          description_swe = Nokogiri::HTML(open(URI.escape(location))).at_css(".td-post-content p").content
+          title_swe = i.at_css(".td-meta-info-container .td-meta-align .td-big-grid-meta h3 a").content
+          image = i.at_css(".td-module-thumb a img")[:src]
+        rescue
+          next
+        end
       next unless title_swe && location && description_swe && image
 
       Article.find_or_create_by(location: "#{location}") do |article|
@@ -573,10 +659,14 @@ begin
 rescue OpenURI::HTTPError => e
 else
     doc.css("#col_mid_home > .mid_box > .post-alt").each do |i|
-      location = i.at_css("b a")[:href]
-      description = Nokogiri::HTML(open(URI.escape(location))).at_css(".entry").content
-      title = i.at_css("b a").content
-      image = i.at_css(".home_thumb img")[:src]
+      begin
+        location = i.at_css("b a")[:href]
+        description = Nokogiri::HTML(open(URI.escape(location))).at_css(".entry").content
+        title = i.at_css("b a").content
+        image = i.at_css(".home_thumb img")[:src]
+      rescue
+        next
+      end
     next unless title && location && description && image
 
       Article.find_or_create_by(location: "#{location}") do |article|
