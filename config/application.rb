@@ -15,6 +15,7 @@ module SkiSite
   class Application < Rails::Application
     config.active_job.queue_adapter = :sidekiq
     config.assets.precompile = config.assets.precompile + %w(*.png *.jpg *.jpeg *.gif *.woff *.ttf *.svg *.eot)
+    config.assets.precompile += %w( my_js )
     
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
