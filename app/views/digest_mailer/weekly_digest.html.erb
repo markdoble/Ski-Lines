@@ -59,11 +59,6 @@ h1{
 </style>
 
 <div class="welcome_digest_email">
-  <div class="center_text">
-    <br />
-      <h2><%= @subject %></h2>
-  </div>
-
   <div class="left_align_text">
     <p>Hi <%= @subscriber.first_name %>,</p>
     <p>Here's what's been happening in the World of cross-country ski racing:</p>
@@ -78,13 +73,13 @@ h1{
 
 
         </div>
-
+        <br />
         <%end%>
     </div>
 
 
 
-    <p>Be sure to check out our site for these stories and more!</p>
+    <p>Be sure to check out <a href="https://www.ski-lines.com">Ski-Lines.com</a> for these stories and more!</p>
     <p>Sincerely,</p>
 
     <p>The Ski-Lines Team</p>
