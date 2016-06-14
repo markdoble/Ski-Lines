@@ -1,44 +1,20 @@
 <div class="article" id="<%=article.date_published%>">
     <div id="article_well" class="article_well_main" >
-  
-  
-	     <div class="video_well col-lg-12 col-md-12 col-sm-12"> 
-			<iframe id="player" class="video_well" width="100%" height="320px" src="<%= "#{article.image}"%>" frameborder="0" allowfullscreen></iframe>
+	     <div class="video_well col-lg-12 col-md-12 col-sm-12">
+			      <iframe id="player" class="video_well" width="100%" height="320px" src="<%= "#{article.image}"%>" frameborder="0" allowfullscreen></iframe>
 	     </div>
-	  
 	     <div class="article_text col-lg-12 col-md-12 col-sm-12" >
-	       <h4 class="article_title"><%= article.title.html_safe %></h4>
-	       
-		   
-         </div>
- 	     
- 	    </div>
-	   		
-	   		<div class="comments_row">
-				
-			
-	 
-				<%= Date.parse(article.date_published).strftime("%b %d, %Y") %> &nbsp|&nbsp
-				<i class="glyphicon glyphicon-link"></i>&nbsp<%= link_to article.source, "#{article.location}", :target => "_blank"%>  &nbsp|&nbsp
-			
-			
-			
-			
-			
-			
+	        <h4 class="article_title"><%= article.title.html_safe %></h4>
+       </div>
+ 	  </div>
+ 		<div class="comments_row">
+			<%= Date.parse(article.date_published).strftime("%b %d, %Y") %> &nbsp|&nbsp
+			<i class="glyphicon glyphicon-link"></i>&nbsp<%= link_to article.source, "#{article.location}", :target => "_blank"%>  &nbsp|&nbsp
 			<%= link_to article_path(article) do %>
 			    <span class="glyphicon glyphicon-comment"></span>Comments (<span class="fb-comments-count" data-href="http://www.ski-lines.com/articles/<%=article.id%>"></span>)
 			<% end %>
-		
-		
-		
-		
-	   		   
-		    </div>
-	  </div> 		
-	   		
-	   		
-		
+    </div>
+</div>
 
 
 <script>      // 2. This code loads the IFrame Player API code asynchronously.
@@ -64,5 +40,3 @@
         event.target.mute();
       }
 </script>
-	  
-	  
