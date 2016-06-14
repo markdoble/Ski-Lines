@@ -26,4 +26,9 @@ module ArticlesHelper
 	  end
   end
 
+  def article_partial_selector
+    
+
+  end
+
 end

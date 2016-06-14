@@ -97,7 +97,7 @@
        <%end%>
        <div class="font_page_spacer">
          <h4 class="font_page_article_title"><%= link_to front_page.title, article_path(front_page) %></h4>
-         <p class="front_page_source"><%= front_page.source%></p>
+         <p class="front_page_source"><%= front_page.source%> | <%= Date.parse(front_page.date_published).strftime("%b %d, %Y") %> </p>
 
        </div>
     </div>
