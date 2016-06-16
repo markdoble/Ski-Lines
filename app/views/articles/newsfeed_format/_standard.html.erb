@@ -17,13 +17,11 @@
 	 <div class="comments_row">
 	     <%= Date.parse(article.date_published).strftime("%b %d, %Y") %>  &nbsp|&nbsp
 		 <span class="glyphicon glyphicon-link"></span>&nbsp
-
 		 <%if article.source == "ski-lines.com" %>
 		 <%= link_to article.source, article_path(article) %>  &nbsp|&nbsp
 		 <%else %>
 		 <%= link_to article.source, "#{article.location}", :target => "_blank"%>  &nbsp|&nbsp
 		 <%end%>
-
 		 <%= link_to article_path(article) do %>
 		 <span class="glyphicon glyphicon-comment"></span>Comments (<span class="fb-comments-count" data-href="http://www.ski-lines.com/articles/<%=article.id%>"></span>)
 		<% end %>
