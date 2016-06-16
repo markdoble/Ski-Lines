@@ -1,4 +1,4 @@
-Article.each do |f|
+Article.all.each do |f|
   if f.image.include? "youtube.com"
     f.update_attribute(:article_format, "youtube_video")
   elsif f.image.include? "facebook.com" and "video"
