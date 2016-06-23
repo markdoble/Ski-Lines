@@ -85,15 +85,15 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'ski-lines.com' }
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.zoho.com",
-    :port                 => 465,
-    :user_name            => 'store@ski-lines.com',
-    :password             => ENV['EMAIL_PASS'],
-    :authentication       => :login,
-    :ssl                  => true,
-    :tls                  => true,
-    :enable_starttls_auto => true
-  }
+  :address        => 'smtp.sendgrid.net',
+  :port           => '587',
+  :authentication => :plain,
+  :user_name      => ENV['SENDGRID_USERNAME'],
+  :password       => ENV['SENDGRID_PASSWORD'],
+  :domain         => 'heroku.com',
+  :enable_starttls_auto => true
+}
+
 
   config.paperclip_defaults = {
     :storage => :s3,

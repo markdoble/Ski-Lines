@@ -39,17 +39,19 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   ActionMailer::Base.delivery_method = :smtp
-  ActionMailer::Base.smtp_settings = {
-    :address              => "smtp.zoho.com",
-    :port                 => 465,
-    :user_name            => 'store@ski-lines.com',
-    :password             => ENV["EMAIL_PASS"],
+  
 
-    :authentication       => :login,
-    :tls                  => true,
-    :ssl                  => true,
-    :enable_starttls_auto => true
-  }
+  ActionMailer::Base.smtp_settings = {
+  :address        => 'smtp.sendgrid.net',
+  :port           => '587',
+  :authentication => :plain,
+  :user_name      => ENV['SENDGRID_USERNAME'],
+  :password       => ENV['SENDGRID_PASSWORD'],
+  :domain         => 'heroku.com',
+  :enable_starttls_auto => true
+}
+
+
 
   config.paperclip_defaults = {
     :storage => :s3,
