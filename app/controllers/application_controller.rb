@@ -17,9 +17,9 @@ class ApplicationController < ActionController::Base
 
   end
   def get_articles
-    @featured_articles = Article.where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC")[2..4]
-    @front_page_featured_articles = Article.where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC").first(2)
-    @featured_videos = Article.where(publish: 'Yes').where("image like ? OR image like ?", "%facebook%", "%youtube%").order("date_published DESC", "created_at DESC", "description ASC").first(3)
+    @featured_articles = Article.publish.where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC")[2..4]
+    @front_page_featured_articles = Article.publish.where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC").first(2)
+    @featured_videos = Article.publish.where("image like ? OR image like ?", "%facebook%", "%youtube%").order("date_published DESC", "created_at DESC", "description ASC").first(3)
   end
 
 

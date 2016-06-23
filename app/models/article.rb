@@ -23,6 +23,7 @@ class Article < ActiveRecord::Base
 
   validates_attachment_content_type :orig_content_photo, :content_type => /\Aimage\/.*\Z/
 
+  scope :publish, -> { where(publish: "Yes") }
 
   def self.cross_country_all
   where(publish: 'Yes').order("date_published DESC", "created_at DESC", "description ASC")
