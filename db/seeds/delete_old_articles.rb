@@ -1,1 +1,10 @@
-# http://stackoverflow.com/questions/18090119/how-do-i-set-date-time-to-1-month-ago-with-datetime-now-strftimey-m-d
+
+Article.where(publish: 'No').each do |f|
+  t = Date.today
+  delete_day = (t - 120)
+
+  if f.date_published.to_date < delete_day
+    f.delete
+  end
+
+end
