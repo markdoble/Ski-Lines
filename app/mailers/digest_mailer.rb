@@ -11,7 +11,6 @@ class DigestMailer < ActionMailer::Base
     end
     @articles = articles_arr
 
-
      mail(to: @subscriber.email,
           subject: subject)
   end
