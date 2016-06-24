@@ -1,15 +1,9 @@
 module ArticlesHelper
 
-  def youtube_embed(youtube_url)
-    if youtube_url[/youtu\.be\/([^\?]*)/]
-      youtube_id = $1
-    else
-      # Regex from # http://stackoverflow.com/questions/3452546/javascript-regex-how-to-get-youtube-video-id-from-url/4811367#4811367
-      youtube_url[/^.*((v\/)|(embed\/)|(watch\?))\??v?=?([^\&\?]*).*/]
-      youtube_id = $5
-    end
-
-    %Q{<iframe title="YouTube video player" width="100%" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
+  def youtube_embed(location)
+    youtube_id = location.split("=").last
+    
+    %Q{<iframe title="YouTube video player" width="640" height="390" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
   end
 
   def newsfeed_partial_selector(article)
@@ -26,7 +20,6 @@ module ArticlesHelper
 	  end
   end
 
-
   def article_partial_selector(article)
       case article.article_format
       when "youtube_video"
@@ -41,6 +34,20 @@ module ArticlesHelper
         render partial: "articles/newsfeed_format/standard", locals: {:article => article}
       end
 
+  end
+  def article_show_partial_selector(article)
+      case article.article_format
+      when "youtube_video"
+        render partial: "articles/show_format/video_show", locals: {:article => article}
+      when "facebook_video"
+        render partial: "articles/show_format/facebook_video_show", locals: {:article => article}
+      when "sponsor"
+        nil
+      when "email_digest_form"
+        nil
+      else
+        render partial: "articles/show_format/stand_show", locals: {:article => article}
+      end
   end
 
 end

@@ -1,19 +1,5 @@
 <br />
- 	<% if @article.image.include? "youtube.com" %>
-
- 	     <%= render partial: 'articles/show_format/video_show', locals: {article: @article} %>
-
-
-
-    <% elsif @article.image.include? "facebook.com" and "videos" %>
-
-	     <%= render :partial => "articles/show_format/facebook_video_show", locals: {article: @article} %>
-
-  	<% else %>
-
-  	     <%= render partial: 'articles/show_format/stand_show', locals: {article: @article} %>
-
- 	  <%end%>
+ 		<%= article_show_partial_selector(@article) %>
 <div class="article_sapce">
  		<br /><br /><br />
 </div>

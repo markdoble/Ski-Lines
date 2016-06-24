@@ -1,7 +1,7 @@
 
 <% @articles.each do |article| %>
 		<a name="<%=article.id %>" class="article_anchor"></a>
-		<%= newsfeed_partial_selector(article) %>
+		<%= article_partial_selector(article) %>
 <% end %>
 
 

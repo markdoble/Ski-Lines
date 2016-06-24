@@ -5,50 +5,27 @@
 <a name="<%=article.title.gsub(/\p{^Alnum}/, '') %>" class="article_anchor"></a>
  <div id="<%=article.date_published%>">
 
- 	<% if article.image.include? "youtube.com" %>
+	 		<%= article_partial_selector(article) %>
 
- 	     <%= render :partial => "admin/articles/video_art", :locals => {:article => article} %>
-
-    <% elsif article.image.include? "facebook.com" and "videos" %>
-
-	     <%= render :partial => "admin/articles/facebook_video", :locals => {:article => article} %>
-
-
- 	<% elsif article.notes == "Sponsor" %>
- 	      <%= render :partial => "admin/articles/advert", :locals => {:article => article} %>
-
-	<% elsif article.article_format == "email_digest_form" %>
-	<p>Ignore this record. Email Digest Form is Here.</p>
-	<% else %>
-
- 	     <%= render :partial => "admin/articles/standard", :locals => {:article => article} %>
-
-
-
- 	  <%end%>
-
-
-
-	<div class="admin_article_well">
-
-  	    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-  		<td><strong>Article Details:</strong></td><br />
-  		 <td>Featured: <% if article.notes == "Featured" %> Yes <%else%> No <%end%></td><br>
-  	     <td>Created at: <%= article.created_at.strftime("%A, %B %d at %H:%M:%S") %></td><br>
-  	     <td>Article id: <%= article.id %></td><br>
-           <td><%= link_to 'Edit', edit_admin_article_path(article)%></td>&nbsp|&nbsp
-  	     <td><%= link_to 'Delete', admin_article_path(article), method: :delete, data: { confirm: 'Are you sure?' } %></td><br>
-  	  <br><br>
-  	   </div>
-		<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-
-         <td><strong>Published?</strong></td><br />
-		 <div class="publish_select"><%= best_in_place [:admin, article], :publish, :as => :select, :collection => {"Yes" => "Yes", "No" => "No", "Pending" => "Pending", "Never" => "Never"}, inner_class: 'form-control', :html_attrs => { :style => 'width:100px;' } %></div>
-	    <br><br>
-	   </div>
-
-
-	</div>
+		 	
+			<div class="admin_article_well">
+		  	    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		  		<td><strong>Article Details:</strong></td><br />
+		  		 <td>Featured: <% if article.notes == "Featured" %> Yes <%else%> No <%end%></td><br>
+		  	     <td>Created at: <%= article.created_at.strftime("%A, %B %d at %H:%M:%S") %></td><br>
+		  	     <td>Article id: <%= article.id %></td><br>
+		           <td><%= link_to 'Edit', edit_admin_article_path(article)%></td>&nbsp|&nbsp
+		  	     <td><%= link_to 'Delete', admin_article_path(article), method: :delete, data: { confirm: 'Are you sure?' } %></td><br>
+		  	  <br><br>
+		  	   </div>
+				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		         <td><strong>Published?</strong></td><br />
+				 	 <div class="publish_select">
+						 <%= best_in_place [:admin, article], :publish, :as => :select, :collection => {"Yes" => "Yes", "No" => "No", "Pending" => "Pending", "Never" => "Never"}, inner_class: 'form-control', :html_attrs => { :style => 'width:100px;' } %>
+					 </div>
+			    <br /><br />
+			  </div>
+			</div>
 
   </div>
 <% end %>
