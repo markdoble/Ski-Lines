@@ -1,20 +1,17 @@
 <div class="article_show">
      <div id="article_well" class="article_well_main" >
-		  <div class="photo_well col-lg-12 col-md-12 col-sm-12">
-			<% if article.image.blank? %>
-
-			<%= image_tag article.orig_content_photo.url(:large), class: "img-responsive", width:"100%" %>
-
-			<%else%>
-			<img title="<%=article.title %>" class="media" src="<%=asset_path "#{article.image}", alt:"#{article.title}"%>".html_safe style="width:100%">
-
-			<%end%>
+		     <div class="photo_well col-lg-12 col-md-12 col-sm-12">
+    			<% if article.image.blank? %>
+    			<%= image_tag article.orig_content_photo.url(:large), class: "img-responsive", width:"100%" %>
+    			<%else%>
+    			<img title="<%=article.title %>" class="media" src="<%=asset_path "#{article.image}", alt:"#{article.title}"%>".html_safe style="width:100%">
+    			<%end%>
 	  	  </div>
 	  	  <div class="article_text col-lg-12 col-md-12 col-sm-12" >
 	  	      <h4 class="article_title"><%= article.title.html_safe %></h4>
-	  	      <p class="article_show_description" title="Click to Expand">
-				  <%= simple_format(article.description.html_safe)%>
-			  </p>
+	  	      <p class="article_show_description">
+				          <%= simple_format(article.description.html_safe)%>
+			     </p>
 	      </div>
 	</div>
 

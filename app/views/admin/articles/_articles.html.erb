@@ -4,10 +4,7 @@
 <% @articles.each do |article| %>
 <a name="<%=article.title.gsub(/\p{^Alnum}/, '') %>" class="article_anchor"></a>
  <div id="<%=article.date_published%>">
-
 	 		<%= article_partial_selector(article) %>
-
-		 	
 			<div class="admin_article_well">
 		  	    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 		  		<td><strong>Article Details:</strong></td><br />

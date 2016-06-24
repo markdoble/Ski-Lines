@@ -1,14 +1,16 @@
 <div class="article_show">
     <div id="article_well" class="article_well_main" >
-	     <div class="photo_well col-lg-12 col-md-12 col-sm-12">
-			      <iframe id="player" class="video_well" width="100%" height="320px" src="<%= "#{article.image}"%>" frameborder="0" allowfullscreen></iframe>
-	     </div>
-	     <div class="article_text col-lg-12 col-md-12 col-sm-12" >
-	       <h4 class="article_title"><%= article.title.html_safe %></h4>
-	       <p class="article_show_description" title="Click to Expand">
-			        <%= article.description.html_safe%>
-		     </p>
-         </div>
+      <div class="youtube_video_well col-lg-12 col-md-12 col-sm-12">
+        <%= raw(youtube_embed(article.location)) %>
+      </div>
+      <div class="article_text col-lg-12 col-md-12 col-sm-12" >
+        <h4 class="article_title"><%= link_to article.title, article_path(article) %></h4>
+        <% unless article.description.blank? %>
+          <p class="video_description">
+         <%= article.description.html_safe %>
+         </p>
+       <% end %>
+      </div>
  	  </div>
  		<div class="comments_row col-lg-12">
 				<%= Date.parse(article.date_published).strftime("%b %d, %Y") %> &nbsp|&nbsp
@@ -19,7 +21,7 @@
             </div>
         </div>
 	  </div>
-	</div>  		
+	</div>
 
 
 

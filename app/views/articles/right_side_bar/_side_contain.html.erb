@@ -42,21 +42,9 @@ $(document).ready(function(){
 		   </div>
        <div class="featured_videos_column">
            <div class="featured_videos">
-            	 <% @featured_videos.each do |article| %>
-
-
-             	<% if article.image.include? "youtube.com" %>
-
-             	     <%= render :partial => "articles/right_side_bar/side_yt_vid", :locals => {:article => article} %>
-
-                 <% elsif article.image.include? "facebook.com" and "video" %>
-
-             	     <%= render :partial => "articles/right_side_bar/side_fb_vid", :locals => {:article => article} %>
-
-            	 <%else%>
-            	   <%nil%>
-            	 <%end%>
-            	<%end%>
+          	<% @featured_videos.each do |article| %>
+              <%= feature_videos_partial_selector(article) %>
+          	<%end%>
     	    </div>
           <div class="featured_videos_title">
            <%= link_to  "View All Videos", root_path(videos: "videos"), class: "btn btn-primary" %>

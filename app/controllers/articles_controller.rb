@@ -2,8 +2,7 @@ class ArticlesController < ApplicationController
   require 'will_paginate/array'
   layout 'articles_layout'
   before_filter :find_or_create_cart
-  def home
-  end
+  
 
   def show
   @article = Article.find(params[:id])

@@ -11,7 +11,7 @@
 	   	  <div class="article_text col-lg-12 col-md-12 col-sm-12" >
 	 	      <h4 class="article_title"><%= link_to article.title, article_path(article) %></h4>
 					<% unless article.description.blank? %>
-					<p class="article_description" title="Click to Expand">
+					<p class="video_description" title="Click to Expand">
 	 		    <%= article.description.html_safe%>
 	 	      </p>
 					<% end %>

@@ -57,7 +57,7 @@ class Article < ActiveRecord::Base
       where('title ilike :q or source ilike :q', q: "%#{query}%")
   end
   def self.video_filter
-      where("image like ? OR image like ?", "%facebook%", "%youtube%")
+      where("article_format like ? OR article_format like ?", "%facebook_video%", "%youtube_video%")
   end
 
   def slug
