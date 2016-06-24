@@ -11,7 +11,7 @@
          <div class="article_text col-lg-12 col-md-12 col-sm-12" >
            <h4 class="article_title"><%= article.title %></h4>
            <% unless article.description.blank? %>
-           <p class="article_description" title="Click to Expand">
+           <p class="article_show_description">
            <%= article.description.html_safe%>
            </p>
            <% end %>

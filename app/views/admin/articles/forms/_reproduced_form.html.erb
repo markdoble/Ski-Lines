@@ -16,26 +16,26 @@
 <div class="row">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<%= f.label :location, "Location:"%>
-	<%= f.text_field :location, class: "form-control reproduced_new_article_location", placeholder: "Full Article URL" %> 
+	<%= f.text_field :location, class: "form-control reproduced_new_article_location", placeholder: "Full Article URL" %>
   <br />
   </div>
 </div>
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 	<%= f.label :source, "Source:"%>
-	<%= f.text_field :source, class: "form-control" %> 
+	<%= f.text_field :source, class: "form-control" %>
 <br />
   </div>
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 	<%= f.label :date_published, "Date Published:"%>
-	<%= f.text_field :date_published, class: "form-control", placeholder: "YYYY-MM-DD" %> 
+	<%= f.text_field :date_published, class: "form-control", placeholder: "YYYY-MM-DD" %>
   <br />
   </div>
 </div>
 <div class="row">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<%= f.label :title, "Article Title:"%>
-	<%= f.text_area :title, class: "form-control", :cols => 80, :rows=>3 %> 
+	<%= f.text_area :title, class: "form-control", :cols => 80, :rows=>3 %>
 <br />
   </div>
 </div>
@@ -43,17 +43,17 @@
 <div class="row">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<%= f.label :description, "Article Description:"%>
-	<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>10 %> 
+	<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>10 %>
 <br />
   </div>
 </div>
 
 
 <div class="row">
-  
+
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 	<%= f.label :image, "Image URL:"%>
-	<%= f.text_field :image, class: "form-control" %> 
+	<%= f.text_field :image, class: "form-control" %>
   <br>
   </div>
 </div>
@@ -62,22 +62,23 @@
 <div class="row">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<%= f.label :notes, "Article Notes:"%>
-	<%= f.select :notes, options_for_select(["", "Translated", "Sponsor", "Featured"]), class: "form-control", placeholder: "Translated or Advertisement" %> 
-  <br><br>
+	<%= f.select :notes, options_for_select(["", "Translated", "Sponsor", "Featured"]), class: "form-control", placeholder: "Translated or Advertisement" %>
+  <br /><br />
   </div>
 
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	<%= f.label :publish, "Publish:"%>
-	<%= f.select :publish, options_for_select(["No","Yes"]), class: "form-control", placeholder: "Publish: 'Yes' or 'No'" %> 
-	
-  <br>
+	<%= f.select :publish, options_for_select(["No","Yes"]), class: "form-control", placeholder: "Publish: 'Yes' or 'No'" %>
+
+  <br />
   </div>
-<br>
+<br />
 </div>
 
-<br>
- 
+<br />
 
+  <%= f.label :article_format, "article_format", hidden: true %>
+  <%= f.hidden_field :article_format, value: "standard" %>
   <div class="actions">
     <%= f.submit "Save", class: "btn btn-large btn-primary" %>
 	<td ><%= link_to 'Cancel', admin_articles_path, class: "btn btn-large btn-primary" %></td>
@@ -85,6 +86,3 @@
 <% end %>
 <br /><br /><br /><br /><br /><br />
 </div>
-
-
-

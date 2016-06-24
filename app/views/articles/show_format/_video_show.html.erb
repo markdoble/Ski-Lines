@@ -7,8 +7,8 @@
         <h4 class="article_title"><%= link_to article.title, article_path(article) %></h4>
         <% unless article.description.blank? %>
           <p class="video_description">
-         <%= article.description.html_safe %>
-         </p>
+            <%= article.description.html_safe %>
+          </p>
        <% end %>
       </div>
  	  </div>

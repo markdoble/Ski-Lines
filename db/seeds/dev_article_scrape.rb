@@ -31,6 +31,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -67,6 +68,7 @@ else
       article.notes = ""
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -97,6 +99,7 @@ else
       article.notes = ""
       article.image = "can_flag.png"
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -126,6 +129,7 @@ else
       article.notes = ""
       article.image = "fis_brand.png"
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -155,6 +159,7 @@ else
       article.notes = ""
       article.image = "american_flag.png"
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -189,6 +194,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -223,6 +229,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -257,6 +264,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -289,6 +297,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -321,6 +330,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -352,6 +362,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -383,6 +394,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -417,6 +429,7 @@ else
         article.notes = "Translated"
         article.image = image
         article.publish = "No"
+        article.article_format = 'standard'
       rescue
         next
       end
@@ -452,6 +465,7 @@ begin
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -488,6 +502,7 @@ begin
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -519,6 +534,7 @@ begin
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -550,6 +566,7 @@ else
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -581,6 +598,7 @@ begin
       article.notes = "Translated"
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -613,6 +631,7 @@ else
       article.notes = ""
       article.image = image
       article.publish = "No"
+      article.article_format = 'standard'
     end
   end
 end
@@ -647,6 +666,7 @@ else
         article.notes = "Translated"
         article.image = image
         article.publish = "No"
+        article.article_format = 'standard'
       end
     end
 end
@@ -678,6 +698,7 @@ else
         article.notes = ""
         article.image = image
         article.publish = "No"
+        article.article_format = 'standard'
       end
     end
 end

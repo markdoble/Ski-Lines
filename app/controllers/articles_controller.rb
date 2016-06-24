@@ -2,24 +2,13 @@ class ArticlesController < ApplicationController
   require 'will_paginate/array'
   layout 'articles_layout'
   before_filter :find_or_create_cart
-  
 
   def show
-  @article = Article.find(params[:id])
-   @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
-  @show = true
-  @subscriber = EmailDigest.new
-  if session[:email_digest_session]
-    if  session[:email_digest_session_expiry] < Time.current
-      session.delete(:email_digest_session)
-      session.delete(:email_digest_session_expiry)
-    else
-        @subscriber_session = session[:email_digest_session]
-    end
-  else
-    @subscriber_session = nil
-  end
-
+    @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
+    @show = true
+    any_article = Article.find(params[:id])
+    # if article has been published, set article instance variable, else redirect to root.
+    (any_article.publish == "Yes") ? (@article = any_article) : (redirect_to root_url, :flash => { :error => "Article not found." })
   end
 
   def cross_country
@@ -47,30 +36,13 @@ class ArticlesController < ApplicationController
        @subscriber_session = nil
      end
 
-
-
-     @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
-
+    @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
 
     respond_to do |format|
       format.html
       format.js
       format.rss { render :layout => false }
     end
-  end
-
-  def team
-    @team = true
-  end
-
-  def advertise
-    @advertise = true
-  end
-
-  def nordic_combined
-  end
-
-  def contact
   end
 
   private

@@ -1,6 +1,6 @@
 class Admin::ArticlesController < ApplicationController
   layout "admin_application"
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: [:edit, :update, :destroy]
   before_action :authenticate_user!
   before_filter :verify_is_article_publisher
   # GET /articles
@@ -26,19 +26,11 @@ class Admin::ArticlesController < ApplicationController
       format.js
       format.rss { render :layout => false }
     end
-
-    
-
-
-
   end
 
   # GET /articles/1
   # GET /articles/1.json
-  def show
-    @article = Article.find(params[:id])
-    @about_page = true
-  end
+
 
   # GET /articles/new
   def new
@@ -55,12 +47,10 @@ class Admin::ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-
     @article = Article.create(article_params)
     if @article.location == "custom_ski_lines_article_location"
       @article.location = @article.id.to_s.prepend("http://www.ski-lines.com/articles/")
     end
-
 
     respond_to do |format|
       if @article.save
@@ -77,7 +67,6 @@ class Admin::ArticlesController < ApplicationController
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
   def update
-
    respond_to do |format|
    if @article.update(article_params)
      format.html {redirect_to admin_articles_url}

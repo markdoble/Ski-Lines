@@ -10,14 +10,12 @@ class Admin::OrdersController < ApplicationController
 
   def merchants
     verify_is_admin
-
     @merchants = User.merchants
   end
 
 
   def all_orders
     verify_is_admin
-
     @order = Order.all.order("created_at DESC")
   end
 
@@ -34,7 +32,6 @@ class Admin::OrdersController < ApplicationController
       if @order.transaction_id
         @transaction = Braintree::Transaction.find(@order.transaction_id)
       end
-
   end
 
   def update
@@ -43,7 +40,6 @@ class Admin::OrdersController < ApplicationController
     if @order.update(order_params)
         format.html {redirect_to admin_orders_myperformance_url}
         format.json {respond_with_bip(@order) }
-
       else
      redirect_to admin_orders_myperformance_url
      end

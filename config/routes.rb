@@ -26,9 +26,7 @@ Rails.application.routes.draw do
   get 'infos/js_enabled'
   get 'infos/terms'
 
-
   get 'infos/about'
-
 
   get 'articles/cross_country'
 
@@ -40,12 +38,10 @@ Rails.application.routes.draw do
   get 'products/merchants'
 
 
-
-
   resources :products, :only => :index
   get '/shop/:slug', controller: 'products', action: 'store'
 
-  resources :articles
+  resources :articles, :except => [:edit, :update, :destroy]
 
   resources :teams
   get 'teams/team'
@@ -75,7 +71,7 @@ Rails.application.routes.draw do
     get 'orders/merchants'
     get 'orders/index'
     resources :products
-    resources :articles
+    resources :articles, :except => [:show]
     resources :orders
     resources :product_categories
     get 'email_digests/index'
