@@ -1,0 +1,1 @@
+(function(){jQuery(function(){return $(window).scroll(function(){var n;return n=$(".pagination .next_page").attr("href"),n&&$(window).scrollTop()>$(document).height()-$(window).height()-200?($(".pagination").text("One second...We're finding you more great articles..."),$.getScript(n)):void 0}),$(".articles").scroll()})}).call(this);
