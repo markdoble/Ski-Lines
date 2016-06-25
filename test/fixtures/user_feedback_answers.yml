@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  answer_one: MyString
+  answer_two: MyString
+  answer_three: MyString
+  answer_four: MyString
+  answer_five: MyString
+  answer_six: MyString
+  user_feedback_id: 
+
+two:
+  answer_one: MyString
+  answer_two: MyString
+  answer_three: MyString
+  answer_four: MyString
+  answer_five: MyString
+  answer_six: MyString
+  user_feedback_id: 
