@@ -33,6 +33,8 @@ module ArticlesHelper
         render partial: "articles/newsfeed_format/advert", locals: {:article => article}
       when "email_digest_form"
         render partial: "email_digests/form", locals: {:article => article}
+      when "user_poll"
+        render partial: 'admin/articles/admin_newsfeed_partials/user_poll', locals: {:article => article}
       else
         render partial: "articles/newsfeed_format/standard", locals: {:article => article}
       end

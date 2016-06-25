@@ -2,7 +2,7 @@ class Article < ActiveRecord::Base
 
   # Associations
   has_one :user_feedback
-  accepts_nested_attributes_for :user_feedbacks, :allow_destroy => true, :reject_if => :all_blank
+  accepts_nested_attributes_for :user_feedback, :allow_destroy => true, :reject_if => :all_blank
 
   # Validations
   validates_presence_of :location
