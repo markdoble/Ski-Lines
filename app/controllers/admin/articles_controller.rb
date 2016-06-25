@@ -49,7 +49,7 @@ class Admin::ArticlesController < ApplicationController
   def create
     @article = Article.create(article_params)
     if @article.location == "custom_ski_lines_article_location"
-      @article.location = @article.id.to_s.prepend("http://www.ski-lines.com/articles/")
+      @article.location = @article.id.to_s.prepend("https://www.ski-lines.com/articles/")
     end
 
     respond_to do |format|
@@ -98,7 +98,7 @@ class Admin::ArticlesController < ApplicationController
 
 
     def article_params
-      params.require(:article).permit(:id, :location, :category, :title, :description, :source, :created_at, :updated_at, :date_published, :notes, :image, :publish, :article_format, :img_size, :orig_content_photo)
+      params.require(:article).permit(:id, :location, :category, :title, :description, :source, :created_at, :updated_at, :date_published, :notes, :image, :publish, :article_format, :img_size, :orig_content_photo, user_feedback_attributes: [:article_id, :id, :question_one, :question_two, :question_three, :question_four, :question_five, :question_six])
     end
 
     def verify_is_article_publisher

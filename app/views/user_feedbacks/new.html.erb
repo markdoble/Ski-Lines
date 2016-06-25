@@ -1,0 +1,19 @@
+<div class="article" >
+	<div id="article_well" class="article_well_main">
+		<div id="feedback_form_refresh">
+
+				<%if @feedback_session == nil %>
+
+						<%= form_for @subscriber, :url => email_digests_path, remote:true do |f|%>
+
+            <%end%>
+
+				<%else%>
+
+          <!-- Submitted questionnaire form -->
+
+				<%end%>
+
+		</div>
+	</div>
+</div>

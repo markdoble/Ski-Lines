@@ -7,6 +7,7 @@ class CreateUserFeedbacks < ActiveRecord::Migration
       t.string :question_four
       t.string :question_five
       t.string :question_six
+      t.references :article, index: true
 
       t.timestamps null: false
     end
