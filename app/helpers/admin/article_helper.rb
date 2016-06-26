@@ -1,6 +1,6 @@
 module Admin::ArticleHelper
 
-  def article_partial_selector(article)
+  def admin_article_partial_selector(article)
       case article.article_format
       when "youtube_video"
         render partial: "articles/newsfeed_format/video_art", locals: {:article => article}
@@ -10,6 +10,8 @@ module Admin::ArticleHelper
         render partial: "articles/newsfeed_format/advert", locals: {:article => article}
       when "email_digest_form"
         nil
+      when "user_poll"
+        render partial: 'admin/articles/admin_newsfeed_partials/user_poll', locals: {:article => article}
       else
         render partial: "articles/newsfeed_format/standard", locals: {:article => article}
       end

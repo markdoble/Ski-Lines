@@ -9,20 +9,7 @@ module ArticlesHelper
     %Q{<iframe width="100%" height="195px" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
   end
 
-  def newsfeed_partial_selector(article)
-    if article.image.include? "youtube.com"
-		    render partial: "articles/newsfeed_format/video_art", locals: {:article => article}
-	  elsif article.image.include? "facebook.com" and "video"
-		    render partial: "articles/newsfeed_format/facebook_video", locals: {:article => article}
-		elsif article.notes == "Sponsor"
-		    render partial: "articles/newsfeed_format/advert", locals: {:article => article}
-    elsif article.article_format == "email_digest_form"
-        render partial: "email_digests/form", locals: {:article => article}
-    else
-		    render partial: "articles/newsfeed_format/standard", locals: {:article => article}
-	  end
-  end
-
+  # Used to select newsfeed articles
   def article_partial_selector(article)
       case article.article_format
       when "youtube_video"
@@ -34,7 +21,7 @@ module ArticlesHelper
       when "email_digest_form"
         render partial: "email_digests/form", locals: {:article => article}
       when "user_poll"
-        render partial: 'admin/articles/admin_newsfeed_partials/user_poll', locals: {:article => article}
+        render partial: 'user_feedbacks/newsfeed_user_poll', locals: {:article => article}
       else
         render partial: "articles/newsfeed_format/standard", locals: {:article => article}
       end
