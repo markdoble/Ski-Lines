@@ -12,7 +12,7 @@
 					<%= link_to article.title, article_path(article) %>
 					<%end%>
 				</div>
-				<% find_or_set_session_variable %>
+				<% find_or_set_session_variable(article) %>
 				<% if @survey_session == "no_survey_session" %>
 				<div class="poll_description"><%= article.description.html_safe %></div>
 				<% build_form_for_newsfeed_partial %>

@@ -21,20 +21,24 @@
 
 		        <p>3. <%= article.user_feedback.question_three %></p>
 					</div>
+					<% unless article.user_feedback.question_four.blank? %>
 					<div class="poll_question">
-
 		        <p>4. <%= article.user_feedback.question_four %></p>
-					</div>
+	      	</div>
+					<%end%>
+					<% unless article.user_feedback.question_five.blank? %>
 					<div class="poll_question">
-
 		        <p>5. <%= article.user_feedback.question_five %></p>
-					</div>
+	      	</div>
+					<%end%>
+					<% unless article.user_feedback.question_six.blank? %>
 					<div class="poll_question">
-
 		        <p>6. <%= article.user_feedback.question_six %></p>
-	      </div>
+	      	</div>
+					<%end%>
 			</div>
    </div>
 
+	</div>
 </div>
 <br />

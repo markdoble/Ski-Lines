@@ -18,21 +18,27 @@
         <%= f.label :answer_three, "Answer 3:", hidden: true %>
         <%= f.text_field :answer_three, class: "form-control" %>
       </div>
+      <% unless article.user_feedback.question_four.blank? %>
       <div class="poll_question">
         <p>4. <%= article.user_feedback.question_four %></p>
         <%= f.label :answer_four, "Answer 4:", hidden: true %>
         <%= f.text_field :answer_four, class: "form-control" %>
       </div>
+      <%end%>
+      <% unless article.user_feedback.question_five.blank? %>
       <div class="poll_question">
         <p>5. <%= article.user_feedback.question_five %></p>
         <%= f.label :answer_five, "Answer 5:", hidden: true %>
         <%= f.text_field :answer_five, class: "form-control" %>
       </div>
+      <%end%>
+      <% unless article.user_feedback.question_six.blank? %>
       <div class="poll_question">
         <p>6. <%= article.user_feedback.question_six %></p>
         <%= f.label :answer_six, "Answer 6:", hidden: true %>
         <%= f.text_field :answer_six, class: "form-control" %>
       </div>
+      <%end%>
     </div>
 
   <div class="actions">
