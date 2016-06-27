@@ -21,7 +21,7 @@ module ArticlesHelper
       when "email_digest_form"
         render partial: "email_digests/form", locals: {:article => article}
       when "user_poll"
-        render partial: 'user_feedbacks/newsfeed_user_poll', locals: {:article => article}
+        render partial: 'user_feedback_answers/newsfeed_user_poll', locals: {:article => article}
       else
         render partial: "articles/newsfeed_format/standard", locals: {:article => article}
       end
@@ -33,6 +33,8 @@ module ArticlesHelper
         render partial: "articles/show_format/video_show", locals: {:article => article}
       when "facebook_video"
         render partial: "articles/show_format/facebook_video_show", locals: {:article => article}
+      when "user_poll"
+        render partial: 'user_feedback_answers/newsfeed_user_poll', locals: {:article => article}
       when "sponsor"
         nil
       when "email_digest_form"

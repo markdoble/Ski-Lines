@@ -60,7 +60,7 @@ Rails.application.routes.draw do
   get 'trackmyorder/clear' => "track_orders#clear_track_order"
   get 'trackmyorder/tryagain' => "track_orders#try_again"
 
-  resources :user_feedbacks, :except => [:index, :show]
+  resources :user_feedback_answers, :except => [:index, :show]
 
   namespace :admin do
     get 'orders/myperformance'
