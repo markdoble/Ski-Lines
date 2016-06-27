@@ -1,2 +1,5 @@
-
+<% if @article.article_format == 'user_poll' %>
+<%= render 'admin/articles/forms/user_poll' %>
+<%else%>
 <%= render 'admin/articles/forms/edit_form' %>
+<%end%>

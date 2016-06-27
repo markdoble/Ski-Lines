@@ -1,13 +1,15 @@
 class Article < ActiveRecord::Base
 
+  # Associations
+  has_one :user_feedback
+  accepts_nested_attributes_for :user_feedback, :allow_destroy => true, :reject_if => :all_blank
 
+  # Validations
   validates_presence_of :location
   validates_presence_of :title
   validates_presence_of :source
   validates_presence_of :date_published
-
   validates_presence_of :publish
-
   has_attached_file :orig_content_photo,
                       :styles => { :medium => "300x300>",
                                    :thumb => "100x100>",
@@ -18,11 +20,11 @@ class Article < ActiveRecord::Base
                         :bucket => ENV['S3_BUCKET'],
                         :access_key_id => ENV['AWS_KEY_ID'],
                         :secret_access_key => ENV['AWS_ACCESS_KEY']
-
                       }
-
   validates_attachment_content_type :orig_content_photo, :content_type => /\Aimage\/.*\Z/
 
+
+  # Scopes
   scope :publish, -> { where(publish: "Yes") }
 
   def self.cross_country_all

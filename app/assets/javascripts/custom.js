@@ -125,6 +125,10 @@ $(document).ready(function(){
 		$('.new_article_button_1').fadeOut();
 		$('#youtube_video_form').delay(400).fadeIn();
 	});
+	$('.create_user_poll_form').click(function(){
+		$('.new_article_button_1').fadeOut();
+		$('#user_poll_form').delay(400).fadeIn();
+	});
 	$('.reproduced_new_article_location').keyup(function(){
 		/* Add article source url */
 		document.getElementById('article_source').value = this.value.replace(/(\/\/[^\/]+)?\/.*/, '$1').replace('https://', "").replace("http://", '').replace("www.", "");

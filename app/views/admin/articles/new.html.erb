@@ -18,6 +18,10 @@
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<%= button_tag "Add YouTube Video", class: "btn btn-primary btn-large create_youtube_video_form"%>
 		</div>
+		<br /><br /><br />
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<%= button_tag "Add a User Poll", class: "btn btn-primary btn-large create_user_poll_form"%>
+		</div>
 	</div>
 
 </div>
@@ -37,4 +41,8 @@
 
 <div id="youtube_video_form">
 	<%= render 'admin/articles/forms/youtube_video'%>
+</div>
+
+<div id="user_poll_form">
+	<%= render 'admin/articles/forms/user_poll'%>
 </div>

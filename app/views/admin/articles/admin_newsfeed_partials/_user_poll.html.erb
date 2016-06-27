@@ -1,0 +1,44 @@
+<div class="article" id="<%=article.date_published%>">
+	 <div id="article_well" class="article_well_main">
+
+      <div class="article_text col-lg-12 col-md-12 col-sm-12">
+				<div class="poll_well_label">
+					<span class="glyphicon glyphicon-signal"></span><span> Ski-Lines Poll</span>&nbsp-&nbsp<span><%= Date.parse(article.date_published).strftime("%b %d, %Y") %>  </span>
+				</div>
+	      <div class="poll_title"><%= link_to article.title, article_path(article) %></div>
+	      <div class="poll_description"><%= article.description.html_safe %></div>
+
+	      <div class="user_poll_questions">
+					<div class="poll_question">
+
+		        <p>1. <%= article.user_feedback.question_one %></p>
+					</div>
+					<div class="poll_question">
+
+		        <p>2. <%= article.user_feedback.question_two %></p>
+					</div>
+					<div class="poll_question">
+
+		        <p>3. <%= article.user_feedback.question_three %></p>
+					</div>
+					<% unless article.user_feedback.question_four.blank? %>
+					<div class="poll_question">
+		        <p>4. <%= article.user_feedback.question_four %></p>
+	      	</div>
+					<%end%>
+					<% unless article.user_feedback.question_five.blank? %>
+					<div class="poll_question">
+		        <p>5. <%= article.user_feedback.question_five %></p>
+	      	</div>
+					<%end%>
+					<% unless article.user_feedback.question_six.blank? %>
+					<div class="poll_question">
+		        <p>6. <%= article.user_feedback.question_six %></p>
+	      	</div>
+					<%end%>
+			</div>
+   </div>
+
+	</div>
+</div>
+<br />

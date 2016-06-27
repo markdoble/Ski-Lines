@@ -1,0 +1,28 @@
+<div class="article">
+	 <div id="article_well" class="article_well_main">
+
+      <div class="article_text col-lg-12 col-md-12 col-sm-12">
+				<div class="poll_well_label">
+					<span class="glyphicon glyphicon-signal"></span><span> Ski-Lines Poll</span>&nbsp-&nbsp<span><%= Date.parse(article.date_published).strftime("%b %d, %Y") %>  </span>
+				</div>
+	      <div class="poll_title">
+					<% if @show %>
+					<%= article.title %>
+					<%else%>
+					<%= link_to article.title, article_path(article) %>
+					<%end%>
+				</div>
+				<% find_or_set_session_variable(article) %>
+				<% if @survey_session == "no_survey_session" << article.id %>
+				<div class="poll_description"><%= article.description.html_safe %></div>
+				<% build_form_for_newsfeed_partial %>
+				<%= render partial: 'user_feedback_answers/form', locals: {:article => article}  %>
+				<%else%>
+				<div class="poll_description">Thank you for completing our survey!</div>
+				<%= render partial: 'user_feedback_answers/completed_form', locals: {:article => article}  %>
+				<%end%>
+
+   </div>
+ </div>
+</div>
+<br />
