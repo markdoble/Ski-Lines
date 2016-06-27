@@ -1,31 +1,31 @@
     <div class="user_poll_questions">
       <div class="poll_question">
-        <p>1. <%= article.user_feedback.question_one %></p>
+        <b><p>1. <%= article.user_feedback.question_one %></p></b>
         <p><%= @survey_answer.answer_one %></p>
       </div>
       <div class="poll_question">
-        <p>2. <%= article.user_feedback.question_two %></p>
+        <b><p>2. <%= article.user_feedback.question_two %></p></b>
         <p><%= @survey_answer.answer_two %></p>
       </div>
       <div class="poll_question">
-        <p>3. <%= article.user_feedback.question_three %></p>
+        <b><p>3. <%= article.user_feedback.question_three %></p></b>
         <p><%= @survey_answer.answer_three %></p>
       </div>
       <% unless article.user_feedback.question_four.blank? %>
       <div class="poll_question">
-        <p>4. <%= article.user_feedback.question_four %></p>
+        <b><p>4. <%= article.user_feedback.question_four %></p></b>
         <p><%= @survey_answer.answer_four %></p>
       </div>
       <%end%>
       <% unless article.user_feedback.question_five.blank? %>
       <div class="poll_question">
-        <p>5. <%= article.user_feedback.question_five %></p>
+        <b><p>5. <%= article.user_feedback.question_five %></p></b>
         <p><%= @survey_answer.answer_five %></p>
       </div>
       <%end%>
       <% unless article.user_feedback.question_six.blank? %>
       <div class="poll_question">
-        <p>6. <%= article.user_feedback.question_six %></p>
+        <b><p>6. <%= article.user_feedback.question_six %></p></b>
         <p><%= @survey_answer.answer_six %></p>
       </div>
       <%end%>

@@ -1,15 +1,20 @@
 module UserFeedbackAnswersHelper
   def find_or_set_session_variable(article)
     if session[:survey_session].blank?
-      @survey_session = "no_survey_session"
+      @survey_session = "no_survey_session" << article.id
     else
       if session[:survey_session_expiry] < Time.current
-        @survey_session = "no_survey_session"
+        @survey_session = "no_survey_session" << article.id
         session.delete(:survey_session_expiry)
         session.delete(:survey_session)
       else
-        user_feedback_survey = UserFeedback.where(article_id: article.id)
-        @survey_answer = UserFeedbackAnswer.where(user_feedback_id: user_feedback_survey)
+        survery_answer = UserFeedbackAnswer.find_by_id(session[:survey_session] )
+
+        if survery_answer.user_feedback.article_id == article.id
+          @survey_answer = UserFeedbackAnswer.find_by_id(session[:survey_session] )
+        else
+          @survey_session = "no_survey_session" << article.id
+        end
       end
     end
   end
