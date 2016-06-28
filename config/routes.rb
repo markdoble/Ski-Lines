@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     resources :articles, :except => [:show]
     resources :orders
     resources :product_categories
+    resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]
     get 'email_digests/index'
     get 'email_digests/new_digest'
     get 'email_digests/send_digest' => "email_digests#send_digest"

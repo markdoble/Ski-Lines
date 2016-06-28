@@ -1,0 +1,22 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <br />
+  <div class="survey_results">
+    <% @all_surveys.each do |f| %>
+      <div class="poll_well_label">
+        <span class="glyphicon glyphicon-signal"></span>
+        <span> Ski-Lines Poll</span>&nbsp|&nbsp
+        <span><%= Date.parse(f.date_published).strftime("%b %d, %Y") %>  </span>&nbsp|&nbsp
+        <span>Responses: <%= f.user_feedback.user_feedback_answers.count %> </span>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="poll_title">
+          <%= link_to f.title, admin_user_feedback_path(f) %>
+        </div>
+        <div class="poll_description">
+          <%= f.description %>
+          <br /><br /><br />
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div>

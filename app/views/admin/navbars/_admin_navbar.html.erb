@@ -11,8 +11,12 @@
 							<li><a style="color:grey">PUBLISHERS</a></li>
 							<li><%= link_to "ARTICLES", admin_articles_path %></li>
 							<li><%= link_to "NEW ARTICLE", new_admin_article_path %></li>
+              <li class="divider" ></li>
 							<li><%= link_to "DIGEST SUBSCRIBERS", admin_email_digests_index_path %></li>
               <li><%= link_to "SEND EMAIL DIGEST", admin_email_digests_new_digest_path %></li>
+              <li class="divider" ></li>
+              <li><%= link_to "SURVEY RESULTS", admin_user_feedbacks_path %></li>
+
               <%end%>
               <% if current_user.merchant? %>
 							<li class="divider" ></li>

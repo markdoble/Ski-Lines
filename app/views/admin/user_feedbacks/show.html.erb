@@ -1,0 +1,80 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <div class="survey_results">
+    <br /><br />
+      <div class="poll_well_label col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <span class="glyphicon glyphicon-signal"></span>
+        <span> Ski-Lines Poll</span>&nbsp|&nbsp
+        <span><%= Date.parse(@survey.date_published).strftime("%b %d, %Y") %>  </span>&nbsp|&nbsp
+        <span>Responses: <%= @survey.user_feedback.user_feedback_answers.count %> </span>
+      </div>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="poll_title">
+          <%= @survey.title %>
+        </div>
+        <div class="poll_description">
+          <%= @survey.description %>
+          <br /><br /><br />
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="survey_results col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <table style="width:100%">
+    <tr>
+      <td>Question 1</td>
+      <td><%= @survey.user_feedback.question_one %></td>
+    </tr>
+    <tr>
+      <td>Question 2</td>
+      <td><%= @survey.user_feedback.question_two %></td>
+    </tr>
+    <tr>
+      <td>Question 3</td>
+      <td><%= @survey.user_feedback.question_three %></td>
+    </tr>
+    <tr>
+      <td>Question 4</td>
+      <td><%= @survey.user_feedback.question_four %></td>
+    </tr>
+    <tr>
+      <td>Question 5</td>
+      <td><%= @survey.user_feedback.question_five %></td>
+    </tr>
+    <tr>
+      <td>Question 6</td>
+      <td><%= @survey.user_feedback.question_six %></td>
+    </tr>
+  </table>
+  <br /><br />
+</div>
+
+
+<div class="survey_results col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <br />
+
+  <table style="width:100%">
+
+    <tr>
+      <th>Answer to Q1</th>
+      <th>Answer to Q2</th>
+      <th>Answer to Q3</th>
+      <th>Answer to Q4</th>
+      <th>Answer to Q5</th>
+      <th>Answer to Q6</th>
+    </tr>
+    <% @survey.user_feedback.user_feedback_answers.each do |f| %>
+    <tr>
+      <td><%= f.answer_one %></td>
+      <td><%= f.answer_two %></td>
+      <td><%= f.answer_three %></td>
+      <td><%= f.answer_four %></td>
+      <td><%= f.answer_five %></td>
+      <td><%= f.answer_six %></td>
+    </tr>
+    <%end%>
+
+  </table>
+
+</div>
