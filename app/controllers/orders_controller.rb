@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
   before_filter :find_or_create_cart, only: [:index, :edit, :create, :update]
 
 
