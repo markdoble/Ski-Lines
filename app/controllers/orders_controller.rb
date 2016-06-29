@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_filter :find_or_create_cart, only: [:index, ]
 
 
 
@@ -71,21 +72,7 @@ class OrdersController < ApplicationController
     else
       @order_session = nil
     end
-    find_or_create_cart
   end
-
-  def show
-    @navbar = true
-    @order = Order.find(params[:id])
-  end
-
-  def new
-    respond_to do |format|
-      format.js
-      format.html
-    end
-  end
-
 
   def edit
     find_or_create_cart
@@ -93,11 +80,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-
     @order = Order.new(order_params)
     nonce = params[:payment_method_nonce]
     amount = '%.2f' % @order.amount.to_s
-
     @transaction = Braintree::Transaction.sale(
       amount: amount,
       payment_method_nonce: nonce,
@@ -105,44 +90,80 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
-    @order.transaction_id = @transaction.transaction.id
-
     if @transaction.success?
-        respond_to do |format|
+      respond_to do |format|
+          @order.transaction_id = @transaction.transaction.id
           if @order.save
               if verify_amount(@order)
                 create_order_session
                 update_inventory(@order)
-                #order_emails(@order)
-
+                order_emails(@order)
                 format.html { redirect_to cart_path }
                 format.json {render json: @order }
                 session[:cart] = nil
               else
                 Braintree::Transaction.void(@transaction.transaction.id)
                 format.html { render action: 'edit' }
+                @order.errors.add(:base, "Order amount is incorrect! Please try again.")
                 format.json { render json: @order.errors, status: :unprocessable_entity }
-
                 find_or_create_cart
               end
           else
             Braintree::Transaction.void(@transaction.transaction.id)
             format.html { render action: 'edit' }
             format.json { render json: @order.errors, status: :unprocessable_entity }
-
             find_or_create_cart
-
           end
-        end
+      end
     else
-
       flash[:alert] = 'There was a problem processing your payment. Please try again!'
       find_or_create_cart
       render 'edit'
     end
+  end
 
 
-
+  def update
+    @order = Order.find(params[:id])
+    nonce = params[:payment_method_nonce]
+    amount = '%.2f' % @order.amount.to_s
+    @transaction = Braintree::Transaction.sale(
+      amount: amount,
+      payment_method_nonce: nonce,
+      :options => {
+          :submit_for_settlement => true
+        }
+    )
+    if @transaction.success?
+      respond_to do |format|
+          @order.transaction_id = @transaction.transaction.id
+          if @order.save
+              if verify_amount(@order)
+                create_order_session
+                update_inventory(@order)
+                order_emails(@order)
+                format.html { redirect_to cart_path }
+                format.json {render json: @order }
+                session[:cart] = nil
+              else
+                Braintree::Transaction.void(@transaction.transaction.id)
+                format.html { render action: 'edit' }
+                @order.errors.add(:base, "Order amount is incorrect! Please try again.")
+                format.json { render json: @order.errors, status: :unprocessable_entity }
+                find_or_create_cart
+              end
+          else
+            Braintree::Transaction.void(@transaction.transaction.id)
+            format.html { render action: 'edit' }
+            format.json { render json: @order.errors, status: :unprocessable_entity }
+            find_or_create_cart
+          end
+      end
+    else
+      flash[:alert] = 'There was a problem processing your payment. Please try again!'
+      find_or_create_cart
+      render 'edit'
+    end
   end
 
   private
@@ -190,10 +211,10 @@ class OrdersController < ApplicationController
         session[:order_expiry] = Time.current + 30
       end
 
-
       def verify_amount(order)
-        actual_amount = order.amount
+        actual_amount = order.amount.to_f
         difference = (actual_amount.to_f - (calculate_test_order_amount(order)).to_f).abs
+        # ternary operator reminder: if_this_is_a_true_value ? then_the_result_is_this : else_it_is_this
         (difference > 0.02) ? false : true
       end
 
@@ -204,28 +225,22 @@ class OrdersController < ApplicationController
         order.order_units.where.not(quantity: 0).each do |f|
           order_units_array << f.unit
         end
-
         order.merchant_orders.each do |f|
-          tax_rate_calc(f)
-          international_shipping_factor(f)
+          case f.order.country
+          when "United States of America"
+            shipping_factor = 1.5
+          else
+            shipping_factor = 1
+          end
           order_units_array.each do |ff|
             if f.product_id == ff.product_id
-              test_amount += (ff.product.price + (ff.product.shipping_charge*shipping_factor))*tax_rate
+              test_amount += ((ff.product.price + (ff.product.shipping_charge*shipping_factor))*(1+tax_rate_calc(f).to_f))
             else
               next
             end
           end
         end
         test_amount
-      end
-
-      def international_shipping_factor(f)
-        case f.order.country
-        when "United States of America"
-          shipping_factor = 1.5
-        else
-          shipping_factor = 1
-        end
       end
 
       def tax_rate_calc(f)
