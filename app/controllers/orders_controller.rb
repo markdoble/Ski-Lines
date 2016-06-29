@@ -2,9 +2,7 @@ class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :find_or_create_cart, only: [:index, ]
-
-
+  before_filter :find_or_create_cart, only: [:index, :edit]
 
 
 # Cart FUnctions
@@ -55,10 +53,7 @@ class OrdersController < ApplicationController
     session.delete(:order_expiry)
     redirect_to root_path
   end
-
-
 # Cart functions End
-
 
   def index
     @order = Order.new
@@ -75,7 +70,6 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    find_or_create_cart
     @order = Order.find(params[:id])
   end
 
@@ -106,18 +100,15 @@ class OrdersController < ApplicationController
                 format.html { render action: 'edit' }
                 @order.errors.add(:base, "Order amount is incorrect! Please try again.")
                 format.json { render json: @order.errors, status: :unprocessable_entity }
-                find_or_create_cart
               end
           else
             Braintree::Transaction.void(@transaction.transaction.id)
             format.html { render action: 'edit' }
             format.json { render json: @order.errors, status: :unprocessable_entity }
-            find_or_create_cart
           end
       end
     else
       flash[:alert] = 'There was a problem processing your payment. Please try again!'
-      find_or_create_cart
       render 'edit'
     end
   end
@@ -156,12 +147,10 @@ class OrdersController < ApplicationController
             Braintree::Transaction.void(@transaction.transaction.id)
             format.html { render action: 'edit' }
             format.json { render json: @order.errors, status: :unprocessable_entity }
-            find_or_create_cart
           end
       end
     else
       flash[:alert] = 'There was a problem processing your payment. Please try again!'
-      find_or_create_cart
       render 'edit'
     end
   end
@@ -215,9 +204,10 @@ class OrdersController < ApplicationController
         actual_amount = order.amount.to_f
         difference = (actual_amount.to_f - (calculate_test_order_amount(order)).to_f).abs
         # ternary operator reminder: if_this_is_a_true_value ? then_the_result_is_this : else_it_is_this
+        # give a margin of error for rounding of 0.02;
+        # if difference is more than 0.02, return false, else true
         (difference > 0.02) ? false : true
       end
-
 
       def calculate_test_order_amount(order)
         test_amount = 0
@@ -278,5 +268,4 @@ class OrdersController < ApplicationController
         end
         tax_rate
       end
-
 end
