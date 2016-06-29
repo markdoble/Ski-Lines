@@ -83,14 +83,14 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
-    if @transaction.success?
-      respond_to do |format|
+    respond_to do |format|
+        if @transaction.success?
           @order.transaction_id = @transaction.transaction.id
           if @order.save
               if verify_amount(@order)
                 create_order_session
-                update_inventory(@order)
-                order_emails(@order)
+                #update_inventory(@order)
+                #order_emails(@order)
                 format.html { redirect_to cart_path }
                 format.json {render json: @order }
                 session[:cart] = nil
@@ -105,11 +105,12 @@ class OrdersController < ApplicationController
             format.html { render action: 'edit' }
             format.json { render json: @order.errors, status: :unprocessable_entity }
           end
+        else
+          format.html { render action: 'edit' }
+          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
       end
-    else
-      flash[:alert] = 'There was a problem processing your payment. Please try again!'
-      render 'edit'
-    end
   end
 
 
@@ -124,8 +125,8 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
-    if @transaction.success?
-      respond_to do |format|
+    respond_to do |format|
+        if @transaction.success?
           @order.transaction_id = @transaction.transaction.id
           if @order.save
               if verify_amount(@order)
@@ -140,19 +141,19 @@ class OrdersController < ApplicationController
                 format.html { render action: 'edit' }
                 @order.errors.add(:base, "Order amount is incorrect! Please try again.")
                 format.json { render json: @order.errors, status: :unprocessable_entity }
-                find_or_create_cart
               end
           else
             Braintree::Transaction.void(@transaction.transaction.id)
             format.html { render action: 'edit' }
             format.json { render json: @order.errors, status: :unprocessable_entity }
           end
+        else
+          format.html { render action: 'edit' }
+          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
       end
-    else
-      flash[:alert] = 'There was a problem processing your payment. Please try again!'
-      render 'edit'
     end
-  end
 
   private
       def set_order
