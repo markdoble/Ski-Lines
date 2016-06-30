@@ -21,8 +21,8 @@ class Admin::OrdersController < ApplicationController
 
   def myperformance
     verify_is_merchant
-    @orders = Order.all
-    @order = current_user.orders.order("created_at DESC")
+    @orders = Order.all.verified
+    @order = current_user.orders.verified.order("created_at DESC")
   end
 
   def show

@@ -20,9 +20,9 @@ class OrdersController < ApplicationController
     else
       cart[id] = 1
     end
-
     redirect_to :action => :index
   end
+
   def remove
     id = params[:id]
     # if the cart has already been created, use the existing cart, else create a new cart
@@ -38,7 +38,6 @@ class OrdersController < ApplicationController
     else
       cart[id] = 1
     end
-
     redirect_to :action => :index
   end
 
@@ -83,34 +82,38 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
+    @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
         if @transaction.success?
-          @order.transaction_id = @transaction.transaction.id
-          if @order.save
-              if verify_amount(@order)
-                create_order_session
-                #update_inventory(@order)
-                #order_emails(@order)
-                format.html { redirect_to cart_path }
-                format.json {render json: @order }
-                session[:cart] = nil
-              else
-                Braintree::Transaction.void(@transaction.transaction.id)
-                format.html { render action: 'edit' }
-                @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                format.json { render json: @order.errors, status: :unprocessable_entity }
-              end
-          else
-            Braintree::Transaction.void(@transaction.transaction.id)
-            format.html { render action: 'edit' }
-            format.json { render json: @order.errors, status: :unprocessable_entity }
-          end
+            if @order.save
+                if verify_amount(@order)
+                  create_order_session
+                  update_inventory(@order)
+                  order_emails(@order)
+                  @order.update_attributes(success: true)
+                  format.html { redirect_to cart_path }
+                  format.json {render json: @order }
+                  session[:cart] = nil
+                else
+                  @order.update_attributes(success: false)
+                  Braintree::Transaction.void(@transaction.transaction.id)
+                  format.html { render action: 'edit' }
+                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
+                  format.json { render json: @order.errors, status: :unprocessable_entity }
+                end
+            else
+              @order.update_attributes(success: false)
+              Braintree::Transaction.void(@transaction.transaction.id)
+              format.html { render action: 'edit' }
+              format.json { render json: @order.errors, status: :unprocessable_entity }
+            end
         else
+          @order.update_attributes(success: false)
           format.html { render action: 'edit' }
           @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
           format.json { render json: @order.errors, status: :unprocessable_entity }
         end
-      end
+    end
   end
 
 
@@ -125,35 +128,39 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
+    @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
         if @transaction.success?
-          @order.transaction_id = @transaction.transaction.id
-          if @order.save
-              if verify_amount(@order)
-                create_order_session
-                update_inventory(@order)
-                order_emails(@order)
-                format.html { redirect_to cart_path }
-                format.json {render json: @order }
-                session[:cart] = nil
-              else
-                Braintree::Transaction.void(@transaction.transaction.id)
-                format.html { render action: 'edit' }
-                @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                format.json { render json: @order.errors, status: :unprocessable_entity }
-              end
-          else
-            Braintree::Transaction.void(@transaction.transaction.id)
-            format.html { render action: 'edit' }
-            format.json { render json: @order.errors, status: :unprocessable_entity }
-          end
+            if @order.save
+                if verify_amount(@order)
+                  create_order_session
+                  update_inventory(@order)
+                  order_emails(@order)
+                  @order.update_attributes(success: true)
+                  format.html { redirect_to cart_path }
+                  format.json {render json: @order }
+                  session[:cart] = nil
+                else
+                  @order.update_attributes(success: false)
+                  Braintree::Transaction.void(@transaction.transaction.id)
+                  format.html { render action: 'edit' }
+                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
+                  format.json { render json: @order.errors, status: :unprocessable_entity }
+                end
+            else
+              @order.update_attributes(success: false)
+              Braintree::Transaction.void(@transaction.transaction.id)
+              format.html { render action: 'edit' }
+              format.json { render json: @order.errors, status: :unprocessable_entity }
+            end
         else
+          @order.update_attributes(success: false)
           format.html { render action: 'edit' }
           @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
           format.json { render json: @order.errors, status: :unprocessable_entity }
         end
-      end
     end
+  end
 
   private
       def set_order
@@ -161,7 +168,7 @@ class OrdersController < ApplicationController
       end
 
       def order_params
-        params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping, :merchant_orders_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method, :customer_comments], :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
+        params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping, :success, :merchant_orders_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method, :customer_comments], :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
       end
 
       def find_or_create_cart
@@ -201,6 +208,8 @@ class OrdersController < ApplicationController
       end
 
       def verify_amount(order)
+        # actual_amount is the amount the credit card has been charged.
+        # test_amount is the server side calculation of the amount charged.
         actual_amount = order.amount.to_f
         difference = (actual_amount.to_f - (calculate_test_order_amount(order)).to_f).abs
         # ternary operator reminder: if_this_is_a_true_value ? then_the_result_is_this : else_it_is_this

@@ -30,4 +30,7 @@ class Order < ActiveRecord::Base
   validates :street_address, :presence => {:message => 'Please fill out your street address.'}
   validates :city, :presence => {:message => 'Please fill out your city.'}
 
+  # scopes
+  scope :verified, -> { where(success: true) }
+
 end

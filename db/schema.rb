@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160625035754) do
+ActiveRecord::Schema.define(version: 20160630015950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 20160625035754) do
     t.decimal  "sales_tax",                    precision: 8, scale: 2
     t.decimal  "shipping",                     precision: 8, scale: 2
     t.string   "transaction_id",   limit: 255
+    t.boolean  "success"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
