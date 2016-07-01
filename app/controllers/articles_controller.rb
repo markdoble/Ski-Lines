@@ -15,10 +15,11 @@ class ArticlesController < ApplicationController
     @articles = Article.cross_country_all.where.not(notes: "Sponsor").paginate(:page => params[:page],:per_page => 30)
     @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
     @subscriber = EmailDigest.new
+    @article_list_page = true
   end
 
   def cross_country
-    @index_page = true
+    @landing_page = true
     @articles_rss = Article.cross_country_all.where.not(notes: "Sponsor").paginate(:page => params[:page],:per_page => 5)
     if params[:videos] == "videos"
        @articles = Article.cross_country_all.video_filter.paginate(:page => params[:page],:per_page => 5)

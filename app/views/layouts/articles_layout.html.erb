@@ -77,7 +77,7 @@
 	</script>
 
 	<%= render 'navbars/articles_navbar' %>
-<% if @index_page %>
+<% if @landing_page %>
 <div class="full_page_features hidden-md hidden-sm hidden-xs">
       <% @front_page_featured_articles.each do |front_page| %>
       <% if front_page.image.blank? %>
@@ -95,7 +95,7 @@
 <%end%>
 <div class="container">
 		 <div class="row">
-        <% if @show %>
+        <% if @show or @article_list_page %>
           <div class="hidden-lg col-md-12 col-sm-12 hidden-xs google_adsense" style="margin-bottom:15px">
             <br />
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -128,7 +128,7 @@
             <%= yield %>
            </div>
            <div class="right_side col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs">
-              <% if @show %>
+              <% if @show or @article_list_page %>
               <br />
               <div class="google_adsense hidden-md" style="padding-left:15px; margin-top:10px">
                 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
