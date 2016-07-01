@@ -12,7 +12,9 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = Article.cross_country_all.where.not(notes: "Sponsor")
+    @articles = Article.cross_country_all.where.not(notes: "Sponsor").paginate(:page => params[:page],:per_page => 30)
+    @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
+    @subscriber = EmailDigest.new
   end
 
   def cross_country

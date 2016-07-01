@@ -1,0 +1,16 @@
+
+<% @articles.each do |f| %>
+<br />
+    <div class="poll_title">
+      <%= link_to f.title, article_path(f) %>
+    </div>
+    <div class="poll_description">
+      <%= f.description[0..150] %><%= link_to " ...more", article_path(f)%>
+    </div>
+    <div class="poll_well_label">
+      <span class="glyphicon glyphicon-link"></span>
+      <span> <%= f.source %></span>&nbsp|&nbsp
+      <span><%= Date.parse(f.date_published).strftime("%b %d, %Y") %>  </span>
+    </div>
+
+<%end%>

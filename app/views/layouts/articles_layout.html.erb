@@ -76,21 +76,11 @@
 	      }
 	</script>
 
-
-
-
 	<%= render 'navbars/articles_navbar' %>
-
-
-
-  <% if @index_page %>
-
+<% if @index_page %>
 <div class="full_page_features hidden-md hidden-sm hidden-xs">
-
       <% @front_page_featured_articles.each do |front_page| %>
-
       <% if front_page.image.blank? %>
-
     <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.orig_content_photo.url(:large) %>)">
        <%else%>
     <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.image %>)">
@@ -98,24 +88,14 @@
        <div class="font_page_spacer">
          <h4 class="font_page_article_title"><%= link_to front_page.title, article_path(front_page) %></h4>
          <p class="front_page_source"><%= front_page.source%> | <%= Date.parse(front_page.date_published).strftime("%b %d, %Y") %> </p>
-
        </div>
     </div>
-
       <%end%>
-
-
-
 </div>
 <%end%>
-
-
 <div class="container">
 		 <div class="row">
         <% if @show %>
-
-
-
           <div class="hidden-lg col-md-12 col-sm-12 hidden-xs google_adsense" style="margin-bottom:15px">
             <br />
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -127,74 +107,55 @@
               <script>
               (adsbygoogle = window.adsbygoogle || []).push({});
               </script>
-
           </div>
-
-
-        <div class="hidden-lg hidden-md hidden-sm col-xs-12" style="text-align:center; margin-top:10px; margin-left:0px; padding:0px;">
-
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <!-- Mobile Newsfeed -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:320px;height:100px"
-                 data-ad-client="ca-pub-7427467260900360"
-                 data-ad-slot="6943236131"></ins>
-            <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-
-        </div>
-        <%else%>
-        <%nil%>
-        <%end%>
-	       <div class="left_side col-lg-2 col-md-3 col-sm-3 hidden-xs">
-
+          <div class="hidden-lg hidden-md hidden-sm col-xs-12" style="text-align:center; margin-top:10px; margin-left:0px; padding:0px;">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <!-- Mobile Newsfeed -->
+              <ins class="adsbygoogle"
+                   style="display:inline-block;width:320px;height:100px"
+                   data-ad-client="ca-pub-7427467260900360"
+                   data-ad-slot="6943236131"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+          </div>
+          <%end%>
+  	       <div class="left_side col-lg-2 col-md-3 col-sm-3 hidden-xs">
                 <%= render :partial => "articles/left_side_bar/featured"  %>
-	       </div>
-
+  	       </div>
            <div id='main' class="main col-lg-6 col-md-8 col-sm-8 col-xs-12">
-        <!--     <% if @index_page %>
-             <div class="app_layout_spacer_main hidden-md hidden-sm hidden-xs">
-             </div>
-             <%end%>-->
-          <%= bootstrap_flash %>
-          <%= yield %>
-          </div>
-
-          <div class="right_side col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs">
-
-            <% if @show %>
-            <br />
-            <div class="google_adsense hidden-md" style="padding-left:15px; margin-top:10px">
-
-              <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-               <!-- Spring 2016 -->
-               <ins class="adsbygoogle"
-                 style="display:inline-block;width:300px;height:600px"
-                 data-ad-client="ca-pub-7427467260900360"
-                 data-ad-slot="2795898131"></ins>
-               <script>
-               (adsbygoogle = window.adsbygoogle || []).push({});
-               </script>
-            </div>
-            <% else %>
-            <%= render 'articles/right_side_bar/side_contain'  %>
-            <% end %>
+            <%= bootstrap_flash %>
+            <%= yield %>
+           </div>
+           <div class="right_side col-lg-4 col-md-3 hidden-md hidden-sm hidden-xs">
+              <% if @show %>
+              <br />
+              <div class="google_adsense hidden-md" style="padding-left:15px; margin-top:10px">
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                 <!-- Spring 2016 -->
+                 <ins class="adsbygoogle"
+                   style="display:inline-block;width:300px;height:600px"
+                   data-ad-client="ca-pub-7427467260900360"
+                   data-ad-slot="2795898131"></ins>
+                 <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+                 </script>
+              </div>
+              <% else %>
+              <%= render 'articles/right_side_bar/side_contain'  %>
+              <% end %>
           </div>
       </div>
  </div>
 
-
-	 <script>
-	    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-	    ga('create', 'UA-60189417-1', 'auto');
-	    ga('send', 'pageview');
-
-	  </script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-60189417-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
 <script>
 (function trackOutbounds() {
@@ -244,7 +205,6 @@
 						{'hitCallback': hitCallbackHandler(url,win)},
 						{'nonInteraction': 1}
 					);
-
 					e.preventDefault();
 				});
 			}
@@ -252,7 +212,5 @@
 	}
 })();
 </script>
-
   </body>
-
 </html>

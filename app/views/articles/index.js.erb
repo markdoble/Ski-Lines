@@ -1,4 +1,4 @@
-$('.articles').append('<%= j render(:partial => 'articles/articles') %>');
+$('.articles').append('<%= j render(:partial => 'articles/article_list') %>');
 <% if @articles.next_page %>
 $('.pagination').replaceWith('<%= j will_paginate(@articles) %>');
 <% else %>
