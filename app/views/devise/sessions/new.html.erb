@@ -1,12 +1,23 @@
 
 	<div class="container content">
-				<br /> <br /><br />
+				<br /> <br /><br /><br /> <br /><br />
 			 	<div class="row">
-				  <div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
+				  <div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 				  </div>
-				  <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+						<br /> <br /><br />
+						<div class="devise_forms_background">
+							<br />
+							<h4>Start Selling on SKI-LINES</h4>
+							<%= link_to "APPLY NOW", new_merchant_application_path, class: "btn-primary btn bt-large registration_button"%>
+							<br /><br />
+						</div>
+					</div>
+					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
 						 <div class="devise_forms_background">
-								<br /><br />
+								<br />
+								<h4>USER SIGN IN</h4>
+								<br />
 								<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 							  <div class="field">
 								  <div class="devise_session_label">
@@ -27,15 +38,10 @@
 								  </div>
 							  </div>
 								<% end %><br />
-						 </div><br /><br />
-							<div class="devise_forms_background">
-								<br />
-								<h4>Or, apply to become a merchant:</h4>
-								<%= link_to "APPLY NOW", new_merchant_application_path, class: "btn-primary btn bt-large registration_button"%>
-								<br /><br />
-							</div>
-				</div>
-				<div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
-				</div>
+						</div><br /><br />
+					</div>
+
+					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+					</div>
 			</div>
 	 </div>
