@@ -1,14 +1,20 @@
 
 	<div class="container content">
-				<br /> <br /><br />
+				<br />
 			 	<div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 login_title">
-					<h4>We make it easy for you to sell online.</h4>
-					<br />
+					<div class="col-lg-2 col-md-3 hidden-sm hidden-xs">
 					</div>
-				  <div class="col-lg-4 col-md-4 col-sm-1 hidden-xs">
+					<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 login_title">
+						<%= image_tag('store_logo_bitmap.png', width:'85%', style:"text-align:center;") %>
+						<br />
+					<h4>We make it easy for you to sell online.</h4>
+					<br /><br />
+					</div>
+					<div class="col-lg-2 col-md-3 hidden-sm hidden-xs">
+					</div>
+				  <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
 				  </div>
-					<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 						 <div class="devise_forms_background">
 								<br /><br /><br />
 								<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
@@ -39,7 +45,7 @@
 							<br /><br />
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-4 col-sm-1 hidden-xs">
+					<div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
 				  </div>
 			</div>
 	 </div>
