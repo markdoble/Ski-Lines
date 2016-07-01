@@ -11,6 +11,10 @@ class ArticlesController < ApplicationController
     (any_article.publish == "Yes") ? (@article = any_article) : (redirect_to root_url, :flash => { :error => "Article not found." })
   end
 
+  def index
+    @articles = Article.cross_country_all.where.not(notes: "Sponsor")
+  end
+
   def cross_country
     @index_page = true
     @articles_rss = Article.cross_country_all.where.not(notes: "Sponsor").paginate(:page => params[:page],:per_page => 5)
@@ -23,7 +27,6 @@ class ArticlesController < ApplicationController
          @articles = Article.cross_country_all.paginate(:page => params[:page],:per_page => 5)
        end
      end
-
      @subscriber = EmailDigest.new
      if session[:email_digest_session]
        if  session[:email_digest_session_expiry] < Time.current
@@ -35,9 +38,7 @@ class ArticlesController < ApplicationController
      else
        @subscriber_session = nil
      end
-
     @featured_nf_products = Product.active_products.limit(2).order("RANDOM()")
-
     respond_to do |format|
       format.html
       format.js
