@@ -1,12 +1,22 @@
 
 	<div class="container content">
-				<br /> <br /><br />
+				<br />
 			 	<div class="row">
-				  <div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
+					<div class="col-lg-2 col-md-3 hidden-sm hidden-xs">
+					</div>
+					<div class="col-lg-8 col-md-6 col-sm-12 col-xs-12 login_title">
+						<%= image_tag('store_logo_bitmap.png', width:'85%', style:"text-align:center;") %>
+						<br />
+					<h4>We make it easy for you to sell online.</h4>
+					<br /><br />
+					</div>
+					<div class="col-lg-2 col-md-3 hidden-sm hidden-xs">
+					</div>
+				  <div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
 				  </div>
-				  <div class="col-lg-4 col-md-6 col-sm-8 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 						 <div class="devise_forms_background">
-								<br /><br />
+								<br /><br /><br />
 								<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 							  <div class="field">
 								  <div class="devise_session_label">
@@ -27,15 +37,15 @@
 								  </div>
 							  </div>
 								<% end %><br />
-						 </div><br /><br />
-							<div class="devise_forms_background">
-								<br />
-								<h4>Or, apply to become a merchant:</h4>
-								<%= link_to "APPLY NOW", new_merchant_application_path, class: "btn-primary btn bt-large registration_button"%>
-								<br /><br />
-							</div>
-				</div>
-				<div class="col-lg-4 col-md-3 col-sm-2 hidden-xs">
-				</div>
+						</div><br /><br />
+						<div class="devise_forms_background">
+							<br />
+							<h4>Don't Have an Account?</h4>
+							<%= link_to "APPLY NOW", new_merchant_application_path, class: "btn-primary btn bt-large registration_button"%>
+							<br /><br />
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-3 hidden-xs">
+				  </div>
 			</div>
 	 </div>
