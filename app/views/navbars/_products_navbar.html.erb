@@ -4,27 +4,23 @@
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('menu_icon.png') %> </a>
 					<ul class="dropdown-menu main_menu" role="menu">
-						<li class="divider" ></li>
-            <li><a style="color:grey">EMAIL DIGEST</a></li>
-            <li><%= link_to "SUBSCRIBE", new_email_digest_path %></li>
-						<li><%= link_to "ALL ARTICLES", articles_path %></li>
+
 					  <li class="divider" ></li>
-            <li><a style="color:grey">SHOP</a></li>
-            <li><a href='/cart'>MY PRODUCTS ( <%= @cart.count%> )</a></li>
-						<li><%= link_to "BROWSE PRODUCTS", products_all_products_path %></li>
+            <li><a style="color:grey">PRODUCT CATEGORIES</a></li>
+						<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
+						<li><%= link_to "CLOTHING", products_clothing_path %></li>
+						<li><%= link_to "WAXING", products_waxing_path %></li>
+						<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
+					  <li class="divider" ></li>
+						<li><a style="color:grey">CUSTOMER SUPPORT</a></li>
             <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
             <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
             <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
             <li class="divider" ></li>
             <li><a style="color:grey">MERCHANTS</a></li>
-            <li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
-            <li><%= link_to "MY STORE", admin_products_path %></li>
+						<li><%= link_to "MY STORE", admin_products_path %></li>
+						<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
 						<li class="divider"></li>
-						<li><a style="color:grey">COMPANY</a></li>
-						<li><%= link_to "ABOUT", infos_about_path %></li>
-						<li><%= link_to "CONTACT", new_contact_path %></li>
-						<li><%= link_to "JOIN SKI-LINES", new_team_path %></li>
-						<li><%= link_to "TERMS", infos_terms_path %></li>
 						<br /><br /><br /><br />
 					</ul>
 			</li>
@@ -59,14 +55,15 @@
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
 						<li><a href='/cart'>MY PRODUCTS ( <%= @cart.count%> )</a></li>
-						<li><%= link_to "BROWSE PRODUCTS", products_all_products_path %></li>
-						<li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
-						<li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
-						<li><%= link_to "STORE POLICIES", infos_terms_path %></li>
-						<li><%= link_to "ABOUT", infos_about_path %></li>
-						<li><%= link_to "CONTACT", new_contact_path %></li>
-						<li><%= link_to "JOIN SKI-LINES", new_team_path %></li>
-						<li><%= link_to "TERMS", infos_terms_path %></li>
+						<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
+						<li><%= link_to "CLOTHING", products_clothing_path %></li>
+						<li><%= link_to "WAXING", products_waxing_path %></li>
+						<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
+            <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
+            <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
+            <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
+						<li><%= link_to "MY STORE", admin_products_path %></li>
+						<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
 			 </ul>
 		  </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
