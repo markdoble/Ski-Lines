@@ -1,7 +1,7 @@
 @import "twitter/bootstrap/bootstrap";
 
 .sponsor_bkgd{
-	background: url(OW_back_2_fade.png) no-repeat center center;
+	background: url("OW_back_2_fade.png") no-repeat center center;
 
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -12,10 +12,31 @@
 
 /* start of store */
 .store_layout_bakground{
-	background-color:black;
-	min-height:100%;
-	height:auto;
+	background-color:white;
+	padding-top:0px;
+	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+
 }
+.store_header{
+	background: url("login_bkgd_2.jpg") no-repeat center center;
+
+	background-attachment: fixed;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+	padding-top:60px;
+	h2{
+		color:white;
+		font-size:50px;
+	}
+	h4{
+		margin-top:10px;
+		color:white;
+		font-size:18px;
+	}
+}
+
 
 body.store_layout{
 	padding:0px;
@@ -2162,7 +2183,7 @@ resize: none;
 
 .menu_logo{
 	position:relative;
-	margin-right:0px;
+	margin-right:15px;
 	margin-top:15px;
 	margin-bottom:2px;
 	margin-left:2px;
@@ -2187,6 +2208,7 @@ resize: none;
 	border:none;
 	text-align:center;
 }
+
 
 .fb-image{
 	position:relative;
@@ -2363,10 +2385,19 @@ resize: none;
 	font-size:10px;
 	text-align:right;
 }
-
-.glyphicon-shopping-cart{
-
+.cart{
+	a{
+		font-size:22px;
+		margin:0px;
+		padding:0px;
+	}
+	.glyphicon-shopping-cart{
+		font-size:18px;
+		padding:0px;
+		margin:0px;
+	}
 }
+
 .glyphicon-menu-hamburger{
 	font-size:35px;
 	margin-top:0px;
@@ -3033,24 +3064,42 @@ border-radius: 0px;
 			border:none;
 		}
 	}
-	.search_large{
-		margin-top:10px;
-		margin-bottom:5px;
+.search_large{
+margin-top:10px;
+margin-bottom:5px;
 
 
-		.form-control{
-		width:450px;
+.form-control{
+width:450px;
+height:35px;
+border:none;
+
+
+	}
+	button{
 		height:35px;
+		border-radius:0px;
 		border:none;
+	}
+}
+.product_search_large{
+	margin-top:10px;
+	margin-bottom:5px;
 
 
-			}
-			button{
-				height:35px;
-				border-radius:0px;
-				border:none;
-			}
+	.form-control{
+	width:550px;
+	height:35px;
+	border:none;
+	margin-left:40px;
+
 		}
+		button{
+			height:35px;
+			border-radius:0px;
+			border:none;
+		}
+	}
 
 .search_mobile{
 	margin-top:10px;

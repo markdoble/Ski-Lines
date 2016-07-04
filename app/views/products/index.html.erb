@@ -1,64 +1,69 @@
-<!-- Store Front Navbar -->
+<%= render 'navbars/products_navbar' %>
 
-<%= render 'navbars/products_navbar'%>
-
-
-
-<div class="store_background">
+<div class="store_header">
 	<div class="container">
+		<br />
+		<h2>Buy from hundreds of trusted retailers.</h2>
+		<h4>Specializing in outdoor winter sporting goods.</h4>
+		<h4>All in one location.</h4>
 
-		<div class="row">
-	<br /><br /><br /><br /><br /><br /><br /><br /><br />
-	<div class="hidden-xs">
-	<br /><br /><br /><br /><br />
+		<br /><br /><br /><br /><br /><br />
+		<br /><br /><br /><br /><br /><br />
+		<br /><br /><br /><br /><br /><br />
 	</div>
 
-		 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-
-				<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 hidden-xs" style="text-align:center">
-				<%= image_tag('store_logo_bitmap_7.png', width:'60%') %>
-			    <br />
-				</div>
-				<div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1 hidden-lg hidden-md hidden-sm" style="text-align:center">
-				<%= image_tag('store_logo_bitmap_7.png', width:'100%') %>
-			    <br />
-				</div>
-
-		   		    <div class="col-lg-10 col-md-12 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2" >
-
-  		   			   <div class="landing_search ">
-	  		   					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><br />
-			   				        <div class="field input-group col-lg-11 col-md-10 col-sm-12 col-xs-12">
-			   				     		 <%= form_tag("/products/all_products", :method => 'get') do %>
-			   				             <%= text_field_tag :query, params[:query], class:"form-control input-lg", style: "width:80%", placeholder: "Find Products..." %>
-			   				                 <span class="input-group-btn">
-			   				                  <button class="btn btn-default input-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-			   				   		      <% end %>
-			   				                </span>
-			   				   	    </div>
-	  		   					    <div class="quick_links_index col-lg-offset-1 hidden-xs">
-			  		   						<%= link_to("Clothing", products_clothing_url)%> |
-			  		   						<%= link_to("Skis, Boots, Poles", products_hard_goods_url )%> |
-			  		   						<%= link_to("Waxing", products_waxing_url)%> |
-			  		   						<%= link_to("Accessories", products_accessories_url  )%>
-	  		   						  </div><br /><br />
-	  		   					</div>
-  		   				</div>
-
-		   		  	</div>
-
-		 </div>
-
-
-
-
-		 </div>
-
-
-
-
-
-
+</div>
+<div class="container">
+	<div class="product_results col-xs-12">
+		<h4>HARD GOODS</h4>
+		<div class="row">
+			<br />
+			<% @hard_goods.each do |product|%>
+			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<%= render :partial => "products/product", :locals => {:product => product} %>
+			<br />
+			</div>
+			<%end%>
+		</div>
+	</div>
+	<div class="product_results col-xs-12">
+		<h4>CLOTHING</h4>
+		<div class="row">
+			<br />
+			<% @clothing.each do |product|%>
+			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<%= render :partial => "products/product", :locals => {:product => product} %>
+			<br />
+			</div>
+			<%end%>
+		</div>
+	</div>
+	<div class="product_results col-xs-12">
+		<h4>WAXING</h4>
+		<div class="row">
+			<br />
+			<% @waxing.each do |product|%>
+			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<%= render :partial => "products/product", :locals => {:product => product} %>
+			<br />
+			</div>
+			<%end%>
+		</div>
+	</div>
+	<div class="product_results col-xs-12">
+		<h4>ACCESSORIES</h4>
+		<div class="row">
+			<br />
+			<% @accessories.each do |product|%>
+			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<%= render :partial => "products/product", :locals => {:product => product} %>
+			<br />
+			</div>
+			<%end%>
+		</div>
 	</div>
 </div>
+
+<br /><br /><br /><br /><br /><br />
+<br /><br /><br />
+<%= render 'products/footer'%>
