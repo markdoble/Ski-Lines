@@ -53,7 +53,7 @@ class Product < ActiveRecord::Base
   scope :clothing, -> { where(:product_category => ["Clothing Men", "Clothing Kids", "Clothing Women", "Unisex Clothing Accessories"]) }
   scope :waxing, -> { where(product_category: "Waxing") }
   scope :accessories, -> { where(:product_category => ["Accessories"]) }
-  scope :index_products, -> { limit(8) }
+  scope :index_products, -> { limit(4) }
   scope :active_products, -> { includes(:units).where("units.quantity > ?", 0).references(:units).where(:status => "TRUE") }
 
 

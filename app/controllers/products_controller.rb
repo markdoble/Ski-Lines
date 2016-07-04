@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :find_or_create_cart
 
-  
+
 
   def index
     verify_is_merchant
