@@ -39,7 +39,11 @@
 		  	</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right hidden-xs">
-				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
+				<% if @cart.blank? %>
+				 <li class="cart_no_products"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
+				 <%else%>
+				 <li class="cart_with_products"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
+				 <%end%>
 			</ul>
 			<div class="nav navbar-nav hidden-md hidden-sm hidden-xs">
 		     <div class="input-group">
