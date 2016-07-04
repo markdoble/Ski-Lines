@@ -2,14 +2,14 @@
 
 <div class="store_header">
 	<div class="container">
-		<br />
+		<br /><br />
 		<h2>Buy from hundreds of trusted retailers.</h2>
-		<h4>Specializing in outdoor winter sporting goods.</h4>
 		<h4>All in one location.</h4>
+
 
 		<br /><br /><br /><br /><br /><br />
 		<br /><br /><br /><br /><br /><br />
-		<br /><br /><br /><br /><br /><br />
+		<br /><br /><br />
 	</div>
 
 </div>
@@ -17,7 +17,6 @@
 	<div class="product_results col-xs-12">
 		<h4>HARD GOODS</h4>
 		<div class="row">
-			<br />
 			<% @hard_goods.each do |product|%>
 			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<%= render :partial => "products/product", :locals => {:product => product} %>
@@ -25,11 +24,14 @@
 			</div>
 			<%end%>
 		</div>
+		<div class="product_row" >
+				<p style="text-align:right"><%= link_to "See All Hard Goods", products_hard_goods_path %></p>
+		</div>
 	</div>
 	<div class="product_results col-xs-12">
-		<h4>CLOTHING</h4>
+			<h4>CLOTHING</h4>
 		<div class="row">
-			<br />
+
 			<% @clothing.each do |product|%>
 			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<%= render :partial => "products/product", :locals => {:product => product} %>
@@ -37,11 +39,14 @@
 			</div>
 			<%end%>
 		</div>
+		<div class="product_row">
+			<p style="text-align:right"><%= link_to "See All Clothing", products_clothing_path %></p>
+		</div>
 	</div>
 	<div class="product_results col-xs-12">
 		<h4>WAXING</h4>
 		<div class="row">
-			<br />
+
 			<% @waxing.each do |product|%>
 			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<%= render :partial => "products/product", :locals => {:product => product} %>
@@ -49,11 +54,14 @@
 			</div>
 			<%end%>
 		</div>
+		<div class="product_row">
+				<p style="text-align:right"><%= link_to "See All Waxing", products_waxing_path %></p>
+		</div>
 	</div>
 	<div class="product_results col-xs-12">
 		<h4>ACCESSORIES</h4>
 		<div class="row">
-			<br />
+
 			<% @accessories.each do |product|%>
 			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<%= render :partial => "products/product", :locals => {:product => product} %>
@@ -61,9 +69,13 @@
 			</div>
 			<%end%>
 		</div>
+		<div class="product_row">
+				<p style="text-align:right"><%= link_to "See All Accessories", products_accessories_path %></p>
+		</div>
 	</div>
+
 </div>
 
 <br /><br /><br /><br /><br /><br />
-<br /><br /><br />
+
 <%= render 'products/footer'%>

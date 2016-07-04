@@ -2,14 +2,11 @@
 
 <div class="public_product_well">
 	<a href='/cart/"<%= product.id %>"'>
-		<div style="background-image: url(<%=product.photo.url(:medium) %>)" id='<%=product.id%>'>
-			<p><br /></p>
-	
-			<div class="product_text">
-				<h3><%= product.name %></h3>
-				<p><b><%=number_to_currency(product.price, precision: 2)%></b></p>
-				<p class="product_merchant_name"><%= product.user.merchant_name %></p>
-			</div>
+			<%= image_tag(product.photo.url(:medium), class:"img-responsive", width:"100%") %>
+		<div class="product_text">
+			<h3><%= product.name %></h3>
+			<p><b><%=number_to_currency(product.price, precision: 2)%></b></p>
+			<p class="product_merchant_name"><%= product.user.merchant_name %></p>
 		</div>
 	</a>
 </div>
