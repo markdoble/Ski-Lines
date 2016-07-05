@@ -1,32 +1,36 @@
 <!-- Store Page Navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="nav navbar-nav hidden-xs">
-			<li class="dropdown">
-					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('menu_icon.png') %> </a>
-					<ul class="dropdown-menu main_menu" role="menu">
 
-					  <li class="divider" ></li>
-            <li><a style="color:grey">PRODUCT CATEGORIES</a></li>
-						<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
-						<li><%= link_to "CLOTHING", products_clothing_path %></li>
-						<li><%= link_to "WAXING", products_waxing_path %></li>
-						<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
-					  <li class="divider" ></li>
-						<li><a style="color:grey">CUSTOMER SUPPORT</a></li>
-            <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
-            <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
-            <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
-            <li class="divider" ></li>
-            <li><a style="color:grey">MERCHANTS</a></li>
-						<li><%= link_to "MY STORE", admin_products_path %></li>
-						<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
-						<li class="divider"></li>
-						<br /><br /><br /><br />
-					</ul>
-			</li>
-	</div>
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
+			<div class="nav navbar-nav hidden-xs">
+				<li class="dropdown">
+						<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false">
+							<%= image_tag('menu_icon.png') %>
+
+						</a>
+						<ul class="dropdown-menu product_main_menu" role="menu">
+							<div class="col-lg-6">
+	            <li><a style="color:grey">PRODUCT CATEGORIES</a></li>
+							<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
+							<li><%= link_to "CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "WAXING", products_waxing_path %></li>
+							<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
+						  <li class="divider" ></li>
+						</div>
+						<div class="col-lg-6">
+							<li><a style="color:grey">CUSTOMER SUPPORT</a></li>
+	            <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
+	            <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
+	            <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
+	            <li class="divider" ></li>
+	            <li><a style="color:grey">MERCHANTS</a></li>
+							<li><%= link_to "MY STORE", admin_products_path %></li>
+							<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
+						</div>
+						</ul>
+				</li>
+		</div>
 	    <div class="navbar-header">
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 	        <span class="sr-only">Toggle navigation</span>
@@ -39,11 +43,7 @@
 		  	</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right hidden-xs">
-				<% if @cart.blank? %>
-				 <li class="cart_no_products"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
-				 <%else%>
-				 <li class="cart_with_products"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
-				 <%end%>
+				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
 			</ul>
 			<div class="nav navbar-nav hidden-md hidden-sm hidden-xs">
 		     <div class="input-group">
