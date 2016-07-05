@@ -1,36 +1,68 @@
 <!-- Store Page Navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
-
-	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-			<div class="nav navbar-nav hidden-xs">
-				<li class="dropdown">
-						<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false">
-							<%= image_tag('menu_icon.png') %>
-
-						</a>
-						<ul class="dropdown-menu product_main_menu" role="menu">
-							<div class="col-lg-6">
-	            <li><a style="color:grey">PRODUCT CATEGORIES</a></li>
-							<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
-							<li><%= link_to "CLOTHING", products_clothing_path %></li>
-							<li><%= link_to "WAXING", products_waxing_path %></li>
-							<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
-						  <li class="divider" ></li>
+		<div class="nav navbar-nav hidden-xs">
+			<li class="dropdown">
+					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false">
+						<%= image_tag('menu_icon.png') %>
+					</a>
+					<ul class="dropdown-menu product_main_menu" role="menu">
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">HARD GOODS</a></li>
+							<li><%= link_to "SKIS", products_hard_goods_path %></li>
+							<li><%= link_to "BOOTS", products_clothing_path %></li>
+							<li><%= link_to "POLES", products_waxing_path %></li>
+							<br />
 						</div>
-						<div class="col-lg-6">
-							<li><a style="color:grey">CUSTOMER SUPPORT</a></li>
-	            <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
-	            <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
-	            <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
-	            <li class="divider" ></li>
-	            <li><a style="color:grey">MERCHANTS</a></li>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">CLOTHING</a></li>
+							<li><%= link_to "PARKAS", track_orders_my_order_path %></li>
+							<li><%= link_to "SKI CLOTHING", new_complaint_path %></li>
+							<li><%= link_to "CASUAL WEAR", infos_terms_path %></li>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">WAXING</a></li>
+							<li><%= link_to "GRIP WAX", admin_products_path %></li>
+							<li><%= link_to "GLIDE WAX", new_merchant_application_path %></li>
+							<li><%= link_to "WAX ACCESSORIES", new_merchant_application_path %></li>
+							<br />
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">ACCESSORIES</a></li>
+							<li><%= link_to "SKI BAGS", admin_products_path %></li>
+							<li><%= link_to "DUFFEL BAGS", new_merchant_application_path %></li>
+							<li><%= link_to "BACK PACKS", new_merchant_application_path %></li>
+							<br />
+						</div>
+						<div class="col-xs-12">
+							<li class="divider" ></li>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">CUSTOMER SUPPORT</a></li>
+							<li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
+							<li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
+							<li><%= link_to "STORE POLICIES", infos_terms_path %></li>
+							<br />
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-12">
+							<br />
+							<li class="heading"><a style="color:grey">MERCHANTS</a></li>
 							<li><%= link_to "MY STORE", admin_products_path %></li>
 							<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
+							<br />
 						</div>
-						</ul>
-				</li>
+
+					</ul>
+			</li>
 		</div>
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+
 	    <div class="navbar-header">
 	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 	        <span class="sr-only">Toggle navigation</span>
@@ -43,7 +75,7 @@
 		  	</a>
 			</div>
 			<ul class="nav navbar-nav navbar-right hidden-xs">
-				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
+				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <span class="cart_product_number"><%= @cart.count%></span></a></li>
 			</ul>
 			<div class="nav navbar-nav hidden-md hidden-sm hidden-xs">
 		     <div class="input-group">
