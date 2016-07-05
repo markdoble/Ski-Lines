@@ -8,14 +8,11 @@ $(document).ready(function(){
 
   var $right_side_window = $(window);
   $right_side_window.scroll(function(){
-
     if ( $right_side_window.scrollTop() >= (email_digest_subscription_height - 65)) {
         email_digest_subscription_div.addClass('affix');
         right_side_advertisement.hide();
         top_contribs.hide();
         featured_videos_column.hide();
-
-
     } else {
         email_digest_subscription_div.removeClass('affix');
         right_side_advertisement.show();
