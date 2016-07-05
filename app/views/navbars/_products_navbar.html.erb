@@ -8,35 +8,44 @@
 					<ul class="dropdown-menu product_main_menu" role="menu">
 						<div class="col-lg-3 col-md-3 col-sm-12">
 							<br />
-							<li class="heading"><a>HARD GOODS</a></li>
+							<li class="heading"><%= link_to "HARD GOODS", products_hard_goods_path %> </li>
 							<li><%= link_to "SKIS", products_hard_goods_path %></li>
-							<li><%= link_to "BOOTS", products_clothing_path %></li>
-							<li><%= link_to "POLES", products_waxing_path %></li>
-							<br />
+							<li><%= link_to "BOOTS", products_hard_goods_path %></li>
+							<li><%= link_to "POLES", products_hard_goods_path %></li>
+							<br /><br />
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-12">
 							<br />
-							<li class="heading"><a>CLOTHING</a></li>
-							<li><%= link_to "PARKAS", track_orders_my_order_path %></li>
-							<li><%= link_to "SKI CLOTHING", new_complaint_path %></li>
-							<li><%= link_to "CASUAL WEAR", infos_terms_path %></li>
-							<br />
+							<li class="heading"><%= link_to "CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "MEN'S CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "WOMEN'S CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "GLOVES", products_clothing_path %></li>
+							<li><%= link_to "TOQUES", products_clothing_path %></li>
+							<li><%= link_to "SOCKS", products_clothing_path %></li>
+							<li><%= link_to "BUFFS & NECKWARMERS", products_clothing_path %></li>
+							<li><%= link_to "KID'S CLOTHING", products_clothing_path %></li>
+							<br /><br />
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-12">
 							<br />
-							<li class="heading"><a>WAXING</a></li>
-							<li><%= link_to "GRIP WAX", admin_products_path %></li>
-							<li><%= link_to "GLIDE WAX", new_merchant_application_path %></li>
-							<li><%= link_to "WAX ACCESSORIES", new_merchant_application_path %></li>
-							<br />
+							<li class="heading"><%= link_to "WAXING", products_waxing_path %></li>
+							<li><%= link_to "GRIP", products_waxing_path %></li>
+							<li><%= link_to "GLIDE", products_waxing_path %></li>
+							<li><%= link_to "TOOLS & ACCESSORIES", products_waxing_path %></li>
+							<br /><br />
 						</div>
 						<div class="col-lg-3 col-md-3 col-sm-12">
 							<br />
-							<li class="heading"><a>ACCESSORIES</a></li>
-							<li><%= link_to "SKI BAGS", admin_products_path %></li>
-							<li><%= link_to "DUFFEL BAGS", new_merchant_application_path %></li>
-							<li><%= link_to "BACK PACKS", new_merchant_application_path %></li>
-							<br />
+							<li class="heading"><%= link_to "ACCESSORIES", products_accessories_path %></li>
+							<li><%= link_to "SKI BAGS", products_accessories_path %></li>
+							<li><%= link_to "DUFFEL BAGS", products_accessories_path %></li>
+							<li><%= link_to "BACK PACKS", products_accessories_path %></li>
+							<li><%= link_to "DRINKBELTS", products_accessories_path %></li>
+							<li><%= link_to "NUTRITION", products_accessories_path %></li>
+							<li><%= link_to "SUNGLASSES & GOGGLES", products_accessories_path %></li>
+							<li><%= link_to "BOOT COVERS", products_accessories_path %></li>
+							<li><%= link_to "BINDINGS", products_accessories_path %></li>
+							<br /><br />
 						</div>
 					</ul>
 			</li>
