@@ -1,119 +1,67 @@
-<div class="store_hg_background">
-		<br /><br /><br /><br /><br />
-		<div class="container">
+<br /><br /><br />
+	<div class="container">
 			<div class="row">
-
-				 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-					 <div class="dropdown_for_filter col-lg-4 col-md-4 col-sm-4 col-xs-12">
-						 <div class="dropdown">
-						   <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">FILTER OPTIONS
-						   <span class="caret"></span></button>
-						   <ul class="dropdown-menu">
-		 			        <%= form_tag(products_hard_goods_path, method: "get") do %>
-
-		 						<h4>Skis:</h4>
-
-		 			        <li><%= radio_button_tag(:sbp, "Skate Skis Performance", params[:sbp] == "Skate Skis Performance") %>
-		 			           <%= label_tag(:sbp, "Performance Skate Skis") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Skate Skis Racing", params[:sbp] == "Skate Skis Racing" ) %>
-		 			           <%= label_tag(:sbp, "Racing Skate Skis") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Classic Touring Skis", params[:sbp] == "Classic Touring Skis") %>
-		 			           <%= label_tag(:sbp, "Classic Touring Skis") %></li>
-
- 		 			        <li><%= radio_button_tag(:sbp, "Classic Racing Skis", params[:sbp] == "Classic Racing Skis") %>
- 		 			           <%= label_tag(:sbp, "Classic Racing Skis") %></li>
-
- 		 			        <li><%= radio_button_tag(:sbp, "Classic Performance Skis", params[:sbp] == "Classic Performance Skis") %>
- 		 			           <%= label_tag(:sbp, "Classic Performance Skis") %></li>
-
- 		 			        <li><%= radio_button_tag(:sbp, "Combi Skis", params[:sbp] == "Combi Skis") %>
- 		 			           <%= label_tag(:sbp, "Combi Skis") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Kids Skis", params[:sbp] == "Kids Skis") %>
-		 			           <%= label_tag(:sbp, "Kids' Skis") %></li>
-
-
-							   <h4>Boots:</h4>
-
-		 			        <li><%= radio_button_tag(:sbp, "Skate Racing Boots", params[:sbp] == "Skate Racing Boots") %>
-		 			           <%= label_tag(:sbp, "Skate Racing Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Skate Performance Boots", params[:sbp] == "Skate Performance Boots") %>
-		 			           <%= label_tag(:sbp, "Skate Performance Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Skate Entry Level Boots", params[:sbp] == "Skate Entry Level Boots") %>
-		 			           <%= label_tag(:sbp, "Skate Entry Level Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Classic Touring Boots", params[:sbp] == "Classic Touring Boots") %>
-		 			           <%= label_tag(:sbp, "Classic Touring Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Classic Performance Boots", params[:sbp] == "Classic Performance Boots") %>
-		 			           <%= label_tag(:sbp, "Classic Performance Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Classic Racing Boots", params[:sbp] == "Classic Racing Boots") %>
-		 			           <%= label_tag(:sbp, "Classic Racing Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Combi Boots", params[:sbp] == "Combi Boots") %>
-		 			           <%= label_tag(:sbp, "Combi Boots") %></li>
-
-		 			        <li><%= radio_button_tag(:sbp, "Kids Boots", params[:sbp] == "Kids Boots") %>
-		 			           <%= label_tag(:sbp, "Kids Boots") %></li>
-
-
-   							   <h4>Poles:</h4>
-
-   		 			        <li><%= radio_button_tag(:sbp, "Racing Poles", params[:sbp] == "Racing Poles") %>
-   		 			           <%= label_tag(:sbp, "Racing Poles") %></li>
-
-   		 			        <li><%= radio_button_tag(:sbp, "Performance Poles", params[:sbp] == "Performance Poles") %>
-   		 			           <%= label_tag(:sbp, "Performance Poles") %></li>
-
-   		 			        <li><%= radio_button_tag(:sbp, "Touring Poles", params[:sbp] == "Touring Poles") %>
-   		 			           <%= label_tag(:sbp, "Touring Poles") %></li>
-
+					 <div class="product_filter col-lg-3 col-md-3 col-sm-3 col-xs-12">
+						 <div class="affix">
+						 		<br /><br />
+	 			        <%= form_tag(products_hard_goods_path, method: "get") do %>
+		 						<h4>SKIS</h4>
+	 			        <%= radio_button_tag(:sbp, "Skate Skis Performance", params[:sbp] == "Skate Skis Performance") %>
+	 			           <%= label_tag(:sbp, "Performance Skate Skis") %><br />
+	 			        <%= radio_button_tag(:sbp, "Skate Skis Racing", params[:sbp] == "Skate Skis Racing" ) %>
+	 			           <%= label_tag(:sbp, "Racing Skate Skis") %><br />
+	 			        <%= radio_button_tag(:sbp, "Classic Touring Skis", params[:sbp] == "Classic Touring Skis") %>
+	 			           <%= label_tag(:sbp, "Classic Touring Skis") %><br />
+		 			        <%= radio_button_tag(:sbp, "Classic Racing Skis", params[:sbp] == "Classic Racing Skis") %>
+		 			           <%= label_tag(:sbp, "Classic Racing Skis") %><br />
+		 			        <%= radio_button_tag(:sbp, "Classic Performance Skis", params[:sbp] == "Classic Performance Skis") %>
+		 			           <%= label_tag(:sbp, "Classic Performance Skis") %><br />
+		 			        <%= radio_button_tag(:sbp, "Combi Skis", params[:sbp] == "Combi Skis") %>
+		 			           <%= label_tag(:sbp, "Combi Skis") %><br />
+	 			        <%= radio_button_tag(:sbp, "Kids Skis", params[:sbp] == "Kids Skis") %>
+	 			           <%= label_tag(:sbp, "Kids' Skis") %><br /><br />
+						   <h4>BOOTS</h4>
+	 			        <%= radio_button_tag(:sbp, "Skate Racing Boots", params[:sbp] == "Skate Racing Boots") %>
+	 			           <%= label_tag(:sbp, "Skate Racing Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Skate Performance Boots", params[:sbp] == "Skate Performance Boots") %>
+	 			           <%= label_tag(:sbp, "Skate Performance Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Skate Entry Level Boots", params[:sbp] == "Skate Entry Level Boots") %>
+	 			           <%= label_tag(:sbp, "Skate Entry Level Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Classic Touring Boots", params[:sbp] == "Classic Touring Boots") %>
+	 			           <%= label_tag(:sbp, "Classic Touring Boots") %><br />
+								<%= radio_button_tag(:sbp, "Classic Performance Boots", params[:sbp] == "Classic Performance Boots") %>
+	 			           <%= label_tag(:sbp, "Classic Performance Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Classic Racing Boots", params[:sbp] == "Classic Racing Boots") %>
+	 			           <%= label_tag(:sbp, "Classic Racing Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Combi Boots", params[:sbp] == "Combi Boots") %>
+	 			           <%= label_tag(:sbp, "Combi Boots") %><br />
+	 			        <%= radio_button_tag(:sbp, "Kids Boots", params[:sbp] == "Kids Boots") %>
+	 			           <%= label_tag(:sbp, "Kids Boots") %><br /><br />
+   							<h4>POLES</h4>
+		 			      <%= radio_button_tag(:sbp, "Racing Poles", params[:sbp] == "Racing Poles") %>
+			          	 <%= label_tag(:sbp, "Racing Poles") %><br />
+	 			        <%= radio_button_tag(:sbp, "Performance Poles", params[:sbp] == "Performance Poles") %>
+	 			           <%= label_tag(:sbp, "Performance Poles") %><br />
+	 			        <%= radio_button_tag(:sbp, "Touring Poles", params[:sbp] == "Touring Poles") %>
+	 			           <%= label_tag(:sbp, "Touring Poles") %><br />
 							   <br />
-
-		 					<%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %>
-
+		 						<%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %><br />
+								<%= link_to "All Hard Goods", products_hard_goods_path, :class => "filter_button btn btn-primary" %>
 		 			         <% end %>
-						   </ul>
-						 </div>
-						 <br />
+									<br /><br /><br /><br /><br />
+							</div>
 					 </div>
-
-					 <div class="search_bar col-lg-8 col-md-8 col-sm-8 col-xs-12">
-
-					    <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-					  		 <%= form_tag("/products/hard_goods", :method => 'get', id: "search-form") do %>
-					          <%= text_field_tag :query, params[:query], class:"form-control input-lg", placeholder: "Search Skis, Boots and Poles", style: "width:85%" %>
-					        <div class="input-group-btn">
-					          <button class="btn btn-default input-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-					          <% end %>
-					        </div>
-						 </div>
-				 	</div>
-					<div class="product_results col-xs-12">
-						<div class="row">
+ 					 <div class="product_results col-lg-9 col-md-9 col-sm-9 col-xs-12">
+					   <div class="row">
 					    <br />
-						<% @hard_goods.each do |product|%>
-						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-						<%= render :partial => "products/product", :locals => {:product => product} %>
-						<br />
-						</div>
-						<%end%>
-					</div>
-					</div>
-
-				 </div>
-
-
+							<% @hard_goods.each do |product|%>
+								<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+									<%= render :partial => "products/product", :locals => {:product => product} %>
+									<br />
+								</div>
+								<%end%>
+						  </div>
+					  </div>
 		 	</div>
-
-
 		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-		</div>
-
-</div>
+	</div>
