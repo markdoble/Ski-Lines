@@ -74,10 +74,7 @@
 			 		<%= image_tag('store_logo_bitmap.png', height:'25px') %>
 		  	</a>
 			</div>
-			<ul class="nav navbar-nav navbar-right hidden-xs">
-				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <span class="cart_product_number"><%= @cart.count%></span></a></li>
-			</ul>
-			<div class="nav navbar-nav hidden-md hidden-sm hidden-xs">
+			<div class="nav navbar-nav hidden-sm hidden-xs">
 		     <div class="input-group">
 		 		  <div class="product_search_large">
 		  		 <%= form_tag(products_all_products_path, :method => 'get', id: "search-form") do %>
@@ -87,6 +84,11 @@
 		       </div>
 				 </div>
 			</div>
+			<ul class="nav navbar-nav navbar-right hidden-xs">
+				 <li class="country_flag_container"><a>MY COUNTRY: <span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
+				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="cart_product_number"><%= @cart.count%></span></a></li>
+			</ul>
+
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
