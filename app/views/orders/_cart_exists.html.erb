@@ -223,17 +223,15 @@
 					<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 						<br /><br />
 						<div class="merchant_form_headings"><h2>4. Complete Payment:</h2><p><i>*Credit card transactions are processed and stored by Braintree, a trusted subsidiary of PayPal.</i></p></div>
-
-						<div  class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<%@client_token = Braintree::ClientToken.generate%>
-							  <div id="dropin"></div>
-							  <br /><br />
-							   <%= f.submit "PURCHASE", class: "btn btn-primary btn-large purchase_button" %>
-							    <%end%>
-						</div>
-
+						<%@client_token = Braintree::ClientToken.generate%>
+						<div id="dropin"></div>
 					</div>
 					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+					</div>
+					<div  class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<br /><br />
+							 <%= f.submit "PURCHASE", class: "btn btn-primary btn-large purchase_button" %>
+								<%end%>
 					</div>
 				</div>
 			</div>
