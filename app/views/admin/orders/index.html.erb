@@ -1,1 +1,170 @@
-<h2>Admin Orders Index</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+	<div class="merchant_title">
+		<div class="row">
+	        <h3><%= current_user.merchant_name%> </h3>
+        	<h4><i>Orders</i></h4>
+	    </div>
+	</div>
+	<br />
+
+<% if @order.any? %>
+	<div class="admin_performance">
+		<table style="width:100%">
+			<tr>
+				<th>Order ID</th>
+				<th>Date</th>
+				<th>Customer</th>
+				<th>Address</th>
+
+				<th>Subtotal</th>
+				<th>Shipping</th>
+				<th>Tax</th>
+				<th>Total</th>
+
+
+				<th>Order Status</th>
+				<th>Customer Comments</th>
+
+			</tr>
+		<% @order.uniq.each do |f| %>
+		<% user_product_units = []%>
+			<% f.order_units.where.not(quantity: 0).each do |p|%>
+				<% unless p.unit.nil? %>
+					<% if p.unit.product.user_id == current_user.id %>
+					<% user_product_units << p %>
+					<%else %><%next%>
+					<%end%>
+				<%end%>
+			<%end%>
+			<tr >
+				<td><%= f.id %></td>
+				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
+				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
+				<td><%= f.street_address %>, <%= f.city %><br /><%= f.prov_state %>, <%=f.country %><br /><%= f.postal_zip %></td>
+				<% tax = 0 %>
+				<% shipping = 0 %>
+				<% subtotal = 0 %>
+
+				<% user_product_units.each do |p|  %>
+					<% f.merchant_orders.where(product_id: p.unit.product.id).each do |m_o| %>
+						<% shipping += admin_shipping_calc(m_o, p) %>
+						<% tax += admin_tax_calc(m_o, p) %>
+					<%end%>
+					<% subtotal += (p.unit.product.price*p.quantity)%>
+				<%end%>
+
+				<% total = subtotal + shipping + tax %>
+
+				<td><%= number_to_currency(subtotal, unit: '$')%></td>
+				<td> <%= number_to_currency(shipping, unit: '$') %></td>
+				<td> <%= number_to_currency(tax, unit: '$')%></td>
+				<td> <%= number_to_currency(total, unit: '$') %></td>
+
+
+
+
+
+
+
+				<td>
+				<% merchant_order_products = [] %>
+				<% user_product_units.each do |m|  %>
+					<% merchant_order_products << m.unit.product.id %>
+				<%end%>
+
+
+					<%= form_for [:admin, f] do |p| %>
+
+						<%= p.fields_for :merchant_orders do |ff| %>
+
+							<% if merchant_order_products.include?(ff.object.product_id) %>
+							<% if ff.object.order_status == true %>
+					<div class="form_for_merchant_order_false">
+
+							<%else%>
+					<div class="form_for_merchant_order_true">
+							<%end%>
+
+								<% user_product_units.each_with_index do |m, index|%>
+
+									<% if m.unit.product.id == ff.object.product_id  %>
+
+									<br />
+									<p><b><%= m.unit.product.name %></b></p>
+										<% if m.unit.size != 'n/a' and m.unit.colour != 'n/a'%>
+										Size: <%= m.unit.size %><br />
+										Colour: <%= m.unit.colour %><br />
+										<%elsif m.unit.size == 'n/a' and m.unit.colour != 'n/a'%>
+										Colour: <%= m.unit.colour %><br />
+										<%elsif m.unit.size != 'n/a' and m.unit.colour == 'n/a'%>
+										Size: <%= m.unit.size %><br />
+										<%else%>
+										<%end%>
+									Quantity: <%= m.quantity %><br />
+									<%end%>
+								<%end%>
+
+
+
+
+						<br />
+							<% if ff.object.delivery_method == "Standard Shipping" %>
+							<%= ff.label :order_status, 'Sent for delivery?'%>
+							<%else%>
+							<%= ff.label :order_status, 'Ready for pick-up?'%>
+							<%end%>
+							<%= ff.check_box :order_status %><br /><br />
+
+
+
+
+
+							<%end%>
+						</div>
+						<%end%>
+
+						<%= p.submit "Save Changes", class: "btn btn-primary", data: { confirm: 'Are you sure you want to confirm that you have filled this order?' }%>
+					<%end%>
+
+
+
+
+				</td>
+				<td>
+					<% user_product_units.each do |p| %>
+						<% f.merchant_orders.where(product_id: p.unit.product.id).each do |m|%>
+							<b><%= p.unit.product.name%></b><br />
+							<% if p.unit.size != 'n/a' and p.unit.colour != 'n/a'%>
+							<%= p.quantity %> X <%= p.unit.size %>, <%= p.unit.colour %><br />
+							<%elsif p.unit.size == 'n/a' and p.unit.colour != 'n/a'%>
+							<%= p.quantity %> X <%= p.unit.colour %><br />
+							<%elsif p.unit.size != 'n/a' and p.unit.colour == 'n/a'%>
+							<%= p.quantity %> X <%= p.unit.size %><br />
+							<%else%>
+							<%end%>
+
+							Customer Comment: <br /><%= m.customer_comments %><br /><br />
+						<%end%>
+					<%end%>
+				</td>
+
+
+
+		<%end%>
+
+			</tr>
+
+		</table>
+
+	</div>
+
+	<%else%>
+	<div class="merchant_title">
+	<i>You currently have no orders. <br />As soon as your orders are placed, they will appear here for your review. </i>
+	</div>
+	<%end%>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+</div>
