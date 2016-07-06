@@ -1,17 +1,17 @@
 module Admin::OrderHelper
 
   def merchant_order_units(order)
-    merchant_order_units = []
-      order.order_units.where.not(quantity: 0).each do |u|
-        unless u.unit.nil?
-          if u.unit.product.user.id == current_user.id
-            merchant_order_units << u
+      merchant_order_units = []
+      order.order_units.where.not(quantity: 0).each do |p|
+        unless p.unit.nil?
+          if p.unit.product.user.id == current_user.id
+            merchant_order_units << p
           else
             next
           end
         end
       end
-    merchant_order_units
+    @merchant_order_units = merchant_order_units
   end
 
   def admin_shipping_calc(m_o, p)

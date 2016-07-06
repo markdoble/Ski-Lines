@@ -6,13 +6,22 @@ class Admin::OrdersController < ApplicationController
 
 
   def index
-   @orders = Order.all.verified
-   @order = current_user.orders.verified.order("created_at DESC")
+   @orders = current_user.orders.verified.order("created_at DESC")
+    user_product_units = []
+     @orders.uniq.each do |f|
+       f.order_units.where.not(quantity: 0).each do |p|
+           unless p.unit.nil?
+             if p.unit.product.user_id == current_user.id
+             user_product_units << p
+             else next
+             end
+           end
+       end
+     end
+     @merchant_units = user_product_units
   end
 
   def show
-    verify_is_admin
-    verify_is_merchant
       @order = Order.find(params[:id])
       if @order.transaction_id
         @transaction = Braintree::Transaction.find(@order.transaction_id)
@@ -23,10 +32,10 @@ class Admin::OrdersController < ApplicationController
     @order = Order.find(params[:id])
     respond_to do |format|
     if @order.update(order_params)
-        format.html {redirect_to admin_orders_myperformance_url}
+        format.html {redirect_to admin_orders_url}
         format.json {respond_with_bip(@order) }
       else
-     redirect_to admin_orders_myperformance_url
+     redirect_to admin_orders_url
      end
    end
   end
