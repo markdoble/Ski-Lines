@@ -11,7 +11,7 @@
 <% if @orders.any? %>
 	<div class="admin_performance">
 		<table style="width:100%">
-			<tr>
+			<tr class="table_header">
 				<th>Order ID</th>
 				<th>Date</th>
 				<th>Customer</th>
@@ -21,11 +21,10 @@
 				<th>Tax</th>
 				<th>Total</th>
 				<th>Order Status</th>
-
 			</tr>
 		<% @orders.uniq.each do |f| %>
 		  <% merchant_order_units(f)%>
-			<tr >
+			<tr class="table_body">
 				<td><%= link_to f.id, admin_order_path(f) %></td>
 				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
 				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
@@ -41,26 +40,16 @@
 					<%end%>
 					<% subtotal += (p.unit.product.price*p.quantity)%>
 				<%end%>
-
 				<% total = subtotal + shipping + tax %>
 
 				<td><%= number_to_currency(subtotal, unit: '$')%></td>
 				<td> <%= number_to_currency(shipping, unit: '$') %></td>
 				<td> <%= number_to_currency(tax, unit: '$')%></td>
 				<td> <%= number_to_currency(total, unit: '$') %></td>
-				<td>
-					Either "Action Required", or "Order Filled"
-				</td>
-
-
-
-
-		<%end%>
-
+				<td><%= link_to order_status_indicator(f), admin_order_path(f) %></td>
+				<%end%>
 			</tr>
-
 		</table>
-
 	</div>
 
 	<%else%>
