@@ -75,4 +75,13 @@ module Admin::OrderHelper
     @taxable_amount*@tax_rate
   end
 
+  def order_status_indicator(f)
+    if f.merchant_orders.where(user_id: current_user.id).map{|e| e.order_status}.include? false
+      status = "Action Required"
+    else
+      status ="Order Filled"
+    end
+    status
+  end
+
 end
