@@ -22,7 +22,7 @@
 		<% @order.each_with_index do |f, index| %>
 			<tr>
 				<td><%= index+1%></td>
-				<td><%= link_to f.id, admin_order_path(f) %></td>
+				<td><%= link_to f.id, admin_all_order_path(f) %></td>
 				<td><%= (f.success == true) ? "Success" : "Failed" %></td>
 				<td><%= f.created_at.strftime("%b %d, %Y at %H:%M") %></td>
 				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>

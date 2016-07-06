@@ -2,27 +2,12 @@ class Admin::OrdersController < ApplicationController
   layout "store_merchant_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :verify_is_merchant
 
 
   def index
-   verify_is_admin
-  end
-
-  def merchants
-    verify_is_admin
-    @merchants = User.merchants
-  end
-
-
-  def all_orders
-    verify_is_admin
-    @order = Order.all.order("created_at DESC")
-  end
-
-  def myperformance
-    verify_is_merchant
-    @orders = Order.all.verified
-    @order = current_user.orders.verified.order("created_at DESC")
+   @orders = Order.all.verified
+   @order = current_user.orders.verified.order("created_at DESC")
   end
 
   def show

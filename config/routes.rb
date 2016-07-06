@@ -63,16 +63,14 @@ Rails.application.routes.draw do
   resources :user_feedback_answers, :except => [:index, :show]
 
   namespace :admin do
-    get 'orders/myperformance'
     get 'products/hard_goods'
     get 'products/clothing'
     get 'products/waxing'
     get 'products/accessories'
-    get 'orders/all_orders'
-    get 'orders/merchants'
-    get 'orders/index'
+    get 'all_orders/merchants'
     resources :products
     resources :articles, :except => [:show]
+    resources :all_orders
     resources :orders
     resources :product_categories
     resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]
