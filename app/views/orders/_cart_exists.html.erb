@@ -117,10 +117,8 @@
 									</div>
 									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 							    <%= f.select :prov_state, grouped_options_for_select(prov_state, f.object.prov_state), class: "province_state_select", :prompt => '*Province/State' %>
-
 									</div>
 								</div>
-
 								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
 								    <%= f.label :postal_zip, "Zip/Postal:"   %>
@@ -128,16 +126,9 @@
 									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								    <%= f.text_field :postal_zip, class: "form-control", placeholder: "*Zip/Postal Code" %>
 									</div>
-
-
-
 									<%= f.hidden_field :sales_tax, :id => "hiddenTax" %>
 									<%= f.hidden_field :shipping, :id => "hiddenShipping" %>
 									<%= f.hidden_field :amount, :id => "finalTotal" %>
-
-
-
-
 									<br />
 								</div>
 							</div>
