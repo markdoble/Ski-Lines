@@ -84,4 +84,18 @@ module Admin::OrderHelper
     status
   end
 
+  def merchant_order_products(order)
+    merchant_order_product_array = []
+    order.order_units.where.not(quantity: 0).each do |p|
+      unless p.unit.nil?
+        if p.unit.product.user.id == current_user.id
+          merchant_order_product_array << p.unit.product
+        else
+          next
+        end
+      end
+    end
+  @merchant_order_products = merchant_order_product_array.uniq
+  end
+
 end
