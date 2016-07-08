@@ -50,32 +50,7 @@
 	    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";
 	    fjs.parentNode.insertBefore(js, fjs);
 	  }(document, 'script', 'facebook-jssdk'));
-
 </script>
-	<script>      // 2. This code loads the IFrame Player API code asynchronously.
-	      var tag = document.createElement('script');
-	      tag.src = "http://www.youtube.com/player_api";
-	      var firstScriptTag = document.getElementsByTagName('script')[0];
-	      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-	      // 3. This function creates an iframe> (and YouTube player)
-	      //    after the API code downloads.
-	      var player;
-	      function onYouTubePlayerAPIReady() {
-	        player = new YT.Player('player', {
-	          playerVars: { 'autoplay': 1, 'controls': 1,'autohide':1,'wmode':'opaque' },
-	          videoId: 'JW5meKfy3fY',
-	          events: {
-	            'onReady': onPlayerReady}
-	        });
-	      }
-
-	      // 4. The API will call this function when the video player is ready.
-	      function onPlayerReady(event) {
-	        event.target.mute();
-	      }
-	</script>
-
 	<%= render 'navbars/articles_navbar' %>
 <% if @landing_page %>
 <div class="full_page_features hidden-md hidden-sm hidden-xs">

@@ -1,12 +1,7 @@
 module ArticlesHelper
 
   def youtube_embed(location)
-    youtube_id = location.split("=").last
-    %Q{<iframe width="100%" height="325" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
-  end
-  def featured_youtube_embed(location)
-    youtube_id = location.split("=").last
-    %Q{<iframe width="100%" height="195px" src="http://www.youtube.com/embed/#{ youtube_id }" frameborder="0" allowfullscreen></iframe>}
+    location.split("=").last
   end
 
   # Used to select newsfeed articles
