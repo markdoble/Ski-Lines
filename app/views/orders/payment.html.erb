@@ -1,5 +1,48 @@
+<div class="container">
 <% if @order_session == nil %>
   <h2>You have no items in your Cart.</h2>
 <%else%>
-  <%= render :partial => "orders/order_session" %>
+      <%= form_for @order, :url => orders_transaction_path do |f| %>
+      <div class="row">
+          <div class="col-lg-3 col-md-3 col-sm-2 hidden-xs">
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+            <br />
+            <div class="merchant_form_headings">
+              <h2>4. Complete Payment:</h2>
+              <p><i>*Credit card transactions are processed and stored by Braintree, a trusted subsidiary of PayPal.</i></p>
+            </div>
+            <div class="merchant_order_products">
+              <!-- List out the complete order details here -->
+            </div>
+            <br />
+            <% @client_token = Braintree::ClientToken.generate %>
+            <div id="dropin"></div>
+            <div  class="order_form_button">
+                <br /><br />
+                 <%= f.submit "PURCHASE", class: "btn btn-primary btn-large purchase_button" %>
+                 <br /><br /><br /><br />
+                 <br /><br /><br /><br />
+                 <br /><br /><br /><br />
+                 <br /><br /><br /><br />
+                 <br /><br /><br /><br />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-2 hidden-xs">
+          </div>
+        </div>
+      <%end%>
+    <script type="text/javascript">
+      function setupBT() {
+        braintree.setup("<%=@client_token%>", 'dropin', {
+          container: 'dropin'
+        });
+      }
+      if (window.addEventListener)
+        window.addEventListener("load", setupBT, false);
+      else if (window.attachEvent)
+        window.attachEvent("onload", setupBT);
+      else window.onload = setupBT;
+   </script>
 <%end%>
+</div>

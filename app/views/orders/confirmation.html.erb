@@ -1,0 +1,5 @@
+<% if @order_success == nil %>
+  <h2>You have no items in your Cart.</h2>
+<%else%>
+  <%= render :partial => "orders/order_session" %>
+<%end%>

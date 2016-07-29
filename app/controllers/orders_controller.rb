@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update]
+  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment, :transaction]
 
 
 # Cart FUnctions
@@ -66,7 +66,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         create_order_session
-        format.html { redirect_to orders_payment_path }
+        format.html { redirect_to orders_payment_path(@order) }
         format.json {render json: @order }
       else
         format.html { render action: 'edit' }
@@ -76,15 +76,21 @@ class OrdersController < ApplicationController
   end
 
   def payment
-    @order = Order.find(params[:id])
+    # if there is an order session, render the credit card payment form
     if session[:order_session]
+        # session order expiry is 180sec past order creation time.
         if session[:order_expiry] < Time.current
           session.delete(:order_session)
           session.delete(:order_expiry)
+          @order_session = nil
+          redirect_to :action => :index
         else
             @order_session = session[:order_session]
+            @order = Order.find_by_id(@order_session)
         end
     else
+      # if no order session, redirect to cart page.
+      redirect_to :action => :index
       @order_session = nil
     end
   end
@@ -215,7 +221,7 @@ class OrdersController < ApplicationController
 
       def create_order_session
         session[:order_session] = @order.id
-        session[:order_expiry] = Time.current + 30
+        session[:order_expiry] = Time.current + 500
       end
 
       def verify_amount(order)
