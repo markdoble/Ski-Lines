@@ -55,6 +55,28 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
+  end
+
+  def edit
+    @order = Order.find(params[:id])
+  end
+
+  def create
+    @order = Order.new(order_params)
+    respond_to do |format|
+      if @order.save
+        create_order_session
+        format.html { redirect_to orders_payment_path }
+        format.json {render json: @order }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def payment
+    @order = Order.find(params[:id])
     if session[:order_session]
         if session[:order_expiry] < Time.current
           session.delete(:order_session)
@@ -67,12 +89,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def edit
-    @order = Order.find(params[:id])
-  end
-
-  def create
-    @order = Order.new(order_params)
+  def transaction
     nonce = params[:payment_method_nonce]
     amount = '%.2f' % @order.amount.to_s
     @transaction = Braintree::Transaction.sale(
@@ -84,38 +101,32 @@ class OrdersController < ApplicationController
     )
     @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
-        if @transaction.success?
-            if @order.save
-                if verify_amount(@order)
-                  create_order_session
-                  update_inventory(@order)
-                  order_emails(@order)
-                  @order.update_attributes(success: true)
-                  format.html { redirect_to cart_path }
-                  format.json {render json: @order }
-                  session[:cart] = nil
-                else
-                  @order.update_attributes(success: false)
-                  Braintree::Transaction.void(@transaction.transaction.id)
-                  format.html { render action: 'edit' }
-                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                  format.json { render json: @order.errors, status: :unprocessable_entity }
-                end
-            else
-              @order.update_attributes(success: false)
-              Braintree::Transaction.void(@transaction.transaction.id)
-              format.html { render action: 'edit' }
-              format.json { render json: @order.errors, status: :unprocessable_entity }
-            end
-        else
-          @order.update_attributes(success: false)
-          format.html { render action: 'edit' }
-          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
-          format.json { render json: @order.errors, status: :unprocessable_entity }
-        end
+      if @transaction.success?
+        update_inventory(@order)
+        order_emails(@order)
+        @order.update_attributes(success: true)
+        session[:cart] = nil
+        format.html { redirect_to cart_path }
+        format.json {render json: @order }
+      else
+        @order.update_attributes(success: false)
+        Braintree::Transaction.void(@transaction.transaction.id)
+        flash[:error] = "There was a problem processing your payment. Please try again!"
+        redirect_to orders_payment_path
+      end
+    end
+
+    if verify_amount(@order)
+      format.html { redirect_to cart_path }
+      format.json {render json: @order }
+      session[:cart] = nil
+    else
     end
   end
 
+  def confirmation
+
+  end
 
   def update
     @order = Order.find(params[:id])
