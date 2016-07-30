@@ -19,9 +19,17 @@ Rails.application.routes.draw do
   get '/new_subscriber' => 'email_digests#new_subscriber'
   resources :email_digests
 
-  get '/new_transaction' => 'orders#transaction'
-  get '/orders/payment'
-  resources :orders, :except => [:show, :index]
+  get 'orders/customer_details_form'
+  get 'orders/payment_form'
+  get 'orders/confirmation'
+  resources :orders, :except => [:show] do
+    member do
+      patch :create_customer_details
+      put :create_customer_details
+      patch :create_payment
+      put :create_payment
+    end
+  end
 
   root 'articles#cross_country'
 

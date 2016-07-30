@@ -4,9 +4,7 @@
 		<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
 		</div>
 		<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
-			<% order = Order.find_by_id(@order_session)%>
-			
-			<h3 style="text-align:center">Thank you for your order, <%= order.cust_first_name%>! </h3>
+			<h3 style="text-align:center">Thank you for your order, <%= @order.cust_first_name%>! </h3>
 			<p style="text-align:center">Please review your order details below. If you have any questions or concerns, reach out to the seller at their contact details listed below. </p>
 			<br />
 			<div style="text-align:center">
@@ -17,24 +15,24 @@
 				<h4><b>Customer Details:</b></h4>
 			</div>
 			<div class="purchase_order_show">
-				Order No.: <%= order.id%><br />
-				Order Date: <%= order.created_at.strftime("%B %-d, %Y at %l:%M%P %Z") %><br /><br />
-				Customer Name: <%= order.cust_first_name%> <%= order.cust_last_name%> <br />
-				Customer Email: <%= order.cust_email %>
-				
+				Order No.: <%= @order.id%><br />
+				Order Date: <%= @order.created_at.strftime("%B %-d, %Y at %l:%M%P %Z") %><br /><br />
+				Customer Name: <%= @order.cust_first_name%> <%= @order.cust_last_name%> <br />
+				Customer Email: <%= @order.cust_email %>
+
 				Shipping Address:<br />
-				<%= order.street_address %><br />
-				<%= order.city%>, <%= order.prov_state %>, <%= order.country%><br />
-				<%= order.postal_zip%><br />
-				
-				
+				<%= @order.street_address %><br />
+				<%= @order.city%>, <%= @order.prov_state %>, <%= @order.country%><br />
+				<%= @order.postal_zip%><br />
+
+
 			</div>
 			<div class="merchant_form_headings">
 				<h4><b>Purchased Items:</b></h4>
 			</div>
 			<div class="purchase_order_show">
-				
-				<% order.order_units.where.not(quantity: 0).each do |f|%>
+
+				<% @order.order_units.where.not(quantity: 0).each do |f|%>
 				<div class="order_show_product">
 				<h5><%= f.unit.product.name %></h5>
 				<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
@@ -47,12 +45,12 @@
 					<%else%>
 					<%end%>
 				<br />
-					<b>Merchant Details:</b><br /> 
+					<b>Merchant Details:</b><br />
 					Store: <%= link_to f.unit.product.user.merchant_name, f.unit.product.user.merchant_url %><br />
-					Email: <%= f.unit.product.user.email%><br /> 
+					Email: <%= f.unit.product.user.email%><br />
 					Phone: <%= f.unit.product.user.merchant_phone %><br />
-					<% order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %> 
-			
+					<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
+
 						<% if s.delivery_method == "Standard Shipping"%>
 							Delivery Method: <%= s.delivery_method%><br />
 							Shipping From: <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br /><br />
@@ -64,31 +62,31 @@
 							Customer Comments: <%= s.customer_comments %><br /><br />
 							<%end%>
 					<%end%>
-					
+
 				</div>
 				<%end%>
-				
-			
+
+
 			</div>
 			<div class="merchant_form_headings">
 				<h4><b>Payment Details:</b></h4>
 			</div>
 			<div class="purchase_order_show">
-				<% subtotal = order.amount-order.sales_tax-order.shipping %>
+				<% subtotal = @order.amount-@order.sales_tax-@order.shipping %>
 
 				Sub-total: <%= number_to_currency(subtotal, unit: '$')%><br />
-				Total Shipping: <%= number_to_currency(order.shipping, unit: '$') %><br />
-				Total Sales Tax: <%= number_to_currency(order.sales_tax, unit: '$') %><br />
-				<b>Total: <%= number_to_currency(order.amount, unit: '$' )%></b><br /><br />
+				Total Shipping: <%= number_to_currency(@order.shipping, unit: '$') %><br />
+				Total Sales Tax: <%= number_to_currency(@order.sales_tax, unit: '$') %><br />
+				<b>Total: <%= number_to_currency(@order.amount, unit: '$' )%></b><br /><br />
 
 
-				<p><%= number_to_currency(order.amount, unit: '$' ) %> has been charged to your credit card. All credit card information is securely stored by <a href="https://www.braintreepayments.com">Braintree</a>.</p>
+				<p><%= number_to_currency(@order.amount, unit: '$' ) %> has been charged to your credit card. All credit card information is securely stored by <a href="https://www.braintreepayments.com">Braintree</a>.</p>
 				<p>If you have any questions or concerns about your order, get in touch with the merchant at the details listed above.</p>
-				
+
 			<br />
 			</div>
 			<div class="merchant_form_headings">
-				
+
 			</div>
 			<br />
 			<div style="text-align:center">
@@ -97,7 +95,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
 		</div>
-		
+
 	</div>
 	<br /><br /><br /><br /><br /><br />
 </div>

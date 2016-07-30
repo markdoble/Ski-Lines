@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment, :transaction]
+  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation]
 
 
 # Cart FUnctions
@@ -49,7 +49,8 @@ class OrdersController < ApplicationController
   def clearOrderSession
     session.delete(:order_session)
     session.delete(:order_expiry)
-    redirect_to root_path
+    session.delete(:order_confirmation_session)
+    redirect_to shop_path
   end
 # Cart functions End
 
@@ -57,20 +58,12 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
-  def edit
-    @order = Order.find(params[:id])
-  end
-
   def create
     @order = Order.new(order_params)
-    # calculate sales_tax, amount, and shipping - eventually put in private method
-    @order.shipping = 10
-    @order.sales_tax = 5
-    @order.amount = 100
     respond_to do |format|
       if @order.save(validate: false)
         create_order_session
-        format.html { redirect_to orders_payment_path(@order) }
+        format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
         format.html { render action: 'edit' }
@@ -79,70 +72,53 @@ class OrdersController < ApplicationController
     end
   end
 
-  def payment
+  def edit
+    @order = Order.find(params[:id])
+  end
 
-    # if there is an order session, render the credit card payment form
+  def update
+
+  end
+
+  def customer_details_form
+    @order = Order.find_by_id(session[:order_session])
     if session[:order_session]
-        # session order expiry is 180sec past order creation time.
-        if session[:order_expiry] < Time.current
-          session.delete(:order_session)
-          session.delete(:order_expiry)
-          @order_session = nil
-          redirect_to :action => :index
-        else
-          @order_session = session[:order_session]
-          @order = Order.find(params[:id])
-        end
+      @order_session = session[:order_session]
     else
-      # if no order session, redirect to cart page.
-      redirect_to :action => :index
       @order_session = nil
+      redirect_to :action => :index
     end
   end
 
-  def transaction
+  def create_customer_details
     @order = Order.find(params[:id])
-    nonce = params[:payment_method_nonce]
-    amount = '%.2f' % @order.amount.to_s
-    @transaction = Braintree::Transaction.sale(
-      amount: amount,
-      payment_method_nonce: nonce,
-      :options => {
-          :submit_for_settlement => true
-        }
-    )
+    # calculate sales_tax, amount, and shipping - eventually put in private method with TaxJar API
+    @order.shipping = 10
+    @order.sales_tax = 5
+    @order.amount = 100
+
     respond_to do |format|
       if @order.update_attributes(order_params)
-
-        respond_to do |format|
-          if @transaction.success?
-            #update_inventory(@order)
-            #order_emails(@order)
-            #create_order_confirmation_session
-            @order.update_attributes(success: true)
-            session.delete(:cart)
-            format.html { redirect_to orders_confirmation_path(@order) }
-            format.json { render json: @order }
-          else
-            @order.update_attributes(success: false)
-            Braintree::Transaction.void(@transaction.transaction.id)
-            flash[:error] = "There was a problem processing your payment. Please try again!"
-            redirect_to orders_payment_path
-          end
-        end
+        format.html { redirect_to orders_payment_form_path(@order) }
+        format.json { render json: @order }
       else
-        format.html { render action: 'edit' }
+        format.html { redirect_to orders_order_form_path(@order) }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
 
-
-  def confirmation
-    @order = Order.find_by_id(session[:order_confirmation_session])
+  def payment_form
+    @order = Order.find_by_id(session[:order_session])
+    if session[:order_session]
+      @order_session = session[:order_session]
+    else
+      @order_session = nil
+      redirect_to :action => :index
+    end
   end
 
-  def update
+  def create_payment
     @order = Order.find(params[:id])
     nonce = params[:payment_method_nonce]
     amount = '%.2f' % @order.amount.to_s
@@ -155,37 +131,33 @@ class OrdersController < ApplicationController
     )
     @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
-        if @transaction.success?
-            if @order.save
-                if verify_amount(@order)
-                  create_order_session
-                  update_inventory(@order)
-                  order_emails(@order)
-                  @order.update_attributes(success: true)
-                  format.html { redirect_to cart_path }
-                  format.json {render json: @order }
-                  session[:cart] = nil
-                else
-                  @order.update_attributes(success: false)
-                  Braintree::Transaction.void(@transaction.transaction.id)
-                  format.html { render action: 'edit' }
-                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                  format.json { render json: @order.errors, status: :unprocessable_entity }
-                end
-            else
-              @order.update_attributes(success: false)
-              Braintree::Transaction.void(@transaction.transaction.id)
-              format.html { render action: 'edit' }
-              format.json { render json: @order.errors, status: :unprocessable_entity }
-            end
-        else
-          @order.update_attributes(success: false)
-          format.html { render action: 'edit' }
-          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
-          format.json { render json: @order.errors, status: :unprocessable_entity }
-        end
+      if @transaction.success?
+        #update_inventory(@order)
+        #order_emails(@order)
+        create_order_confirmation_session
+        @order.update_attributes(success: true)
+        session.delete(:cart)
+        format.html { redirect_to orders_confirmation_path(@order) }
+        format.json { render json: @order }
+      else
+        @order.update_attributes(success: false)
+        Braintree::Transaction.void(@transaction.transaction.id)
+        flash[:error] = "There was a problem processing your payment. Please try again!"
+        format.html { redirect_to orders_payment_path(@order) }
+      end
     end
   end
+
+  def confirmation
+    @order = Order.find_by_id(session[:order_confirmation_session])
+    if session[:create_order_confirmation_session]
+      @create_order_confirmation_session = true
+    else
+      @create_order_confirmation_session = false
+    end
+  end
+
+
 
   private
       def set_order
