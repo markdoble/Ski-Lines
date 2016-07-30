@@ -63,11 +63,15 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
+    # calculate sales_tax, amount, and shipping - eventually put in private method
+    @order.shipping = 10
+    @order.sales_tax = 5
+    @order.amount = 100
     respond_to do |format|
-      if @order.save
+      if @order.save(validate: false)
         create_order_session
         format.html { redirect_to orders_payment_path(@order) }
-        format.json {render json: @order }
+        format.json { render json: @order }
       else
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
@@ -76,6 +80,7 @@ class OrdersController < ApplicationController
   end
 
   def payment
+
     # if there is an order session, render the credit card payment form
     if session[:order_session]
         # session order expiry is 180sec past order creation time.
@@ -85,8 +90,8 @@ class OrdersController < ApplicationController
           @order_session = nil
           redirect_to :action => :index
         else
-            @order_session = session[:order_session]
-            @order = Order.find_by_id(@order_session)
+          @order_session = session[:order_session]
+          @order = Order.find(params[:id])
         end
     else
       # if no order session, redirect to cart page.
@@ -96,6 +101,7 @@ class OrdersController < ApplicationController
   end
 
   def transaction
+    @order = Order.find(params[:id])
     nonce = params[:payment_method_nonce]
     amount = '%.2f' % @order.amount.to_s
     @transaction = Braintree::Transaction.sale(
@@ -105,33 +111,35 @@ class OrdersController < ApplicationController
           :submit_for_settlement => true
         }
     )
-    @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
-      if @transaction.success?
-        update_inventory(@order)
-        order_emails(@order)
-        @order.update_attributes(success: true)
-        session[:cart] = nil
-        format.html { redirect_to cart_path }
-        format.json {render json: @order }
-      else
-        @order.update_attributes(success: false)
-        Braintree::Transaction.void(@transaction.transaction.id)
-        flash[:error] = "There was a problem processing your payment. Please try again!"
-        redirect_to orders_payment_path
-      end
-    end
+      if @order.update_attributes(order_params)
 
-    if verify_amount(@order)
-      format.html { redirect_to cart_path }
-      format.json {render json: @order }
-      session[:cart] = nil
-    else
+        respond_to do |format|
+          if @transaction.success?
+            #update_inventory(@order)
+            #order_emails(@order)
+            #create_order_confirmation_session
+            @order.update_attributes(success: true)
+            session.delete(:cart)
+            format.html { redirect_to orders_confirmation_path(@order) }
+            format.json { render json: @order }
+          else
+            @order.update_attributes(success: false)
+            Braintree::Transaction.void(@transaction.transaction.id)
+            flash[:error] = "There was a problem processing your payment. Please try again!"
+            redirect_to orders_payment_path
+          end
+        end
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
 
-  def confirmation
 
+  def confirmation
+    @order = Order.find_by_id(session[:order_confirmation_session])
   end
 
   def update
@@ -222,6 +230,11 @@ class OrdersController < ApplicationController
       def create_order_session
         session[:order_session] = @order.id
         session[:order_expiry] = Time.current + 500
+      end
+
+      def create_order_confirmation_session
+        session[:order_confirmation_session] = @order.id
+        session[:order_confirmation_session_expiry] = Time.current + 500
       end
 
       def verify_amount(order)

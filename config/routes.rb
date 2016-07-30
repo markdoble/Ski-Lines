@@ -19,8 +19,8 @@ Rails.application.routes.draw do
   get '/new_subscriber' => 'email_digests#new_subscriber'
   resources :email_digests
 
-  get 'orders/transaction' => 'orders#transaction' 
-  get 'orders/payment'
+  get '/new_transaction' => 'orders#transaction'
+  get '/orders/payment'
   resources :orders, :except => [:show, :index]
 
   root 'articles#cross_country'
