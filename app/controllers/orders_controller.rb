@@ -93,13 +93,14 @@ class OrdersController < ApplicationController
   def create_customer_details
     @order = Order.find(params[:id])
     # calculate sales_tax, amount, and shipping - eventually put in private method with TaxJar API
-    @order.update_attributes(
-      :sales_tax => calculate_sales_tax(@order),
-      :shipping => calculate_shipping(@order),
-      :amount => calculate_total_amount(@order)
-    )
+
     respond_to do |format|
       if @order.update_attributes(order_params)
+        @order.update_attributes(
+        :sales_tax => calculate_sales_tax(@order),
+        :shipping => calculate_shipping(@order),
+        :amount => calculate_total_amount(@order)
+        )
         format.html { redirect_to orders_payment_form_path(@order) }
         format.json { render json: @order }
       else
@@ -231,15 +232,19 @@ class OrdersController < ApplicationController
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
         sales_tax_total = 0
         order.order_units.where.not(quantity: 0).each do |p|
+          to_country = p.order.country
+          to_state = p.order.prov_state
+          from_country = p.unit.product.user.country
+          from_state = p.unit.product.user.state_prov
           taxjar_result = client.tax_for_order({
-              :to_country => 'CA',
+              :to_country => santize_country(to_country),
               :to_city => p.order.city,
-              :to_state => 'ON',
+              :to_state => sanitize_prov_state(to_state),
               :to_zip => p.order.postal_zip,
-              :from_country => 'CA',
+              :from_country => santize_country(from_country),
               :from_zip => p.unit.product.user.zip_postal,
               :from_city => p.unit.product.user.city,
-              :from_state => 'ON',
+              :from_state => sanitize_prov_state(from_state),
               :amount => p.unit.product.price,
               :shipping => p.unit.product.shipping_charge
           })
@@ -247,5 +252,150 @@ class OrdersController < ApplicationController
         end
         sales_tax_total
       end
+
+      def santize_country(country)
+        case country
+        when 'United States of America'
+          'US'
+        when 'Canada'
+          'CA'
+        end
+      end
+
+      def sanitize_prov_state(prov_state)
+        case prov_state
+        when 'Alberta'
+          'AB'
+        when 'British Columbia'
+          'BC'
+        when 'Manitoba'
+          'MB'
+        when 'New Brunswick'
+          'NB'
+        when 'Newfoundland and Labrador'
+          'NL'
+        when 'Northwest Territories'
+          'NT'
+        when 'Nova Scotia'
+          'NS'
+        when 'Nunavut'
+          'NU'
+        when 'Ontario'
+          'ON'
+        when 'Prince Edward Island'
+          'PE'
+        when 'Quebec'
+          'QC'
+        when 'Saskatchewan'
+          'SK'
+        when 'Yukon'
+          'YT'
+        when 'Alabama'
+          'AL'
+        when 'Alaska'
+          'AK'
+        when 'Arizona'
+          'AZ'
+        when 'Arkansas'
+          'AR'
+        when 'California'
+          'CA'
+        when 'Colorado'
+          'CO'
+        when 'Connecticut'
+          'CT'
+        when 'Delaware'
+          'DE'
+        when 'Florida'
+          'FL'
+        when 'Georgia'
+          'GA'
+        when 'Hawaii'
+          'HI'
+        when 'Idaho'
+          'ID'
+        when 'Illinois'
+          'IL'
+        when 'Indiana'
+          'IN'
+        when 'Iowa'
+          'IA'
+        when 'Kansas'
+          'KS'
+        when 'Kentucky'
+          'KY'
+        when 'Louisiana'
+          'LA'
+        when 'Maine'
+          'ME'
+        when 'Maryland'
+          'MD'
+        when 'Massachusetts'
+          'MA'
+        when 'Michigan'
+          'MI'
+        when 'Minnesota'
+          'MN'
+        when 'Mississippi'
+          'MS'
+        when 'Missouri'
+          'MO'
+        when 'Montana'
+          'MT'
+        when 'Nebraska'
+          'NE'
+        when 'Nevada'
+          'NV'
+        when 'New Hampshire'
+          'NH'
+        when 'New Jersey'
+          'NJ'
+        when 'New Mexico'
+          'NM'
+        when 'New York'
+          'NY'
+        when 'North Carolina'
+          'NC'
+        when 'North Dakota'
+          'ND'
+        when 'Ohio'
+          'OH'
+        when 'Oklahoma'
+          'OK'
+        when 'Oregon'
+          'OR'
+        when 'Pennsylvania'
+          'PA'
+        when 'Rhode Island'
+          'RI'
+        when 'South Carolina'
+          'SC'
+        when 'South Dakota'
+          'SD'
+        when 'Tennessee'
+          'TN'
+        when 'Texas'
+          'TX'
+        when 'Utah'
+          'UT'
+        when 'Vermont'
+          'VT'
+        when 'Virginia'
+          'VA'
+        when 'Washington'
+          'WA'
+        when 'Washington, D.C.'
+          'DC'
+        when 'West Virginia'
+          'WV'
+        when 'Wisconsin'
+          'WI'
+        when 'Wyoming'
+          'WY'
+        else
+        end
+      end
+
+
 
 end
