@@ -43,7 +43,7 @@ class OrdersController < ApplicationController
 
   def clearCart
     session[:cart] = nil
-    redirect_to root_path
+    redirect_to shop_path
   end
 
   def clearOrderSession
@@ -66,7 +66,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
-        flash[:error] = "You must make a selection before continuing."
+        flash.now[:error] = "You must make a selection before continuing."
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -85,7 +85,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
-        flash[:error] = "You must make a selection before continuing."
+        flash.now[:error] = "You must make a selection before continuing."
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -143,7 +143,7 @@ class OrdersController < ApplicationController
         @order.update_attributes(success: false)
         Braintree::Transaction.void(@transaction.transaction.id)
         flash[:error] = "There was a problem processing your payment. Please try again!"
-        format.html { redirect_to orders_payment_path(@order) }
+        format.html { redirect_to orders_payment_form_path(@order) }
       end
     end
   end

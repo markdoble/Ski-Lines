@@ -4,7 +4,11 @@
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="purchase_order_show col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <br /><br /><br />
+            <br />
+            <div class="braintree_errors">
+            <h4><%= bootstrap_flash %></h4>
+            </div>
+            <br />
             <div class="merchant_form_headings">
       				<h2>Customer Details:</h2>
       			</div>
@@ -98,10 +102,6 @@
               </ul>
             </div>
           <% end %>
-          <div class="braintree_errors">
-            <br />
-          <h4><%= bootstrap_flash %></h4>
-          </div>
             <% @client_token = Braintree::ClientToken.generate %>
             <div id="dropin"></div>
             <div  class="order_form_button">
