@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630015950) do
+ActiveRecord::Schema.define(version: 20160731141144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,8 @@ ActiveRecord::Schema.define(version: 20160630015950) do
     t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "sales_tax_charged", precision: 8, scale: 2
+    t.decimal  "shipping_charged",  precision: 8, scale: 2
   end
 
   create_table "orders", force: :cascade do |t|
@@ -263,6 +265,7 @@ ActiveRecord::Schema.define(version: 20160630015950) do
     t.string   "slug",                   limit: 255
     t.boolean  "merchant"
     t.boolean  "article_publisher"
+    t.boolean  "merchant_rep"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

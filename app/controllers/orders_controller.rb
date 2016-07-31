@@ -89,12 +89,9 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     respond_to do |format|
       if @order.update_attributes(order_params)
-        # calculate sales_tax, amount, and shipping
-        @order.update_attributes(
-        :sales_tax => calculate_sales_tax(@order),
-        :shipping => calculate_shipping(@order),
-        :amount => calculate_total_amount(@order)
-        )
+        # update attributes with sales_tax, amount, and shipping
+        update_order_units_attributes(@order)
+        update_order_attributes(@order)
         format.html { redirect_to orders_payment_form_path(@order) }
         format.json { render json: @order }
       else
@@ -238,6 +235,24 @@ class OrdersController < ApplicationController
         end
       end
 
+      def update_order_units_attributes(order)
+        order.order_units.where.not(quantity: 0).each do |f|
+          shipping_fee = f.unit.product.shipping_charge
+          f.update_attributes(
+            :sales_tax_charged => tax_jar_sales_tax_request(f),
+            :shipping_charged => f.unit.product.shipping_charge
+          )
+        end
+      end
+
+      def update_order_attributes(order)
+        order.update_attributes(
+          :sales_tax => calculate_sales_tax(@order),
+          :shipping => calculate_shipping(@order),
+          :amount => calculate_total_amount(@order)
+        )
+      end
+
       def calculate_total_amount(order)
         sub_total = 0
         order.order_units.where.not(quantity: 0).each do |p|
@@ -254,28 +269,33 @@ class OrdersController < ApplicationController
         shipping_total
       end
 
-      def calculate_sales_tax(order)
+      def tax_jar_sales_tax_request(f)
+        order_unit = f
         require 'taxjar'
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
+        to_country = order_unit.order.country
+        to_state = order_unit.order.prov_state
+        from_country = order_unit.unit.product.user.country
+        from_state = order_unit.unit.product.user.state_prov
+        taxjar_result = client.tax_for_order({
+            :to_country => santize_country(to_country),
+            :to_city => order_unit.order.city,
+            :to_state => sanitize_prov_state(to_state),
+            :to_zip => order_unit.order.postal_zip,
+            :from_country => santize_country(from_country),
+            :from_city => order_unit.unit.product.user.city,
+            :from_state => sanitize_prov_state(from_state),
+            :from_zip => order_unit.unit.product.user.zip_postal,
+            :amount => order_unit.unit.product.price,
+            :shipping => order_unit.unit.product.shipping_charge
+        })
+        taxjar_result.amount_to_collect
+      end
+
+      def calculate_sales_tax(order)
         sales_tax_total = 0
         order.order_units.where.not(quantity: 0).each do |p|
-          to_country = p.order.country
-          to_state = p.order.prov_state
-          from_country = p.unit.product.user.country
-          from_state = p.unit.product.user.state_prov
-          taxjar_result = client.tax_for_order({
-              :to_country => santize_country(to_country),
-              :to_city => p.order.city,
-              :to_state => sanitize_prov_state(to_state),
-              :to_zip => p.order.postal_zip,
-              :from_country => santize_country(from_country),
-              :from_zip => p.unit.product.user.zip_postal,
-              :from_city => p.unit.product.user.city,
-              :from_state => sanitize_prov_state(from_state),
-              :amount => p.unit.product.price,
-              :shipping => p.unit.product.shipping_charge
-          })
-          sales_tax_total += taxjar_result.amount_to_collect*p.quantity
+          sales_tax_total += (p.sales_tax_charged*p.quantity)
         end
         sales_tax_total
       end
