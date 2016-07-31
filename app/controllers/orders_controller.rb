@@ -82,20 +82,14 @@ class OrdersController < ApplicationController
 
   def customer_details_form
     @order = Order.find_by_id(session[:order_session])
-    if session[:order_session]
-      @order_session = session[:order_session]
-    else
-      @order_session = nil
-      redirect_to :action => :index
-    end
+    order_session_present?
   end
 
   def create_customer_details
     @order = Order.find(params[:id])
-    # calculate sales_tax, amount, and shipping - eventually put in private method with TaxJar API
-
     respond_to do |format|
       if @order.update_attributes(order_params)
+        # calculate sales_tax, amount, and shipping
         @order.update_attributes(
         :sales_tax => calculate_sales_tax(@order),
         :shipping => calculate_shipping(@order),
@@ -112,12 +106,7 @@ class OrdersController < ApplicationController
 
   def payment_form
     @order = Order.find_by_id(session[:order_session])
-    if session[:order_session]
-      @order_session = session[:order_session]
-    else
-      @order_session = nil
-      redirect_to :action => :index
-    end
+    order_session_present?
   end
 
   def create_payment
@@ -159,15 +148,44 @@ class OrdersController < ApplicationController
     end
   end
 
-
-
   private
       def set_order
         @orders = Order.find(params[:id])
       end
 
       def order_params
-        params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping, :success, :merchant_orders_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method, :customer_comments], :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
+        params.require(:order).permit(
+          :street_address,
+          :prov_state,
+          :country, :city,
+          :postal_zip,
+          :cust_first_name,
+          :cust_last_name,
+          :cust_email,
+          :cust_phone,
+          :status,
+          :marketing_optout,
+          :amount,
+          :sales_tax,
+          :shipping,
+          :success,
+          :merchant_orders_attributes => [
+              :id,
+              :user_id,
+              :order_id,
+              :product_id,
+              :order_status,
+              :delivery_method,
+              :customer_comments
+              ],
+          :product_ids => [],
+          :order_units_attributes => [
+              :id,
+              :unit_id,
+              :order_id,
+              :quantity
+              ]
+        )
       end
 
       def find_or_create_cart
@@ -209,6 +227,15 @@ class OrdersController < ApplicationController
       def create_order_confirmation_session
         session[:order_confirmation_session] = @order.id
         session[:order_confirmation_session_expiry] = Time.current + 500
+      end
+
+      def order_session_present?
+        if session[:order_session]
+          @order_session = session[:order_session]
+        else
+          @order_session = nil
+          redirect_to :action => :index
+        end
       end
 
       def calculate_total_amount(order)
@@ -395,7 +422,4 @@ class OrdersController < ApplicationController
         else
         end
       end
-
-
-
 end
