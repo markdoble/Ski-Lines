@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation]
+  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation, :create_customer_details]
 
 
 # Cart FUnctions
@@ -61,11 +61,12 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     respond_to do |format|
-      if @order.save(validate: false)
+      if @order.save(validate: false) && @order.order_units.any?{|e| e.quantity != 0}
         create_order_session
         format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
+        flash[:error] = "You must make a selection before continuing."
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -77,7 +78,18 @@ class OrdersController < ApplicationController
   end
 
   def update
-
+    @order = Order.new(order_params)
+    respond_to do |format|
+      if @order.save(validate: false) && @order.order_units.any?{|e| e.quantity != 0}
+        create_order_session
+        format.html { redirect_to orders_customer_details_form_path(@order) }
+        format.json { render json: @order }
+      else
+        flash[:error] = "You must make a selection before continuing."
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def customer_details_form
@@ -95,7 +107,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to orders_payment_form_path(@order) }
         format.json { render json: @order }
       else
-        format.html { redirect_to orders_order_form_path(@order) }
+        format.html { render action: 'customer_details_form' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -159,6 +171,7 @@ class OrdersController < ApplicationController
           :cust_first_name,
           :cust_last_name,
           :cust_email,
+          :cust_email_confirmation,
           :cust_phone,
           :status,
           :marketing_optout,

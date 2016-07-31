@@ -16,7 +16,7 @@ class Order < ActiveRecord::Base
 
   #email/name
   validates_format_of :cust_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates_confirmation_of :cust_email
+  validates :cust_email, confirmation: true
   validates :cust_email, :presence => {:message => 'Please fill out your email address.'}
   validates :cust_last_name, :presence => {:message => 'Please fill out your last name.'}
   validates :cust_first_name, :presence => {:message => 'Please fill out your first name.'}
@@ -30,5 +30,4 @@ class Order < ActiveRecord::Base
 
   # scopes
   scope :verified, -> { where(success: true) }
-
 end

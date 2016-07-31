@@ -1,6 +1,9 @@
 <br />
 <%= form_for @order do |f|%>
 		<div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
+			<div class="braintree_errors">
+			<h4><%= bootstrap_flash %></h4>
+			</div>
 			<div class="columns_for_products">
 				<div class="purchase_form">
 						<% @cart.reverse_each do | id, qty | %>
