@@ -93,10 +93,11 @@ class OrdersController < ApplicationController
   def create_customer_details
     @order = Order.find(params[:id])
     # calculate sales_tax, amount, and shipping - eventually put in private method with TaxJar API
-    @order.shipping = 10
-    @order.sales_tax = 5
-    @order.amount = 100
-
+    @order.update_attributes(
+      :sales_tax => calculate_sales_tax(@order),
+      :shipping => calculate_shipping(@order),
+      :amount => calculate_total_amount(@order)
+    )
     respond_to do |format|
       if @order.update_attributes(order_params)
         format.html { redirect_to orders_payment_form_path(@order) }
@@ -209,74 +210,42 @@ class OrdersController < ApplicationController
         session[:order_confirmation_session_expiry] = Time.current + 500
       end
 
-      def verify_amount(order)
-        # actual_amount is the amount the credit card has been charged.
-        # test_amount is the server side calculation of the amount charged.
-        actual_amount = order.amount.to_f
-        difference = (actual_amount.to_f - (calculate_test_order_amount(order)).to_f).abs
-        # ternary operator reminder: if_this_is_a_true_value ? then_the_result_is_this : else_it_is_this
-        # give a margin of error for rounding of 0.02;
-        # if difference is more than 0.02, return false, else true
-        (difference > 0.02) ? false : true
+      def calculate_total_amount(order)
+        sub_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          sub_total += p.unit.product.price*p.quantity
+        end
+        sub_total+calculate_shipping(order)+calculate_sales_tax(order)
       end
 
-      def calculate_test_order_amount(order)
-        test_amount = 0
-        order_units_array = []
-        order.order_units.where.not(quantity: 0).each do |f|
-          order_units_array << f.unit
+      def calculate_shipping(order)
+        shipping_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          shipping_total += p.unit.product.shipping_charge*p.quantity
         end
-        order.merchant_orders.each do |f|
-          case f.order.country
-          when "United States of America"
-            shipping_factor = 1.5
-          else
-            shipping_factor = 1
-          end
-          order_units_array.each do |ff|
-            if f.product_id == ff.product_id
-              test_amount += ((ff.product.price + (ff.product.shipping_charge*shipping_factor))*(1+tax_rate_calc(f).to_f))
-            else
-              next
-            end
-          end
-        end
-        test_amount
+        shipping_total
       end
 
-      def tax_rate_calc(f)
-        merchant_location = f.user.state_prov
-        if f.delivery_method == "In Store Pick-Up"
-          customer_location = f.user.state_prov
-          customer_country = f.user.country
-        else
-          customer_location = f.order.prov_state
-          customer_country = f.order.country
+      def calculate_sales_tax(order)
+        require 'taxjar'
+        client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
+        sales_tax_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          taxjar_result = client.tax_for_order({
+              :to_country => 'CA',
+              :to_city => p.order.city,
+              :to_state => 'ON',
+              :to_zip => p.order.postal_zip,
+              :from_country => 'CA',
+              :from_zip => p.unit.product.user.zip_postal,
+              :from_city => p.unit.product.user.city,
+              :from_state => 'ON',
+              :amount => p.unit.product.price,
+              :shipping => p.unit.product.shipping_charge
+          })
+          sales_tax_total += taxjar_result.amount_to_collect*p.quantity
         end
-        if ["New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", 'Northwest Territories', 'Nunavut', 'Yukon'].include? customer_location
-          if customer_location == "New Brunswick" then tax_rate = 0.13
-          elsif customer_location == "Newfoundland and Labrador" then tax_rate = 0.13
-          elsif customer_location == "Nova Scotia" then tax_rate = 0.15
-          elsif customer_location == "Ontario" then tax_rate = 0.13
-          elsif customer_location == "Prince Edward Island" then tax_rate = 0.14
-          elsif ['Northwest Territories', 'Nunavut', 'Yukon'].includes? customer_location then tax_rate = 0.05
-          end
-        elsif customer_location == merchant_location
-          if customer_location == "Alberta" then tax_rate = 0.05
-          elsif customer_location == "British Columbia" then tax_rate = 0.12
-          elsif customer_location == "Manitoba" then tax_rate = 0.13
-          elsif customer_location == "Quebec" then tax_rate = 0.1475
-          elsif customer_location == "Saskatchewan" then tax_rate = 0.1
-          end
-        elsif customer_location != merchant_location
-          if customer_location == "Alberta" then tax_rate = 0.05
-          elsif customer_location == "British Columbia" then tax_rate = 0.05
-          elsif customer_location == "Manitoba" then tax_rate = 0.05
-          elsif customer_location == "Quebec" then tax_rate = 0.05
-          elsif customer_location == "Saskatchewan" then tax_rate = 0.05
-          end
-        elsif customer_country != "Canada" then tax_rate = 0
-        end
-        tax_rate
+        sales_tax_total
       end
+
 end

@@ -12,8 +12,6 @@ class Order < ActiveRecord::Base
   has_and_belongs_to_many :products
 
 # Validations:
-  validates :amount, :presence => {:message => 'You must make a selection to submit your order.'}
-  validates :amount, :numericality => { :greater_than => 0 }
 
 
   #email/name
