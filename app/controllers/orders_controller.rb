@@ -175,10 +175,6 @@ class OrdersController < ApplicationController
           :cust_phone,
           :status,
           :marketing_optout,
-          :amount,
-          :sales_tax,
-          :shipping,
-          :success,
           :merchant_orders_attributes => [
               :id,
               :user_id,
