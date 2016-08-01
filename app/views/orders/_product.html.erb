@@ -90,7 +90,7 @@
 						<div class="size_selections row">
 							<div class="quantity_and_shipping_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
 								<% p.units.where.not(quantity: 0).each do |u| %>
-									<%= f.fields_for :order_units, @order.order_units.build do |ff| %>
+									<%= f.fields_for :order_units do |ff| %>
 										<div class="row">
 											<div class="left cart_select_label col-lg-5 col-md-5 col-sm-5 col-xs-5">
 											<% if u.size == "n/a" and u.colour == 'n/a'%>
@@ -112,7 +112,7 @@
 								<%end%>
 								<div class="select_delivery_method col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<br />
-										<%= f.fields_for :merchant_orders, @order.merchant_orders.build do |ff|%>
+										<%= f.fields_for :merchant_orders do |ff|%>
 											<%= ff.hidden_field :user_id, :value => p.user.id %>
 											<%= ff.hidden_field :order_status, :value => 'false'%>
 											<%= ff.hidden_field :product_id, :value => p.id %>

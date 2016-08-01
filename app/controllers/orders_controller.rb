@@ -56,6 +56,11 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
+    @order.order_units.build
+    @order.merchant_orders.build
+    if session[:order_session]
+      render action: 'edit'
+    end
   end
 
   def create
@@ -63,9 +68,12 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save(validate: false) && @order.order_units.any?{|e| e.quantity != 0}
         create_order_session
+        @order.update_attribute(:success, false)
         format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
+        @order.update_attribute(:success, false)
+        create_order_session
         flash.now[:error] = "You must make a selection before continuing."
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
@@ -78,13 +86,14 @@ class OrdersController < ApplicationController
   end
 
   def update
-    @order = Order.new(order_params)
+    @order = Order.find_by_id(session[:order_session])
     respond_to do |format|
-      if @order.save(validate: false) && @order.order_units.any?{|e| e.quantity != 0}
-        create_order_session
+      if @order.update(order_params) && @order.order_units.any?{|e| e.quantity != 0}
+        @order.update_attribute(:success, false)
         format.html { redirect_to orders_customer_details_form_path(@order) }
         format.json { render json: @order }
       else
+        @order.update_attribute(:success, false)
         flash.now[:error] = "You must make a selection before continuing."
         format.html { render action: 'edit' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
@@ -94,7 +103,7 @@ class OrdersController < ApplicationController
 
   def customer_details_form
     @order = Order.find_by_id(session[:order_session])
-    order_session_present?
+    redirect_if_no_order_session_present
   end
 
   def create_customer_details
@@ -102,11 +111,13 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.update_attributes(order_params)
         # update attributes with sales_tax, amount, and shipping
+        @order.update_attribute(:success, false)
         update_order_units_attributes(@order)
         update_order_attributes(@order)
         format.html { redirect_to orders_payment_form_path(@order) }
         format.json { render json: @order }
       else
+        @order.update_attribute(:success, false)
         format.html { render action: 'customer_details_form' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -115,11 +126,12 @@ class OrdersController < ApplicationController
 
   def payment_form
     @order = Order.find_by_id(session[:order_session])
-    order_session_present?
+    @client_token = Braintree::ClientToken.generate
+    redirect_if_no_order_session_present
   end
 
   def create_payment
-    @order = Order.find(params[:id])
+    @order = Order.find_by_id(session[:order_session])
     nonce = params[:payment_method_nonce]
     amount = '%.2f' % @order.amount.to_s
     @transaction = Braintree::Transaction.sale(
@@ -135,14 +147,14 @@ class OrdersController < ApplicationController
         #update_inventory(@order)
         #order_emails(@order)
         create_order_confirmation_session
-        @order.update_attributes(success: true)
+        @order.update_attribute(:success, false)
         session.delete(:cart)
         format.html { redirect_to orders_confirmation_path(@order) }
         format.json { render json: @order }
       else
-        @order.update_attributes(success: false)
+        @order.update_attribute(:success, false)
         Braintree::Transaction.void(@transaction.transaction.id)
-        flash[:error] = "There was a problem processing your payment. Please try again!"
+        flash.now[:error] = "There was a problem processing your payment. Please try again!"
         format.html { redirect_to orders_payment_form_path(@order) }
       end
     end
@@ -235,7 +247,7 @@ class OrdersController < ApplicationController
         session[:order_confirmation_session_expiry] = Time.current + 500
       end
 
-      def order_session_present?
+      def redirect_if_no_order_session_present
         if session[:order_session]
           @order_session = session[:order_session]
         else
@@ -246,10 +258,22 @@ class OrdersController < ApplicationController
 
       def update_order_units_attributes(order)
         order.order_units.where.not(quantity: 0).each do |f|
-          shipping_fee = f.unit.product.shipping_charge
+          delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
+          case delivery_method
+          when "Standard Shipping"
+            shipping_fee = f.unit.product.shipping_charge
+          else
+            shipping_fee = 0
+          end
+          if f.order.country == f.unit.product.user.country
+            customs_handling_factor = 1
+          else
+            customs_handling_factor = 1.5
+          end
+          shipping_charged = shipping_fee*customs_handling_factor
           f.update_attributes(
             :sales_tax_charged => tax_jar_sales_tax_request(f),
-            :shipping_charged => f.unit.product.shipping_charge
+            :shipping_charged => shipping_charged
           )
         end
       end
@@ -273,7 +297,7 @@ class OrdersController < ApplicationController
       def calculate_shipping(order)
         shipping_total = 0
         order.order_units.where.not(quantity: 0).each do |p|
-          shipping_total += p.unit.product.shipping_charge*p.quantity
+          shipping_total += p.shipping_charged*p.quantity
         end
         shipping_total
       end

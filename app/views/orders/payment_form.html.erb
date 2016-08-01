@@ -38,8 +38,7 @@
       					<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
       					<%else%>
       					<%end%>
-      				<br />
-
+      				  <br />
       					Sold By: <%= f.unit.product.user.merchant_name %><br />
       					<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
       						<% if s.delivery_method == "Standard Shipping"%>
@@ -53,13 +52,19 @@
       							Customer Comments: <%= s.customer_comments %><br /><br />
       							<%end%>
       					<%end%>
-
       				</div>
       				<%end%>
+              <%= link_to "Edit My Selection", cart_path(@order) %>
       			</div>
             <div class="merchant_form_headings">
       				<h2>Payment:</h2>
       			</div>
+            <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            Subtotal:
+            </div>
+            <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <%= number_to_currency(calculate_sub_total(@order), unit: '$') %>
+            </div>
             <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
             Sales Tax:
             </div>
@@ -78,9 +83,7 @@
             <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
               <h3><%= number_to_currency(@order.amount, unit: '$') %></h3>
               <br />
-
             </div>
-
           </div>
         </div>
         <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
@@ -102,7 +105,6 @@
               </ul>
             </div>
           <% end %>
-            <% @client_token = Braintree::ClientToken.generate %>
             <div id="dropin"></div>
             <div  class="order_form_button">
                 <br /><br />

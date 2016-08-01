@@ -1,4 +1,13 @@
 module OrdersHelper
+
+  def calculate_sub_total(order)
+    subtotal = 0
+    order.order_units.where.not(quantity: 0).each do |f|
+      subtotal += (f.unit.product.price*f.quantity)
+    end
+    subtotal
+  end
+
   def tax_rate_calc(order, user)
         if ["New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", 'Northwest Territories', 'Nunavut', 'Yukon'].include? order.prov_state
             if order.prov_state == "New Brunswick" then @tax_rate = 0.13

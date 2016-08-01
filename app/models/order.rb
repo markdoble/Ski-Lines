@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
 
   has_many :order_units, :class_name => 'OrderUnits'
   has_many :units, :through => :order_units
-  accepts_nested_attributes_for :order_units
+  accepts_nested_attributes_for :order_units, :reject_if => proc { |attributes| attributes['quantity'].to_i.zero? }
 
   has_and_belongs_to_many :products
 
