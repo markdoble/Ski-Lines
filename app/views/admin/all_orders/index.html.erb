@@ -1,7 +1,5 @@
 <div class="col-xs-12">
 <br /><br />
-
-
 	<div class="admin_performance">
 		<table style="width:100%">
 			<tr>
@@ -30,9 +28,7 @@
 				<td><b><%= pluralize(f.order_units.where.not(quantity: 0).count, "Product") %></b><br /><%= order_products(f)%></td>
 				<td><br /><%=order_unit_size(f)%></td>
 				<td><br /> <%= order_unit_qty(f)%></td>
-				<% subtotal = 0 %>
-				<% subtotal = f.amount-f.shipping-f.sales_tax%>
-				<td><%= number_to_currency(subtotal, unit: '$')%></td>
+				<td><%= number_to_currency(subtotal(f), unit: '$')%></td>
 				<td><%= number_to_currency(f.sales_tax, unit: '$')%></td>
 				<td><%= number_to_currency(f.shipping, unit: '$')%></td>
 				<td> <%= number_to_currency(f.amount, unit: '$') %></td>

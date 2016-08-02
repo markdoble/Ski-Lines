@@ -147,7 +147,7 @@ class OrdersController < ApplicationController
         #update_inventory(@order)
         #order_emails(@order)
         create_order_confirmation_session
-        @order.update_attribute(:success, false)
+        @order.update_attribute(:success, true)
         session.delete(:cart)
         format.html { redirect_to orders_confirmation_path(@order) }
         format.json { render json: @order }
@@ -262,17 +262,19 @@ class OrdersController < ApplicationController
           case delivery_method
           when "Standard Shipping"
             shipping_fee = f.unit.product.shipping_charge
+            sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f)
           else
             shipping_fee = 0
+            sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
           end
           if f.order.country == f.unit.product.user.country
             customs_handling_factor = 1
           else
             customs_handling_factor = 1.5
           end
-          shipping_charged = shipping_fee*customs_handling_factor
+          shipping_charged = (shipping_fee*customs_handling_factor)
           f.update_attributes(
-            :sales_tax_charged => tax_jar_sales_tax_request(f),
+            :sales_tax_charged => sales_tax_charged,
             :shipping_charged => shipping_charged
           )
         end
@@ -302,7 +304,7 @@ class OrdersController < ApplicationController
         shipping_total
       end
 
-      def tax_jar_sales_tax_request(f)
+      def tax_jar_sales_tax_request_for_delivery(f)
         order_unit = f
         require 'taxjar'
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
@@ -310,6 +312,7 @@ class OrdersController < ApplicationController
         to_state = order_unit.order.prov_state
         from_country = order_unit.unit.product.user.country
         from_state = order_unit.unit.product.user.state_prov
+
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => order_unit.order.city,
@@ -321,6 +324,30 @@ class OrdersController < ApplicationController
             :from_zip => order_unit.unit.product.user.zip_postal,
             :amount => order_unit.unit.product.price,
             :shipping => order_unit.unit.product.shipping_charge
+        })
+        taxjar_result.amount_to_collect
+      end
+
+      def tax_jar_sales_tax_request_for_in_store_pickup(f)
+        order_unit = f
+        require 'taxjar'
+        client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
+        to_country = order_unit.unit.product.user.country
+        to_state = order_unit.unit.product.user.state_prov
+        from_country = order_unit.unit.product.user.country
+        from_state = order_unit.unit.product.user.state_prov
+
+        taxjar_result = client.tax_for_order({
+            :to_country => santize_country(to_country),
+            :to_city => order_unit.order.city,
+            :to_state => sanitize_prov_state(to_state),
+            :to_zip => order_unit.order.postal_zip,
+            :from_country => santize_country(from_country),
+            :from_city => order_unit.unit.product.user.city,
+            :from_state => sanitize_prov_state(from_state),
+            :from_zip => order_unit.unit.product.user.zip_postal,
+            :amount => order_unit.unit.product.price,
+            :shipping => 0
         })
         taxjar_result.amount_to_collect
       end

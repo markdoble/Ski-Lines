@@ -112,4 +112,12 @@ module Admin::AllOrdersHelper
     unit_price_arr.inject(0){|sum,x| sum + x }
   end
 
+  def subtotal(f)
+    subtotal = 0
+    f.order_units.where.not(quantity: 0).each do |p|
+      subtotal += (p.unit.product.price*p.quantity)
+    end
+    subtotal
+  end
+
 end

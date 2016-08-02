@@ -7,18 +7,6 @@ class Admin::OrdersController < ApplicationController
 
   def index
    @orders = current_user.orders.verified.order("created_at DESC")
-    user_product_units = []
-     @orders.uniq.each do |f|
-       f.order_units.where.not(quantity: 0).each do |p|
-           unless p.unit.nil?
-             if p.unit.product.user_id == current_user.id
-             user_product_units << p
-             else next
-             end
-           end
-       end
-     end
-     @merchant_units = user_product_units
   end
 
   def show

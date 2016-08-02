@@ -6,7 +6,6 @@
 			<th> # of Products </th>
 			<th> Total Value </th>
 			<th> Total Ski-Lines Value </th>
-
 		</tr>
 		<tr>
 			<td> <%= total_merchants %> </td>
@@ -29,7 +28,6 @@
 			 </td>
 		</tr>
 	</table>
-
 	<h3>Merchants</h3>
 	<br />
 	<table style="width:100%">
@@ -42,7 +40,6 @@
 			<th>Total Value</th>
 			<th>Total Sales</th>
 			<th>Active Since</th>
-
 		</tr>
 		<% @merchants.each_with_index do |m, index|%>
 		<tr>
@@ -51,7 +48,6 @@
 			<td>
 				<b><%= m.merchant_name%></b><br /><br />
 				Contact: <%= m.contact_name%><br />
-
 				<i><%= m.street_address%><br />
 				<%=m.city%>, <%=m.state_prov%>, <%=m.country%><br /><%=m.zip_postal%></i><br />
 				<%= m.merchant_phone%>
@@ -60,27 +56,18 @@
 			<td>
 				Total: <%=m.products.count%><br />
 				Active: <%= m.products.where(status: true).count %>
-
 			</td>
 			<td>
 				<b>Total Value: <%= number_to_currency(total_value(m))%></b><br /><br />
 				Product Value: <%= number_to_currency(product_value(m))%><br />
 				Shipping Value: <%= number_to_currency(shipping_value(m))%>
-
 			</td>
 			<td>to do</td>
-
 			<td><%= m.created_at.to_date.strftime("%B %d, %Y") %></td>
-
 		</tr>
 		<%end%>
 	</table>
-
-
-
 </div>
-
-
 <div class="merchant_spacer">
 <br />
 </div>

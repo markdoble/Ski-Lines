@@ -1,5 +1,4 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
 	<div class="merchant_title">
 		<div class="row">
 	        <h3><%= current_user.merchant_name%> </h3>
@@ -7,7 +6,6 @@
 	    </div>
 	</div>
 	<br />
-
 <% if @orders.any? %>
 	<div class="admin_performance">
 		<table style="width:100%">
@@ -23,41 +21,24 @@
 				<th>Order Status</th>
 			</tr>
 		<% @orders.uniq.each do |f| %>
-		  <% merchant_order_units(f)%>
 			<tr class="table_body">
 				<td><%= link_to f.id, admin_order_path(f) %></td>
 				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
 				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
 				<td><%= f.street_address %>, <%= f.city %><br /><%= f.prov_state %>, <%=f.country %><br /><%= f.postal_zip %></td>
-				<% tax = 0 %>
-				<% shipping = 0 %>
-				<% subtotal = 0 %>
-
-				<% @merchant_order_units.each do |p|  %>
-					<% f.merchant_orders.where(product_id: p.unit.product.id).each do |m_o| %>
-						<% shipping += admin_shipping_calc(m_o, p) %>
-						<% tax += admin_tax_calc(m_o, p) %>
-					<%end%>
-					<% subtotal += (p.unit.product.price*p.quantity)%>
-				<%end%>
-				<% total = subtotal + shipping + tax %>
-
-				<td><%= number_to_currency(subtotal, unit: '$')%></td>
-				<td> <%= number_to_currency(shipping, unit: '$') %></td>
-				<td> <%= number_to_currency(tax, unit: '$')%></td>
-				<td> <%= number_to_currency(total, unit: '$') %></td>
+				<td><%= number_to_currency(merchant_order_subtotal(f), unit: '$')%></td>
+				<td> <%= number_to_currency(merchant_order_shipping(f), unit: '$') %></td>
+				<td> <%= number_to_currency(merchant_order_tax(f), unit: '$')%></td>
+				<td> <%= number_to_currency(merchant_order_total(f), unit: '$') %></td>
 				<td><%= link_to order_status_indicator(f), admin_order_path(f) %></td>
 				<%end%>
 			</tr>
 		</table>
 	</div>
-
 	<%else%>
 	<div class="merchant_title">
 	<i>You currently have no orders. <br />As soon as your orders are placed, they will appear here for your review. </i>
 	</div>
 	<%end%>
 	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
-
 </div>

@@ -16,8 +16,8 @@
     				<h5><%= @order.cust_email %></h5><br />
     				<h2><%= @order.street_address %></h2>
     				<h2><%= @order.city%>, <%= @order.prov_state %>, <%= @order.country%></h2>
-    				<h2><%= @order.postal_zip%></h2>
-            <h2><%= link_to "Edit My Details", orders_customer_details_form_path(@order) %></h2>
+    				<h2><%= @order.postal_zip%></h2><br />
+            <%= link_to "Edit My Details", orders_customer_details_form_path(@order) %>
             <br /><br />
     			</div>
           <div class="merchant_order_products col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -1,8 +1,6 @@
 <div class="admin_order_show">
 <br />
 	<div class="row">
-			<!-- Create @merchant_order_units in order_helper with following method -->
-			<% merchant_order_units(@order)%>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 					<div class="admin_order_details">
 					<h3 style="text-align:left">Order #<%= @order.id %></h3>
@@ -17,19 +15,10 @@
 						<%= @order.prov_state %>, <%= @order.country %><br />
 						<%= @order.postal_zip %><br /><br />
 						<b>Payment Details:</b><br />
-						<% shipping = 0 %><% tax = 0 %><% subtotal = 0 %>
- 					 <% @merchant_order_units.each do |p|  %>
- 	 					<% @order.merchant_orders.where(product_id: p.unit.product.id).each do |m_o| %>
- 	 						<% shipping += admin_shipping_calc(m_o, p) %>
- 	 						<% tax += admin_tax_calc(m_o, p) %>
- 	 					<%end%>
- 	 					<% subtotal += (p.unit.product.price*p.quantity)%>
- 	 				<%end%>
- 	 				<% total = subtotal + shipping + tax %>
- 	 				Subtotal: <%= number_to_currency(subtotal, unit: '$')%><br />
- 	 				Shipping: <%= number_to_currency(shipping, unit: '$') %><br />
- 	 				Sales Tax: <%= number_to_currency(tax, unit: '$')%><br />
- 	 				Total: <%= number_to_currency(total, unit: '$') %>
+ 	 				Subtotal: <%= number_to_currency(merchant_order_subtotal(@order), unit: '$')%><br />
+ 	 				Shipping: <%= number_to_currency(merchant_order_shipping(@order), unit: '$') %><br />
+ 	 				Sales Tax: <%= number_to_currency(merchant_order_tax(@order), unit: '$')%><br />
+ 	 				Total: <%= number_to_currency(merchant_order_total(@order), unit: '$') %>
 					<br /><br />
 					</div>
 					<br />
@@ -37,7 +26,9 @@
 		<div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="merchant_form_headings"><h2>Products:</h2></div>
-						<!-- create an array of products belonging to this order of this merchant -->
+						<!-- Create @merchant_order_units in order_helper with following method -->
+						<% merchant_order_units(@order)%>
+						<!-- Create an array of products belonging to this order of this merchant -->
 						<% merchant_order_products(@order) %>
 						<!-- loop through the array of products belonging to this order of this merchant -->
 						<% @merchant_order_products.each do |p|%>
@@ -49,21 +40,19 @@
 								<h4><b><%= p.name %></b></h4>
 							<!-- Loop through each unit belonging to this product in the loop in this order of this merchant -->
 							<% @merchant_order_units.each do |f| %>
-								<% if f.unit.product_id == p.id %>
-									<% if f.unit.size != 'n/a' and f.unit.colour != 'n/a'%>
-		 							<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
-		 							<%elsif f.unit.size == 'n/a' and f.unit.colour != 'n/a'%>
-		 							<%= f.quantity %> X <%= f.unit.colour %><br />
-		 							<%elsif f.unit.size != 'n/a' and f.unit.colour == 'n/a'%>
-		 							<%= f.quantity %> X <%= f.unit.size %><br />
-		 							<%else%>
-		 							<%end%>
+							<!-- Exclude units not belonging to this product -->
+								<% next unless f.unit.product_id == p.id %>
+								<% if f.unit.size != 'n/a' and f.unit.colour != 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
+	 							<%elsif f.unit.size == 'n/a' and f.unit.colour != 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.colour %><br />
+	 							<%elsif f.unit.size != 'n/a' and f.unit.colour == 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.size %><br />
 								<%end%>
 							<%end%>
 								<%= p.description %>
-								<br /><br />
-								<h4> <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
 								<br />
+								<h4> <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
 									<% @order.merchant_orders.where(product_id: p.id).each do |m|%>
 										<% unless m.customer_comments.blank? %>
 										Customer Comment: <br /><%= m.customer_comments %><br /><br />
@@ -73,15 +62,20 @@
 										<%= f.fields_for :merchant_orders do |ff| %>
 											<% if ff.object.product_id == p.id %>
 											<br />
+											<% if ff.object.order_status == false%>
+											<h4 style="color:red">Action Required!</h4>
+											<%end%>
 												<% if ff.object.delivery_method == "Standard Shipping" %>
+												<b>Delivery Method:</b> Standard Shipping<br />
 												<%= ff.label :order_status, 'Sent for delivery?'%>
 												<%else%>
+												<b>Delivery Method:</b> Pick-up In Store<br />
 												<%= ff.label :order_status, 'Ready for pick-up?'%>
 												<%end%>
-												<%= ff.check_box :order_status %><br /><br />
+												<%= ff.check_box :order_status %><br />
 												<%end%>
 											<%end%>
-											<%= f.submit "Save Changes", class: "btn btn-primary", data: { confirm: 'Are you sure you want to change the status of this order?' }%>
+											<%= f.submit "Save", data: { confirm: 'Are you sure you want to change the status of this order?' }%>
 										<%end%>
 						 	</div>
 						</div>
