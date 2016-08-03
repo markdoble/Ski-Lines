@@ -49,10 +49,11 @@
       							Pick Up Order From: <%= f.unit.product.user.merchant_name %> in <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br />
       						<%end%>
       							<%unless s.customer_comments.blank?%>
-      							Customer Comments: <%= s.customer_comments %><br /><br />
+      							Customer Comments: <%= s.customer_comments %><br />
       							<%end%>
       					<%end%>
       				</div>
+              <br />
       				<%end%>
               <%= link_to "Edit My Selection", cart_path(@order) %>
       			</div>

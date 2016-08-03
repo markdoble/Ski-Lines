@@ -109,15 +109,24 @@ class OrdersController < ApplicationController
   def create_customer_details
     @order = Order.find(params[:id])
     respond_to do |format|
+      # update order_unit attributes with sales_tax, amount, and shipping FIRST,
+      # before you can update order attributes
       if @order.update_attributes(order_params)
-        # update attributes with sales_tax, amount, and shipping
-        @order.update_attribute(:success, false)
-        update_order_units_attributes(@order)
-        update_order_attributes(@order)
-        format.html { redirect_to orders_payment_form_path(@order) }
-        format.json { render json: @order }
+        if update_order_units_attributes(@order)
+          if update_order_attributes(@order)
+            format.html { redirect_to orders_payment_form_path(@order) }
+            format.json { render json: @order }
+          else
+            format.html { render action: 'customer_details_form' }
+            flash.now[:error] = "Please make sure your address is correct before continuing!"
+            format.json { render json: @order.errors, status: :unprocessable_entity }
+          end
+        else
+          format.html { render action: 'customer_details_form' }
+          flash.now[:error] = "Please make sure your address is correct before continuing!"
+          format.json { render json: @order.errors, status: :unprocessable_entity }
+        end
       else
-        @order.update_attribute(:success, false)
         format.html { render action: 'customer_details_form' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -175,6 +184,7 @@ class OrdersController < ApplicationController
       end
 
       def order_params
+        # Removed amount, sales_tax, and shipping
         params.require(:order).permit(
           :street_address,
           :prov_state,
@@ -258,26 +268,34 @@ class OrdersController < ApplicationController
 
       def update_order_units_attributes(order)
         order.order_units.where.not(quantity: 0).each do |f|
-          delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
-          case delivery_method
-          when "Standard Shipping"
-            shipping_fee = f.unit.product.shipping_charge
-            sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f)
+          begin
+            if f.order.country == f.unit.product.user.country
+              customs_handling_factor = 1
+            else
+              customs_handling_factor = 1.5
+            end
+            delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
+            case delivery_method
+            when "Standard Shipping"
+              shipping_fee = f.unit.product.shipping_charge
+              sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
+            else
+              shipping_fee = 0
+              sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
+            end
+          rescue => e
+            return false
+            # this error is not getting added for some reason. the rescue works, but error message not displayed. 
+            f.order.errors.add(:base, "please make sure your address is correct.")
           else
-            shipping_fee = 0
-            sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
+            shipping_charged = (shipping_fee*customs_handling_factor)
+            f.update_attributes(
+              :sales_tax_charged => sales_tax_charged,
+              :shipping_charged => shipping_charged
+            )
           end
-          if f.order.country == f.unit.product.user.country
-            customs_handling_factor = 1
-          else
-            customs_handling_factor = 1.5
-          end
-          shipping_charged = (shipping_fee*customs_handling_factor)
-          f.update_attributes(
-            :sales_tax_charged => sales_tax_charged,
-            :shipping_charged => shipping_charged
-          )
         end
+
       end
 
       def update_order_attributes(order)
@@ -304,49 +322,58 @@ class OrdersController < ApplicationController
         shipping_total
       end
 
-      def tax_jar_sales_tax_request_for_delivery(f)
-        order_unit = f
+      def tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
         require 'taxjar'
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
-        to_country = order_unit.order.country
-        to_state = order_unit.order.prov_state
-        from_country = order_unit.unit.product.user.country
-        from_state = order_unit.unit.product.user.state_prov
-
+        to_country = f.order.country
+        to_state = f.order.prov_state
+        to_city = f.order.city
+        to_zip = f.order.postal_zip
+        from_country = f.unit.product.user.country
+        from_state = f.unit.product.user.state_prov
+        from_city = f.unit.product.user.city
+        from_zip = f.unit.product.user.zip_postal
+        shipping = (customs_handling_factor*f.unit.product.shipping_charge)
+        amount = f.unit.product.price
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
-            :to_city => order_unit.order.city,
+            :to_city => to_city,
             :to_state => sanitize_prov_state(to_state),
-            :to_zip => order_unit.order.postal_zip,
+            :to_zip => to_zip,
             :from_country => santize_country(from_country),
-            :from_city => order_unit.unit.product.user.city,
+            :from_city => from_city,
             :from_state => sanitize_prov_state(from_state),
-            :from_zip => order_unit.unit.product.user.zip_postal,
-            :amount => order_unit.unit.product.price,
-            :shipping => order_unit.unit.product.shipping_charge
+            :from_zip => from_zip,
+            :amount => amount,
+            :shipping => shipping
         })
         taxjar_result.amount_to_collect
       end
 
       def tax_jar_sales_tax_request_for_in_store_pickup(f)
-        order_unit = f
         require 'taxjar'
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
-        to_country = order_unit.unit.product.user.country
-        to_state = order_unit.unit.product.user.state_prov
-        from_country = order_unit.unit.product.user.country
-        from_state = order_unit.unit.product.user.state_prov
-
+        # set variables for TaxJar API
+        # this method is for in store pickup items, therefore to_ equals from_
+        from_country = f.unit.product.user.country
+        from_state = f.unit.product.user.state_prov
+        from_city = f.unit.product.user.city
+        from_zip = f.unit.product.user.zip_postal
+        to_country = from_country
+        to_state = from_state
+        to_city = from_city
+        to_zip = from_zip
+        amount = f.unit.product.price
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
-            :to_city => order_unit.order.city,
+            :to_city => to_city,
             :to_state => sanitize_prov_state(to_state),
-            :to_zip => order_unit.order.postal_zip,
+            :to_zip => to_zip,
             :from_country => santize_country(from_country),
-            :from_city => order_unit.unit.product.user.city,
+            :from_city => to_city,
             :from_state => sanitize_prov_state(from_state),
-            :from_zip => order_unit.unit.product.user.zip_postal,
-            :amount => order_unit.unit.product.price,
+            :from_zip => to_zip,
+            :amount => amount,
             :shipping => 0
         })
         taxjar_result.amount_to_collect

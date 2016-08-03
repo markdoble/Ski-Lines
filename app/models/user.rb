@@ -13,16 +13,11 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :email, {message: "The email address provided conflicts with another address in our system. Please ensure you have entered the correct email address."}
   validate :merchant_url_format
 
-
   def merchant_url_format
     if self.merchant_url[0...4] == "http" or self.merchant_url[0...3] == "www" or self.merchant_url[0,1] == "."
       errors.add(:base, "Do not include http or www at the start of your website url")
     end
-
   end
   scope :with_active_products, -> { joins(:products).where(products: { status: true }) }
-
   scope :merchants, -> { where(merchant: true).order(id: :desc).where.not(admin: true) }
-
-
 end
