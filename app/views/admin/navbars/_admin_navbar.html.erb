@@ -5,7 +5,7 @@
 
 					<ul class="dropdown-menu main_menu" role="menu">
 
-
+            <% if user_signed_in? %>
               <% if current_user.article_publisher? %>
 							<li class="divider"></li>
 							<li><a style="color:grey">PUBLISHERS</a></li>
@@ -34,7 +34,10 @@
     		 		  <li><%= link_to "ALL MERCHANTS", admin_all_orders_merchants_path %></li>
     		 		  <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>
               <%end%>
-
+              <% if current_user.merchant_rep? %>
+                <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
+              <%end%>
+            <%end%>
 
 
 							<br /><br /><br /><br />
@@ -55,10 +58,7 @@
 			</ul>
       <ul class="nav navbar-nav navbar-right hidden-xs">
       <% if user_signed_in? %>
-        <% if current_user.merchant? %>
-           <li> <%= link_to current_user.merchant_name, {:controller => "/products", :action => "store", :slug => current_user.slug } %></li>
-        <%end%>
-
+           <li><a> <%= current_user.merchant_name %></a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
                 <ul class="dropdown-menu" role="menu">

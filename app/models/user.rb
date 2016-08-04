@@ -7,11 +7,16 @@ class User < ActiveRecord::Base
   has_many :merchant_orders, :class_name => 'MerchantOrder'
   has_many :orders, :through => :merchant_orders
 
-  validates :shipping_cost, numericality: true
+
   validates_uniqueness_of :slug, {message: "Your store url conflicts with another url in our system. Please email mark@ski-lines.com for a solution."}
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates_uniqueness_of :email, {message: "The email address provided conflicts with another address in our system. Please ensure you have entered the correct email address."}
-  validate :merchant_url_format
+  # need to change this to a after_create method to remove unecessary elements of url, rather than preventing creation
+  #validate :merchant_url_format
+
+  # validations needed:
+    # if merchant_rep creating account, set merchant to true, and other roles to false.
+
 
   def merchant_url_format
     if self.merchant_url[0...4] == "http" or self.merchant_url[0...3] == "www" or self.merchant_url[0,1] == "."
