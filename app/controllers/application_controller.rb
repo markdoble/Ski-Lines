@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_devise_permitted_parameters
-      registration_params = [:admin, :merchant, :article_publisher, :slug, :contact_name, :email, :password, :password_confirmation, :merchant_name, :merchant_phone, :merchant_url, :country, :state_prov, :city, :street_address, :zip_postal, :shipping_cost, :sales_tax, :user_return_policy, :merchant_order_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method]]
+      registration_params = [:admin, :merchant, :article_publisher, :slug, :contact_name, :email, :password, :password_confirmation, :merchant_name, :merchant_phone, :merchant_url, :country, :state_prov, :city, :street_address, :zip_postal, :shipping_cost, :sales_tax, :user_return_policy, :merchant_rep, :merchant_order_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method]]
 
       if params[:action] == 'update'
         devise_parameter_sanitizer.for(:account_update) {
