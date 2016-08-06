@@ -5,7 +5,6 @@ class Admin::ProductsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_is_merchant
 
-
   require 'paperclip'
 
 
@@ -112,7 +111,6 @@ class Admin::ProductsController < ApplicationController
         @products = Product.find(params[:id])
       end
 
-
       def product_params
         params.require(:product).permit(:id, :name, :description, :status, :user_id, :price, :currency, :created_at, :updated_at, :photo, :size_details, :product_category, :product_subcategory, :shipping_charge, :product_return_policy, units_attributes: [:id, :product_id, :size, :quantity, :quantity_sold, :colour, :_destroy], :order_ids => [], productfotos_attributes: [:id, :product_id, :foto, :_destroy])
       end
@@ -120,7 +118,4 @@ class Admin::ProductsController < ApplicationController
       def verify_is_merchant
           (current_user.nil?) ? redirect_to(root_path) : (redirect_to(products_path) unless current_user.merchant?)
       end
-
-
-
 end

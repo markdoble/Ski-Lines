@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     get 'products/waxing'
     get 'products/accessories'
     get 'all_orders/merchants'
+    get 'all_orders/rep' 
     resources :products
     resources :articles, :except => [:show]
     resources :all_orders

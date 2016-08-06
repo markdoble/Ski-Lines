@@ -2,9 +2,7 @@
 		<div class="nav navbar-nav hidden-xs">
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('menu_icon.png') %> </a>
-
 					<ul class="dropdown-menu main_menu" role="menu">
-
             <% if user_signed_in? %>
               <% if current_user.article_publisher? %>
 							<li class="divider"></li>

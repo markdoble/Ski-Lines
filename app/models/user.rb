@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :orders, :through => :merchant_orders
 
 
-  validates_uniqueness_of :slug, {message: "Your store url conflicts with another url in our system. Please email mark@ski-lines.com for a solution."}
+  # validates_uniqueness_of :slug, {message: "Your store url conflicts with another url in our system. Please email mark@ski-lines.com for a solution."}
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   validates_uniqueness_of :email, {message: "The email address provided conflicts with another address in our system. Please ensure you have entered the correct email address."}
   # need to change this to a after_create method to remove unecessary elements of url, rather than preventing creation
