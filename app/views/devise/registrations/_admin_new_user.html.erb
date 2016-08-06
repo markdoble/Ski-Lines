@@ -1,15 +1,4 @@
 <!-- New Merchant Create Form  -->
-<div class="container">
-	<div class="devise_user_registration">
-		<div class="row">
-			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-8 col-sm-12 devise_forms_background">
-					<div class="merchant_form_headings">
-					<h2>Create Ski-Lines User:</h2>
-					</div>
-		<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-		  <%= devise_error_messages! %>
 				  <div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
@@ -121,15 +110,3 @@
 						<br /><br />
 					</div>
 			  </div>
-			  <div class="devise_create actions" style="text-align:center">
-			    <%= f.submit "CREATE ACCOUNT	", class: "btn btn-primary btn-large" %>
-					<br /><br />
-			  </div>
-				<% end %>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
-			</div>
-		</div>
-	</div>
-<br /><br /><br /><br />
-</div>
