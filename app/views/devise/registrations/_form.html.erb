@@ -1,0 +1,24 @@
+<!-- Generic User Create Form  -->
+					<div class="field">
+    			  <div class="devise_label col-xs-12">
+    		    <%= f.label :email, hidden: true %>
+    		    <%= f.email_field :email, autofocus: true, class: "form-control input-lg", placeholder: "Email" %><br />
+    				</div>
+    		  </div>
+
+    		  <div class="field">
+    			  	<div class="devise_label col-xs-12">
+    		    <%= f.label :password, hidden: true %>
+    		    <% if @validatable %>
+    		    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    		    <% end %>
+    		    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg" %>
+    				</div>
+    		  </div>
+    		  <div class="field">
+    			  	<div class="devise_label col-xs-12">
+    		    <%= f.label :password_confirmation, "Confirm", hidden: true %>
+    		    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control input-lg" %>
+    				<br /><br />
+    				</div>
+    		  </div>

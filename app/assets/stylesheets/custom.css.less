@@ -1,7 +1,7 @@
 @import "twitter/bootstrap/bootstrap";
 
 .sponsor_bkgd{
-	background: url(OW_back_2_fade.png) no-repeat center center;
+	background: url("OW_back_2_fade.png") no-repeat center center;
 
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -12,10 +12,49 @@
 
 /* start of store */
 .store_layout_bakground{
-	background-color:black;
-	min-height:100%;
-	height:auto;
+	background-color:white;
+	padding-top:0px;
+	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+
 }
+
+.store_header{
+	background: url("landing_4.jpg") no-repeat center center;
+	background-size: cover;
+	padding-top:0px;
+	.transparent_fade{
+		background-color:rgba(0,0,0,0.5);
+	}
+	h2{
+		color:white;
+		font-size:50px;
+	}
+	h4{
+		margin-top:10px;
+		color:white;
+		font-size:25px;
+	}
+}
+.landing_page_arrow{
+	text-align:center;
+	margin-top:-20px;
+	.glyphicon-chevron-down{
+		font-size:40px;
+		color:black;
+	}
+}
+.product_results{
+	h4{
+		font-size:22px;
+		padding-top:5px;
+		margin-left:20px;
+		padding-bottom:20px;
+	}
+	.product_row{
+		border-bottom: 1px solid black;
+	}
+}
+
 
 body.store_layout{
 	padding:0px;
@@ -480,6 +519,7 @@ nav.merchant{
 }
 
 
+
 .admin_product_well{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 	box-shadow: 0 0 3px black;
@@ -490,6 +530,17 @@ nav.merchant{
 	}
 	.quant_unit{
 		text-align:center;
+	}
+	select {
+	border: 1px solid #111;
+	background-color: white;
+	font-size: 15px;
+	width:100%;
+	border: 1px solid #ccc;
+	height: 30px;
+	}
+	option {
+		background-color: white;
 	}
 }
 
@@ -505,12 +556,14 @@ nav.merchant{
 		background: rgba(0,0,0, 0.3);
 		color:white;
 	}
-
 }
+
 .public_product_well{
 	background-color:white;
 	padding:0px;
 	margin:5px;
+	text-align:center;
+	height:400px;
 }
 .public_product_well a:hover{
 	text-decoration:none;
@@ -531,23 +584,25 @@ nav.merchant{
 		text-align:left;
 	}
 	.product_text{
-		margin-top:120px;
+
 		margin-bottom:0px;
 		height:110px;
 		padding:10px;
-		background: rgba(0,0,0, 0.6);
-		color:white;
+		color:black;
 		.product_merchant_name{
-			color:white;
+			color:black;
 			font-size:13px;
-			text-align:left;
+			text-align:center;
 			padding-top:5px;
 		}
 		h3{
 			padding:0px;
 			margin:0px;
-			color:white;
+			color:black;
 
+		}
+		p{
+			text-align:center;
 		}
 	}
 }
@@ -624,41 +679,22 @@ nav.merchant{
 		text-align:center;
 	}
 }
-.filter.affix{
-	background: rgba(255,255,255, 1);
-	color:black;
-	box-shadow: 0 0 3px black;
-	padding-top:0px;
-	padding-bottom:10px;
-	padding-left:0px;
-	padding-right:0px;
-	border-radius:10px;
-	text-align:center;
-	h3{
-		text-align:center;
-		font-size:18px;
-		background-color:black;
-		color:white;
-		padding:10px;
-		margin-top:0px;
-	}
-	p{
-		font-size:13px;
-		text-align:left;
-		margin-bottom:5px;
 
-		padding-left:15px;
-		padding-top:0px;
-		padding-bottom:0px;
-		padding-right:3px;
+.product_filter{
+	h4{
+		text-align:center;
+	}
+	.affix{
+		width:auto;
+		padding:5px;
 	}
 	.filter_button{
-
-	}
-	.filter_button:hover{
-
+		padding:5px;
+		margin-bottom:5px;
+		width: 100%;
 	}
 }
+
 
 a.clothing_filter_button{
 	color:black;
@@ -784,7 +820,7 @@ a.acc_filter_button:hover{
 /* Admin Store */
 .product_categories_admin{
 	text-align:left;
-
+	padding:0px;
 }
 .survey_results{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
@@ -815,6 +851,7 @@ a.acc_filter_button:hover{
 	tr:hover{
 		background-color: #ededed;
 	}
+
 	h3{
 
 	}
@@ -850,6 +887,17 @@ a.acc_filter_button:hover{
 	tr:hover{
 		background-color: #ededed;
 	}
+	tr.table_header{
+		font-size:16px;
+		background-color:white;
+
+	}
+	tr.table_header:nth-child(even) {
+	    background-color: white;
+	}
+	tr.table_header:hover{
+		background-color: white;
+	}
 	h3{
 
 	}
@@ -879,7 +927,7 @@ a.acc_filter_button:hover{
 		padding-left:15px;
 		padding-right:15px;
 		padding-top:5px;
-		padding-bottom:15px;
+		padding-bottom:0px;
 
 		background-color:white;
 		color:black;
@@ -919,23 +967,14 @@ a.acc_filter_button:hover{
 	margin-top:0px;
 	padding-top:0px;
 }
-.form_for_merchant_order_true{
-	margin-bottom:10px;
-	background-color:yellow;
-	border-radius:15px;
 
-	p{
-		font-size:14px;
-		margin-bottom:0px;
-		padding-bottom:0px;
-	}
-	font-size:12px;
-}
-.form_for_merchant_order_false{
+.form_for_merchant_order_status{
 	margin-bottom:10px;
+	padding:15px;
+	text-align:left;
 	border: 1px solid rgba(0, 0, 0, .2);
-	    -webkit-background-clip: padding-box; /* for Safari */
-	    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+	-webkit-background-clip: padding-box; /* for Safari */
+	background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 	border-radius:15px;
 	p{
 		font-size:14px;
@@ -1009,7 +1048,6 @@ a.acc_filter_button:hover{
 .amount_side_contain{
 	text-align:center;
 	padding-left:20px;
-	position:absolute;
 	right:0px;
 	margin-top:40px;
 }
@@ -1019,19 +1057,8 @@ a.acc_filter_button:hover{
 	margin-bottom:10px;
 	margin-top:10px;
 	padding:3px;
-   -o-transition:.7s;
-   -ms-transition:.7s;
-   -moz-transition:.7s;
-   -webkit-transition:.7s;
-   transition:.7s;
-
-
-}
-.product_items:hover{
-
 	box-shadow: 0 0 3px #006dcc;
 }
-
 
 .image_frame{
 	padding:5px;
@@ -1082,6 +1109,18 @@ a.acc_filter_button:hover{
 	padding-right:8px;
 	padding-top:8px;
 	padding-bottom:8px;
+	select {
+	border: 1px solid #111;
+	background-color: white;
+	font-size: 15px;
+	width:100%;
+	border: 1px solid #ccc;
+	height: 45px;
+	}
+	option {
+		background-color: white;
+		font-size:15px;
+	}
 
 }
 .total_placeholder{
@@ -1223,15 +1262,18 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .order_form_button{
 	text-align:center;
+	pading:0px;
+	margin:0px;
 	.purchase_button{
 		width:100%;
 		height:50px;
 		font-size:16px;
+		pading:0px;
+		margin:0px;
 	}
 }
 
 .empty_cart{
-
 	h2{
 		text-align:center;
 	}
@@ -1285,6 +1327,13 @@ input[type=number]::-webkit-inner-spin-button {
 }
 .purchase_order_show{
 	text-align:center;
+	h2{
+		font-size:24px;
+		margin:0px;
+		padding:0px;
+		color:#3b3b3b;
+		line-height:33px;
+	}
 	h5{
 		font-size:18px;
 		margin-bottom:0px;
@@ -1292,13 +1341,21 @@ input[type=number]::-webkit-inner-spin-button {
 		padding:0px;
 	}
 	.order_show_product{
+		margin-bottom:10px;
+		padding:15px;
+		text-align:center;
+		border: 1px solid rgba(0, 0, 0, .2);
+		-webkit-background-clip: padding-box; /* for Safari */
+		background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+		border-radius:15px;
+		p{
+			font-size:14px;
+			margin-bottom:0px;
+			padding-bottom:0px;
+		}
+		font-size:12px;
+	}
 
-		padding:10px;
-	}
-	.order_show_product:hover{
-		background-color:#ededed;
-		padding:10px;
-	}
 }
 
 .merchant_orders_form{
@@ -1462,7 +1519,7 @@ input[type=number]::-webkit-inner-spin-button {
 	  }
 }
 .devise_forms_background{
-	background-color:rgba(0,0,0,0.5);
+	background-color:rgba(0,0,0,0.7);
 
 	border-radius:15px;
 	box-shadow: 0 0px 1px;
@@ -1518,17 +1575,55 @@ input[type=number]::-webkit-inner-spin-button {
 .reset_password{
 	display:none;
 }
+.edit_devise_label{
+	font-size:16px;
+	text-align:left;
+	font-weight:lighter;
+	label {
+    font-weight: bold !important;
+		color:white;
+		text-align:left;
+	}
+	select {
+	border: 1px solid #111;
+	background-color: white;
+	font-size: 15px;
+	width:100%;
+	border: 1px solid #ccc;
+	height: 35px;
+	}
+	option {
+		background-color: white;
+		font-size:15px;
+	}
 
+}
 .devise_label{
 	font-size:16px;
-	text-align:right;
+	text-align:left;
 	padding-top:10px;
 	font-weight:lighter;
 	padding-right:0px;
+	padding-left:0px;
+	margin-left:0px;
 	margin-right:0px;
 	label {
     font-weight: bold !important;
-}
+		color:white;
+		text-align:left;
+	}
+	select {
+	border: 1px solid #111;
+	background-color: white;
+	font-size: 15px;
+	width:100%;
+	border: 1px solid #ccc;
+	height: 45px;
+	}
+	option {
+		background-color: white;
+		font-size:15px;
+	}
 
 }
 .devise_label_loc{
@@ -1542,7 +1637,28 @@ input[type=number]::-webkit-inner-spin-button {
     font-weight: bold !important;
 }
 }
+.order_form_headings{
+	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+	text-align:left;
+	border-bottom-style:solid;
+	border-color:#bdbdbd;
+	border-width:thin;
+	margin-bottom:10px;
+	padding-bottom:0px;
+  p{
+		padding-top:0px;
+		margin-top:0px;
+		color:#9c9c9c;
+	}
+	h2{
+		color:black;
+		font-size:22px;
+		padding-bottom:0px;
+		font-weight: normal;
 
+	}
+
+}
 .merchant_form_headings{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 	text-align:left;
@@ -1565,7 +1681,25 @@ input[type=number]::-webkit-inner-spin-button {
 	}
 
 }
-
+.merchant_order_products{
+	text-align: center;
+	p{
+		font-size: 15px;
+		padding:0px;
+		maring:0px;
+	}
+	h3{
+		font-size: 24px;
+		padding:0px;
+		maring:0px;
+	}
+	.left{
+		text-align:right;
+	}
+	.right{
+		text-align:left;
+	}
+}
 
 .edit_merchant_save_button{
 	text-align:center;
@@ -1635,7 +1769,7 @@ input[type=number]::-webkit-inner-spin-button {
 
 body {
 
-  background-color: #fbf5ff;
+  background-color: white;
   font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
   font-size: 13px;
   line-height: 18px;
@@ -1648,8 +1782,8 @@ body {
 }
 
 .main{
-    height: fixed;
-    overflow: auto;
+  height: fixed;
+  overflow: auto;
 	padding-left:2px;
 	padding-right:2px;
 	margin:0px;
@@ -2163,8 +2297,8 @@ resize: none;
 
 .menu_logo{
 	position:relative;
-	margin-right:0px;
-	margin-top:15px;
+	margin-right:30px;
+	margin-top:17px;
 	margin-bottom:2px;
 	margin-left:2px;
 	img {
@@ -2172,13 +2306,31 @@ resize: none;
 	    top:0;
 	    bottom:0;
 	    margin-bottom:0;
-		height:20px;
+			height:15px;
 	}
 
 
 }
 
+.dropdown .product_main_menu{
+	position:fixed;
+	left:0;
+	width:100%;
+	overflow: scroll;
+	margin:0px;
+	border:none;
+	text-align:center;
+	.heading{
+		margin-bottom:3px;
+		a{
+			text-decoration:none;
+			color:#006dcc;
+			font-size:17px;
+			font-weight:bold;
 
+		}
+	}
+}
 .dropdown .main_menu{
 	position:fixed;
 	left:0;
@@ -2188,6 +2340,7 @@ resize: none;
 	border:none;
 	text-align:center;
 }
+
 
 .fb-image{
 	position:relative;
@@ -2364,31 +2517,59 @@ resize: none;
 	font-size:10px;
 	text-align:right;
 }
+.glyphicon-user{
+	font-size:18px;
+}
+.cart{
+	a{
+		font-size:18px;
+		.glyphicon-shopping-cart{
+			font-size:21px;
+			color:white;
+			z-index: -1;
+			margin:0px;
+			padding-top:0px;
+			padding-bottom:0px;
+			padding-left:0px;
+			padding-right:0px;
+		}
+		.cart_product_number{
+			margin-left:-5px;
+			margin-bottom:0px;
+			top:7px;
+			position:absolute;
+			background-color: #006dcc;
+			*background-color: #0044cc;
+			width:20px;
+			height:25px;
+			padding-left:5px;
+			padding-right:0px;
+			padding-top:3px;
+			padding-bottom:0px;
+			border-radius:10px;
+			color:white;
 
-.glyphicon-shopping-cart{
+		}
+	}
+}
+.country_flag_container{
+	.country_flag{
+	}
 
 }
+
+
 .glyphicon-menu-hamburger{
-	font-size:35px;
+	font-size:15px;
 	margin-top:0px;
-	padding-top:10px;
+	padding-top:0px;
 	margin-bottom:0px;
 	padding-bottom:0px;
 	color:white;
 	margin-left:25px;
+	top:0;
+	bottom:0;
 }
-.dropdown{
-	.glyphicon-menu-hamburger{
-		font-size:35px;
-		margin-top:0px;
-		padding-top:10px;
-		margin-bottom:0px;
-		padding-bottom:0px;
-		color:white;
-		margin-left:25px;
-	}
-}
-
 
 .navbar_cart{
 	a{
@@ -3026,24 +3207,39 @@ border-radius: 0px;
 			border:none;
 		}
 	}
-	.search_large{
-		margin-top:10px;
-		margin-bottom:5px;
+.search_large{
+margin-top:10px;
+margin-bottom:5px;
 
 
-		.form-control{
-		width:450px;
+.form-control{
+width:450px;
+height:35px;
+border:none;
+
+
+	}
+	button{
 		height:35px;
+		border-radius:0px;
 		border:none;
-
-
-			}
-			button{
-				height:35px;
-				border-radius:0px;
-				border:none;
-			}
+	}
+}
+.product_search_large{
+	margin-top:10px;
+	margin-bottom:10px;
+	.form-control{
+	width:350px;
+	height:35px;
+	border:none;
+	margin-left:40px;
 		}
+		button{
+			height:35px;
+			border-radius:0px;
+			border:none;
+		}
+	}
 
 .search_mobile{
 	margin-top:10px;

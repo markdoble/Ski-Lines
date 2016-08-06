@@ -1,61 +1,55 @@
 <!-- Store Page Navbar -->
-
-	<nav class="store_index navbar navbar-default navbar-fixed-top hidden-xs">
-	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="nav navbar-nav hidden-xs">
+			<li class="dropdown">
+					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false">
+						<%= image_tag('menu_icon.png') %>
+					</a>
+					<ul class="dropdown-menu product_main_menu" role="menu">
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><%= link_to "HARD GOODS", products_hard_goods_path %> </li>
+							<li><%= link_to "SKIS", products_hard_goods_path %></li>
+							<li><%= link_to "BOOTS", products_hard_goods_path %></li>
+							<li><%= link_to "POLES", products_hard_goods_path %></li>
+							<br /><br />
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><%= link_to "CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "MEN'S CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "WOMEN'S CLOTHING", products_clothing_path %></li>
+							<li><%= link_to "GLOVES", products_clothing_path %></li>
+							<li><%= link_to "TOQUES", products_clothing_path %></li>
+							<li><%= link_to "SOCKS", products_clothing_path %></li>
+							<li><%= link_to "BUFFS & NECKWARMERS", products_clothing_path %></li>
+							<li><%= link_to "KID'S CLOTHING", products_clothing_path %></li>
+							<br /><br />
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><%= link_to "WAXING", products_waxing_path %></li>
+							<li><%= link_to "GRIP", products_waxing_path %></li>
+							<li><%= link_to "GLIDE", products_waxing_path %></li>
+							<li><%= link_to "TOOLS & ACCESSORIES", products_waxing_path %></li>
+							<br /><br />
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-12">
+							<br />
+							<li class="heading"><%= link_to "ACCESSORIES", products_accessories_path %></li>
+							<li><%= link_to "SKI BAGS", products_accessories_path %></li>
+							<li><%= link_to "DUFFEL BAGS", products_accessories_path %></li>
+							<li><%= link_to "BACK PACKS", products_accessories_path %></li>
+							<li><%= link_to "DRINKBELTS", products_accessories_path %></li>
+							<li><%= link_to "NUTRITION", products_accessories_path %></li>
+							<li><%= link_to "SUNGLASSES & GOGGLES", products_accessories_path %></li>
+							<li><%= link_to "BOOT COVERS", products_accessories_path %></li>
+							<li><%= link_to "BINDINGS", products_accessories_path %></li>
+							<br /><br />
+						</div>
+					</ul>
+			</li>
 		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse">
-
-			 <ul class="nav navbar-nav">
-						<li>
-						<div class="dropdown">
-					    <button class="btn btn-primary dropdown-toggle myButton" type="button" data-toggle="dropdown">PRODUCT CATEGORIES
-					    <span class="caret"></span></button>
-					    <ul class="dropdown-menu">
-								<li><%= link_to "HARD GOODS", products_hard_goods_url %></li>
-		       		  <li><%= link_to "CLOTHING", products_clothing_url %></li>
-		       		  <li><%= link_to "WAXING", products_waxing_url %></li>
-		       		  <li><%= link_to "ACCESSORIES", products_accessories_url %></li>
-					    </ul>
-					  </div>
-					</li>
-	 	     </ul>
-
-			 <ul class="nav navbar-nav navbar-right">
-				 <li><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
-						<li>
-						<div class="dropdown">
-
-					    <button class="btn btn-primary dropdown-toggle myButton menu_logo" type="button" data-toggle="dropdown"><%= image_tag('menu_icon.png') %></button>
-					    <ul class="dropdown-menu">
-								<li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
-							  <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
-							  <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
-							  <li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
-			  	       		  <li><%= link_to "EMAIL US", "mailto:store@ski-lines.com?Subject=Inquiry" %></li>
-					    </ul>
-					  </div>
-					</li>
-	 	     </ul>
-
-		    </div><!-- /.navbar-collapse -->
-
-
-	  </div><!-- /.container-fluid -->
-	</nav>
-
-
-
-
-	<nav class="navbar navbar-default navbar-fixed-top hidden-lg hidden-md hidden-sm">
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
@@ -66,55 +60,49 @@
 	        <span class="icon-bar"></span>
 	      </button>
 	      <a class="navbar-brand" href='<%=products_path%>'>
-			 <%= image_tag('store_logo_bitmap.png', height:'25px') %>
-		  </a>
-
-		</div>
-
-
-
-
+			 		<%= image_tag('store_logo_bitmap.png', height:'25px') %>
+		  	</a>
+			</div>
+			<div class="nav navbar-nav hidden-sm hidden-xs">
+		     <div class="input-group">
+		 		  <div class="product_search_large">
+		  		 <%= form_tag(products_all_products_path, :method => 'get', id: "search-form") do %>
+		          <%= text_field_tag :query, params[:query], class:"form-control", placeholder: "Search..." %>
+		               <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				   <%end%>
+		       </div>
+				 </div>
+			</div>
+			<ul class="nav navbar-nav navbar-right hidden-xs">
+				 <li class="country_flag_container"><a><span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
+				 <li class="dropdown">
+					 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
+					 <ul class="dropdown-menu" role="menu">
+						 <% if user_signed_in? %>
+						 <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+						 <li><%= link_to "Edit", edit_user_registration_path %></li>
+						 <%else%>
+						 <li><%= link_to "Login", new_user_session_path %></li>
+						 <li><%= link_to "Sign Up", new_user_registration_path %></li>
+						 <%end%>
+					 </ul>
+				 </li>
+				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="cart_product_number"><%= @cart.count%></span></a></li>
+			</ul>
 		<!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-			 <ul class="nav navbar-nav">
-
-						<li class="dropdown">
-		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">  PRODUCT CATEGORIES    <span class="caret"></span></a>
-
-		  		    <ul class="dropdown-menu" role="menu">
-
-
-	       		  <li><%= link_to "HARD GOODS", products_hard_goods_url %></li>
-	       		  <li><%= link_to "CLOTHING", products_clothing_url %></li>
-	       		  <li><%= link_to "WAXING", products_waxing_url %></li>
-	       		  <li><%= link_to "ACCESSORIES", products_accessories_url %></li>
-			  		  </ul>
-		  	    </li>
-	 	     </ul>
-
-			 <ul class="nav navbar-nav navbar-right">
-
-				 <li><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span> <%= @cart.count%></a></li>
- 					<li class="dropdown">
-  		              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">MENU   <span class="caret"></span></a>
-
-  		  		    <ul class="dropdown-menu" role="menu">
-
-
-				  <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
-				  <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
-				  <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
-				  <li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
-  	       		  <li><%= link_to "EMAIL US", "mailto:store@ski-lines.com?Subject=Inquiry" %></li>
-
-
-  			  		  </ul>
-  		  	    </li>
+		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
+						<li><a href='/cart'>MY PRODUCTS ( <%= @cart.count%> )</a></li>
+						<li><%= link_to "HARD GOODS", products_hard_goods_path %></li>
+						<li><%= link_to "CLOTHING", products_clothing_path %></li>
+						<li><%= link_to "WAXING", products_waxing_path %></li>
+						<li><%= link_to "ACCESSORIES", products_accessories_path %></li>
+            <li><%= link_to "TRACK MY ORDER", track_orders_my_order_path %></li>
+            <li><%= link_to "FILE A COMPLAINT", new_complaint_path %></li>
+            <li><%= link_to "STORE POLICIES", infos_terms_path %></li>
+						<li><%= link_to "MY STORE", admin_products_path %></li>
+						<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
 			 </ul>
-
-		    </div><!-- /.navbar-collapse -->
-
-
+		  </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>

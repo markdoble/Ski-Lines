@@ -19,7 +19,17 @@ Rails.application.routes.draw do
   get '/new_subscriber' => 'email_digests#new_subscriber'
   resources :email_digests
 
-  resources :orders, :except => [:show, :index]
+  get 'orders/customer_details_form'
+  get 'orders/payment_form'
+  get 'orders/confirmation'
+  resources :orders, :except => [:show] do
+    member do
+      patch :create_customer_details
+      put :create_customer_details
+      patch :create_payment
+      put :create_payment
+    end
+  end
 
   root 'articles#cross_country'
 
@@ -63,16 +73,14 @@ Rails.application.routes.draw do
   resources :user_feedback_answers, :except => [:index, :show]
 
   namespace :admin do
-    get 'orders/myperformance'
     get 'products/hard_goods'
     get 'products/clothing'
     get 'products/waxing'
     get 'products/accessories'
-    get 'orders/all_orders'
-    get 'orders/merchants'
-    get 'orders/index'
+    get 'all_orders/merchants'
     resources :products
     resources :articles, :except => [:show]
+    resources :all_orders
     resources :orders
     resources :product_categories
     resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]

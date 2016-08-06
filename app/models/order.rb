@@ -7,18 +7,16 @@ class Order < ActiveRecord::Base
 
   has_many :order_units, :class_name => 'OrderUnits'
   has_many :units, :through => :order_units
-  accepts_nested_attributes_for :order_units
+  accepts_nested_attributes_for :order_units, :reject_if => proc { |attributes| attributes['quantity'].to_i.zero? }
 
   has_and_belongs_to_many :products
 
 # Validations:
-  validates :amount, :presence => {:message => 'You must make a selection to submit your order.'}
-  validates :amount, :numericality => { :greater_than => 0 }
 
 
   #email/name
   validates_format_of :cust_email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-  validates_confirmation_of :cust_email
+  validates :cust_email, confirmation: true
   validates :cust_email, :presence => {:message => 'Please fill out your email address.'}
   validates :cust_last_name, :presence => {:message => 'Please fill out your last name.'}
   validates :cust_first_name, :presence => {:message => 'Please fill out your first name.'}
@@ -32,5 +30,4 @@ class Order < ActiveRecord::Base
 
   # scopes
   scope :verified, -> { where(success: true) }
-
 end

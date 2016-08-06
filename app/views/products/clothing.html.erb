@@ -1,112 +1,56 @@
-<%= render 'orders/navbar' %>
-
-<div class="store_clothing_background">
-	<br /><br /><br /><br /><br />
+<br /><br /><br />
 	<div class="container">
 		<div class="row">
-
-			 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-				 <div class="dropdown_for_filter col-lg-4 col-md-4 col-sm-4 col-xs-12">
-					 <div class="dropdown">
-					   <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">Filter Options
-					   <span class="caret"></span></button>
-					   <ul class="dropdown-menu">
-	 			        <%= form_tag(products_clothing_path, method: "get") do %>
-
-	 						<h4>Gender:</h4>
-
-	 			        <li><%= radio_button_tag(:category, "Clothing Women", params[:category] == "Clothing Women") %>
-	 			           <%= label_tag(:category, "Women's Clothing") %></li>
-
-	 			        <li><%= radio_button_tag(:category, "Clothing Men", params[:category] == "Clothing Men") %>
-	 			           <%= label_tag(:category, "Men's Clothing") %></li>
-
-	 			        <li><%= radio_button_tag(:category, "Unisex Clothing Accessories", params[:category] == "Unisex Clothing Accessories") %>
-	 			           <%= label_tag(:category, "Unisex Clothing Accessories") %></li>
-
-
-
-	 						<h4> Clothing Categories:</h4>
-
-	 			        <li><%= radio_button_tag(:sub_category, "Training Jacket", params[:sub_category] == "Training Jacket" ) %>
-	 			           <%= label_tag(:sub_category, "Training Jackets") %></li>
-
-	 			        <li><%= radio_button_tag(:sub_category, "Training Pants", params[:sub_category] == "Training Pants") %>
-	 			           <%= label_tag(:sub_category, "Training Pants") %></li>
-
-	 			  	    <li><%= radio_button_tag(:sub_category, "Training Top", params[:sub_category] == "Training Top") %>
-	 			           <%= label_tag(:sub_category, "Training Tops") %></li>
-
-	 			  	    <li><%= radio_button_tag(:sub_category, "Parka", params[:sub_category] == "Parka") %>
-	 			           <%= label_tag(:sub_category, "Parkas") %></li>
-
-	 			  	    <li><%= radio_button_tag(:sub_category, "Toques", params[:sub_category] == "Toques") %>
-	 			           <%= label_tag(:sub_category, "Hats and Toques") %></li>
-
-	 			  	    <li><%= radio_button_tag(:sub_category, "Socks", params[:sub_category] == "Socks") %>
-	 			           <%= label_tag(:sub_category, "Socks") %></li>
-
-	 				    <li><%= radio_button_tag(:sub_category, "Gloves", params[:sub_category] == "Gloves") %>
-	 	 			           <%= label_tag(:sub_category, "Gloves") %></li>
-
-	 				    <li><%= radio_button_tag(:sub_category, "Long Underwear", params[:sub_category] == "Long Underwear") %>
-	 	 			           <%= label_tag(:sub_category, "Long Underwear") %></li>
-
-	 				    <li><%= radio_button_tag(:sub_category, "Underwear", params[:sub_category] == "Underwear") %>
-	 	 			           <%= label_tag(:sub_category, "Underwear") %></li>
-
-	 				    <li><%= radio_button_tag(:sub_category, "Tights", params[:sub_category] == "Tights") %>
-	 	 			           <%= label_tag(:sub_category, "Tights and Racing Suits") %></li>
-							   <br />
-
-	 					<%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %>
-
-	 			         <% end %>
-					   </ul>
+			<div class="product_filter col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<div class="affix">
+					<br /><br />
+	 			      <%= form_tag(products_clothing_path, method: "get") do %>
+	 						<h4>GENDER</h4>
+	 			      <%= radio_button_tag(:category, "Clothing Women", params[:category] == "Clothing Women") %>
+	 			      <%= label_tag(:category, "Women's Clothing") %><br />
+	 			      <%= radio_button_tag(:category, "Clothing Men", params[:category] == "Clothing Men") %>
+	 			      <%= label_tag(:category, "Men's Clothing") %><br />
+	 			      <%= radio_button_tag(:category, "Unisex Clothing Accessories", params[:category] == "Unisex Clothing Accessories") %>
+	            <%= label_tag(:category, "Unisex Clothing Accessories") %><br /><br />
+	 						<h4> CLOTHING TYPE</h4>
+	 			      <%= radio_button_tag(:sub_category, "Training Jacket", params[:sub_category] == "Training Jacket" ) %>
+	 			      <%= label_tag(:sub_category, "Training Jackets") %><br />
+	 			      <%= radio_button_tag(:sub_category, "Training Pants", params[:sub_category] == "Training Pants") %>
+	 			      <%= label_tag(:sub_category, "Training Pants") %><br />
+	 			  	  <%= radio_button_tag(:sub_category, "Training Top", params[:sub_category] == "Training Top") %>
+	 			      <%= label_tag(:sub_category, "Training Tops") %><br />
+	 			  	  <%= radio_button_tag(:sub_category, "Parka", params[:sub_category] == "Parka") %>
+	 			      <%= label_tag(:sub_category, "Parkas") %><br />
+	 			  	  <%= radio_button_tag(:sub_category, "Toques", params[:sub_category] == "Toques") %>
+	 			      <%= label_tag(:sub_category, "Hats and Toques") %><br />
+	 			  	  <%= radio_button_tag(:sub_category, "Socks", params[:sub_category] == "Socks") %>
+	 			      <%= label_tag(:sub_category, "Socks") %><br />
+	 				    <%= radio_button_tag(:sub_category, "Gloves", params[:sub_category] == "Gloves") %>
+	 	 			    <%= label_tag(:sub_category, "Gloves") %><br />
+	 				    <%= radio_button_tag(:sub_category, "Long Underwear", params[:sub_category] == "Long Underwear") %>
+	 	 			    <%= label_tag(:sub_category, "Long Underwear") %><br />
+	 				    <%= radio_button_tag(:sub_category, "Underwear", params[:sub_category] == "Underwear") %>
+	 	 			    <%= label_tag(:sub_category, "Underwear") %><br />
+	 				    <%= radio_button_tag(:sub_category, "Tights", params[:sub_category] == "Tights") %>
+	 	 			    <%= label_tag(:sub_category, "Tights and Racing Suits") %><br />
+							 <br />
+	 					  <%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %>
+							<%= link_to "All CLothing", products_clothing_path, :class => "filter_button btn btn-primary" %>
+	 			      <% end %>
 					 </div>
 					 <br />
 				 </div>
-
-				 <div class="search_bar col-lg-8 col-md-8 col-sm-8 col-xs-12">
-
-				    <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-				  		 <%= form_tag("/products/clothing", :method => 'get', id: "search-form") do %>
-				          <%= text_field_tag :query, params[:query], class:"form-control input-lg", placeholder: "Search Clothing", style: "width:85%" %>
-				        <div class="input-group-btn">
-				          <button class="btn btn-default input-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-				          <% end %>
-				        </div>
-					 </div>
-			 	</div>
-				<div class="product_results col-xs-12">
-					<div class="row">
-				    <br />
-					<% @clothing.each do |product|%>
-					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-					<%= render :partial => "products/product", :locals => {:product => product} %>
-					<br />
-					</div>
-					<%end%>
-				</div>
-				</div>
-
-			 </div>
-
-
+				 <div class="product_results col-lg-9 col-md-9 col-sm-9 col-xs-12">
+ 						<div class="row">
+ 					 		<br /><br />
+ 					 		<% @clothing.each do |product|%>
+ 						 		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+ 							 	<%= render :partial => "products/product", :locals => {:product => product} %>
+ 							 	<br />
+ 						 		</div>
+ 						 <%end%>
+ 					 </div>
+ 			 </div>
 	 	</div>
-
-
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	</div>
-
-
-
-
-		</div>
-
-
-
-
-
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 </div>

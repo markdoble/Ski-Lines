@@ -1,90 +1,45 @@
-<%= render 'orders/navbar' %>
-<div class="store_acc_background">
-		<br /><br /><br /><br /><br />
-		<div class="container">
-			<div class="row">
-
-				 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-					 <div class="dropdown_for_filter col-lg-4 col-md-4 col-sm-4 col-xs-12">
-						 <div class="dropdown">
-						   <button class="btn btn-primary btn-lg dropdown-toggle" type="button" data-toggle="dropdown">Filter Options
-						   <span class="caret"></span></button>
-						   <ul class="dropdown-menu">
-		 			        <%= form_tag(products_accessories_path, method: "get") do %>
-
-		 						<h4>Accessories:</h4>
-
-		 			        <li><%= radio_button_tag(:acc, "Ski Bag", params[:acc] == "Ski Bag") %>
-		 			           <%= label_tag(:acc, "Ski Bags") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Travel Bag Duffel", params[:acc] == "Travel Bag Duffel") %>
-		 			           <%= label_tag(:acc, "Travel Duffel Bags") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Travel Bag Backpack", params[:acc] == "Travel Bag Backpack") %>
-		 			           <%= label_tag(:acc, "Backpacks") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Drinkbelt", params[:acc] == "Drinkbelt") %>
-		 			           <%= label_tag(:acc, "Drinkbelts") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Sports Nutrition", params[:acc] == "Sports Nutrition") %>
-		 			           <%= label_tag(:acc, "Sports Nutrition") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Glasses", params[:acc] == "Glasses") %>
-		 			           <%= label_tag(:acc, "Glasses") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Boot Covers", params[:acc] == "Boot Covers") %>
-		 			           <%= label_tag(:acc, "Boot Covers") %></li>
-
-		 			        <li><%= radio_button_tag(:acc, "Bindings", params[:acc] == "Bindings") %>
-		 			           <%= label_tag(:acc, "Bindings") %></li>
-
-
-
-
-							   <br />
-
-		 					<%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %>
-
-		 			         <% end %>
-						   </ul>
-						 </div>
-						 <br />
-					 </div>
-
-					 <div class="search_bar col-lg-8 col-md-8 col-sm-8 col-xs-12">
-
-					    <div class="input-group col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
-					  		 <%= form_tag("/products/accessories", :method => 'get', id: "search-form") do %>
-					          <%= text_field_tag :query, params[:query], class:"form-control input-lg", placeholder: "Search Accessories", style: "width:85%" %>
-					        <div class="input-group-btn">
-					          <button class="btn btn-default input-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-					          <% end %>
-					        </div>
-						 </div>
-				 	</div>
-					<div class="product_results col-xs-12">
-						<div class="row">
-					    <br />
-						<% @accessories.each do |product|%>
-						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-						<%= render :partial => "products/product", :locals => {:product => product} %>
-						<br />
-						</div>
-						<%end%>
-					</div>
-					</div>
-
-				 </div>
-
-
-		 	</div>
-
-
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br /><br /><br />
+	<div class="container">
+		<div class="row">
+			<div class="product_filter col-lg-3 col-md-3 col-sm-3 col-xs-12">
+				<div class="affix">
+					<br /><br />
+			      <%= form_tag(products_accessories_path, method: "get") do %>
+						<h4>Accessories:</h4>
+			      <%= radio_button_tag(:acc, "Ski Bag", params[:acc] == "Ski Bag") %>
+			      <%= label_tag(:acc, "Ski Bags") %><br />
+			      <%= radio_button_tag(:acc, "Travel Bag Duffel", params[:acc] == "Travel Bag Duffel") %>
+			      <%= label_tag(:acc, "Travel Duffel Bags") %><br />
+			      <%= radio_button_tag(:acc, "Travel Bag Backpack", params[:acc] == "Travel Bag Backpack") %>
+			      <%= label_tag(:acc, "Backpacks") %><br />
+			      <%= radio_button_tag(:acc, "Drinkbelt", params[:acc] == "Drinkbelt") %>
+			      <%= label_tag(:acc, "Drinkbelts") %><br />
+			      <%= radio_button_tag(:acc, "Sports Nutrition", params[:acc] == "Sports Nutrition") %>
+			      <%= label_tag(:acc, "Sports Nutrition") %><br />
+			      <%= radio_button_tag(:acc, "Glasses", params[:acc] == "Glasses") %>
+			      <%= label_tag(:acc, "Glasses") %><br />
+			      <%= radio_button_tag(:acc, "Boot Covers", params[:acc] == "Boot Covers") %>
+			      <%= label_tag(:acc, "Boot Covers") %><br />
+			      <%= radio_button_tag(:acc, "Bindings", params[:acc] == "Bindings") %>
+			      <%= label_tag(:acc, "Bindings") %><br />
+				    <br />
+						<%= submit_tag "Apply Filter", :class => "filter_button btn btn-primary" %>
+					  <%= link_to "All Accessories", products_accessories_path, :class => "filter_button btn btn-primary" %>
+			      <% end %>
+				</div>
+	 		<br />
+	 	</div>
+		<div class="product_results col-lg-9 col-md-9 col-sm-9 col-xs-12">
+		 	 <div class="row">
+		 		 <br /><br />
+		 		 <% @accessories.each do |product|%>
+		 			 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+		 			 <%= render :partial => "products/product", :locals => {:product => product} %>
+		 			 <br />
+		 			 </div>
+		 		<%end%>
+		   </div>
 		</div>
-
-
-
-
 	</div>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

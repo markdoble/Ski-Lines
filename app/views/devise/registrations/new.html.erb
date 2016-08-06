@@ -1,257 +1,34 @@
+<% if user_signed_in? %>
+	<%= render 'admin/navbars/admin_navbar' %>
+<%end%>
 
-	<nav class="admin_store navbar navbar-default navbar-fixed-top">
-	  <div class="container">
-	    <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" href='<%=products_path%>'>
-			 <%=  image_tag('store_logo_bitmap.png', height:'25px') %> 
-		  </a>
-	      
-		</div>
-       
-	    <!-- Collect the nav links, forms, and other content for toggling -->
-	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav">
-			    <% if current_user.admin? %>
-			  
-	            <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">ADMIN<span class="caret"></span></a>
-          
-	  		    <ul class="dropdown-menu" role="menu">
-			  
-				  <li><%= link_to "CATEGORIES", admin_product_categories_path %></li>
-				  <li><%= link_to "NEW MERCHANT", new_user_registration_path %></li>
-		 		  <li><%= link_to "MERCHANTS", admin_orders_merchants_path %></li>
-		 		  <li><%= link_to "ORDERS", admin_orders_all_orders_path %></li>
-	  		  </ul>
-	  	    </li>
-			
-		  <%end%>
-           
-		  <li><%= link_to "PRODUCTS", admin_products_path %></li>
-		  <li><%= link_to "MY ORDERS", admin_orders_myperformance_path %></li>
-  
-   	   		
-		
-	      </ul>	
-		<ul class="nav navbar-nav pull-right">
-	    	
-	 		<% if user_signed_in? %>
-			<li><a><%= current_user.merchant_name %></a></li>
-	 		
-		
-	            <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile<span class="caret"></span></a>
-          
-	  		    <ul class="dropdown-menu" role="menu">
-	  	 		<li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-	  	 		<li><%= link_to "Edit", edit_user_registration_path %></li>
-				 
-	  		  </ul>
-	  	    </li>
-		
-		
-			<% end %>
- 	    
-		
-		
-		
-		</ul>	  
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container-fluid -->  
-	</nav>  
-	
-	
-	
-	
-<br /><br /><br />
 <div class="container">
+	<br /><br />
 	<div class="devise_user_registration">
 		<div class="row">
-			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
+			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
 			</div>
-			<div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
-				<div class="merchant_form_headings">
-				<h2>Create User:</h2>
-				</div>
+			<div class="col-lg-4 col-md-4 col-sm-8 col-sm-12 devise_forms_background">
+					<div class="merchant_form_headings">
+					<h2>Create User:</h2>
+					</div>
+				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+				  <%= devise_error_messages! %>
 
-		<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-		  <%= devise_error_messages! %>
-
-
-		  <div class="field">
-			    <div class="devise_label col-xs-4">
-		    <%= f.label :merchant_name, "Store Name" %><br />
+					<% if user_signed_in? %>
+						<%= select_create_form(current_user, f) %>
+					<%else%>
+						<%= render partial: "devise/registrations/form", locals: {:f => f} %>
+					<%end%>
+					<div class="devise_create actions" style="text-align:center">
+						<%= f.submit "CREATE ACCOUNT	", class: "btn btn-primary btn-large" %>
+						<br /><br />
+					</div>
+				<% end %>
 				</div>
-				<div class="col-xs-8">
-		    <%= f.email_field :merchant_name, autofocus: true, class: "form-control", placeholder: "Merchant Name" %><br />
+				<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
 				</div>
-		  </div>
-	  <div class="field">
-		    <div class="devise_label col-xs-4">
-	    <%= f.label :slug, "ski-lines.com/shop/" %>
-			</div>
-			<div class="col-xs-8">
-	    <%= f.text_field :slug, class: "form-control", placeholder: "YourStoreName", readonly: true%><br />
-			</div>
-	    </div>
-		  <div class="field">
-			    <div class="devise_label col-xs-4">
-		    <%= f.label :email %><br />
-				</div>
-				<div class="col-xs-8">
-		    <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email" %><br />
-				</div>
-		  </div>
-		  <div class="field">
-			    <div class="devise_label col-xs-4">
-		    <%= f.label :merchant_url, "Merchant URL:" %><br />
-				</div>
-				<div class="col-xs-8">
-		    <%= f.email_field :merchant_url, autofocus: true, class: "form-control", placeholder: "Website" %><br />
-				</div>
-		  </div>
-
-<!-- Address -->
-		  <div class="field">
-			    <div class="devise_label col-xs-4">
-		    <%= f.label :street_address, "Address" %><br />
-				</div>
-				<div class="col-xs-8">
-		    <%= f.email_field :street_address, autofocus: true, class: "form-control", placeholder: "Street Address" %><br />
-				</div>
-		  </div>
-		  
-		  
-		<% state_prov = 
-		{'Canada' => ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'], 
-		'United States of America' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']} %>
-		  
-		<div class="row">  
-		  <div class="field">
-			  <div class="devise_label_loc col-xs-4">
-		    <%= f.label :country, "Country:" %>
-			</div>
-			<div class="col-xs-8">
-		    <%= f.select :country, options_for_select(["United States of America", "Canada"]), class: "form-control country", :prompt => true %><br /><br />
-			</div>
-		  </div>
-	  </div>
-	  <div class="row"> 
-		  <div class="field">
-			  <div class="devise_label_loc col-xs-4">
-		     <%= f.label :state_prov, "State/Province:" %>
-			</div>
-			<div class="col-xs-8">
-		    <%= f.select :state_prov, grouped_options_for_select(state_prov), class: "form-control", :prompt => true %><br /><br />
-			</div>
-		  </div>
-	  </div>
-	  
-	  <div class="field">
-		    <div class="devise_label col-xs-4">
-	    <%= f.label :city, "City" %><br />
-			</div>
-			<div class="col-xs-8">
-	    <%= f.email_field :city, autofocus: true, class: "form-control", placeholder: "City" %><br />
-			</div>
-	  </div>
-	  <div class="field">
-		    <div class="devise_label col-xs-4">
-	    <%= f.label :zip_postal, "Zip/Postal" %><br />
-			</div>
-			<div class="col-xs-8">
-	    <%= f.email_field :zip_postal, autofocus: true, class: "form-control", placeholder: "Zip/Postal" %><br /><br /><br />	
-			</div>
-			
-	  </div>
-		  
-		<div class="merchant_form_headings">
-			
-		<h2>Roles:</h2>
-		</div> 
-	    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			 <div class="devise_label_loc col-lg-4 col-md-4 col-sm-4 col-xs-12">
-	    <%= f.label :merchant, "Merchant?" %>
-			</div>
-			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-	    <%= f.select :merchant, [['Yes', true], ['No', false]], class: "form-control", :prompt => true %>
-			</div>
-	    </div>
-	    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			 <div class="devise_label_loc col-lg-4 col-md-4 col-sm-4 col-xs-12">
-	    <%= f.label :article_publisher, "Publisher?" %>
-			</div>
-			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-	    <%= f.select :article_publisher, [['Yes', true], ['No', false]], class: "form-control", :prompt => true %>
-		
-			</div>
-			
-	    </div>
-		<br /><br /><br /><br /><br /><br />
-			<div class="merchant_form_headings">
-				
-			<h2>Return Policy:</h2>
-			</div>
-	  	  <div class="field">
-			  <div class="devise_label col-xs-4">
-	  	    <%= f.label :user_return_policy, "Return Policy:"  %>
-			  </div>
-			  <div class="col-xs-8">
-	  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %><br />
-			 <%= f.hidden_field :shipping_cost, value: 0 %>
-			  </div>
-	  	  </div>
-		
-	  
-	  
-	  
-	  
-	  
-<!-- Password -->
-	
-			<div class="merchant_form_headings">
-				<br /><br /><br />
-			&nbsp
-			</div>
-		  <div class="field">
-		  	
-			  	<div class="devise_label col-xs-4">
-		    <%= f.label :password %>
-		    <% if @validatable %>
-		    <em>(<%= @minimum_password_length %> characters minimum)</em>
-		    <% end %><br />
-				</div>
-				<div class="col-xs-8">
-		    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %><br />
-				</div>
-				
-		  </div>
-		  
-		  <div class="field">
-			  
-			  	<div class="devise_label col-xs-4">
-		    <%= f.label :password_confirmation, "Confirm" %><br />
-				</div>
-				<div class="col-xs-8">
-		    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control" %><br /><br />
-				</div>
-		  </div>
-
-		  <div class="devise_create actions" style="text-align:center">
-		    <%= f.submit "CREATE", class: "btn btn-primary btn-large" %>
-		  </div>
-		<% end %>
-			</div>
-			<div class="col-lg-3 col-md-3 hidden-sm hidden-xs">
 			</div>
 		</div>
-	</div>
-
+		<br /><br /><br /><br />
 </div>
