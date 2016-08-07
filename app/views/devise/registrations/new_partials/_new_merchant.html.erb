@@ -16,6 +16,10 @@
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
 				    <%= f.email_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
+						<!-- Roles -->
+						<%= f.hidden_field :merchant, value: true %>
+						<%= f.hidden_field :merchant_rep, value: false %>
+						<%= f.hidden_field :article_publisher, value: false %>
 						<br />
 						</div>
 				  </div>
@@ -76,22 +80,10 @@
 						<br /><br />
 					</div>
 			  </div>
-				<div class="merchant_form_headings">
-				<h2>Roles:</h2>
-				</div>
-				<div class="field">
-						<div class="devise_label col-xs-12">
-					    <%= f.label :merchant, "Merchant?", hidden: true %>
-					    <%= f.select :merchant, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Merchant?" %>
-						</div>
-			  </div>
-				<div class="field">
-					<div class="devise_label col-xs-12">
-				    <%= f.label :article_publisher, "Publisher?", hidden: true %>
-				    <%= f.select :article_publisher, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Publisher?" %>
-					<br /><br /><br />
-					</div>
-		    </div>
+
+
+
+
 				<div class="merchant_form_headings">
 					<h2>Return Policy:</h2>
 				</div>
@@ -99,7 +91,7 @@
 				  <div class="devise_label col-xs-12">
 		  	    <%= f.label :user_return_policy, "Return Policy:", hidden: true  %>
 		  	    <%= f.text_area :user_return_policy, class: "form-control input-lg", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %>
-				 		<%= f.hidden_field :shipping_cost, value: "0.00" %>
+				 		<%= f.hidden_field :shipping_cost, value: 5 %>
 						<br /><br />
 				  </div>
 			  </div>

@@ -29,6 +29,10 @@ module ApplicationHelper
     if current_user.admin == true
       render partial: "devise/registrations/edit_partials/edit_admin"
     elsif current_user.merchant_rep == true
+      render partial: "devise/registrations/edit_partials/edit_staff"
+    elsif current_user.article_publisher == true
+      render partial: "devise/registrations/edit_partials/edit_staff"
+    elsif current_user.merchant?
       render partial: "devise/registrations/edit_partials/edit_merchant"
     else
       render partial: "devise/registrations/edit_partials/edit_form"

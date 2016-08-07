@@ -36,23 +36,14 @@
                 <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
               <%end%>
             <%end%>
-
-
 							<br /><br /><br /><br />
-
-
-
 					</ul>
 			</li>
-
-
 	</div>
 		<div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 			<ul class="nav navbar-nav hidden-xs">
-
-				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), root_path %> </li>
-
+				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), shop_path %> </li>
 			</ul>
       <ul class="nav navbar-nav navbar-right hidden-xs">
       <% if user_signed_in? %>
@@ -65,20 +56,11 @@
                 </ul>
               </li>
       <% end %>
-
     </ul>
-
-
-
 			<div class="nav navbar-nav hidden-lg hidden-md hidden-sm">
 				<li class="dropdown">
 						<a href="#" class="dropdown-toggle navbar_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('store_logo_bitmap.png') %> </a>
-
 						<ul class="dropdown-menu" role="menu">
-
-
-
-
               <% if user_signed_in? %>
                   <% if current_user.article_publisher? %>
                   <li class="divider"></li>
@@ -109,15 +91,9 @@
                   <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>
                   <%end%>
               <% end %>
-
               <br />
-
-
 						</ul>
 				</li>
-
-
 		</div>
-
 		</div>
 	</nav>
