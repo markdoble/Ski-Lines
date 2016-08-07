@@ -1,6 +1,7 @@
 class Admin::AllOrdersController < ApplicationController
   layout "store_merchant_layout"
   before_action :authenticate_user!
+  before_action :verify_is_admin
 
 
   def index
@@ -28,12 +29,7 @@ class Admin::AllOrdersController < ApplicationController
 
   private
     def verify_is_admin
-      (current_user.nil?) ? redirect_to(root_path) : (redirect_to(admin_products_path) unless current_user.admin?)
+      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.admin?)
     end
-
-    def verify_is_rep
-      (current_user.nil?) ? redirect_to(root_path) : (redirect_to(admin_products_path) unless current_user.merchant_rep?)
-    end
-
 
 end
