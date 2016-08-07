@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :merchant_orders, :class_name => 'MerchantOrder'
   has_many :orders, :through => :merchant_orders
 
+  # enables user-user messaging. Required by mailboxer
+  acts_as_messageable
 
   # validates_uniqueness_of :slug, {message: "Your store url conflicts with another url in our system. Please email mark@ski-lines.com for a solution."}
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -15,8 +17,20 @@ class User < ActiveRecord::Base
   #validate :merchant_url_format
 
   # validations needed:
-    # if merchant_rep creating account, set merchant to true, and other roles to false.
+  # if merchant_rep creating account, set merchant to true, and other roles to false.
 
+  # required mailboxer definitions
+  def mailboxer_name
+    self.merchant_name
+  end
+  def mailboxer_email(object)
+    self.email
+  end
+
+  # retrieves all users except the current user
+  def self.all_except(user)
+    where.not(id: user)
+  end
 
   def merchant_url_format
     if self.merchant_url[0...4] == "http" or self.merchant_url[0...3] == "www" or self.merchant_url[0,1] == "."

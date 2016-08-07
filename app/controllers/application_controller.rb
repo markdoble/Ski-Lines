@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   before_filter :site_stats
   #before_filter :set_cache_headers
 
-
+  # helper for mailboxer
+  helper_method :mailbox, :conversation
 
   def site_stats
 
@@ -41,13 +42,20 @@ class ApplicationController < ActionController::Base
       end
   end
 
-
-
   def set_cache_headers
       response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
       response.headers["Pragma"] = "no-cache"
       response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
+  private
+
+  def mailbox
+    @mailbox ||= current_user.mailbox
+  end
+
+  def conversation
+    @conversation ||= mailbox.conversations.find(params[:id])
+  end
 
 end

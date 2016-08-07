@@ -8,7 +8,7 @@ gem 'will_paginate', '> 3.0'
 gem 'easy_translate'
 gem 'nokogiri'
 
-# for sales tax calculations 
+# for sales tax calculations
 gem 'taxjar-ruby', require: 'taxjar'
 
 gem 'therubyracer'
@@ -19,6 +19,9 @@ gem 'builder', '~> 3.2.2'
 gem 'newrelic_rpm'
 gem 'rails_12factor'
 gem 'puma'
+
+# Use mailboxer for in app user messaging
+gem 'mailboxer'
 
 gem 'whenever', :require => false
 
