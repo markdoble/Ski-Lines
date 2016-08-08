@@ -56,10 +56,8 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
-    @order.order_units.build
-    @order.merchant_orders.build
-    if session[:order_session]
-      render action: 'edit'
+    if @cart.empty?
+      @nofooter = true
     end
   end
 
@@ -285,7 +283,7 @@ class OrdersController < ApplicationController
             end
           rescue => e
             return false
-            # this error is not getting added for some reason. the rescue works, but error message not displayed. 
+            # this error is not getting added for some reason. the rescue works, but error message not displayed.
             f.order.errors.add(:base, "please make sure your address is correct.")
           else
             shipping_charged = (shipping_fee*customs_handling_factor)

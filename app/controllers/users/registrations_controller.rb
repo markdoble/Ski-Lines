@@ -1,9 +1,9 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, :only => []
-  before_filter :redirect_if_user_not_admin_or_rep, :except => [:edit]
 
   def new
     super
+    redirect_if_user_not_admin_or_rep
   end
 
   private
