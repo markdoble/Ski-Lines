@@ -1,15 +1,17 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_filter :require_no_authentication, :only => []
+  before_action :redirect_if_user_signed_in, :only => [:new]
 
   def new
     super
-    redirect_if_user_not_admin_or_rep
   end
 
   private
-    def redirect_if_user_not_admin_or_rep
+    def redirect_if_user_signed_in
       if user_signed_in?
-        redirect_to shop_path unless (current_user.admin? or current_user.merchant_rep?)
+        unless (current_user.merchant_rep? || current_user.admin?)
+          redirect_to shop_path
+        end
       end
     end
 
