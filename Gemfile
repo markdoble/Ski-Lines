@@ -8,8 +8,9 @@ gem 'will_paginate', '> 3.0'
 gem 'easy_translate'
 gem 'nokogiri'
 
-# for sales tax calculations 
+# for sales tax calculations
 gem 'taxjar-ruby', require: 'taxjar'
+gem 'stripe'
 
 gem 'therubyracer'
 gem 'less-rails'

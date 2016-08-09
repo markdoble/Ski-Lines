@@ -133,38 +133,41 @@ class OrdersController < ApplicationController
 
   def payment_form
     @order = Order.find_by_id(session[:order_session])
-    @client_token = Braintree::ClientToken.generate
     redirect_if_no_order_session_present
   end
 
   def create_payment
     @order = Order.find_by_id(session[:order_session])
-    nonce = params[:payment_method_nonce]
-    amount = '%.2f' % @order.amount.to_s
-    @transaction = Braintree::Transaction.sale(
-      amount: amount,
-      payment_method_nonce: nonce,
-      :options => {
-          :submit_for_settlement => true
-        }
-    )
-    @order.update_attributes(transaction_id: @transaction.transaction.id)
-    respond_to do |format|
-      if @transaction.success?
-        #update_inventory(@order)
-        #order_emails(@order)
-        create_order_confirmation_session
-        @order.update_attribute(:success, true)
-        session.delete(:cart)
-        format.html { redirect_to orders_confirmation_path(@order) }
-        format.json { render json: @order }
-      else
-        @order.update_attribute(:success, false)
-        Braintree::Transaction.void(@transaction.transaction.id)
-        flash.now[:error] = "There was a problem processing your payment. Please try again!"
-        format.html { redirect_to orders_payment_form_path(@order) }
-      end
+    token = params[:stripeToken]
+
+    # to be completed for each order_unit after customer is created.
+
+    begin
+      # create customer
+      # authorize charge for each order_unit (could be quantity > 0)
+      # if all authorize, then capture each charge
+      # if even one does not authorize, refund all 
+
+      charge = Stripe::Charge.create(
+        :amount => amount, # amount in cents
+        :currency => "cad",
+        :source => token,
+        :description => "description"
+      )
+      # only completed if previous steps returned no error:
+        # @order.update_attributes(transaction_id: @transaction.transaction.id)
+        # update_inventory(@order)
+        # order_emails(@order)
+        # create_order_confirmation_session
+        # @order.update_attribute(:success, true)
+        # session.delete(:cart)
+        # redirect_to orders_confirmation_path(@order)
+    rescue Stripe::CardError => e
+      # The card has been declined
+      # @order.update_attribute(:success, false)
+      # redirect_to orders_payment_form_path(@order)
     end
+
   end
 
   def confirmation
@@ -331,8 +334,8 @@ class OrdersController < ApplicationController
         from_state = f.unit.product.user.state_prov
         from_city = f.unit.product.user.city
         from_zip = f.unit.product.user.zip_postal
-        shipping = (customs_handling_factor*f.unit.product.shipping_charge)
-        amount = f.unit.product.price
+        shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.unit.quantity)
+        amount = f.unit.product.price*f.unit.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
@@ -361,7 +364,7 @@ class OrdersController < ApplicationController
         to_state = from_state
         to_city = from_city
         to_zip = from_zip
-        amount = f.unit.product.price
+        amount = f.unit.product.price*f.unit.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
