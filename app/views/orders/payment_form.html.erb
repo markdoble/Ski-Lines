@@ -5,7 +5,8 @@
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="purchase_order_show col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <br />
-            <div class="braintree_errors">
+            <h4><%= bootstrap_flash %></h4>
+            <div class="payment-errors">
             <h4><%= bootstrap_flash %></h4>
             </div>
             <br />
@@ -107,48 +108,10 @@
               </ul>
             </div>
           <% end %>
-          <div class="form-row col-xs-12">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 card_form">
-              Card Number:
-            </div>
-            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-              <input type="text" class="form-control input-lg" data-stripe="number">
-              <br />
-            </div>
-          </div>
-
-          <div class="form-row col-xs-12">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 card_form">
-              Expiry:
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <input type="text" class="form-control input-lg" data-stripe="exp_month" placeholder="MM">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                <input type="text" class="form-control input-lg" data-stripe="exp_year" placeholder="YY">
-                <br />
-            </div>
-          </div>
-
-          <div class="form-row col-xs-12">
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 card_form">
-              CVC:
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-              <input type="text" class="form-control input-lg" data-stripe="cvc">
-            </div>
-              <br /><br /><br /><br />
-          </div>
-
-            <div  class="order_form_button">
-
-                 <%= f.submit "PURCHASE", class: "btn btn-primary btn-large purchase_button submit" %>
-                 <br /><br /><br /><br />
-                 <br /><br /><br /><br />
-                 <br /><br /><br /><br />
-                 <br /><br /><br /><br />
-                 <br /><br /><br /><br />
-            </div>
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-locale="auto">
+          </script>
         </div>
         <%end%>
       </div>
@@ -156,41 +119,3 @@
       </div>
     </div>
 </div>
-<script type="text/javascript">
-  Stripe.setPublishableKey(ENV["PLATFORM_PUBLISHABLE_KEY"]);
-  $(function() {
-  var $form = $('#payment-form');
-  $form.submit(function(event) {
-    // Disable the submit button to prevent repeated clicks:
-    $form.find('.submit').prop('disabled', true);
-
-    // Request a token from Stripe:
-    Stripe.card.createToken($form, stripeResponseHandler);
-
-    // Prevent the form from being submitted:
-    return false;
-  });
-});
-function stripeResponseHandler(status, response) {
-  // Grab the form:
-  var $form = $('#payment-form');
-
-  if (response.error) { // Problem!
-
-    // Show the errors on the form:
-    $form.find('.payment-errors').text(response.error.message);
-    $form.find('.submit').prop('disabled', false); // Re-enable submission
-
-  } else { // Token was created!
-
-    // Get the token ID:
-    var token = response.id;
-
-    // Insert the token ID into the form so it gets submitted to the server:
-    $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-    // Submit the form:
-    $form.get(0).submit();
-  }
-};
-</script>

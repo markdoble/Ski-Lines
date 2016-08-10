@@ -139,35 +139,51 @@ class OrdersController < ApplicationController
   def create_payment
     @order = Order.find_by_id(session[:order_session])
     token = params[:stripeToken]
-
-    # to be completed for each order_unit after customer is created.
-
     begin
       # create customer
-      # authorize charge for each order_unit (could be quantity > 0)
-      # if all authorize, then capture each charge
-      # if even one does not authorize, refund all 
-
-      charge = Stripe::Charge.create(
-        :amount => amount, # amount in cents
-        :currency => "cad",
+      customer = Stripe::Customer.create(
         :source => token,
-        :description => "description"
+        :description => @order.cust_email
       )
-      # only completed if previous steps returned no error:
-        # @order.update_attributes(transaction_id: @transaction.transaction.id)
-        # update_inventory(@order)
-        # order_emails(@order)
-        # create_order_confirmation_session
-        # @order.update_attribute(:success, true)
-        # session.delete(:cart)
-        # redirect_to orders_confirmation_path(@order)
+
+      # authorize payment for each unit (order_unit * quantity)
+      charge_key = []
+      @order.order_units.where.not(quantity: 0).each do |f|
+        amount_in_dollars = ((f.unit.product.price*f.quantity)+f.sales_tax_charged+f.shipping_charged)*100
+        amount_in_cents = amount_in_dollars.to_s.split(".")[0].to_i
+        amount_less_tax = ((f.unit.product.price*f.quantity)+f.shipping_charged)*100
+        currency = f.unit.product.currency
+        description = "Ski-Lines" + "-" + f.unit.product.name
+        # need unique identifier for each charge
+
+        charge_key << Stripe::Charge.create(
+          :amount => amount_in_cents, # amount in cents
+          :currency => currency,
+          :customer => customer.id,
+          :description => description,
+          :capture => false
+        )
+      end
+      # capture all charges if all authorized. if even one does not authorize, refund all
+      charge_key.each do |f|
+        Stripe::Charge.retrieve(f.id).capture
+      end
+      @order.update_attributes(transaction_id: customer.id)
+      create_order_confirmation_session
+      @order.update_attribute(:success, true)
+      session.delete(:cart)
+      redirect_to orders_confirmation_path(@order)
+
+      # refund order if not authorized
+      # update_inventory(@order)
+      # order_emails(@order)
     rescue Stripe::CardError => e
       # The card has been declined
-      # @order.update_attribute(:success, false)
-      # redirect_to orders_payment_form_path(@order)
-    end
 
+      @order.update_attribute(:success, false)
+      redirect_to orders_payment_form_path(@order)
+      flash.now[:error] = "There was a problem processing your card. Please try again!"
+    end
   end
 
   def confirmation
@@ -278,7 +294,7 @@ class OrdersController < ApplicationController
             delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
             case delivery_method
             when "Standard Shipping"
-              shipping_fee = f.unit.product.shipping_charge
+              shipping_fee = f.unit.product.shipping_charge*f.quantity
               sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
             else
               shipping_fee = 0
