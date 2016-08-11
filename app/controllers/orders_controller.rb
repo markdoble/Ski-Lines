@@ -323,19 +323,27 @@ class OrdersController < ApplicationController
       end
 
       def calculate_total_amount(order)
-        sub_total = 0
+        total = 0
         order.order_units.where.not(quantity: 0).each do |p|
-          sub_total += p.unit.product.price*p.quantity
+          total += (p.unit.product.price*p.quantity)+p.shipping_charged+p.sales_tax_charged
         end
-        sub_total+calculate_shipping(order)+calculate_sales_tax(order)
+        total
       end
 
       def calculate_shipping(order)
         shipping_total = 0
         order.order_units.where.not(quantity: 0).each do |p|
-          shipping_total += p.shipping_charged*p.quantity
+          shipping_total += p.shipping_charged
         end
         shipping_total
+      end
+
+      def calculate_sales_tax(order)
+        sales_tax_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          sales_tax_total += p.sales_tax_charged
+        end
+        sales_tax_total
       end
 
       def tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
@@ -393,14 +401,6 @@ class OrdersController < ApplicationController
             :shipping => 0
         })
         taxjar_result.amount_to_collect
-      end
-
-      def calculate_sales_tax(order)
-        sales_tax_total = 0
-        order.order_units.where.not(quantity: 0).each do |p|
-          sales_tax_total += (p.sales_tax_charged*p.quantity)
-        end
-        sales_tax_total
       end
 
       def santize_country(country)
