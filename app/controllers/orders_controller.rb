@@ -111,14 +111,8 @@ class OrdersController < ApplicationController
       # before you can update order attributes
       if @order.update_attributes(order_params)
         if update_order_units_attributes(@order)
-          if update_order_attributes(@order)
-            format.html { redirect_to orders_payment_form_path(@order) }
-            format.json { render json: @order }
-          else
-            format.html { render action: 'customer_details_form' }
-            flash.now[:error] = "Please make sure your address is correct before continuing!"
-            format.json { render json: @order.errors, status: :unprocessable_entity }
-          end
+          format.html { redirect_to orders_payment_form_path(@order) }
+          format.json { render json: @order }
         else
           format.html { render action: 'customer_details_form' }
           flash.now[:error] = "Please make sure your address is correct before continuing!"
@@ -311,7 +305,7 @@ class OrdersController < ApplicationController
             )
           end
         end
-
+        update_order_attributes(order)
       end
 
       def update_order_attributes(order)
@@ -358,7 +352,7 @@ class OrdersController < ApplicationController
         from_city = f.unit.product.user.city
         from_zip = f.unit.product.user.zip_postal
         shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.unit.quantity)
-        amount = f.unit.product.price*f.unit.quantity
+        amount = f.unit.product.price*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
@@ -387,7 +381,7 @@ class OrdersController < ApplicationController
         to_state = from_state
         to_city = from_city
         to_zip = from_zip
-        amount = f.unit.product.price*f.unit.quantity
+        amount = f.unit.product.price*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
