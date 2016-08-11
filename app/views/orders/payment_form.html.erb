@@ -5,7 +5,6 @@
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="purchase_order_show col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <br />
-            <h4><%= bootstrap_flash %></h4>
             <div class="payment-errors">
             <h4><%= bootstrap_flash %></h4>
             </div>
@@ -94,8 +93,8 @@
       <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
       </div>
       <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12">
-        <%= form_for @order, :url => create_payment_order_path(@order), :id => "payment-form" do |f| %>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <%= form_for @order, :url => create_payment_order_path(@order), :html => {:id => "payment-form"}  do |f| %>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
           <br />
           <span class="payment-errors"></span>
           <% if @order.errors.any? %><br />
@@ -108,14 +107,78 @@
               </ul>
             </div>
           <% end %>
-          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-            data-locale="auto">
-          </script>
+          <span class="payment-errors"></span>
+          <div class="form-row">
+            <label>
+              <span>Card Number</span>
+              <input type="text" size="20" data-stripe="number">
+            </label>
+          </div>
+
+          <div class="form-row">
+            <label>
+              <span>Expiration (MM/YY)</span>
+              <input type="text" size="2" data-stripe="exp_month">
+            </label>
+            <span> / </span>
+            <input type="text" size="2" data-stripe="exp_year">
+          </div>
+
+          <div class="form-row">
+            <label>
+              <span>CVC</span>
+              <input type="text" size="4" data-stripe="cvc">
+            </label>
+          </div>
+          <input type="submit" class="submit" value="Submit Payment">
         </div>
         <%end%>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-1 hidden-xs">
       </div>
     </div>
+
 </div>
+<br /><br />
+<script type="text/javascript">
+  Stripe.setPublishableKey('pk_test_faFoLDlCFHpuTiEHaihzanYo');
+</script>
+<script>
+$(function() {
+  console.log('test');
+  var $form = $('#payment-form');
+  $form.submit(function(event) {
+     //Disable the submit button to prevent repeated clicks:
+    $form.find('.submit').prop('disabled', true);
+
+    // Request a token from Stripe:
+    Stripe.card.createToken($form, stripeResponseHandler);
+    console.log($form);
+    // Prevent the form from being submitted:
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+  // Grab the form:
+  var $form = $('#payment-form');
+
+  if (response.error) { // Problem!
+
+    // Show the errors on the form:
+    $form.find('.payment-errors').text(response.error.message);
+    $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+  } else { // Token was created!
+
+    // Get the token ID:
+    var token = response.id;
+
+    // Insert the token ID into the form so it gets submitted to the server:
+    $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+    // Submit the form:
+    $form.get(0).submit();
+  }
+};
+</script>

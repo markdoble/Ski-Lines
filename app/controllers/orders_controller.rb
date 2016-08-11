@@ -142,8 +142,8 @@ class OrdersController < ApplicationController
     begin
       # create customer
       customer = Stripe::Customer.create(
-        :source => token,
-        :description => @order.cust_email
+        :card => token,
+        :email => @order.cust_email
       )
 
       # authorize payment for each unit (order_unit * quantity)
@@ -179,10 +179,9 @@ class OrdersController < ApplicationController
       # order_emails(@order)
     rescue Stripe::CardError => e
       # The card has been declined
-
       @order.update_attribute(:success, false)
       redirect_to orders_payment_form_path(@order)
-      flash.now[:error] = "There was a problem processing your card. Please try again!"
+      flash[:error] = e.message
     end
   end
 
