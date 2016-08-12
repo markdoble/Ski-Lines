@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       post :reply
       post :trash
       post :untrash
+      post :delete
+      post :empty_trash
     end
   end
 

@@ -64,7 +64,7 @@ class ProductsController < ApplicationController
         @products = @user.products.active_products.public_send(key, value) if value.present?
       end
     else
-      flash[:alert] = 'The store you were looking for does not exist. Please select one of our merchants below.'
+      flash.now[:alert] = 'The store you were looking for does not exist. Please select one of our merchants below.'
       redirect_to products_merchants_path
     end
   end

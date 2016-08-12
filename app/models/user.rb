@@ -21,15 +21,27 @@ class User < ActiveRecord::Base
 
   # required mailboxer definitions
   def mailboxer_name
-    self.merchant_name
+    # merchants and users do not use the same field or their name, we must check for user type
+    if self.merchant?
+      self.merchant_name
+    else
+      self.contact_name
+    end
   end
   def mailboxer_email(object)
     self.email
   end
 
-  # retrieves all users except the current user
-  def self.all_except(user)
-    where.not(id: user)
+  # defines if the user has access to the mailbox
+  def has_mailbox_access
+    # we only want to allow merchants and general users
+    # merchant = merchant
+    # general user = not merchant, not admin, not article_publisher, not merchant_rep
+    if self.merchant || (!self.admin && !self.article_publisher && !self.merchant_rep && !self.merchant)
+      true
+    else
+      false
+    end
   end
 
   def merchant_url_format
