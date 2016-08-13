@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731141144) do
+ActiveRecord::Schema.define(version: 20160813180358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -251,7 +251,7 @@ ActiveRecord::Schema.define(version: 20160731141144) do
     t.datetime "updated_at"
     t.boolean  "admin",                                                      default: false
     t.string   "merchant_name",          limit: 255
-    t.string   "contact_name",           limit: 255
+    t.string   "contact_first_name",     limit: 255
     t.string   "country",                limit: 255
     t.string   "state_prov",             limit: 255
     t.string   "zip_postal",             limit: 255
@@ -263,9 +263,12 @@ ActiveRecord::Schema.define(version: 20160731141144) do
     t.string   "city",                   limit: 255
     t.text     "user_return_policy"
     t.string   "slug",                   limit: 255
-    t.boolean  "merchant"
-    t.boolean  "article_publisher"
-    t.boolean  "merchant_rep"
+    t.boolean  "merchant",                                                   default: false
+    t.boolean  "article_publisher",                                          default: false
+    t.boolean  "merchant_rep",                                               default: false
+    t.string   "stripe_account_id"
+    t.string   "stripe_customer_id"
+    t.string   "contact_last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

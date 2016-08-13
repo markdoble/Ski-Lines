@@ -78,7 +78,18 @@ Rails.application.routes.draw do
     get 'products/waxing'
     get 'products/accessories'
     get 'all_orders/merchants'
-    get 'all_orders/rep' 
+    get 'all_orders/rep'
+
+    # stripe account routes
+    get 'account' => "stripe_accounts#account"
+    get 'create_account' => "stripe_accounts#create_account"
+    get 'stripe_accounts/new_stripe_account'
+    get 'stripe_accounts/edit_account'
+    get 'verify_account' => 'stripe_accounts#verify_account'
+    get 'update_company_details' => 'stripe_accounts#update_company_details'
+    get 'update_banking' => 'stripe_accounts#update_banking'
+
+
     resources :products
     resources :articles, :except => [:show]
     resources :all_orders

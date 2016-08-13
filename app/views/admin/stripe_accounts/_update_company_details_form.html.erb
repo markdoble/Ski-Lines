@@ -1,0 +1,23 @@
+<%= form_tag admin_update_company_details_path, :method => :get do %>
+<div class="form_heading col-xs-12">
+  <br /><br /><br />
+  <h4>Company Details:</h4>
+  <br /><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Legal Entity Type:
+</div>
+<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+  <%= select_tag :type, options_for_select(["company", "individual"]) %><br /><br />
+</div>
+<div class="left col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Terms of Service:
+</div>
+<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+  <%= check_box_tag :tos  %><span> I accept the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%></span>
+</div>
+<div class="col-xs-12">
+  <br /><br />
+   <%= submit_tag "Save", class: "btn btn-primary merchant_pro_save" %>
+</div>
+<%end%>

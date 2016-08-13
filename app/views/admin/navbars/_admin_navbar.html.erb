@@ -21,6 +21,7 @@
 							<li><a style="color:grey">MY STORE</a></li>
 							<li><%= link_to "PRODUCTS", admin_products_path %></li>
 						  <li><%= link_to "ORDERS", admin_orders_path %></li>
+              <li><%= link_to "ACCOUNT", admin_account_path %></li>
 						  <%end%>
               <% if current_user.admin? %>
 							<li class="divider" ></li>

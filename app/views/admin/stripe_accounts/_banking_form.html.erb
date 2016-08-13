@@ -1,0 +1,23 @@
+<%= form_tag admin_update_banking_path, :method => :get, :html => {:id => "payment-form"}  do %>
+<div class="form_heading col-xs-12">
+  <br /><br /><br />
+  <h4>Bank Account:</h4>
+  <br /><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Routing Number:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+  <input type="text" data-stripe="routing_number" class="form-control routing-number"><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Account Number:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+  <input type="text" data-stripe="account_number" class="form-control account-number"><br />
+</div>
+<div class="col-xs-12">
+  <br /><br />
+   <%= submit_tag "Save", class: "btn btn-primary merchant_pro_save" %>
+</div>
+<% end %>
