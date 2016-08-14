@@ -8,6 +8,18 @@ class Admin::StripeAccountsController < ApplicationController
     if current_user.stripe_account_id.blank?
       redirect_to admin_stripe_accounts_new_stripe_account_path
     end
+    begin
+      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
+      user_account = current_user.stripe_account_id.to_s
+      account = Stripe::Account.retrieve(user_account)
+      @account_first_name = account.legal_entity.first_name
+      @account_last_name = account.legal_entity.last_name
+      @dob_day = account.legal_entity.dob.day
+      @dob_month = account.legal_entity.dob.month
+      @dob_year = account.legal_entity.dob.year
+    rescue
+      flash[:error] = "Could not connect to Stripe"
+    end
   end
 
   def update_banking
@@ -20,47 +32,49 @@ class Admin::StripeAccountsController < ApplicationController
   def update_company_details
     Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     begin
-      account = Stripe::Account.retrieve(current_user.stripe_account_id)
-      account = [{
-        :legal_entity => [
-          :type => params[:type]
-        ],
-      }]
-      if params[:tos] == true
-        account.tos_acceptance = [{
-            :date => Date.current,
-            :ip => request.remote_ip
-        }]
+      account_user = current_user.stripe_account_id
+      account = Stripe::Account.retrieve(account_user)
+
+      account.legal_entity.type = params[:type]
+      if params[:tos]
+        account.tos_acceptance.date = Time.now.to_i
+        account.tos_acceptance.ip = request.remote_ip
       end
-    rescue
-
-
+      account.save
+      redirect_to admin_account_path
+      flash[:notice] = "Successfully update!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
     end
   end
 
   def verify_account
-    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     begin
       user_account = current_user.stripe_account_id
+      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       account = Stripe::Account.retrieve(user_account)
-      account = [{
-        :legal_entity => [
-          :dob => [
-            :day => params[:dob_day],
-            :month => params[:dob_month],
-            :year => params[:dob_year]
-          ],
-          :first_name => params[:first_name],
-          :last_name => params[:last_name]
-        ]
-      }]
-    rescue
-      flash[:error] = "There was an error updating your account."
-      redirect_to admin_stripe_accounts_new_stripe_account_path
+
+      account.legal_entity.first_name = params[:first_name]
+      account.legal_entity.last_name = params[:last_name]
+      account.legal_entity.dob.day = params[:dob_day]
+      account.legal_entity.dob.month = params[:dob_month]
+      account.legal_entity.dob.year = params[:dob_year]
+
+      account.save
+      redirect_to admin_account_path
+      flash[:notice] = "Successfully update!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
     end
   end
 
   def new_stripe_account
+  end
+
+  def edit_stripe_account
+
   end
 
   def create_account

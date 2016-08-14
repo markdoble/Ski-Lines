@@ -11,7 +11,9 @@
       </p>
       <br />
       <div class="row">
-        <%= link_to "Edit Account", admin_stripe_accounts_edit_account_path %>
+        <%= render :partial => 'update_account_form' %>
+        <%= render :partial => 'update_company_details_form' %>
+        <%= render :partial => 'banking_form' %>
       </div>
     <%end%>
     <br /><br /><br /><br /><br />
