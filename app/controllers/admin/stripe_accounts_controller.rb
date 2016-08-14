@@ -12,11 +12,19 @@ class Admin::StripeAccountsController < ApplicationController
       Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       user_account = current_user.stripe_account_id.to_s
       account = Stripe::Account.retrieve(user_account)
-      @account_first_name = account.legal_entity.first_name
-      @account_last_name = account.legal_entity.last_name
-      @dob_day = account.legal_entity.dob.day
-      @dob_month = account.legal_entity.dob.month
-      @dob_year = account.legal_entity.dob.year
+      @business_name = account.legal_entity.business_name unless account.legal_entity.business_name.nil?
+      @entity_type = account.legal_entity.type unless account.legal_entity.type.nil?
+      @account_first_name = account.legal_entity.first_name unless account.legal_entity.first_name.nil?
+      @account_last_name = account.legal_entity.last_name unless account.legal_entity.last_name.nil?
+      @dob_day = account.legal_entity.dob.day unless account.legal_entity.dob.day.nil?
+      @dob_month = account.legal_entity.dob.month unless account.legal_entity.dob.month.nil?
+      @dob_year = account.legal_entity.dob.year unless account.legal_entity.dob.year.nil?
+      @address = account.legal_entity.address.line1 unless account.legal_entity.address.line1.nil?
+      @city = account.legal_entity.address.city unless account.legal_entity.address.city.nil?
+      @country = account.legal_entity.address.country unless account.legal_entity.address.country.nil?
+      @state = account.legal_entity.address.state unless account.legal_entity.address.state.nil?
+      @zip_postal = account.legal_entity.address.postal_code unless account.legal_entity.address.postal_code.nil?
+      @tos_acceptance = account.tos_acceptance.date unless account.tos_acceptance.date.nil?
     rescue
       flash[:error] = "Could not connect to Stripe"
     end
@@ -35,7 +43,14 @@ class Admin::StripeAccountsController < ApplicationController
       account_user = current_user.stripe_account_id
       account = Stripe::Account.retrieve(account_user)
 
+      account.legal_entity.business_name = params[:business_name]
       account.legal_entity.type = params[:type]
+      account.legal_entity.address.line1 = params[:address]
+      account.legal_entity.address.city = params[:city]
+      account.legal_entity.address.state = params[:state]
+      account.legal_entity.address.country = params[:country]
+      account.legal_entity.address.postal_code = params[:zip_postal]
+
       if params[:tos]
         account.tos_acceptance.date = Time.now.to_i
         account.tos_acceptance.ip = request.remote_ip
@@ -121,4 +136,137 @@ class Admin::StripeAccountsController < ApplicationController
       end
     end
 
+    def sanitize_prov_state(prov_state)
+      case prov_state
+      when 'Alberta'
+        'AB'
+      when 'British Columbia'
+        'BC'
+      when 'Manitoba'
+        'MB'
+      when 'New Brunswick'
+        'NB'
+      when 'Newfoundland and Labrador'
+        'NL'
+      when 'Northwest Territories'
+        'NT'
+      when 'Nova Scotia'
+        'NS'
+      when 'Nunavut'
+        'NU'
+      when 'Ontario'
+        'ON'
+      when 'Prince Edward Island'
+        'PE'
+      when 'Quebec'
+        'QC'
+      when 'Saskatchewan'
+        'SK'
+      when 'Yukon'
+        'YT'
+      when 'Alabama'
+        'AL'
+      when 'Alaska'
+        'AK'
+      when 'Arizona'
+        'AZ'
+      when 'Arkansas'
+        'AR'
+      when 'California'
+        'CA'
+      when 'Colorado'
+        'CO'
+      when 'Connecticut'
+        'CT'
+      when 'Delaware'
+        'DE'
+      when 'Florida'
+        'FL'
+      when 'Georgia'
+        'GA'
+      when 'Hawaii'
+        'HI'
+      when 'Idaho'
+        'ID'
+      when 'Illinois'
+        'IL'
+      when 'Indiana'
+        'IN'
+      when 'Iowa'
+        'IA'
+      when 'Kansas'
+        'KS'
+      when 'Kentucky'
+        'KY'
+      when 'Louisiana'
+        'LA'
+      when 'Maine'
+        'ME'
+      when 'Maryland'
+        'MD'
+      when 'Massachusetts'
+        'MA'
+      when 'Michigan'
+        'MI'
+      when 'Minnesota'
+        'MN'
+      when 'Mississippi'
+        'MS'
+      when 'Missouri'
+        'MO'
+      when 'Montana'
+        'MT'
+      when 'Nebraska'
+        'NE'
+      when 'Nevada'
+        'NV'
+      when 'New Hampshire'
+        'NH'
+      when 'New Jersey'
+        'NJ'
+      when 'New Mexico'
+        'NM'
+      when 'New York'
+        'NY'
+      when 'North Carolina'
+        'NC'
+      when 'North Dakota'
+        'ND'
+      when 'Ohio'
+        'OH'
+      when 'Oklahoma'
+        'OK'
+      when 'Oregon'
+        'OR'
+      when 'Pennsylvania'
+        'PA'
+      when 'Rhode Island'
+        'RI'
+      when 'South Carolina'
+        'SC'
+      when 'South Dakota'
+        'SD'
+      when 'Tennessee'
+        'TN'
+      when 'Texas'
+        'TX'
+      when 'Utah'
+        'UT'
+      when 'Vermont'
+        'VT'
+      when 'Virginia'
+        'VA'
+      when 'Washington'
+        'WA'
+      when 'Washington, D.C.'
+        'DC'
+      when 'West Virginia'
+        'WV'
+      when 'Wisconsin'
+        'WI'
+      when 'Wyoming'
+        'WY'
+      else
+      end
+    end
 end

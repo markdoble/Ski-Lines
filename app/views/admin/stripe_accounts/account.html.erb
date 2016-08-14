@@ -2,13 +2,7 @@
   <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
   </div>
   <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
-  	<h2><%= current_user.merchant_name %></h2>
-    <br />
     <% if current_user.stripe_account_id %>
-      <p>You can now begin selling! However, before you start processing a significant volume of transactions&mdash;over $2,000.00-$3,000.00&mdash;our
-        payments processor (Stripe) requires that you complete the steps below.
-        We recommend that you do this as soon as possible in order to prevent an interuption in service later.
-      </p>
       <br />
       <div class="row">
         <%= render :partial => 'update_account_form' %>

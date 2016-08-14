@@ -8,13 +8,13 @@
 </div>
 
 <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :first_name, nil, class: "form-control", placeholder: current_user.contact_first_name %><br />
+  <%= text_field_tag :first_name, nil, value: @account_first_name, class: "form-control", placeholder: current_user.contact_first_name %><br />
 </div>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Last Name:
 </div>
 <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :last_name, nil, class: "form-control", placeholder: current_user.contact_last_name %><br />
+  <%= text_field_tag :last_name, nil, value: @account_last_name, class: "form-control", placeholder: current_user.contact_last_name %><br />
 </div>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Date of Birth:
@@ -25,12 +25,12 @@
             "November" => 11, "December" => 12
             } %>
 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-  <%= select_tag :dob_month, options_for_select(months) %>
-  <%= select_tag :dob_day, options_for_select(1..31) %>
-  <%= select_tag :dob_year, options_for_select(1900..2000) %>
+  <%= select_tag :dob_month, options_for_select(months, selected: @dob_month) %>
+  <%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day) %>
+  <%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year) %>
 </div>
-<div class="col-xs-12">
+<div class="col-xs-12" style="text-align:center">
   <br /><br />
-   <%= submit_tag "Save", class: "btn btn-primary merchant_pro_save" %>
+   <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save" %>
 </div>
 <%end%>
