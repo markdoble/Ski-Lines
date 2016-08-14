@@ -17,20 +17,12 @@
 						<div id="product_price" data-price="<%= p.price %>" class="product_price">
 								<h4 > <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
 						</div>
-						<%
-						# we want to allow all users except merchants to message a merchant.
-						# this will avoid merchant to merchant communication
-						if !current_user.merchant?
-							%>
-							<div>
-								<p>
-									<span class="glyphicon glyphicon-envelope"></span>
-									<%= link_to " Contact " + p.user.merchant_name, new_conversation_path(product_id: p.id), class: ""%>
-								</p>
-							</div>
-							<%
-						end
-						%>
+						<div>
+							<p>
+								<span class="glyphicon glyphicon-envelope"></span>
+								<%= link_to " Contact " + p.user.merchant_name, new_conversation_path(product_id: p.id), class: ""%>
+							</p>
+						</div>
 						<p><%= simple_format(p.description) %></p>
 						<div id="tax_rate" data-tax="<%= p.user.sales_tax %>">
 						</div>

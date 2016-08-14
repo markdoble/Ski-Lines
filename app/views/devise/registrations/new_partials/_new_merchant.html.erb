@@ -22,14 +22,14 @@
 					<div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :contact_first_name, "Contact First Name", hidden: true %>
-				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact First Name" %>
 						<br />
 						</div>
 				  </div>
 					<div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :contact_last_name, "Contact Last Name", hidden: true %>
-				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Last Name" %>
 						<br />
 						</div>
 				  </div>
@@ -89,21 +89,6 @@
 				    <%= f.email_field :zip_postal, autofocus: true, class: "form-control input-lg", placeholder: "Zip/Postal" %>
 						<br /><br />
 					</div>
-			  </div>
-
-
-
-
-				<div class="merchant_form_headings">
-					<h2>Return Policy:</h2>
-				</div>
-			  <div class="field">
-				  <div class="devise_label col-xs-12">
-		  	    <%= f.label :user_return_policy, "Return Policy:", hidden: true  %>
-		  	    <%= f.text_area :user_return_policy, class: "form-control input-lg", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %>
-				 		<%= f.hidden_field :shipping_cost, value: 5 %>
-						<br /><br />
-				  </div>
 			  </div>
 <!-- Password -->
 				<div class="merchant_form_headings">
