@@ -73,25 +73,8 @@
 		       </div>
 				 </div>
 			</div>
-			<ul class="nav navbar-nav navbar-right hidden-xs">
-				<% if user_signed_in? %>
-				<li><a><%= current_user.email %></a></li>
-				<%end%>
-				 <li class="country_flag_container"><a><span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
-				 <li class="dropdown">
-					 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
-					 <ul class="dropdown-menu" role="menu">
-						 <% if user_signed_in? %>
-						 <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-						 <li><%= link_to "Edit", edit_user_registration_path %></li>
-						 <%else%>
-						 <li><%= link_to "Login", new_user_session_path %></li>
-						 <li><%= link_to "Sign Up", new_user_registration_path %></li>
-						 <%end%>
-					 </ul>
-				 </li>
-				 <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="cart_product_number"><%= @cart.count%></span></a></li>
-			</ul>
+			<!-- Render the user navbar that sits on the right hand side of the top menu bar -->
+			<%= render 'navbars/user_navbar' %>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">

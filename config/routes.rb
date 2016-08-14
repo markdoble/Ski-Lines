@@ -11,6 +11,22 @@ Rails.application.routes.draw do
   get '/cart/remove/:id' => 'orders#remove'
   get '/submittedordersession/clear' => "orders#clearOrderSession"
 
+  # mailboxer folder routes
+  get "mailbox/inbox" => "mailbox#inbox", as: :mailbox_inbox
+  get "mailbox/sent" => "mailbox#sent", as: :mailbox_sent
+  get "mailbox/trash" => "mailbox#trash", as: :mailbox_trash
+
+  # mailboxer conversation routes
+  resources :conversations do
+    member do
+      post :reply
+      post :trash
+      post :untrash
+      post :delete
+      post :empty_trash
+    end
+  end
+
   # vanity routes
   get '/mystore' => 'admin/products#index' # url for merchants
   get '/shop' => 'products#index' # url for public shopping

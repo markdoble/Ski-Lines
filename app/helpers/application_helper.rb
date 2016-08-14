@@ -39,6 +39,9 @@ module ApplicationHelper
     end
   end
 
-
+  # used to define the active page for mailboxer folders
+  def active_page(active_page)
+    @active == active_page ? "active" : ""
+  end
 
 end

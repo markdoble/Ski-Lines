@@ -21,6 +21,9 @@ gem 'newrelic_rpm'
 gem 'rails_12factor'
 gem 'puma'
 
+# Use mailboxer for in app user messaging
+gem 'mailboxer'
+
 gem 'whenever', :require => false
 
 gem 'fancybox2-rails', '~> 0.2.8'
