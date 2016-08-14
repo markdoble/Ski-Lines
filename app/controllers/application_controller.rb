@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :get_articles
   before_filter :site_stats
+  before_filter :find_or_create_cart
   #before_filter :set_cache_headers
 
   # helper for mailboxer
@@ -33,7 +34,8 @@ class ApplicationController < ActionController::Base
                             :merchant,
                             :article_publisher,
                             :slug,
-                            :contact_name,
+                            :contact_first_name,
+                            :contact_last_name,
                             :email,
                             :password,
                             :password_confirmation,
@@ -83,5 +85,14 @@ class ApplicationController < ActionController::Base
   def conversation
     @conversation ||= mailbox.conversations.find(params[:id])
   end
+
+  def find_or_create_cart
+    if session[:cart] then
+      @cart = session[:cart]
+    else
+      @cart = {}
+    end
+  end
+
 
 end

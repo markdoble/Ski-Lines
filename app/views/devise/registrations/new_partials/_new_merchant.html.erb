@@ -16,10 +16,20 @@
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
 				    <%= f.email_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
-						<!-- Roles -->
-						<%= f.hidden_field :merchant, value: true %>
-						<%= f.hidden_field :merchant_rep, value: false %>
-						<%= f.hidden_field :article_publisher, value: false %>
+						<br />
+						</div>
+				  </div>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_first_name, "Contact First Name", hidden: true %>
+				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+						<br />
+						</div>
+				  </div>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_last_name, "Contact Last Name", hidden: true %>
+				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
 						<br />
 						</div>
 				  </div>

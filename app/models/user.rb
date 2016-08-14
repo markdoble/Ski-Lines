@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
     if self.merchant?
       self.merchant_name
     else
-      self.contact_name
+      self.contact_first_name
     end
   end
   def mailboxer_email(object)
