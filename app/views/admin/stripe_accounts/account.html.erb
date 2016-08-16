@@ -3,6 +3,18 @@
   </div>
   <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
     <% if current_user.stripe_account_id %>
+      <div class="row">
+        <% if @account_status == false %>
+          <br />
+          Your account is currently active, and you are ready to sell, however, in order to permit
+          transfers to your bank account, our payments provider still requires the following information:<br /><br />
+          <% @fields_needed.each do |f| %>
+            <ul>
+              <li><%= fields_needed_translate(f, @country) %></li><br />
+            </ul>
+          <%end%>
+        <%end%>
+      </div>
       <br />
       <div class="row">
         <%= render :partial => 'update_account_form' %>

@@ -18,6 +18,12 @@
   <%= select_tag :type, options_for_select(entities, @entity_type) %><br /><br />
 </div>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Business Number:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :business_number, nil, value: @business_number, class: "form-control", placeholder: current_user.merchant_name %><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Address:
 </div>
 <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">

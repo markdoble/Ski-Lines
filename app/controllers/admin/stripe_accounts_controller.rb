@@ -25,8 +25,15 @@ class Admin::StripeAccountsController < ApplicationController
       @state = account.legal_entity.address.state unless account.legal_entity.address.state.nil?
       @zip_postal = account.legal_entity.address.postal_code unless account.legal_entity.address.postal_code.nil?
       @tos_acceptance = account.tos_acceptance.date unless account.tos_acceptance.date.nil?
-    rescue
-      flash[:error] = "Could not connect to Stripe"
+      @account_status = account.transfers_enabled unless account.transfers_enabled.nil?
+      @business_tax_id = account.legal_entity.business_tax_id unless account.legal_entity.business_tax_id.nil?
+      @ssn_last_4 = account.legal_entity.ssn_last_4 unless account.legal_entity.ssn_last_4.nil?
+      @personal_id_number = account.legal_entity.personal_id_number unless account.legal_entity.personal_id_number.nil?
+
+      @fields_needed = account.verification.fields_needed unless account.verification.fields_needed.nil?
+      
+    rescue Stripe::StripeError => e
+      flash.now[:error] = e.message
     end
   end
 
@@ -45,6 +52,7 @@ class Admin::StripeAccountsController < ApplicationController
 
       account.legal_entity.business_name = params[:business_name]
       account.legal_entity.type = params[:type]
+      account.legal_entity.business_tax_id = params[:business_number]
       account.legal_entity.address.line1 = params[:address]
       account.legal_entity.address.city = params[:city]
       account.legal_entity.address.state = params[:state]
@@ -60,7 +68,7 @@ class Admin::StripeAccountsController < ApplicationController
       flash[:notice] = "Successfully update!"
     rescue Stripe::StripeError => e
       redirect_to admin_account_path
-      flash[:error] = e.message
+      flash.now[:error] = e.message
     end
   end
 
