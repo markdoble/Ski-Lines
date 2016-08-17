@@ -16,6 +16,8 @@
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
 				    <%= f.email_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
+						<%= f.hidden_field :merchant, value: true %>
+						<%= f.hidden_field :user_return_policy, value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense."
 						<br />
 						</div>
 				  </div>

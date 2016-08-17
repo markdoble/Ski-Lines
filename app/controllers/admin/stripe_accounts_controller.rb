@@ -25,15 +25,29 @@ class Admin::StripeAccountsController < ApplicationController
       @state = account.legal_entity.address.state unless account.legal_entity.address.state.nil?
       @zip_postal = account.legal_entity.address.postal_code unless account.legal_entity.address.postal_code.nil?
       @tos_acceptance = account.tos_acceptance.date unless account.tos_acceptance.date.nil?
-      @account_status = account.transfers_enabled unless account.transfers_enabled.nil?
-      @business_tax_id = account.legal_entity.business_tax_id unless account.legal_entity.business_tax_id.nil?
-      @ssn_last_4 = account.legal_entity.ssn_last_4 unless account.legal_entity.ssn_last_4.nil?
-      @personal_id_number = account.legal_entity.personal_id_number unless account.legal_entity.personal_id_number.nil?
 
-      @fields_needed = account.verification.fields_needed unless account.verification.fields_needed.nil?
-      
+      # will be true or false, depending on if tax id submitted
+      @business_tax_id_provided = account.legal_entity.business_tax_id_provided unless account.legal_entity.business_tax_id_provided.nil?
+      # for U.S. accounts only, lest 4 digist of SSN.
+      if @country == 'us'
+        @ssn_last_4 = account.legal_entity.ssn_last_4_provided unless account.legal_entity.ssn_last_4_provided.nil?
+      end
+      # will be false if personal id number hasn't been provided. SIN for Canada and SSN for U.S.
+      @personal_id_number_provided = account.legal_entity.personal_id_number_provided unless account.legal_entity.personal_id_number_provided.nil?
+
+      @transfer_schedule_delay = account.transfer_schedule.delay_days unless account.transfer_schedule.delay_days.nil?
+      @transfer_schedule_interval = account.transfer_schedule.interval unless account.transfer_schedule.interval.nil?
+      # list of fields needed to require identity
+      @fields_needed = account.verification.fields_needed
+      # account status
+      @charge_status = account.charges_enabled unless account.charges_enabled.nil?
+      # whether automatic transfers are enable for this account.
+      @transfers_enabled = account.transfers_enabled unless account.transfers_enabled.nil?
+      # identity verification status, can be unverified, pending, or verified.
+      @verification_status = account.legal_entity.verification.status
+
     rescue Stripe::StripeError => e
-      flash.now[:error] = e.message
+      flash[:error] = e.message
     end
   end
 
@@ -68,7 +82,7 @@ class Admin::StripeAccountsController < ApplicationController
       flash[:notice] = "Successfully update!"
     rescue Stripe::StripeError => e
       redirect_to admin_account_path
-      flash.now[:error] = e.message
+      flash[:error] = e.message
     end
   end
 
@@ -96,32 +110,60 @@ class Admin::StripeAccountsController < ApplicationController
   def new_stripe_account
   end
 
-  def edit_stripe_account
-
-  end
-
   def create_account
+    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     # use this action to create account and add the account id to the current_user's account
     user = User.find(current_user.id)
-    begin
-      country = santize_country(user.country)
-      currency = select_currency(user.country)
-      account = Stripe::Account.create(
-        {
-          :country => country,
-          :managed => true,
-          :default_currency => currency,
-        }
-      )
-      user.update_attribute(:stripe_account_id, account.id)
-      redirect_to admin_account_path
-    rescue
-      flash[:error] = "There was a problem creating your account. Try again, but if the problem persists, contact your Ski-Lines representative."
+    if  params[:tos]
+      begin
+        country = santize_country(user.country)
+        currency = select_currency(user.country)
+        account = Stripe::Account.create(
+          {
+            :country => country,
+            :managed => true,
+            :default_currency => currency,
+          }
+        )
+        user.update_attribute(:stripe_account_id, account.id)
+        if terms_acceptance = params[:tos]
+        update_stripe_attributes(user)
+        redirect_to admin_account_path
+        else
+          redirect_to admin_stripe_accounts_new_stripe_account_path
+          flash.now[:error] = e.message
+        end
+      rescue Stripe::StripeError => e
+        redirect_to admin_stripe_accounts_new_stripe_account_path
+        flash[:error] = e.message
+      end
+    else
       redirect_to admin_stripe_accounts_new_stripe_account_path
+      flash[:error] = "You must accept the terms and conditions before continuing."
     end
   end
 
   private
+    def update_stripe_attributes(user)
+      user_account = user.stripe_account_id.to_s
+      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
+      account = Stripe::Account.retrieve(user_account)
+      account.legal_entity.type = "company"
+      account.legal_entity.business_name = user.merchant_name.to_s
+      account.legal_entity.first_name = user.contact_first_name.to_s
+      account.legal_entity.last_name = user.contact_last_name.to_s
+      account.legal_entity.address.line1 = user.street_address.to_s
+      account.legal_entity.address.city = user.city.to_s
+      country = santize_country(user.country)
+      account.legal_entity.address.country = country
+      state = sanitize_prov_state(user.state_prov)
+      account.legal_entity.address.state = state.to_s
+      account.legal_entity.address.postal_code = user.zip_postal.to_s
+      account.tos_acceptance.date = Time.now.to_i
+      account.tos_acceptance.ip = request.remote_ip
+      account.save
+    end
+
     def verify_is_merchant
       (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
     end

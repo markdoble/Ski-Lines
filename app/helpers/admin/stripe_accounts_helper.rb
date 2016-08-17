@@ -14,11 +14,11 @@ module Admin::StripeAccountsHelper
     when "legal_entity.business_name"
       "We need to confirm the legal name of your business."
     when "legal_entity.dob.day"
-      "We need to confirm the day in the date of birth of your company representative."
+      "We need to confirm the day of birth of your company representative."
     when "legal_entity.dob.month"
-      "We need to confirm the month in the date of birth of your company representative."
+      "We need to confirm the month of birth of your company representative."
     when "legal_entity.dob.year"
-      "We need to confirm the year in the date of birth of your company representative."
+      "We need to confirm the year of birth of your company representative."
     when "legal_entity.first_name"
       "We need to confirm the first name of your company representative."
     when "legal_entity.last_name"
@@ -33,9 +33,7 @@ module Admin::StripeAccountsHelper
       "We have been unable to successfully identify your business with the information you have provided. For security reasons, please fill out the form elements identified below"
     when "legal_entity.business_tax_id"
       "Provide your business tax identification number."
-    when "legal_entity.personal_id_number" && (country == "CA")
-      "Please have your company representative confirm their social insurance number."
-    when "legal_entity.personal_id_number" && (country == "US")
+    when "legal_entity.personal_id_number"
       "Please have your company representative confirm their social security number."
     when "legal_entity.ssn_last_4"
       "Please have your company representative confirm the last four digits of their social insurance number."
@@ -65,6 +63,4 @@ module Admin::StripeAccountsHelper
                             "legal_entity.personal_id_number",
                             "legal_entity.ssn_last_4"]
   end
-
-
 end
