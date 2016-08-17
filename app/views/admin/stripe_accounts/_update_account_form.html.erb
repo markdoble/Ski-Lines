@@ -25,9 +25,9 @@
             "November" => 11, "December" => 12
             } %>
 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-  <%= select_tag :dob_month, options_for_select(months, selected: @dob_month) %>
-  <%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day) %>
-  <%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year) %>
+  <%if @fields_needed.include?("legal_entity.dob.month")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_month, options_for_select(months, selected: @dob_month) %></span>
+  <% if @fields_needed.include?("legal_entity.dob.day")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day) %></span>
+  <% if @fields_needed.include?("legal_entity.dob.year")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year) %></span>
 </div>
 <!--
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
