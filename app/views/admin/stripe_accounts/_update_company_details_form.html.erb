@@ -17,12 +17,15 @@
   <% entities = {"Company" => 'company', "Individual" => "individual" }%>
   <%= select_tag :type, options_for_select(entities, @entity_type) %><br /><br />
 </div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Business Number:
-</div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :business_number, nil, value: @business_number, class: "form-control" %><br />
-</div>
+<% if @fields_needed.include?("legal_entity.business_tax_id") %>
+  <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    Business Tax Number:
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%if @fields_needed.include?("legal_entity.business_tax_id")%>
+    <span class="fields_needed_class"><%else%><span><%end%><%= text_field_tag :business_number, nil, class: "form-control", placeholder: "Business Tax Number" %></span><br />
+  </div>
+<%end%>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Address:
 </div>

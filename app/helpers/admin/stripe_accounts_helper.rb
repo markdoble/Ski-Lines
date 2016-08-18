@@ -34,7 +34,7 @@ module Admin::StripeAccountsHelper
     when "legal_entity.business_tax_id"
       "Provide your business tax identification number."
     when "legal_entity.personal_id_number"
-      "Please have your company representative confirm their social security number."
+      "Please have your company representative confirm their social security/identity number."
     when "legal_entity.ssn_last_4"
       "Please have your company representative confirm the last four digits of their social insurance number."
     else

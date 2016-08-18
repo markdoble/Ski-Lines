@@ -46,6 +46,8 @@ class Admin::StripeAccountsController < ApplicationController
       # identity verification status, can be unverified, pending, or verified.
       @verification_status = account.legal_entity.verification.status
 
+      @external_accounts = account.external_accounts.all(:object => "bank_account") unless account.external_accounts.nil?
+
     rescue Stripe::StripeError => e
       flash[:error] = e.message
     end
@@ -53,9 +55,17 @@ class Admin::StripeAccountsController < ApplicationController
 
   def update_banking
     Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
-    token = params[:stripeToken]
-    # update external_account hash
-
+    begin
+      token = params[:stripeToken]
+      user_account = current_user.stripe_account_id.to_s
+      account = Stripe::Account.retrieve(user_account)
+      account.external_accounts.create({:external_account => token})
+      redirect_to admin_account_path
+      flash[:notice] = "You have successfully added a bank account!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
+    end
   end
 
   def update_company_details
