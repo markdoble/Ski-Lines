@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
-  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update]
+  before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation, :create_customer_details]
 
 
 # Cart FUnctions
@@ -43,27 +43,39 @@ class OrdersController < ApplicationController
 
   def clearCart
     session[:cart] = nil
-    redirect_to root_path
+    redirect_to shop_path
   end
 
   def clearOrderSession
     session.delete(:order_session)
     session.delete(:order_expiry)
-    redirect_to root_path
+    session.delete(:order_confirmation_session)
+    redirect_to shop_path
   end
 # Cart functions End
 
   def index
     @order = Order.new
-    if session[:order_session]
-        if session[:order_expiry] < Time.current
-          session.delete(:order_session)
-          session.delete(:order_expiry)
-        else
-            @order_session = session[:order_session]
-        end
-    else
-      @order_session = nil
+    if @cart.empty?
+      @nofooter = true
+    end
+  end
+
+  def create
+    @order = Order.new(order_params)
+    respond_to do |format|
+      if @order.save(validate: false) && @order.order_units.any?{|e| e.quantity != 0}
+        create_order_session
+        @order.update_attribute(:success, false)
+        format.html { redirect_to orders_customer_details_form_path(@order) }
+        format.json { render json: @order }
+      else
+        @order.update_attribute(:success, false)
+        create_order_session
+        flash.now[:error] = "You must make a selection before continuing."
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -71,94 +83,108 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def create
-    @order = Order.new(order_params)
-    nonce = params[:payment_method_nonce]
-    amount = '%.2f' % @order.amount.to_s
-    @transaction = Braintree::Transaction.sale(
-      amount: amount,
-      payment_method_nonce: nonce,
-      :options => {
-          :submit_for_settlement => true
-        }
-    )
-    @order.update_attributes(transaction_id: @transaction.transaction.id)
+  def update
+    @order = Order.find_by_id(session[:order_session])
     respond_to do |format|
-        if @transaction.success?
-            if @order.save
-                if verify_amount(@order)
-                  create_order_session
-                  update_inventory(@order)
-                  order_emails(@order)
-                  @order.update_attributes(success: true)
-                  format.html { redirect_to cart_path }
-                  format.json {render json: @order }
-                  session[:cart] = nil
-                else
-                  @order.update_attributes(success: false)
-                  Braintree::Transaction.void(@transaction.transaction.id)
-                  format.html { render action: 'edit' }
-                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                  format.json { render json: @order.errors, status: :unprocessable_entity }
-                end
-            else
-              @order.update_attributes(success: false)
-              Braintree::Transaction.void(@transaction.transaction.id)
-              format.html { render action: 'edit' }
-              format.json { render json: @order.errors, status: :unprocessable_entity }
-            end
-        else
-          @order.update_attributes(success: false)
-          format.html { render action: 'edit' }
-          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
-          format.json { render json: @order.errors, status: :unprocessable_entity }
-        end
+      if @order.update(order_params) && @order.order_units.any?{|e| e.quantity != 0}
+        @order.update_attribute(:success, false)
+        format.html { redirect_to orders_customer_details_form_path(@order) }
+        format.json { render json: @order }
+      else
+        @order.update_attribute(:success, false)
+        flash.now[:error] = "You must make a selection before continuing."
+        format.html { render action: 'edit' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
 
+  def customer_details_form
+    @order = Order.find_by_id(session[:order_session])
+    redirect_if_no_order_session_present
+  end
 
-  def update
+  def create_customer_details
     @order = Order.find(params[:id])
-    nonce = params[:payment_method_nonce]
-    amount = '%.2f' % @order.amount.to_s
-    @transaction = Braintree::Transaction.sale(
-      amount: amount,
-      payment_method_nonce: nonce,
-      :options => {
-          :submit_for_settlement => true
-        }
-    )
-    @order.update_attributes(transaction_id: @transaction.transaction.id)
     respond_to do |format|
-        if @transaction.success?
-            if @order.save
-                if verify_amount(@order)
-                  create_order_session
-                  update_inventory(@order)
-                  order_emails(@order)
-                  @order.update_attributes(success: true)
-                  format.html { redirect_to cart_path }
-                  format.json {render json: @order }
-                  session[:cart] = nil
-                else
-                  @order.update_attributes(success: false)
-                  Braintree::Transaction.void(@transaction.transaction.id)
-                  format.html { render action: 'edit' }
-                  @order.errors.add(:base, "Order amount is incorrect! Please try again.")
-                  format.json { render json: @order.errors, status: :unprocessable_entity }
-                end
-            else
-              @order.update_attributes(success: false)
-              Braintree::Transaction.void(@transaction.transaction.id)
-              format.html { render action: 'edit' }
-              format.json { render json: @order.errors, status: :unprocessable_entity }
-            end
+      # update order_unit attributes with sales_tax, amount, and shipping FIRST,
+      # before you can update order attributes
+      if @order.update_attributes(order_params)
+        if update_order_units_attributes(@order)
+          format.html { redirect_to orders_payment_form_path(@order) }
+          format.json { render json: @order }
         else
-          @order.update_attributes(success: false)
-          format.html { render action: 'edit' }
-          @order.errors.add(:base, "There was a problem processing your payment. Please try again!")
+          format.html { render action: 'customer_details_form' }
+          flash.now[:error] = "Please make sure your address is correct before continuing!"
           format.json { render json: @order.errors, status: :unprocessable_entity }
         end
+      else
+        format.html { render action: 'customer_details_form' }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def payment_form
+    @order = Order.find_by_id(session[:order_session])
+    redirect_if_no_order_session_present
+  end
+
+  def create_payment
+    @order = Order.find_by_id(session[:order_session])
+    token = params[:stripeToken]
+    begin
+      # create customer
+      customer = Stripe::Customer.create(
+        :card => token,
+        :email => @order.cust_email
+      )
+
+      # authorize payment for each unit (order_unit * quantity)
+      charge_key = []
+      @order.order_units.where.not(quantity: 0).each do |f|
+        amount_in_dollars = ((f.unit.product.price*f.quantity)+f.sales_tax_charged+f.shipping_charged)*100
+        amount_in_cents = amount_in_dollars.to_s.split(".")[0].to_i
+        amount_less_tax = ((f.unit.product.price*f.quantity)+f.shipping_charged)*100
+        currency = f.unit.product.currency
+        description = "Ski-Lines" + "-" + f.unit.product.name
+        # need unique identifier for each charge
+
+        charge_key << Stripe::Charge.create(
+          :amount => amount_in_cents, # amount in cents
+          :currency => currency,
+          :customer => customer.id,
+          :description => description,
+          :capture => false
+        )
+      end
+      # capture all charges if all authorized. if even one does not authorize, refund all
+      charge_key.each do |f|
+        Stripe::Charge.retrieve(f.id).capture
+      end
+      @order.update_attributes(transaction_id: customer.id)
+      create_order_confirmation_session
+      @order.update_attribute(:success, true)
+      session.delete(:cart)
+      redirect_to orders_confirmation_path(@order)
+
+      # refund order if not authorized
+      # update_inventory(@order)
+      # order_emails(@order)
+    rescue Stripe::CardError => e
+      # The card has been declined
+      @order.update_attribute(:success, false)
+      redirect_to orders_payment_form_path(@order)
+      flash[:error] = e.message
+    end
+  end
+
+  def confirmation
+    @order = Order.find_by_id(session[:order_confirmation_session])
+    if session[:create_order_confirmation_session]
+      @create_order_confirmation_session = true
+    else
+      @create_order_confirmation_session = false
     end
   end
 
@@ -168,7 +194,36 @@ class OrdersController < ApplicationController
       end
 
       def order_params
-        params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping, :success, :merchant_orders_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method, :customer_comments], :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
+        # Removed amount, sales_tax, and shipping
+        params.require(:order).permit(
+          :street_address,
+          :prov_state,
+          :country, :city,
+          :postal_zip,
+          :cust_first_name,
+          :cust_last_name,
+          :cust_email,
+          :cust_email_confirmation,
+          :cust_phone,
+          :status,
+          :marketing_optout,
+          :merchant_orders_attributes => [
+              :id,
+              :user_id,
+              :order_id,
+              :product_id,
+              :order_status,
+              :delivery_method,
+              :customer_comments
+              ],
+          :product_ids => [],
+          :order_units_attributes => [
+              :id,
+              :unit_id,
+              :order_id,
+              :quantity
+              ]
+        )
       end
 
       def find_or_create_cart
@@ -204,77 +259,284 @@ class OrdersController < ApplicationController
 
       def create_order_session
         session[:order_session] = @order.id
-        session[:order_expiry] = Time.current + 30
+        session[:order_expiry] = Time.current + 500
       end
 
-      def verify_amount(order)
-        # actual_amount is the amount the credit card has been charged.
-        # test_amount is the server side calculation of the amount charged.
-        actual_amount = order.amount.to_f
-        difference = (actual_amount.to_f - (calculate_test_order_amount(order)).to_f).abs
-        # ternary operator reminder: if_this_is_a_true_value ? then_the_result_is_this : else_it_is_this
-        # give a margin of error for rounding of 0.02;
-        # if difference is more than 0.02, return false, else true
-        (difference > 0.02) ? false : true
+      def create_order_confirmation_session
+        session[:order_confirmation_session] = @order.id
+        session[:order_confirmation_session_expiry] = Time.current + 500
       end
 
-      def calculate_test_order_amount(order)
-        test_amount = 0
-        order_units_array = []
-        order.order_units.where.not(quantity: 0).each do |f|
-          order_units_array << f.unit
-        end
-        order.merchant_orders.each do |f|
-          case f.order.country
-          when "United States of America"
-            shipping_factor = 1.5
-          else
-            shipping_factor = 1
-          end
-          order_units_array.each do |ff|
-            if f.product_id == ff.product_id
-              test_amount += ((ff.product.price + (ff.product.shipping_charge*shipping_factor))*(1+tax_rate_calc(f).to_f))
-            else
-              next
-            end
-          end
-        end
-        test_amount
-      end
-
-      def tax_rate_calc(f)
-        merchant_location = f.user.state_prov
-        if f.delivery_method == "In Store Pick-Up"
-          customer_location = f.user.state_prov
-          customer_country = f.user.country
+      def redirect_if_no_order_session_present
+        if session[:order_session]
+          @order_session = session[:order_session]
         else
-          customer_location = f.order.prov_state
-          customer_country = f.order.country
+          @order_session = nil
+          redirect_to :action => :index
         end
-        if ["New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", 'Northwest Territories', 'Nunavut', 'Yukon'].include? customer_location
-          if customer_location == "New Brunswick" then tax_rate = 0.13
-          elsif customer_location == "Newfoundland and Labrador" then tax_rate = 0.13
-          elsif customer_location == "Nova Scotia" then tax_rate = 0.15
-          elsif customer_location == "Ontario" then tax_rate = 0.13
-          elsif customer_location == "Prince Edward Island" then tax_rate = 0.14
-          elsif ['Northwest Territories', 'Nunavut', 'Yukon'].includes? customer_location then tax_rate = 0.05
+      end
+
+      def update_order_units_attributes(order)
+        order.order_units.where.not(quantity: 0).each do |f|
+          begin
+            if f.order.country == f.unit.product.user.country
+              customs_handling_factor = 1
+            else
+              customs_handling_factor = 1.5
+            end
+            delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
+            case delivery_method
+            when "Standard Shipping"
+              shipping_fee = f.unit.product.shipping_charge*f.quantity
+              sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
+            else
+              shipping_fee = 0
+              sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
+            end
+          rescue => e
+            return false
+            # this error is not getting added for some reason. the rescue works, but error message not displayed.
+            f.order.errors.add(:base, "please make sure your address is correct.")
+          else
+            shipping_charged = (shipping_fee*customs_handling_factor)
+            f.update_attributes(
+              :sales_tax_charged => sales_tax_charged,
+              :shipping_charged => shipping_charged
+            )
           end
-        elsif customer_location == merchant_location
-          if customer_location == "Alberta" then tax_rate = 0.05
-          elsif customer_location == "British Columbia" then tax_rate = 0.12
-          elsif customer_location == "Manitoba" then tax_rate = 0.13
-          elsif customer_location == "Quebec" then tax_rate = 0.1475
-          elsif customer_location == "Saskatchewan" then tax_rate = 0.1
-          end
-        elsif customer_location != merchant_location
-          if customer_location == "Alberta" then tax_rate = 0.05
-          elsif customer_location == "British Columbia" then tax_rate = 0.05
-          elsif customer_location == "Manitoba" then tax_rate = 0.05
-          elsif customer_location == "Quebec" then tax_rate = 0.05
-          elsif customer_location == "Saskatchewan" then tax_rate = 0.05
-          end
-        elsif customer_country != "Canada" then tax_rate = 0
         end
-        tax_rate
+        update_order_attributes(order)
+      end
+
+      def update_order_attributes(order)
+        order.update_attributes(
+          :sales_tax => calculate_sales_tax(@order),
+          :shipping => calculate_shipping(@order),
+          :amount => calculate_total_amount(@order)
+        )
+      end
+
+      def calculate_total_amount(order)
+        total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          total += (p.unit.product.price*p.quantity)+p.shipping_charged+p.sales_tax_charged
+        end
+        total
+      end
+
+      def calculate_shipping(order)
+        shipping_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          shipping_total += p.shipping_charged
+        end
+        shipping_total
+      end
+
+      def calculate_sales_tax(order)
+        sales_tax_total = 0
+        order.order_units.where.not(quantity: 0).each do |p|
+          sales_tax_total += p.sales_tax_charged
+        end
+        sales_tax_total
+      end
+
+      def tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
+        require 'taxjar'
+        client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
+        to_country = f.order.country
+        to_state = f.order.prov_state
+        to_city = f.order.city
+        to_zip = f.order.postal_zip
+        from_country = f.unit.product.user.country
+        from_state = f.unit.product.user.state_prov
+        from_city = f.unit.product.user.city
+        from_zip = f.unit.product.user.zip_postal
+        shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.unit.quantity)
+        amount = f.unit.product.price*f.quantity
+        taxjar_result = client.tax_for_order({
+            :to_country => santize_country(to_country),
+            :to_city => to_city,
+            :to_state => sanitize_prov_state(to_state),
+            :to_zip => to_zip,
+            :from_country => santize_country(from_country),
+            :from_city => from_city,
+            :from_state => sanitize_prov_state(from_state),
+            :from_zip => from_zip,
+            :amount => amount,
+            :shipping => shipping
+        })
+        taxjar_result.amount_to_collect
+      end
+
+      def tax_jar_sales_tax_request_for_in_store_pickup(f)
+        require 'taxjar'
+        client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
+        # set variables for TaxJar API
+        # this method is for in store pickup items, therefore to_ equals from_
+        from_country = f.unit.product.user.country
+        from_state = f.unit.product.user.state_prov
+        from_city = f.unit.product.user.city
+        from_zip = f.unit.product.user.zip_postal
+        to_country = from_country
+        to_state = from_state
+        to_city = from_city
+        to_zip = from_zip
+        amount = f.unit.product.price*f.quantity
+        taxjar_result = client.tax_for_order({
+            :to_country => santize_country(to_country),
+            :to_city => to_city,
+            :to_state => sanitize_prov_state(to_state),
+            :to_zip => to_zip,
+            :from_country => santize_country(from_country),
+            :from_city => to_city,
+            :from_state => sanitize_prov_state(from_state),
+            :from_zip => to_zip,
+            :amount => amount,
+            :shipping => 0
+        })
+        taxjar_result.amount_to_collect
+      end
+
+      def santize_country(country)
+        case country
+        when 'United States of America'
+          'US'
+        when 'Canada'
+          'CA'
+        end
+      end
+
+      def sanitize_prov_state(prov_state)
+        case prov_state
+        when 'Alberta'
+          'AB'
+        when 'British Columbia'
+          'BC'
+        when 'Manitoba'
+          'MB'
+        when 'New Brunswick'
+          'NB'
+        when 'Newfoundland and Labrador'
+          'NL'
+        when 'Northwest Territories'
+          'NT'
+        when 'Nova Scotia'
+          'NS'
+        when 'Nunavut'
+          'NU'
+        when 'Ontario'
+          'ON'
+        when 'Prince Edward Island'
+          'PE'
+        when 'Quebec'
+          'QC'
+        when 'Saskatchewan'
+          'SK'
+        when 'Yukon'
+          'YT'
+        when 'Alabama'
+          'AL'
+        when 'Alaska'
+          'AK'
+        when 'Arizona'
+          'AZ'
+        when 'Arkansas'
+          'AR'
+        when 'California'
+          'CA'
+        when 'Colorado'
+          'CO'
+        when 'Connecticut'
+          'CT'
+        when 'Delaware'
+          'DE'
+        when 'Florida'
+          'FL'
+        when 'Georgia'
+          'GA'
+        when 'Hawaii'
+          'HI'
+        when 'Idaho'
+          'ID'
+        when 'Illinois'
+          'IL'
+        when 'Indiana'
+          'IN'
+        when 'Iowa'
+          'IA'
+        when 'Kansas'
+          'KS'
+        when 'Kentucky'
+          'KY'
+        when 'Louisiana'
+          'LA'
+        when 'Maine'
+          'ME'
+        when 'Maryland'
+          'MD'
+        when 'Massachusetts'
+          'MA'
+        when 'Michigan'
+          'MI'
+        when 'Minnesota'
+          'MN'
+        when 'Mississippi'
+          'MS'
+        when 'Missouri'
+          'MO'
+        when 'Montana'
+          'MT'
+        when 'Nebraska'
+          'NE'
+        when 'Nevada'
+          'NV'
+        when 'New Hampshire'
+          'NH'
+        when 'New Jersey'
+          'NJ'
+        when 'New Mexico'
+          'NM'
+        when 'New York'
+          'NY'
+        when 'North Carolina'
+          'NC'
+        when 'North Dakota'
+          'ND'
+        when 'Ohio'
+          'OH'
+        when 'Oklahoma'
+          'OK'
+        when 'Oregon'
+          'OR'
+        when 'Pennsylvania'
+          'PA'
+        when 'Rhode Island'
+          'RI'
+        when 'South Carolina'
+          'SC'
+        when 'South Dakota'
+          'SD'
+        when 'Tennessee'
+          'TN'
+        when 'Texas'
+          'TX'
+        when 'Utah'
+          'UT'
+        when 'Vermont'
+          'VT'
+        when 'Virginia'
+          'VA'
+        when 'Washington'
+          'WA'
+        when 'Washington, D.C.'
+          'DC'
+        when 'West Virginia'
+          'WV'
+        when 'Wisconsin'
+          'WI'
+        when 'Wyoming'
+          'WY'
+        else
+        end
       end
 end

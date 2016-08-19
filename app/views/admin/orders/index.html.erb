@@ -1,1 +1,44 @@
-<h2>Admin Orders Index</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<div class="merchant_title">
+		<div class="row">
+	        <h3><%= current_user.merchant_name%> </h3>
+        	<h4><i>Orders</i></h4>
+	    </div>
+	</div>
+	<br />
+<% if @orders.any? %>
+	<div class="admin_performance">
+		<table style="width:100%">
+			<tr class="table_header">
+				<th>Order ID</th>
+				<th>Date</th>
+				<th>Customer</th>
+				<th>Address</th>
+				<th>Subtotal</th>
+				<th>Shipping</th>
+				<th>Tax</th>
+				<th>Total</th>
+				<th>Order Status</th>
+			</tr>
+		<% @orders.uniq.each do |f| %>
+			<tr class="table_body">
+				<td><%= link_to f.id, admin_order_path(f) %></td>
+				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
+				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
+				<td><%= f.street_address %>, <%= f.city %><br /><%= f.prov_state %>, <%=f.country %><br /><%= f.postal_zip %></td>
+				<td><%= number_to_currency(merchant_order_subtotal(f), unit: '$')%></td>
+				<td> <%= number_to_currency(merchant_order_shipping(f), unit: '$') %></td>
+				<td> <%= number_to_currency(merchant_order_tax(f), unit: '$')%></td>
+				<td> <%= number_to_currency(merchant_order_total(f), unit: '$') %></td>
+				<td><%= link_to order_status_indicator(f), admin_order_path(f) %></td>
+				<%end%>
+			</tr>
+		</table>
+	</div>
+	<%else%>
+	<div class="merchant_title">
+	<i>You currently have no orders. <br />As soon as your orders are placed, they will appear here for your review. </i>
+	</div>
+	<%end%>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

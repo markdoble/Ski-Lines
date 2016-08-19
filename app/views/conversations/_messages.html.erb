@@ -1,0 +1,25 @@
+<%
+# we will retrieve the first message to get the information to display as a header
+header_subject = @receipts.first.message.subject
+%>
+
+<div class="media">
+  <div class="media-body media-header">
+    <h4 class-"media-body">
+      <b>Subject: </b><%= header_subject %>
+    </h4>
+  </div>
+</div>
+
+<% @receipts.each do |receipt| %>
+    <% message = receipt.message %>
+    <div class="media <%= cycle('media-odd', 'media-even')%>">
+      <div class="media-body">
+        <h4 class="media-heading">
+          <%= message.sender.mailboxer_name %> <br>
+          <small><b>Date: </b><%=  message.created_at.strftime("%A, %b %d, %Y at %I:%M%p") %></small>
+        </h4>
+        <%= message.body %>
+      </div>
+    </div>
+<% end %>

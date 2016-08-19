@@ -1,0 +1,156 @@
+<!-- New Merchant Create Form  -->
+<div class="container">
+	<br /><br />
+	<div class="devise_user_registration">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-8 col-sm-12 devise_forms_background">
+					<div class="merchant_form_headings">
+					<h2>Create User:</h2>
+					</div>
+				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+				  <%= devise_error_messages! %>
+				  <div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :merchant_name, "Store Name", hidden: true %>
+				    <%= f.email_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
+						<br />
+						</div>
+				  </div>
+			  	<div class="field">
+				    <div class="devise_label col-xs-12">
+				    <%= f.label :slug, "Merchant url: ski-lines.com/shop/" %>
+				    <%= f.text_field :slug, class: "form-control input-lg", readonly: true%>
+						<br />
+						</div>
+			    </div>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_first_name, "Contact First Name", hidden: true %>
+				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+						<br />
+						</div>
+				  </div>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_last_name, "Contact Last Name", hidden: true %>
+				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+						<br />
+						</div>
+				  </div>
+		  <div class="field">
+			  <div class="devise_label col-xs-12">
+		    <%= f.label :email, hidden: true %>
+		    <%= f.email_field :email, autofocus: true, class: "form-control input-lg", placeholder: "Email" %>
+				</div>
+		  </div>
+			  <div class="field">
+			    <div class="devise_label col-xs-12">
+				    <%= f.label :merchant_url, "Merchant URL:", hidden: true %>
+				    <%= f.email_field :merchant_url, autofocus: true, class: "form-control input-lg", placeholder: "Website" %>
+						<br />
+					</div>
+			  </div>
+<!-- Address -->
+			  <div class="field">
+				    <div class="devise_label col-xs-12">
+			    <%= f.label :street_address, "Address:" %>
+			    <%= f.email_field :street_address, autofocus: true, class: "form-control input-lg", placeholder: "Street Address" %>
+					</div>
+			  </div>
+		<% state_prov =
+		{'Canada' => ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
+		'United States of America' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+			'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+			'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']} %>
+				<div class="field">
+					<div class="devise_label col-xs-12">
+				    <%= f.label :country, "Country:", hidden: true %>
+				    <%= f.select :country, options_for_select(["United States of America", "Canada"]), class: "form-control", :prompt => 'Country' %>
+					</div>
+			  </div>
+				<div class="field">
+					<div class="devise_label col-xs-12">
+				     <%= f.label :state_prov, "State/Province:", hidden: true %>
+				    <%= f.select :state_prov, grouped_options_for_select(state_prov), class: "form-control", :prompt => 'Province/State' %>
+					</div>
+				</div>
+			  <div class="field">
+				  <div class="devise_label col-xs-12">
+				    <%= f.label :city, "City", hidden: true %>
+				    <%= f.email_field :city, autofocus: true, class: "form-control input-lg", placeholder: "City" %>
+					</div>
+			  </div>
+			  <div class="field">
+				  <div class="devise_label col-xs-12">
+				    <%= f.label :zip_postal, "Zip/Postal", hidden: true %>
+				    <%= f.email_field :zip_postal, autofocus: true, class: "form-control input-lg", placeholder: "Zip/Postal" %>
+						<br /><br />
+					</div>
+			  </div>
+				<div class="merchant_form_headings">
+				<h2>Roles:</h2>
+				</div>
+				<div class="field">
+						<div class="devise_label col-xs-12">
+					    <%= f.label :merchant, "Merchant?", hidden: true %>
+					    <%= f.select :merchant, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Merchant?" %>
+						</div>
+			  </div>
+				<div class="field">
+					<div class="devise_label col-xs-12">
+				    <%= f.label :article_publisher, "Publisher?", hidden: true %>
+				    <%= f.select :article_publisher, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Publisher?" %>
+					</div>
+		    </div>
+				<div class="field">
+					<div class="devise_label col-xs-12">
+				    <%= f.label :merchant_rep, "Merchant Rep?", hidden: true %>
+				    <%= f.select :merchant_rep, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Merchant Rep?" %>
+					<br /><br /><br />
+					</div>
+		    </div>
+				<div class="merchant_form_headings">
+					<h2>Return Policy:</h2>
+				</div>
+			  <div class="field">
+				  <div class="devise_label col-xs-12">
+		  	    <%= f.label :user_return_policy, "Return Policy:", hidden: true  %>
+		  	    <%= f.text_area :user_return_policy, class: "form-control input-lg", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %>
+				 		<%= f.hidden_field :shipping_cost, value: "0.00" %>
+						<br /><br />
+				  </div>
+			  </div>
+<!-- Password -->
+				<div class="merchant_form_headings">
+					<h2>Password:</h2>
+				</div>
+			  <div class="field">
+				  <div class="devise_label col-xs-12">
+				    <%= f.label :password, hidden: true %>
+				    <% if @validatable %>
+				    <em>(<%= @minimum_password_length %> characters minimum)</em>
+				    <% end %>
+				    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg" %>
+					</div>
+			  </div>
+			  <div class="field">
+				  <div class="devise_label col-xs-12">
+				    <%= f.label :password_confirmation, "Confirm", hidden: true %>
+				    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control input-lg" %>
+						<br /><br />
+					</div>
+			  </div>
+				<div class="devise_create actions" style="text-align:center">
+					<%= f.submit "CREATE ACCOUNT	", class: "btn btn-primary btn-large" %>
+					<br /><br />
+				</div>
+			<% end %>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
+			</div>
+		</div>
+	</div>
+	<br /><br /><br /><br />
+</div>

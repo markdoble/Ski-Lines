@@ -1,0 +1,41 @@
+<div class="col-xs-12">
+<br /><br />
+	<div class="admin_performance">
+		<table style="width:100%">
+			<tr>
+				<th>#</th>
+				<th>Order ID</th>
+				<th>Status</th>
+				<th>Date</th>
+				<th>Customer</th>
+				<th>Address</th>
+				<th>Products</th>
+				<th>Size</th>
+				<th>Qty</th>
+				<th>Subtotal</th>
+				<th>Tax</th>
+				<th>Shipping</th>
+				<th>Total</th>
+			</tr>
+		<% @order.each_with_index do |f, index| %>
+			<tr>
+				<td><%= index+1%></td>
+				<td><%= link_to f.id, admin_all_order_path(f) %></td>
+				<td><%= (f.success == true) ? "Success" : "Failed" %></td>
+				<td><%= f.created_at.strftime("%b %d, %Y at %H:%M") %></td>
+				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
+				<td><%= f.street_address %>, <%= f.city %><br /><%= f.prov_state %>, <%=f.country %><br /><%= f.postal_zip %></td>
+				<td><b><%= pluralize(f.order_units.where.not(quantity: 0).count, "Product") %></b><br /><%= order_products(f)%></td>
+				<td><br /><%=order_unit_size(f)%></td>
+				<td><br /> <%= order_unit_qty(f)%></td>
+				<td><%= number_to_currency(subtotal(f), unit: '$')%></td>
+				<td><%= number_to_currency(f.sales_tax, unit: '$')%></td>
+				<td><%= number_to_currency(f.shipping, unit: '$')%></td>
+				<td> <%= number_to_currency(f.amount, unit: '$') %></td>
+		<%end%>
+			</tr>
+		</table>
+	</div>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+</div>

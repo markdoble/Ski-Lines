@@ -2,10 +2,8 @@
 		<div class="nav navbar-nav hidden-xs">
 			<li class="dropdown">
 					<a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('menu_icon.png') %> </a>
-
 					<ul class="dropdown-menu main_menu" role="menu">
-
-
+            <% if user_signed_in? %>
               <% if current_user.article_publisher? %>
 							<li class="divider"></li>
 							<li><a style="color:grey">PUBLISHERS</a></li>
@@ -22,7 +20,8 @@
 							<li class="divider" ></li>
 							<li><a style="color:grey">MY STORE</a></li>
 							<li><%= link_to "PRODUCTS", admin_products_path %></li>
-						  <li><%= link_to "ORDERS", admin_orders_myperformance_path %></li>
+						  <li><%= link_to "ORDERS", admin_orders_path %></li>
+              <li><%= link_to "ACCOUNT", admin_account_path %></li>
 						  <%end%>
               <% if current_user.admin? %>
 							<li class="divider" ></li>
@@ -31,60 +30,29 @@
 							<li><%= link_to "TEAM APPLICATIONS", admin_teams_team_path %></li>
               <li><%= link_to "PRODUCT CATEGORIES", admin_product_categories_path %></li>
     				  <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
-    		 		  <li><%= link_to "ALL MERCHANTS", admin_orders_merchants_path %></li>
-    		 		  <li><%= link_to "ALL ORDERS", admin_orders_all_orders_path %></li>
+    		 		  <li><%= link_to "ALL MERCHANTS", admin_all_orders_merchants_path %></li>
+    		 		  <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>
               <%end%>
-
-
-
+              <% if current_user.merchant_rep? %>
+                <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
+              <%end%>
+            <%end%>
 							<br /><br /><br /><br />
-
-
-
 					</ul>
 			</li>
-
-
 	</div>
 		<div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 			<ul class="nav navbar-nav hidden-xs">
-
-				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), root_path %> </li>
-
+				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), shop_path %> </li>
 			</ul>
-      <ul class="nav navbar-nav navbar-right hidden-xs">
-      <% if user_signed_in? %>
-        <% if current_user.merchant? %>
-           <li> <%= link_to current_user.merchant_name, {:controller => "/products", :action => "store", :slug => current_user.slug } %></li>
-        <%end%>
 
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Profile<span class="caret"></span></a>
-
-            <ul class="dropdown-menu" role="menu">
-          <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-          <li><%= link_to "Edit", edit_user_registration_path %></li>
-
-          </ul>
-          </li>
-
-
-      <% end %>
-
-    </ul>
-
-
-
+      <!-- Render the user navbar that sits on the right hand side of the top menu bar -->
+			<%= render 'navbars/user_navbar' %>
 			<div class="nav navbar-nav hidden-lg hidden-md hidden-sm">
 				<li class="dropdown">
 						<a href="#" class="dropdown-toggle navbar_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('store_logo_bitmap.png') %> </a>
-
 						<ul class="dropdown-menu" role="menu">
-
-
-
-
               <% if user_signed_in? %>
                   <% if current_user.article_publisher? %>
                   <li class="divider"></li>
@@ -99,7 +67,7 @@
                   <li class="divider" ></li>
                   <li><a style="color:grey">MY STORE</a></li>
                   <li><%= link_to "PRODUCTS", admin_products_path %></li>
-                  <li><%= link_to "ORDERS", admin_orders_myperformance_path %></li>
+                  <li><%= link_to "ORDERS", admin_orders_path %></li>
             			<li> <%= link_to current_user.merchant_name, {:controller => "/products", :action => "store", :slug => current_user.slug } %></li>
                   <li> <%= link_to "LOGOUT", destroy_user_session_path, method: :delete %></li>
                   <li><%= link_to "EDIT PROFILE", edit_user_registration_path %></li>
@@ -111,19 +79,13 @@
                   <li><%= link_to "TEAM APPLICATIONS", admin_teams_team_path %></li>
                   <li><%= link_to "PRODUCT CATEGORIES", admin_product_categories_path %></li>
                   <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
-                  <li><%= link_to "ALL MERCHANTS", admin_orders_merchants_path %></li>
-                  <li><%= link_to "ALL ORDERS", admin_orders_all_orders_path %></li>
+                  <li><%= link_to "ALL MERCHANTS", admin_all_orders_merchants_path %></li>
+                  <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>
                   <%end%>
               <% end %>
-
               <br />
-
-
 						</ul>
 				</li>
-
-
 		</div>
-
 		</div>
 	</nav>

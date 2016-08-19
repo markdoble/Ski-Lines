@@ -1,0 +1,36 @@
+<br /><br /><br /><br /><br />
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= render 'mailbox/folders' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%
+        # check to see if we are loading a conversation. If so, we will render the conversation form
+        if is_conversation
+          %><%= render 'conversations/form' %><%
+        else
+          # we are not loading a single conversation. We will then render all converations
+          # check to see if we have any messages. If not, display a message
+          if !messages.nil? && messages.count > 0
+            # if we are on the trash page, show the empty trash link
+            if page == "trash"
+              %><%= link_to 'Empty trash', empty_trash_conversation_path(messages), method: :post, data: {confirm: 'Are you sure?'} %><%
+            end
+              %><%= render partial: 'conversations/conversation', collection: messages %><%
+          else
+            %><%="No messages in this folder."%><%
+          end
+        end
+        %>
+      </div>
+    </div>
+  </div>
+
+</div>

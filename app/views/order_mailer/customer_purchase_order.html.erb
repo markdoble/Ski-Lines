@@ -1,5 +1,4 @@
 <style type="text/css" media="screen">
-
 .customer_order_email{ text-align:center; }
 .order_ref{ text-align:left; }
 h2{
@@ -8,9 +7,7 @@ h2{
 	border-width:thin;
 }
 </style>
-
 <p>Hi <%= @order.cust_first_name %>!</p>
-
 <p>The details of your recent purchase through Ski-Lines can be found below:</p>
 <h2><br /></h2>
 <div class="customer_order_email">
@@ -20,7 +17,9 @@ h2{
 	</div>
 	<div class="customer_product_email_listing">
 		<h3>Purchase Details:</h3>
+		<% subtotal = 0 %>
 		<% @order.order_units.where.not(quantity: 0).each do |f| %>
+		<% subtotal += (f.unit.product.price*f.quantity) %>
 			<b><%= f.unit.product.name%></b>, <%=number_to_currency(f.unit.product.price, unit: '$') %><br />
 			<% if f.unit.size == "n/a" and f.unit.colour == "n/a" %>
 			Quantity: <%= f.quantity %><br />
@@ -30,13 +29,11 @@ h2{
 			<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
 			<%else%>
 			<%end%>
-
 			<b>Merchant Details:</b><br />
 			Store: <%= link_to f.unit.product.user.merchant_name, f.unit.product.user.merchant_url %><br />
 			Email: <%= f.unit.product.user.email%><br />
 			Phone: <%= f.unit.product.user.merchant_phone %><br />
 			<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
-
 				<% if s.delivery_method == "Standard Shipping"%>
 					Delivery Method: <%= s.delivery_method%><br />
 					Shipping From: <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br /><br />
@@ -48,16 +45,11 @@ h2{
 			<%end%>
 	</div>
 	<%end%>
-
 	<h3>Payment Details:</h3>
-	<% subtotal = @order.amount-@order.sales_tax-@order.shipping %>
-
 	Sub-total: <%= number_to_currency(subtotal, unit: '$')%><br />
 	Total Shipping: <%= number_to_currency(@order.shipping, unit: '$') %><br />
 	Total Sales Tax: <%= number_to_currency(@order.sales_tax, unit: '$') %><br />
 	<b>Total: <%= number_to_currency(@order.amount, unit: '$' )%></b><br />
-
-
 	<p><%= number_to_currency(@order.amount, unit: '$' ) %> has been charged to your credit card. All credit card information is securely stored by <a href="https://www.braintreepayments.com">Braintree</a>.</p>
 	<p>If you have any questions or concerns about your order, get in touch with the merchant at the details listed above.</p>
 	<h2><br /></h2>

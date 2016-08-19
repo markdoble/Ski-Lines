@@ -1,25 +1,9 @@
-
-
+<br />
 <%= form_for @order do |f|%>
-	<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-	<div class="row">
-		<% if @order.errors.any? %><br />
-		  <div id="error_explanation">
-		    <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from submitting:</h2>
-		    <ul>
-		    <% @order.errors.full_messages.each do |message| %>
-		      <li><%= message %></li>
-		    <% end %>
-		    </ul>
-		  </div>
-		<% end %>
-		<div class="braintree_errors">
-			<br />
-		<h4><%= bootstrap_flash %></h4>
-		</div>
-
-
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
+			<div class="braintree_errors">
+			<h4><%= bootstrap_flash %></h4>
+			</div>
 			<div class="columns_for_products">
 				<div class="purchase_form">
 						<% @cart.reverse_each do | id, qty | %>
@@ -32,271 +16,42 @@
 			</div>
 		</div>
 
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="complete_order">
-			<div class="columns_for_order_form_all" >
-				<div class="row">
-
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+		<div class="amount_side_contain col-lg-3 col-md-3 col-sm-2 col-xs-12" >
+				<div class="product_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<h4 class="order_form_heading" ><b>SHOPPING CART</b></h4>
+					<div class="row">
+						<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						 <p>- none -</p>
+						</div>
+						<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+						</div>
 					</div>
 
-					<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-						<div class="row">
+					<div class="row" style="text-align:center">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
+							<b>Sub-Total:</b>
+						</div>
+						<div class="sub_total col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
+						<%= number_to_currency(0, unit: '$') %>
+						</div>
+					</div>
+					<br />
+					<div class="row">
 						<br />
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="merchant_form_headings"><h2>1. Customer Details:</h2></div>
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-							   <%= f.label :cust_first_name, "First Name:"  %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							   <%= f.text_field :cust_first_name, class: "form-control", placeholder: "*First Name", input_html: { autocomplete: 'off' } %>
-							   		</div>
-								</div>
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-							   <%= f.label :cust_last_name, "Last Name:"  %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							   <%= f.text_field :cust_last_name, class: "form-control", placeholder: "*Last Name" %>
-							   		</div>
-								</div>
-
-
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-							    <%= f.label :cust_email, "Email:" %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							    <%= f.text_field :cust_email, class: "form-control", placeholder: "*Email", input_html: { autocomplete: 'off' } %>
-									</div>
-
-								</div>
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-							    <%= f.label :cust_email_confirmation, "Confirm Email:"  %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							    <%= f.text_field :cust_email_confirmation, class: "form-control", placeholder: "*Confirm Email" %>
-								<br /><br /><br />
-									</div>
-
-								</div>
-
-								<div class="merchant_form_headings"><h2>2. Shipping Address:</h2></div>
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-								    <%= f.label :street_address, "Street Address:" %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								    <%= f.text_field :street_address, class: "form-control", placeholder: "*Street Address" %>
-									</div>
-								</div>
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-								    <%= f.label :city, "City:" %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								    <%= f.text_field :city, class: "form-control", placeholder: "*City" %>
-									</div>
-								</div>
-								<% prov_state =
-								{'Canada' => ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
-								'United States of America' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']} %>
-
-								<div class="form_field_divs input-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-						   	    	<div class="devise_label_loc col-lg-3 col-md-3 col-sm-3 hidden-xs">
-										<%= f.label :country, "Country:" %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-										<%= f.select :country, options_for_select(["United States of America", "Canada"], f.object.country), :prompt => '*Country' %>
-									</div>
-								</div>
-								<div class="form_field_divs input-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" >
-									<div class="devise_label_loc col-lg-3 col-md-3 col-sm-3 hidden-xs">
-							    <%= f.label :prov_state, "State/Province:" %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-							    <%= f.select :prov_state, grouped_options_for_select(prov_state, f.object.prov_state), class: "province_state_select", :prompt => '*Province/State' %>
-
-									</div>
-								</div>
-
-								<div class="form_field_divs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
-								    <%= f.label :postal_zip, "Zip/Postal:"   %>
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								    <%= f.text_field :postal_zip, class: "form-control", placeholder: "*Zip/Postal Code" %>
-									</div>
-
-
-
-									<%= f.hidden_field :sales_tax, :id => "hiddenTax" %>
-									<%= f.hidden_field :shipping, :id => "hiddenShipping" %>
-									<%= f.hidden_field :amount, :id => "finalTotal" %>
-
-
-
-
-									<br />
-								</div>
-							</div>
-						</div>
+						<%= link_to "Remove All Products", cart_clear_path %>
+						<br />
+						<%= link_to "Store Policies", infos_terms_path %>
 					</div>
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-					</div>
+					
 				</div>
-				<div class="row">
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-					</div>
-					<div class="product_list col-lg-10 col-md-10 col-sm-12 col-xs-12">
-						<br /><br />
-						<div class="merchant_form_headings"><h2>3. Review Selections:</h2></div>
-
-						<div class="row">
-							<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-							 <p><br /><i>- none -</i></p>
-
-							</div>
-							<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-							</div>
-
-						</div>
-						<div class="total_placeholder">
-							<p>We need to know your shipping address in order to calculate the total purchase price.</p>
-						</div>
-						<div id="order_total_calculation">
-							<div class="row">
-
-								<br />
-								<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									Sub-Total:
-								</div>
-								<div class="sub_total right col-lg-6 col-md-6 col-sm-6 col-xs-6">
-								<%= number_to_currency(0, unit: '$') %>
-								</div>
-							</div>
-							<div class="row">
-								<div class="shipping_label left col-lg-6 col-md-6 col-sm-6 col-xs-6" >
-									Shipping:
-								</div>
-								<div class="total_shipping right col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									<%= number_to_currency(0, unit: '$') %>
-								</div>
-							</div>
-							<div class="row">
-								<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
-									Sales Tax:
-
-								</div>
-								<div class="sales_tax_total right col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-								<%= number_to_currency(0, unit: '$') %>
-
-								</div>
-							</div>
-							<br />
-							<div class="row">
-								<div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6" style="font-size:18px">
-									<b>Total:</b>
-
-								</div>
-								<div class="total_order_amount right col-lg-6 col-md-6 col-sm-6 col-xs-6" style="font-size:15px">
-
-								<b><%= number_to_currency(0, unit: '$') %></b>
-
-								</div>
-							</div>
-						</div>
-
-
-					</div>
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-					</div>
-				</div>
-				<br />
-				<div class="row">
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-					</div>
-					<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-						<br /><br />
-						<div class="merchant_form_headings"><h2>4. Complete Payment:</h2><p><i>*Credit card transactions are processed and stored by Braintree, a trusted subsidiary of PayPal.</i></p></div>
-
-						<div  class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<%@client_token = Braintree::ClientToken.generate%>
-							  <div id="dropin"></div>
-							  <br /><br />
-							   <%= f.submit "PURCHASE", class: "btn btn-primary btn-large purchase_button" %>
-							    <%end%>
-						</div>
-
-					</div>
-					<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-					</div>
-				</div>
+		</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="complete_order">
+		<div class="columns_for_order_form_all" >
+			<div  class="order_form_button col-lg-9 col-md-9 col-sm-10 col-xs-12">
+					<br /><br />
+					 <%= f.submit "PROCEED TO CHECKOUT", class: "btn btn-primary btn-large purchase_button" %>
+						<%end%>
+						<br /><br /><br /><br />
 			</div>
 		</div>
 	</div>
-	</div>
-	<div class="amount_side_contain col-lg-3 col-md-3 hidden-sm hidden-xs" >
-
-			<div class="product_list affix col-lg-12 col-md-12 col-sm-12 col-xs-12" data-spy="affix">
-				<h4 class="order_form_heading" ><b>SHOPPING CART</b></h4>
-				<div class="row">
-
-					<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					 <p>- none -</p>
-					</div>
-					<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-
-
-
-					</div>
-
-				</div>
-				<div class="row" style="text-align:center">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
-						<b>Sub-Total:</b>
-					</div>
-					<div class="sub_total col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
-					<%= number_to_currency(0, unit: '$') %>
-					</div>
-				</div>
-
-				<br />
-
-				<div class="row">
-
-					<%= link_to "CHECKOUT", cart_path(:anchor => 'complete_order'), class: "btn btn-primary checkout_button"%>
-
-				</div>
-				<div class="row">
-					<br />
-					<%= link_to "Remove All Products", cart_clear_path %>
-					<br />
-					<%= link_to "Store Policies", infos_terms_path %>
-				</div>
-
-
-			</div>
-
-
-	</div>
-
-
-
- <script type="text/javascript">
-   function setupBT() {
-     braintree.setup("<%=@client_token%>", 'dropin', {
-       container: 'dropin'
-     });
-   }
-   if (window.addEventListener)
-     window.addEventListener("load", setupBT, false);
-   else if (window.attachEvent)
-     window.attachEvent("onload", setupBT);
-   else window.onload = setupBT;
-</script>

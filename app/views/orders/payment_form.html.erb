@@ -1,0 +1,225 @@
+<div class="container">
+      <br /><br /><br />
+      <div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="purchase_order_show col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <br />
+            <div class="payment-errors">
+            <h4><%= bootstrap_flash %></h4>
+            </div>
+            <br />
+            <div class="merchant_form_headings">
+      				<h2>Customer Details:</h2>
+      			</div>
+    				<h2><b><%= @order.cust_first_name%> <%= @order.cust_last_name%></h2>
+    				<h5><%= @order.cust_email %></h5><br />
+    				<h2><%= @order.street_address %></h2>
+    				<h2><%= @order.city%>, <%= @order.prov_state %>, <%= @order.country%></h2>
+    				<h2><%= @order.postal_zip%></h2><br />
+            <%= link_to "Edit My Details", orders_customer_details_form_path(@order) %>
+            <br /><br />
+    			</div>
+          <div class="merchant_order_products col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      			<div class="merchant_form_headings">
+      				<h2>Selected Items:</h2>
+      			</div>
+      			<div class="purchase_order_show">
+      				<% @order.order_units.where.not(quantity: 0).each do |f|%>
+      				<div class="order_show_product">
+                <%= image_tag(f.unit.product.photo.url(:thumb)) %><br />
+      				<h5><%= f.unit.product.name %></h5>
+      				<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
+      					<% if f.unit.size == "n/a" and f.unit.colour == "n/a" %>
+      					Quantity: <%= f.quantity %><br />
+      					<%elsif f.unit.size != "n/a" and f.unit.colour == "n/a" %>
+      					<%= f.quantity %> X <%= f.unit.size %><br />
+      					<%elsif f.unit.size != "n/a" and f.unit.colour != "n/a" %>
+      					<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
+      					<%else%>
+      					<%end%>
+      				  <br />
+      					Sold By: <%= f.unit.product.user.merchant_name %><br />
+      					<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
+      						<% if s.delivery_method == "Standard Shipping"%>
+      							Delivery Method: <%= s.delivery_method%><br />
+      							Shipping From: <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br /><br />
+      						<%else%>
+      							Delivery Method: <%= s.delivery_method%><br />
+      							Pick Up Order From: <%= f.unit.product.user.merchant_name %> in <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br />
+      						<%end%>
+      							<%unless s.customer_comments.blank?%>
+      							Customer Comments: <%= s.customer_comments %><br />
+      							<%end%>
+      					<%end%>
+      				</div>
+              <br />
+      				<%end%>
+              <%= link_to "Edit My Selection", cart_path(@order) %>
+      			</div>
+            <div class="merchant_form_headings">
+      				<h2>Payment:</h2>
+      			</div>
+            <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            Subtotal:
+            </div>
+            <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <%= number_to_currency(calculate_sub_total(@order), unit: '$') %>
+            </div>
+            <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            Sales Tax:
+            </div>
+            <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <%= number_to_currency(@order.sales_tax, unit: '$') %>
+            </div>
+            <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              Shipping:
+            </div>
+            <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <%= number_to_currency(@order.shipping, unit: '$') %>
+            </div>
+            <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <h3>Total:</h3>
+            </div>
+            <div class="right col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <h3><%= number_to_currency(@order.amount, unit: '$') %></h3>
+              <br />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+        </div>
+    <div class="columns_for_order_form_all col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-10 col-xs-12">
+        <%= form_for @order, :url => create_payment_order_path(@order), :html => {:id => "payment-form"}  do |f| %>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+          <br />
+          <span class="payment-errors"></span>
+          <% if @order.errors.any? %><br />
+            <div id="error_explanation">
+              <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from submitting:</h2>
+              <ul>
+              <% @order.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="form-row">
+                <input type="text" data-stripe="number" class="form-control input-lg card_form" placeholder="Card Number">
+                <br />
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+              <div class="form-row">
+                <span style="font-size:18px;">Expiry:</span>
+                <select data-stripe="exp_month" class="form_field_divs">
+                  <option value="" disabled selected>Month</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+              </div>
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <select data-stripe="exp_year" class="form_field_divs">
+                  <option value="" disabled selected>Year</option>
+                  <option value="16">2016</option>
+                  <option value="17">2017</option>
+                  <option value="18">2018</option>
+                  <option value="19">2019</option>
+                  <option value="20">2020</option>
+                  <option value="21">2021</option>
+                  <option value="22">2022</option>
+                  <option value="23">2023</option>
+                  <option value="24">2024</option>
+                  <option value="25">2025</option>
+                  <option value="26">2026</option>
+                  <option value="27">2027</option>
+                  <option value="28">2028</option>
+                  <option value="29">2029</option>
+                  <option value="30">2030</option>
+                  <option value="31">2031</option>
+                  <option value="32">2032</option>
+                  <option value="33">2033</option>
+                  <option value="34">2034</option>
+                  <option value="35">2035</option>
+                  <option value="36">2036</option>
+                  <option value="37">2037</option>
+                  <option value="38">2038</option>
+                  <option value="39">2039</option>
+                  <option value="40">2040</option>
+                </select>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <div class="form-row">
+                  <input type="text" data-stripe="cvc" class="form-control card_form" placeholder="CVC">
+                  <br />
+                </div>
+              </div>
+                <br /><br />
+            </div>
+            <input type="submit" class="submit btn btn-primary btn-large card_form" value="SUBMIT PAYMENT">
+        </div>
+        <%end%>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-1 hidden-xs">
+      </div>
+    </div>
+
+</div>
+<br /><br />
+<script type="text/javascript">
+  Stripe.setPublishableKey('pk_test_faFoLDlCFHpuTiEHaihzanYo');
+</script>
+<script>
+$(function() {
+  var $form = $('#payment-form');
+  $form.submit(function(event) {
+     //Disable the submit button to prevent repeated clicks:
+    $form.find('.submit').prop('disabled', true);
+    // Request a token from Stripe:
+    Stripe.card.createToken($form, stripeResponseHandler);
+    // Prevent the form from being submitted:
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+  // Grab the form:
+  var $form = $('#payment-form');
+
+  if (response.error) { // Problem!
+
+    // Show the errors on the form:
+    $form.find('.payment-errors').text(response.error.message);
+    $form.find('.submit').prop('disabled', false); // Re-enable submission
+
+  } else { // Token was created!
+
+    // Get the token ID:
+    var token = response.id;
+
+    // Insert the token ID into the form so it gets submitted to the server:
+    $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+    // Submit the form:
+    $form.get(0).submit();
+  }
+};
+</script>

@@ -2,121 +2,89 @@
 <br />
 	<div class="row">
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-			<br /><br /><br />
-			<div class="admin_order_details">
-			<b>Date:</b> <%= @order.created_at.strftime("%b %d, %Y at %H:%M")  %><br />
-			<b>Order:</b> <%= @order.id %>
-			</div>
-			<br /><br />
-			<div class="admin_customer_details">
-				<b>Cutomer Details:</b><br />
-				<%= @order.cust_first_name%> <%= @order.cust_last_name %><br />
-				<%= @order.street_address %><br />
-				<%= @order.city %><br />
-				<%= @order.prov_state %>, <%= @order.country %><br />
-				<%= @order.postal_zip %><br />
-			</div>
-			<br />
-			
-			
-			
-			
-		</div>
-		<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-			<h3>Purchased Products</h3>
-			<br />
-				<% @order.order_units.where.not(quantity: 0).each do |p|%>
-				<div class="row">
-					<div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-						<%= image_tag(p.unit.product.photo.url(:large), class: "img-responsive") %> 
+					<div class="admin_order_details">
+					<h3 style="text-align:left">Order #<%= @order.id %></h3>
+					<b>Date:</b> <%= @order.created_at.strftime("%b %d, %Y at %H:%M")  %><br />
 					</div>
-					<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-						<h4><%= p.unit.product.name %></h4>
-						<% if p.unit.size.empty? %>
-						Quantity: <%= p.quantity %><br /><br />
-						<%else%>
-						Size: <%= p.unit.size%><br /> 
-						Quantity: <%= p.quantity %><br /><br />
-						<%end%>
-						
-						<%= p.unit.product.description %>
+					<br />
+					<div class="admin_customer_details">
+						<b>Cutomer Details:</b><br />
+						<%= @order.cust_first_name%> <%= @order.cust_last_name %><br />
+						<%= @order.street_address %><br />
+						<%= @order.city %><br />
+						<%= @order.prov_state %>, <%= @order.country %><br />
+						<%= @order.postal_zip %><br /><br />
+						<b>Payment Details:</b><br />
+ 	 				Subtotal: <%= number_to_currency(merchant_order_subtotal(@order), unit: '$')%><br />
+ 	 				Shipping: <%= number_to_currency(merchant_order_shipping(@order), unit: '$') %><br />
+ 	 				Sales Tax: <%= number_to_currency(merchant_order_tax(@order), unit: '$')%><br />
+ 	 				Total: <%= number_to_currency(merchant_order_total(@order), unit: '$') %>
+					<br /><br />
 					</div>
-				</div>
-				<br /><br />
-			<%end%>
-			
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			
-			<div class="row">
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<h3>Transaction Details</h3>
-					<% if @order.transaction_id  %>
-					<table>
-						<tr>
-							<td><strong>Name on Card:</strong></td>
-							<td><%= @transaction.credit_card_details.cardholder_name %></td>
-						</tr>
-						<tr>
-							<td><strong>Card Type</strong></td>
-							<td><%= @transaction.credit_card_details.card_type %></td>
-					
-						</tr>
-						<tr>
-							<td><strong>Bank I.D. #</strong></td>
-							<td><%= @transaction.credit_card_details.bin %></td>
-						</tr>
-						<tr>
-							<td><strong>Last 4 Digits</strong></td>
-							<td><%= @transaction.credit_card_details.last_4 %></td>
-						</tr>
-					</table>
-					<%end%>
-					
-				</div>
-				<div class="order_merchant_orders col-lg-6 col-md-6 col-sm-6 col-xs-6">
-					<h3>Merchant Orders</h3>
-					<table>
-						<tr>
-							<th>Merchant Name</th>
-							<th>Order Status</th>
-							<th>Shipping</th>
-							<th>Tax</th>
-							<th>Total</th>
-						
-						</tr>
-					
-					<% @order.merchant_orders.each do |m|%>
-					
-						
-						
-						<tr>
-							<td><%= m.user.merchant_name%></td>
-							<td><%= m.order_status %></td>
-							<td></td>
-						</tr>
-					
-					<%end%>
-					</table>
-				</div>
-			</div>
-			<br /><br /><br />
-			<br /><br /><br />
-			<br /><br /><br />
-			
-			
-			
-			
+					<br />
 		</div>
-		
-		
+		<div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<div class="merchant_form_headings"><h2>Products:</h2></div>
+						<!-- Create @merchant_order_units in order_helper with following method -->
+						<% merchant_order_units(@order)%>
+						<!-- Create an array of products belonging to this order of this merchant -->
+						<% merchant_order_products(@order) %>
+						<!-- loop through the array of products belonging to this order of this merchant -->
+						<% @merchant_order_products.each do |p|%>
+					  <div class="form_for_merchant_order_status row">
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+								<%= image_tag(p.photo.url(:large), class: "img-responsive") %>
+							</div>
+					  	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+								<h4><b><%= p.name %></b></h4>
+							<!-- Loop through each unit belonging to this product in the loop in this order of this merchant -->
+							<% @merchant_order_units.each do |f| %>
+							<!-- Exclude units not belonging to this product -->
+								<% next unless f.unit.product_id == p.id %>
+								<% if f.unit.size != 'n/a' and f.unit.colour != 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
+	 							<%elsif f.unit.size == 'n/a' and f.unit.colour != 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.colour %><br />
+	 							<%elsif f.unit.size != 'n/a' and f.unit.colour == 'n/a'%>
+	 							<%= f.quantity %> X <%= f.unit.size %><br />
+								<%end%>
+							<%end%>
+								<%= p.description %>
+								<br />
+								<h4> <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
+									<% @order.merchant_orders.where(product_id: p.id).each do |m|%>
+										<% unless m.customer_comments.blank? %>
+										Customer Comment: <br /><%= m.customer_comments %><br /><br />
+										<%end%>
+									<%end%>
+									<%= form_for [:admin, @order] do |f| %>
+										<%= f.fields_for :merchant_orders do |ff| %>
+											<% if ff.object.product_id == p.id %>
+											<br />
+											<% if ff.object.order_status == false%>
+											<h4 style="color:red">Action Required!</h4>
+											<%end%>
+												<% if ff.object.delivery_method == "Standard Shipping" %>
+												<b>Delivery Method:</b> Standard Shipping<br />
+												<%= ff.label :order_status, 'Sent for delivery?'%>
+												<%else%>
+												<b>Delivery Method:</b> Pick-up In Store<br />
+												<%= ff.label :order_status, 'Ready for pick-up?'%>
+												<%end%>
+												<%= ff.check_box :order_status %><br />
+												<%end%>
+											<%end%>
+											<%= f.submit "Save", data: { confirm: 'Are you sure you want to change the status of this order?' }%>
+										<%end%>
+						 	</div>
+						</div>
+						<br /><br />
+					 	<%end%>
+							<br /><br /><br /><br /><br /><br />
+							<br /><br /><br /><br /><br /><br />
+							<br /><br /><br /><br /><br /><br />
+			 </div>
 		</div>
-		
-		
-		
-		
 	</div>
-	
-
-
-
 </div>

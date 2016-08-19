@@ -6,9 +6,11 @@ class ApplicationController < ActionController::Base
 
   before_filter :get_articles
   before_filter :site_stats
+  before_filter :find_or_create_cart
   #before_filter :set_cache_headers
 
-
+  # helper for mailboxer
+  helper_method :mailbox, :conversation
 
   def site_stats
 
@@ -24,11 +26,38 @@ class ApplicationController < ActionController::Base
 
 
   def after_sign_out_path_for(resource_or_scope)
-    URI.parse(request.referer).path if request.referer
+    shop_path
   end
 
   def configure_devise_permitted_parameters
-      registration_params = [:admin, :merchant, :article_publisher, :slug, :contact_name, :email, :password, :password_confirmation, :merchant_name, :merchant_phone, :merchant_url, :country, :state_prov, :city, :street_address, :zip_postal, :shipping_cost, :sales_tax, :user_return_policy, :merchant_order_attributes => [:id, :user_id, :order_id, :product_id, :order_status, :delivery_method]]
+      registration_params = [:admin,
+                            :merchant,
+                            :article_publisher,
+                            :slug,
+                            :contact_first_name,
+                            :contact_last_name,
+                            :email,
+                            :password,
+                            :password_confirmation,
+                            :merchant_name,
+                            :merchant_phone,
+                            :merchant_url,
+                            :country,
+                            :state_prov,
+                            :city,
+                            :street_address,
+                            :zip_postal,
+                            :shipping_cost,
+                            :sales_tax,
+                            :user_return_policy,
+                            :merchant_rep,
+                            :merchant_order_attributes => [:id,
+                                    :user_id, :order_id,
+                                    :product_id,
+                                    :order_status,
+                                    :delivery_method
+                                  ]
+                            ]
 
       if params[:action] == 'update'
         devise_parameter_sanitizer.for(:account_update) {
@@ -41,12 +70,28 @@ class ApplicationController < ActionController::Base
       end
   end
 
-
-
   def set_cache_headers
       response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
       response.headers["Pragma"] = "no-cache"
       response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
+  private
+
+  def mailbox
+    @mailbox ||= current_user.mailbox
+  end
+
+  def conversation
+    @conversation ||= mailbox.conversations.find(params[:id])
+  end
+
+  def find_or_create_cart
+    if session[:cart] then
+      @cart = session[:cart]
+    else
+      @cart = {}
+    end
   end
 
 

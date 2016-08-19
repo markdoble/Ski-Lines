@@ -1,0 +1,44 @@
+<%
+# we will want to show a different class for messages that are unread
+conversation_display = "media-unread"
+if conversation.is_read?(current_user)
+  conversation_display = "media-read"
+end
+%>
+
+<div class="media <%=conversation_display%>">
+  <div class="media-body">
+    <h4 class="media-heading">
+      <%
+      # we want to display who sent the message to the user viewing the conversation
+      if conversation.originator == current_user
+        %><%= conversation.recipients.first.mailboxer_name %><%
+      else
+        %><%= conversation.originator.mailboxer_name %><%
+      end
+      %>
+      <br />
+      <small><b>Subject: </b><%= conversation.subject %></small><br>
+      <small><b>Date: </b><%=  conversation.messages.last.created_at.strftime("%A, %b %d, %Y at %I:%M%p") %></small>
+    </h4>
+    <%= truncate conversation.messages.last.body, length: 145 %>
+    <br />
+    <%= link_to "View", conversation_path(conversation)  %>
+
+    <%
+    # display either the trash or delete function.
+    # If not yet trashed, show trash link. If already trashed, show delete link.
+    if conversation.is_trashed?(current_user)
+      %>
+      &nbsp;|&nbsp;<%= link_to 'Untrash', untrash_conversation_path(conversation), method: :post, data: {confirm: 'Are you sure?'} %>
+      &nbsp;|&nbsp;<%= link_to 'Delete', delete_conversation_path(conversation), method: :post, data: {confirm: 'Are you sure?'} %>
+      <%
+    else
+      %>
+      &nbsp;|&nbsp;<%= link_to 'Trash', trash_conversation_path(conversation), method: :post, data: {confirm: 'Are you sure?'} %>
+      <%
+    end
+    %>
+
+  </div>
+</div>

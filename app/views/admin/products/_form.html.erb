@@ -1,196 +1,139 @@
-
-  <div class="container ">
+<div class="container ">
 	  <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
-<%= form_for [:admin, @product], html: { class: "directUpload"} do |f| %>
-  <% if @product.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
-
-      <ul>
-      <% @product.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+      <%= form_for [:admin, @product], html: { class: "directUpload"} do |f| %>
+      <% if @product.errors.any? %>
+      <div id="error_explanation">
+          <h2><%= pluralize(@product.errors.count, "error") %> prohibited this product from being saved:</h2>
+          <ul>
+          <% @product.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+          </ul>
+      </div>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
-  
-<div class="row">
-	
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<h4><b>Product Details:</b></h4>
-	</div>
-	
-	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-	  	 <div class="row">
-		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		  <% if @product.photo.exists? %>
-	   		<div class="upload-preview img-responsive">
-	  	    <%= image_tag @product.photo.url(:medium), class: "img-responsive" %><br/><br>
-			</div>
-	      	  <%= f.label :photo, "Replace Photo:" %><br />
-	          <%= f.file_field :photo, class: 'file' %><br />
-	  		<%else%>
-			
-			<div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
-	    	  <%= f.label :photo, "Upload Photo:" %><br />
-	          <%= f.file_field :photo, class:'file img-responsive' %>
-	  	  <% end %>
-			</div>
-			
-		</div>
-	
-	</div>
-    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-		<div class="row">
-		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-			<%= f.hidden_field :user_id, :value => current_user.id %>
-	        <%= f.hidden_field :status, :value => "false"%>
-			<%= f.label :name, "Product Name:"%>
-			<%= f.text_field :name, class: "form-control", placeholder: "Product name" %> 
-		<br />
-		  </div>
-		</div>
-
-		<div class="row">
-		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<%= f.label :description, "Product Description:"%>
-			<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>5 %> 
-		<br />
-		  </div>
-		</div>
-		<div class="row">
-		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<%= f.label :size_details, "Sizing Details:"%>
-			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2 %> 
-		<br />
-		  </div>
-		</div>
-		<div class="row">
-			  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<%= f.label :product_return_policy, "Return Policy:"%>
-				<% if current_user.user_return_policy.blank? %>
-					<%= f.text_area :product_return_policy, class: "form-control", :cols => 80, :rows=>2 %>
-					<%= link_to "Set Default Return Policy", edit_user_registration_path(anchor: "user_return_policy") %><br />
-				<%else%>
-					<%= f.text_area :product_return_policy, value: current_user.user_return_policy, class: "form-control", :cols => 80, :rows=>3, readonly: true %>
-				<%end%> 
-			<br />
-			  </div>
-		</div>
-		
-		<div class="row">
-		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-		     <%= f.label :product_category, "Product Category:" %><br>
-		     <%= f.collection_select :product_category, ProductCategory.order(:category), :category, :category, include_blank: true %>
-		  </div>
-
-		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-		     <%= f.label :product_subcategory, "Product Sub-category:" %><br>
-		     <%= f.grouped_collection_select :product_subcategory, ProductCategory.order(:category), :product_subcategories, :category, :subcategory, :subcategory, include_blank: true %>
-		  </div>
-	    </div>
-		
-		<br /><br />
-		
-		<div class="row">
-		  <div class="col-lg-4 col-md-4 col-sm-5 col-xs-8">
-			<%= f.label :price, "Price:"%>
-			<%= f.text_field :price, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.price, :precision => 2) || 0) %> 
-		  </div>
-  		  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
-  			<%= f.label :shipping_charge, "Shipping:"%>
-			<% if f.object.shipping_charge.nil? %>
-			<%= f.text_field :shipping_charge, class: "form-control", placeholder: "Shipping", :value => (number_with_precision(current_user.shipping_cost, :precision => 2) || 0) %>
-			<%else%>
-  			<%= f.text_field :shipping_charge, class: "form-control", placeholder: "Shipping", :value => (number_with_precision(f.object.shipping_charge, :precision => 2) || 0) %>
-			<%end%>
-  		  </div>
-		  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
- 			
-			<%= f.hidden_field :currency, :value => "CAD"%>
-			
-		  </div>
-		</div>
-
-		
-		
-        
-	</div>
-</div>
-<div class="row">
-	
-	<div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<br /><br /><br /><br />
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<h4><b>Additional Product Photos:</b></h4>
-				<br />
-			</div>
-		</div>
-		
-		
-		
-		<div class="row">
-			
-			
-			
-						<%= f.fields_for :productfotos, build_productfotos(@product), html: { class: "directUpload"} do |ff| %>
-				
-				<div class="admin_productfotos col-lg-3 col-md-4 col-sm-6 col-xs-12" style="height:200px">
-						  <% if ff.object.new_record? %>
-						  <%= ff.label :foto, "Add Photo:" %>
-				          <%= ff.file_field :foto %>
-						  
-						  <%else%>
-			  
-						  <%= image_tag ff.object.foto.url(:thumb), class: "img-responsive" %>
-						  <%= ff.label :foto, "Replace Photo:" %>
-				          <%= ff.file_field :foto %>
-						  <%= ff.label :foto, "Remove Photo:"%>
-						  <%= ff.check_box '_destroy' %>
-		  	  
-						  <%end%>
-					  
-				  <br /><br /><br /><br />
-				</div>
-				
-					<%end%>
-					
-				
-			
-		</div>
-		
-		
-		
-		
-	</div>
-	
-</div>
-
-
-
-
-<br /><br /><br />
-<div class="row">
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-           <div class="actions">
-           <%= f.submit "Save", class: "btn btn-small btn-primary" %>
-        <td ><%= link_to 'Cancel', admin_products_path %></td>
-           </div>
-	</div>
-</div>
-
-
-<br />
- 
-
-         
-        <% end %>
-
+      <div class="row">
+      	<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+      	  <div class="row">
+      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      		        <% if @product.photo.exists? %>
+          	   		<div class="upload-preview img-responsive">
+          	  	    <%= image_tag @product.photo.url(:medium), class: "img-responsive" %><br/><br>
+          			  </div>
+      	      	  <%= f.label :photo, "Replace Photo:" %><br />
+      	          <%= f.file_field :photo, class: 'file' %><br />
+      	  		    <%else%>
+      			     <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+      	    	     <%= f.label :photo, "Upload Photo:" %><br />
+      	           <%= f.file_field :photo, class:'file img-responsive' %>
+      	  	  <% end %>
+      			  </div>
+      		 </div>
+      	</div>
+          <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+      		  <div class="row">
+        		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        			<%= f.hidden_field :user_id, :value => current_user.id %>
+        	        <%= f.hidden_field :status, :value => "false"%>
+        			<%= f.label :name, "Product Name:", hidden: true %>
+        			<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name" %>
+        		<br />
+        		  </div>
+      		  </div>
+        		<div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        			<%= f.label :description, "Product Description:", hidden: true %>
+        			<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>5, placeholder: "Product Description. Describe the product with as much detailed information as you like." %>
+        		<br />
+        		  </div>
+        		</div>
+        		<div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        			<%= f.label :size_details, "Sizing Details:", hidden:true%>
+        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2, placeholder: "Provide additional information on how to select the correct size. Leave this blank if sizing is not applicable." %>
+        		<br />
+        		  </div>
+        		</div>
+        		<div class="row">
+        			  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        				<%= f.label :product_return_policy, "Return Policy:"%>
+        				<% if current_user.user_return_policy.blank? %>
+        					<%= f.text_area :product_return_policy, class: "form-control", :cols => 80, :rows=>2 %>
+        					<%= link_to "Set Default Return Policy", edit_user_registration_path(anchor: "user_return_policy") %><br />
+        				<%else%>
+        					<%= f.text_area :product_return_policy, value: current_user.user_return_policy, class: "form-control", :cols => 80, :rows=>3, readonly: true %>
+        				<%end%>
+        			<br />
+        			  </div>
+        		</div>
+        		<div class="row">
+        		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        		     <%= f.label :product_category, "Product Category:" %><br>
+        		     <%= f.collection_select :product_category, ProductCategory.order(:category), :category, :category, include_blank: true %>
+        		  </div>
+        		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        		     <%= f.label :product_subcategory, "Product Sub-category:" %><br>
+        		     <%= f.grouped_collection_select :product_subcategory, ProductCategory.order(:category), :product_subcategories, :category, :subcategory, :subcategory, include_blank: true %>
+        		  </div>
+        	  </div><br /><br />
+        		<div class="row">
+        		  <div class="col-lg-4 col-md-4 col-sm-5 col-xs-8">
+        			<%= f.label :price, "Price:"%>
+        			<%= f.text_field :price, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.price, :precision => 2) || 0) %>
+        		  </div>
+          		  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-8">
+          			<%= f.label :shipping_charge, "Shipping:"%>
+        			<% if f.object.shipping_charge.nil? %>
+        			<%= f.text_field :shipping_charge, class: "form-control", placeholder: "Shipping", :value => (number_with_precision(current_user.shipping_cost, :precision => 2) || 0) %>
+        			<%else%>
+          			<%= f.text_field :shipping_charge, class: "form-control", placeholder: "Shipping", :value => (number_with_precision(f.object.shipping_charge, :precision => 2) || 0) %>
+        			<%end%>
+          		  </div>
+        		  <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+        			<%= f.hidden_field :currency, :value => "CAD"%>
+        		  </div>
+        		</div>
+    	   </div>
+      </div>
+      <div class="row">
+      	<div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      		<br /><br /><br /><br />
+      		<div class="row">
+      			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      				<h4><b>Additional Product Photos:</b></h4>
+      				<br />
+      			</div>
+      		</div>
+      		<div class="row">
+      					<%= f.fields_for :productfotos, build_productfotos(@product), html: { class: "directUpload"} do |ff| %>
+      				<div class="admin_productfotos col-lg-3 col-md-4 col-sm-6 col-xs-12" style="height:200px">
+      						  <% if ff.object.new_record? %>
+      						  <%= ff.label :foto, "Add Photo:" %>
+      				          <%= ff.file_field :foto %>
+      						  <%else%>
+      						  <%= image_tag ff.object.foto.url(:thumb), class: "img-responsive" %>
+      						  <%= ff.label :foto, "Replace Photo:" %>
+      				          <%= ff.file_field :foto %>
+      						  <%= ff.label :foto, "Remove Photo:"%>
+      						  <%= ff.check_box '_destroy' %>
+      						  <%end%>
+      				  <br /><br /><br /><br />
+      				</div>
+      					<%end%>
+      		</div>
+      	</div>
+      </div>
+      <br /><br /><br />
+      <div class="row">
+      	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+             <div class="actions">
+             <%= f.submit "Save", class: "btn btn-small btn-primary" %>
+              <td ><%= link_to 'Cancel', admin_products_path %></td>
+             </div>
+      	</div>
+      </div>
+      <br />
+      <% end %>
      </div>
+   </div>
+  <br /><br /><br /><br /><br /><br /><br /><br />
 </div>
-<br /><br /><br /><br /><br /><br /><br /><br />
-</div>
-
-

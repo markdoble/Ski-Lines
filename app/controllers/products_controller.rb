@@ -4,10 +4,9 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :find_or_create_cart
 
-  
+
 
   def index
-    verify_is_merchant
     @hard_goods = Product.active_products.hard_goods.index_products
     @clothing = Product.clothing.active_products.index_products
     @waxing = Product.active_products.waxing.index_products
@@ -22,7 +21,6 @@ class ProductsController < ApplicationController
   end
 
   def hard_goods
-    verify_is_merchant
     @hard_goods = Product.active_products.hard_goods
     filtering_params(params).each do |key, value|
       @hard_goods = @hard_goods.active_products.public_send(key, value) if value.present?
@@ -30,7 +28,6 @@ class ProductsController < ApplicationController
   end
 
   def accessories
-    verify_is_merchant
     @accessories = Product.active_products.accessories
     filtering_params(params).each do |key, value|
       @accessories = @accessories.active_products.public_send(key, value) if value.present?
@@ -38,7 +35,6 @@ class ProductsController < ApplicationController
   end
 
   def clothing
-    verify_is_merchant
     @clothing = Product.active_products.clothing
     filtering_params(params).each do |key, value|
       @clothing = @clothing.active_products.public_send(key, value) if value.present?
@@ -46,7 +42,6 @@ class ProductsController < ApplicationController
   end
 
   def waxing
-    verify_is_merchant
     @waxing = Product.active_products.waxing
     filtering_params(params).each do |key, value|
       @waxing = @waxing.active_products.public_send(key, value) if value.present?
@@ -54,7 +49,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    verify_is_merchant
     @product = Product.find(params[:id])
     respond_to do |format|
       format.js
@@ -63,7 +57,6 @@ class ProductsController < ApplicationController
   end
 
   def store
-    verify_is_merchant
     @user = User.find_by_slug(params[:slug])
     if @user.respond_to? :products
       @products = @user.products.active_products
@@ -71,7 +64,7 @@ class ProductsController < ApplicationController
         @products = @user.products.active_products.public_send(key, value) if value.present?
       end
     else
-      flash[:alert] = 'The store you were looking for does not exist. Please select one of our merchants below.'
+      flash.now[:alert] = 'The store you were looking for does not exist. Please select one of our merchants below.'
       redirect_to products_merchants_path
     end
   end

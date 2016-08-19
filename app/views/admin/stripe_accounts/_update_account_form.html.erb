@@ -1,0 +1,64 @@
+<%= form_tag "/admin/stripe_accounts/verify_account", :method => :get do %>
+<div class="form_heading col-xs-12">
+  <h4>Account Representative Details:</h4>
+  <br /><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  First Name:
+</div>
+
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :first_name, nil, value: @account_first_name, class: "form-control first_name", placeholder: current_user.contact_first_name %><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Last Name:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :last_name, nil, value: @account_last_name, class: "form-control", placeholder: current_user.contact_last_name %><br />
+</div>
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Date of Birth:
+</div>
+<% months = {
+            "January" => 1, "February" => 2, "March" => 3, "April" => 4, "May" => 5,
+            "June" => 6, "July" => 7, "August" => 8, "September" => 9, "October" => 10,
+            "November" => 11, "December" => 12
+            } %>
+<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+  <%if @fields_needed.include?("legal_entity.dob.month")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_month, options_for_select(months, selected: @dob_month) %></span>
+  <% if @fields_needed.include?("legal_entity.dob.day")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day) %></span>
+  <% if @fields_needed.include?("legal_entity.dob.year")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year) %></span>
+</div>
+<!--
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Last 4 digits of SSN:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :ssn_last_4, nil, value: @ssn_last_4, class: "form-control", placeholder: current_user.contact_last_name %><br />
+</div>
+
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <% if @country == "us"%>
+  Social Security Number:
+  <%else%>
+  Social Insurance Number:
+  <%end%>
+</div>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :personal_id_number, nil, value: @personal_id_number, class: "form-control" %><br />
+</div>
+
+<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  Valid Gov't I.D.:
+</div>
+<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= text_field_tag :last_name, nil, value: @account_last_name, class: "form-control", placeholder: current_user.contact_last_name %><br />
+</div>
+-->
+
+
+<div class="col-xs-12" style="text-align:center">
+  <br /><br />
+   <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save" %>
+</div>
+<%end%>

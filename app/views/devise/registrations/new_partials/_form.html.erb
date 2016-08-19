@@ -1,0 +1,61 @@
+<!-- Generic User Create Form  -->
+<div class="container">
+	<br /><br />
+	<div class="devise_user_registration">
+		<div class="row">
+			<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-8 col-sm-12 devise_forms_background">
+					<div class="merchant_form_headings">
+					<h2>Create User:</h2>
+					</div>
+				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+				  <%= devise_error_messages! %>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_first_name, "Contact First Name", hidden: true %>
+				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+						<br />
+						</div>
+				  </div>
+					<div class="field">
+					  <div class="devise_label col-xs-12">
+				    <%= f.label :contact_last_name, "Contact Last Name", hidden: true %>
+				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Name" %>
+						<br />
+						</div>
+				  </div>
+					<div class="field">
+    			  <div class="devise_label col-xs-12">
+    		    <%= f.label :email, hidden: true %>
+    		    <%= f.email_field :email, autofocus: true, class: "form-control input-lg", placeholder: "Email" %><br />
+    				</div>
+    		  </div>
+    		  <div class="field">
+    			  	<div class="devise_label col-xs-12">
+    		    <%= f.label :password, hidden: true %>
+    		    <% if @validatable %>
+    		    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    		    <% end %>
+    		    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control input-lg" %>
+    				</div>
+    		  </div>
+    		  <div class="field">
+    			  	<div class="devise_label col-xs-12">
+    		    <%= f.label :password_confirmation, "Confirm", hidden: true %>
+    		    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control input-lg" %>
+    				<br /><br />
+    				</div>
+    		  </div>
+					<div class="devise_create actions" style="text-align:center">
+						<%= f.submit "CREATE ACCOUNT	", class: "btn btn-primary btn-large" %>
+						<br /><br />
+					</div>
+				<% end %>
+				</div>
+				<div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
+				</div>
+			</div>
+		</div>
+		<br /><br /><br /><br />
+</div>
