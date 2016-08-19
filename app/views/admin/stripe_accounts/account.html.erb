@@ -8,12 +8,11 @@
       </div>
       <div class="devise_forms_background col-lg-8 col-md-8 col-sm-10 col-xs-12">
         <% if current_user.stripe_account_id %>
-
             <div class="col-xs-12">
               <h1><%=current_user.merchant_name%></h1>
       				<h4>Your Account</h4>
-              Your account is currently active, and you are ready to sell, however, in order to permit
-              transfers to your bank account, our payments provider still requires the following information:<br /><br />
+              <p>Your account is currently active, and you are ready to sell, however, in order to permit
+              transfers to your bank account, our payments provider still requires the following information:</p>
             </div>
             <div class="col-xs-12 account_verification">
               <% @fields_needed.each do |f| %>
@@ -22,7 +21,7 @@
                 </ul>
               <%end%>
             </div>
-          
+
           <br />
           <div class="row">
             <%= render :partial => 'update_account_form' %>
@@ -34,12 +33,13 @@
             <%end%>
           </div>
         <%end%>
-        <br /><br /><br /><br /><br />
-        <br /><br /><br /><br /><br />
-        <br /><br /><br /><br /><br />
+        <br />
       </div>
       <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
       </div>
     </div>
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br />
   </div>
 </div>

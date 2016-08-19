@@ -1,36 +1,42 @@
 <%= form_tag "/admin/stripe_accounts/update_company_details", :method => :get do %>
-<div class="form_heading col-xs-12">
-  <br />
-  <h4>Company Details:</h4>
-  <br />
+<div class="merchant_form_headings col-xs-12">
+  <h2>Company Details:</h2>
 </div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Business Name:
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <%= label_tag :business_name, "Business Name:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= text_field_tag :business_name, nil, value: @business_name, class: "form-control", placeholder: current_user.merchant_name %><br />
+  </div>
 </div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :business_name, nil, value: @business_name, class: "form-control", placeholder: current_user.merchant_name %><br />
-</div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Legal Entity Type:
-</div>
-<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-  <% entities = {"Company" => 'company', "Individual" => "individual" }%>
-  <%= select_tag :type, options_for_select(entities, @entity_type) %><br /><br />
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <%= label_tag :legal_entity_type, "Legal Entity Type:" %>
+  </div>
+  <div class="edit_devise_label col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <% entities = {"Company" => 'company', "Individual" => "individual" }%>
+    <%= select_tag :type, options_for_select(entities, @entity_type) %><br /><br />
+  </div>
 </div>
 <% if @fields_needed.include?("legal_entity.business_tax_id") %>
-  <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-    Business Tax Number:
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :business_number, "Business Tax Number:" %>
   </div>
   <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
     <%if @fields_needed.include?("legal_entity.business_tax_id")%>
     <span class="fields_needed_class"><%else%><span><%end%><%= text_field_tag :business_number, nil, class: "form-control", placeholder: "Business Tax Number" %></span><br />
   </div>
-<%end%>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Address:
 </div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :address, nil, value: @address, class: "form-control", placeholder: current_user.street_address %><br />
+<%end%>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <%= label_tag :address, "Address:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= text_field_tag :address, nil, value: @address, class: "form-control", placeholder: current_user.street_address %><br />
+  </div>
 </div>
 <% country = {'Canada' => 'CA', 'United States of America' => 'US'} %>
 <% states = {
@@ -99,51 +105,60 @@
  'Wisconsin' => 'WI',
  'Wyoming' => 'WY'
  } %>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-Country:
+ <div class="field col-xs-12">
+   <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+   <%= label_tag :country, "Country:" %>
+   </div>
+  <div class="edit_devise_label col-lg-7 col-md-7 col-sm-6 col-xs-12">
+  <%= select_tag :country, options_for_select(country, @country), class: "form-control country", :prompt => "-Country-" %><br />
+  </div>
 </div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-<%= select_tag :country, options_for_select(country, @country), class: "form-control country", :prompt => "-Country-" %><br />
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <% if current_user.country == "Canada" %>
+    <%= label_tag :legal_entity_type, "Province:" %>
+    <%else%>
+    <%= label_tag :legal_entity_type, "State:" %>
+    <%end%>
+  </div>
+  <div class="edit_devise_label col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= select_tag :state, options_for_select(states, @state), class: "form-control province_state_select", :prompt => "-Sate/Prov-" %><br />
+  </div>
 </div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  <% if current_user.country == "Canada" %>
-  Province:
-  <%else%>
-  State:
-  <%end%>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <%= label_tag :city, "City:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= text_field_tag :city, nil, value: @city, class: "form-control" %><br />
+  </div>
 </div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= select_tag :state, options_for_select(states, @state), class: "form-control province_state_select", :prompt => "-Sate/Prov-" %><br />
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <% if current_user.country == "Canada" %>
+    <%= label_tag :zip_postal, "Postal Code:" %>
+    <%else%>
+    <%= label_tag :zip_postal, "Zip Code:" %>
+    <%end%>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= text_field_tag :zip_postal, nil, value: @zip_postal, class: "form-control" %><br />
+  </div>
 </div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  City:
-</div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :city, nil, value: @city, class: "form-control" %><br />
-</div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  <% if current_user.country == "Canada" %>
-  Postal Code:
-  <%else %>
-  Zip Code:
-  <%end%>
-</div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :zip_postal, nil, value: @zip_postal, class: "form-control" %><br />
-</div>
-<div class="left col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Terms of Service:
-</div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+  <%= label_tag :tos, "Terms of Service:" %>
+  </div>
 <% if @tos_acceptance.blank?  %>
   <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
     <%= check_box_tag :tos  %><span> I accept the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%></span>
   </div>
 <%else%>
-<div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-  You have already agreed to the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%>.
+  <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+    You have already agreed to the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%>.
+  </div>
 </div>
 <%end%>
-
 <div class="col-xs-12" style="text-align:center">
   <br /><br />
    <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save" %>
