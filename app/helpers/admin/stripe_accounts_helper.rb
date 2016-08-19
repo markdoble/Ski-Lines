@@ -63,4 +63,27 @@ module Admin::StripeAccountsHelper
                             "legal_entity.personal_id_number",
                             "legal_entity.ssn_last_4"]
   end
+
+  def make_country_readable(country_code)
+    case country_code
+    when "CA"
+      "Canada"
+    when "US"
+      "United States of America"
+    else
+      country_code
+    end
+  end
+
+  def make_currency_readable(currency_code)
+    case currency_code
+    when "cad"
+      "CAD"
+    when "usd"
+      "USD"
+    else
+      currency_code
+    end
+  end
+
 end

@@ -1,9 +1,9 @@
 <%= form_tag "/admin/stripe_accounts/update_banking", :id => "banking-form", :method => :get do %>
 <div class="form_heading col-xs-12">
   <div class="banking-errors"></div>
-  <br /><br /><br />
+  <br />
   <h4>Bank Account:</h4>
-  <br /><br />
+  <br />
 </div>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Account Country:
@@ -11,7 +11,7 @@
 <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
   <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%>
     <div class="form-row">
-      <select data-stripe="country" class="form_field_divs">
+      <select data-stripe="country" class="form_field_divs country">
         <option value="" disabled selected>-country-</option>
         <option value="us">United States</option>
         <option value="ca">Canada</option>
@@ -25,7 +25,7 @@
 <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
   <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%>
     <div class="form-row">
-      <select data-stripe="currency" class="form_field_divs">
+      <select data-stripe="currency" class="form_field_divs currency">
         <option value="" disabled selected>-currency-</option>
         <option value="usd">USD</option>
         <option value="cad">CAD</option>
@@ -48,7 +48,7 @@
 
 <div class="col-xs-12" style="text-align:center">
   <br /><br />
-   <input type="submit" class="submit btn btn-primary btn-large card_form" value="Save">
+   <input type="submit" class="submit btn btn-primary btn-large" value="Save">
 </div>
 <% end %>
 <script type="text/javascript">

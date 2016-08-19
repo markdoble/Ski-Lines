@@ -1,5 +1,5 @@
 class Admin::StripeAccountsController < ApplicationController
-  layout "store_merchant_layout"
+  layout "devise"
   before_action :authenticate_user!
   before_filter :verify_is_merchant
 

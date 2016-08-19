@@ -1,14 +1,15 @@
 <%= form_tag "/admin/stripe_accounts/verify_account", :method => :get do %>
-<div class="form_heading col-xs-12">
-  <h4>Account Representative Details:</h4>
-  <br /><br />
+<div class="merchant_form_headings col-xs-12">
+  <h2>Account Representative Details:</h2>
+  <br />
 </div>
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  First Name:
-</div>
-
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :first_name, nil, value: @account_first_name, class: "form-control first_name", placeholder: current_user.contact_first_name %><br />
+<div class="field">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :first_name, "First Name:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+    <%= text_field_tag :first_name, nil, value: @account_first_name, class: "form-control first_name form-inline", placeholder: current_user.contact_first_name %><br />
+  </div>
 </div>
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Last Name:

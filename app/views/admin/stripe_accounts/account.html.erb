@@ -1,65 +1,45 @@
-<div class="stripe_account">
-  <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
-  </div>
-  <div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
-    <% if current_user.stripe_account_id %>
-      <div class="row">
-        <div class="col-xs-12">
-          <h2><%= current_user.merchant_name %></h2>
+<% if (current_user.merchant? || current_user.merchant_rep? || current_user.article_publisher? || current_user.admin?) %>
+<%= render 'admin/navbars/admin_navbar' %>
+<%end%>
+<div class="container">
+  <div class="edit_profile_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+      </div>
+      <div class="devise_forms_background col-lg-8 col-md-8 col-sm-10 col-xs-12">
+        <% if current_user.stripe_account_id %>
+
+            <div class="col-xs-12">
+              <h1><%=current_user.merchant_name%></h1>
+      				<h4>Your Account</h4>
+              Your account is currently active, and you are ready to sell, however, in order to permit
+              transfers to your bank account, our payments provider still requires the following information:<br /><br />
+            </div>
+            <div class="col-xs-12 account_verification">
+              <% @fields_needed.each do |f| %>
+                <ul>
+                  <li><%= fields_needed_translate(f, @country) %></li>
+                </ul>
+              <%end%>
+            </div>
+          
           <br />
-          Your account is currently active, and you are ready to sell, however, in order to permit
-          transfers to your bank account, our payments provider still requires the following information:<br /><br />
-        </div>
-        <div class="col-xs-12 account_verification">
-          <% @fields_needed.each do |f| %>
-            <ul>
-              <li><%= fields_needed_translate(f, @country) %></li>
-            </ul>
-          <%end%>
-        </div>
+          <div class="row">
+            <%= render :partial => 'update_account_form' %>
+            <%= render :partial => 'update_company_details_form' %>
+            <% if @external_accounts.empty? %>
+            <%= render :partial => 'banking_form' %>
+            <%else%>
+            <%= render :partial => 'banking_details' %>
+            <%end%>
+          </div>
+        <%end%>
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br />
       </div>
-      <br />
-      <div class="row">
-        <%= render :partial => 'update_account_form' %>
-        <%= render :partial => 'update_company_details_form' %>
-        <%= render :partial => 'banking_form' %>
+      <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
       </div>
-    <%end%>
-    <br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br />
-    <br /><br /><br /><br /><br />
-  </div>
-  <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+    </div>
   </div>
 </div>
-<script>
-Stripe.setPublishableKey('pk_test_faFoLDlCFHpuTiEHaihzanYo');
-Stripe.bankAccount.createToken({
-  routing_number: $('.routing-number').val(),
-  account_number: $('.account-number').val(),
-}, stripeResponseHandler);
-function stripeResponseHandler(status, response) {
-
-  // Grab the form:
-  var $form = $('#payment-form');
-
-  if (response.error) { // Problem!
-
-    // Show the errors on the form:
-    $form.find('.bank-errors').text(response.error.message);
-    $form.find('button').prop('disabled', false); // Re-enable submission
-
-  } else { // Token created!
-
-    // Get the token ID:
-    var token = response.id;
-
-    // Insert the token into the form so it gets submitted to the server:
-    $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-
-    // Submit the form:
-    $form.get(0).submit();
-
-  }
-}
-</script>
