@@ -1,5 +1,5 @@
 class MailboxController < ApplicationController
-  layout "store_layout"
+  layout "mailbox"
   before_action :authenticate_user!
 
   def inbox

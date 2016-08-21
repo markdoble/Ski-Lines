@@ -42,7 +42,13 @@
   </head>
 <body data-spy="scroll" data-target="#myNavbar" data-offset="0" class="store_layout">
   <div class="store_layout_bakground" id='main'>
-    <%= render 'navbars/products_navbar' %>
+    <% if user_signed_in? %>
+      <% if current_user.merchant? or current_user.admin? %>
+      <%= render '/admin/navbars/admin_navbar' %>
+      <%else%>
+      <%= render 'navbars/products_navbar' %>
+      <%end%>
+    <%end%>
     <%= yield %>
   </div>
 <script>
