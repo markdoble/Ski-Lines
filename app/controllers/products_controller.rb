@@ -4,6 +4,8 @@ class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :find_or_create_cart
 
+  # for pre-launch only:
+  before_action :authenticate_user!
 
 
   def index

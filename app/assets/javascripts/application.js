@@ -21,5 +21,4 @@
 
 
 //= require fancybox
-//= require braintree
 //= require_tree .
