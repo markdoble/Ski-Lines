@@ -1,57 +1,51 @@
 <br />
 <%= form_for @order do |f|%>
-		<div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
-			<div class="braintree_errors">
-			<h4><%= bootstrap_flash %></h4>
-			</div>
-			<div class="columns_for_products">
-				<div class="purchase_form">
-						<% @cart.reverse_each do | id, qty | %>
-						<div class="product_items col-lg-12 col-md-12 col-sm-12 xol-xs-12">
-						<% p = Product.find_by_id(id.gsub('"', '')) %>
-							<%= render :partial => "orders/product", :locals => {:f => f, :p => p} %>
-						</div>
-						<% end %>
+<div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
+	<h4><%= bootstrap_flash %></h4>
+	<div class="columns_for_products">
+		<div class="purchase_form">
+				<% @cart.reverse_each do | id, qty | %>
+				<div class="product_items col-lg-12 col-md-12 col-sm-12 xol-xs-12">
+				<% p = Product.find_by_id(id.gsub('"', '')) %>
+					<%= render :partial => "orders/product", :locals => {:f => f, :p => p} %>
 				</div>
-			</div>
-		</div>
-
-		<div class="amount_side_contain col-lg-3 col-md-3 col-sm-2 col-xs-12" >
-				<div class="product_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<h4 class="order_form_heading" ><b>SHOPPING CART</b></h4>
-					<div class="row">
-						<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-						 <p>- none -</p>
-						</div>
-						<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-						</div>
-					</div>
-
-					<div class="row" style="text-align:center">
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
-							<b>Sub-Total:</b>
-						</div>
-						<div class="sub_total col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
-						<%= number_to_currency(0, unit: '$') %>
-						</div>
-					</div>
-					<br />
-					<div class="row">
-						<br />
-						<%= link_to "Remove All Products", cart_clear_path %>
-						<br />
-						<%= link_to "Store Policies", infos_terms_path %>
-					</div>
-					
-				</div>
-		</div>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="complete_order">
-		<div class="columns_for_order_form_all" >
-			<div  class="order_form_button col-lg-9 col-md-9 col-sm-10 col-xs-12">
-					<br /><br />
-					 <%= f.submit "PROCEED TO CHECKOUT", class: "btn btn-primary btn-large purchase_button" %>
-						<%end%>
-						<br /><br /><br /><br />
-			</div>
+				<% end %>
 		</div>
 	</div>
+</div>
+<div class="amount_side_contain col-lg-3 col-md-3 col-sm-2 col-xs-12" >
+		<div class="product_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<h4 class="order_form_heading" ><b>YOUR SELECTIONS</b></h4>
+			<div class="row">
+				<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				 <p>- none -</p>
+				</div>
+				<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+				</div>
+			</div>
+			<div class="row" style="text-align:center">
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
+					<b>Sub-Total:</b>
+				</div>
+				<div class="sub_total col-lg-12 col-md-12 col-sm-12 col-xs-12" style="font-size:18px">
+				<%= number_to_currency(0, unit: '$') %>
+				</div>
+			</div>
+			<br />
+			<div class="row">
+				<br />
+				<%= link_to "Remove All Products", cart_clear_path %>
+				<br />
+				<%= link_to "Store Policies", infos_terms_path %>
+			</div>
+		</div>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="complete_order">
+	<div class="columns_for_order_form_all">
+		<div  class="order_form_button col-lg-9 col-md-9 col-sm-10 col-xs-12">
+				 <%= f.submit "PROCEED TO CHECKOUT", class: "btn btn-primary btn-large purchase_button" %>
+					<%end%>
+					<br /><br /><br /><br />
+		</div>
+	</div>
+</div>

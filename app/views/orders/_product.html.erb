@@ -1,6 +1,6 @@
 		<div class="row">
 			<div class="remove_cart_product col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<a href='/cart/remove/"<%= p.id %>"'><span class="glyphicon glyphicon-remove"></span> <i>remove product</i></a>
+				<a href='/cart/remove/"<%= p.id %>"'><span class="glyphicon glyphicon-remove"></span></a>
 			</div>
 			<div id="image" class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
 				<%= image_tag(p.photo.url(:large), class: "img-responsive", width:"100%") %>
@@ -17,12 +17,13 @@
 						<div id="product_price" data-price="<%= p.price %>" class="product_price">
 								<h4 > <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
 						</div>
-						<div>
-							<p>
-								<span class="glyphicon glyphicon-envelope"></span>
-								<%= link_to " Contact " + p.user.merchant_name, new_conversation_path(product_id: p.id), class: ""%>
-							</p>
-						</div>
+						<div class="contact_merchant">
+	            <p>
+	              <a href="<%= new_conversation_path(product_id: p.id) %>">
+	              <span class="glyphicon glyphicon-envelope"></span> Message <%= p.user.merchant_name %>
+	              </a>
+	            </p>
+	          </div>
 						<p><%= simple_format(p.description) %></p>
 						<div id="tax_rate" data-tax="<%= p.user.sales_tax %>">
 						</div>
@@ -91,7 +92,7 @@
 					<div class="add_to_cart col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<br />
 						<div class="toggle_sizes btn btn-primary">
-							ADD TO CART
+							MAKE SELECTION
 						</div>
 						<div class="size_selections row">
 							<div class="quantity_and_shipping_form col-lg-12 col-md-12 col-sm-12 col-xs-12">

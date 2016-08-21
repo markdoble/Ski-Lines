@@ -1,7 +1,5 @@
-
-
 <div class="public_product_well">
-	<a href='/cart/"<%= product.id %>"'>
+	<a href="<%=product_path(product)%>">
 			<%= image_tag(product.photo.url(:medium), class:"img-responsive", width:"100%") %>
 		<div class="product_text">
 			<h3><%= product.name %></h3>

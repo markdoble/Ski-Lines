@@ -73,7 +73,7 @@ class OrdersController < ApplicationController
         @order.update_attribute(:success, false)
         create_order_session
         flash.now[:error] = "You must make a selection before continuing."
-        format.html { render action: 'edit' }
+        format.html { render action: 'index' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -93,7 +93,7 @@ class OrdersController < ApplicationController
       else
         @order.update_attribute(:success, false)
         flash.now[:error] = "You must make a selection before continuing."
-        format.html { render action: 'edit' }
+        format.html { render action: 'index' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end

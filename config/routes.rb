@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   get 'products/merchants'
 
 
-  resources :products, :only => :index
+  resources :products, :only => [:index, :show]
   get '/shop/:slug', controller: 'products', action: 'store'
 
   resources :articles, :except => [:edit, :update, :destroy]
