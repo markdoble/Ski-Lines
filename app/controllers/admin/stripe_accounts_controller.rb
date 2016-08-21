@@ -2,13 +2,12 @@ class Admin::StripeAccountsController < ApplicationController
   layout "devise"
   before_action :authenticate_user!
   before_filter :verify_is_merchant
-  Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
-
 
   def account
     if current_user.stripe_account_id.blank?
       redirect_to admin_stripe_accounts_new_stripe_account_path
     else
+      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       begin
         user_account = current_user.stripe_account_id.to_s
         account = Stripe::Account.retrieve(user_account)
@@ -74,7 +73,6 @@ class Admin::StripeAccountsController < ApplicationController
     begin
       account_user = current_user.stripe_account_id
       account = Stripe::Account.retrieve(account_user)
-
       account.legal_entity.business_name = params[:business_name]
       account.legal_entity.type = params[:type]
       account.legal_entity.business_tax_id = params[:business_number]
@@ -83,7 +81,6 @@ class Admin::StripeAccountsController < ApplicationController
       account.legal_entity.address.state = params[:state]
       account.legal_entity.address.country = params[:country]
       account.legal_entity.address.postal_code = params[:zip_postal]
-
       if params[:tos]
         account.tos_acceptance.date = Time.now.to_i
         account.tos_acceptance.ip = request.remote_ip
@@ -98,11 +95,11 @@ class Admin::StripeAccountsController < ApplicationController
   end
 
   def update_personal_id_number
+    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     begin
       user_account = current_user.stripe_account_id
-      token = params[:stripeToken]
       account = Stripe::Account.retrieve(user_account)
-      account.legal_entity.personal_id_number = token
+      account.legal_entity.personal_id_number = params[:stripeToken]
       account.save
       redirect_to admin_account_path
       flash[:notice] = "Successfully updated!"
@@ -113,9 +110,9 @@ class Admin::StripeAccountsController < ApplicationController
   end
 
   def verify_account
+    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     begin
       user_account = current_user.stripe_account_id
-      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       account = Stripe::Account.retrieve(user_account)
       account.legal_entity.first_name = params[:first_name] unless params[:first_name].blank?
       account.legal_entity.last_name = params[:last_name] unless params[:last_name].blank?
@@ -171,7 +168,6 @@ class Admin::StripeAccountsController < ApplicationController
   private
     def update_stripe_attributes(user)
       user_account = user.stripe_account_id.to_s
-      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       account = Stripe::Account.retrieve(user_account)
       account.legal_entity.type = "company"
       account.legal_entity.business_name = user.merchant_name.to_s unless user.merchant_name.blank?

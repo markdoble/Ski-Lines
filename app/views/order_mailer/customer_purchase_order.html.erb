@@ -13,14 +13,15 @@ h2{
 <div class="customer_order_email">
 	<div class="order_ref">
 		<b>Order No.:</b> <%= @order.id %><br />
-		<b>Date:</b> <%= @order.created_at.strftime("%B %-d, %Y at %l:%M%P %Z") %><br />
+		<b>Date:</b> <%= @order.created_at.strftime("%B %-d, %Y at %l:%M%P %Z") %>
 	</div>
 	<div class="customer_product_email_listing">
 		<h3>Purchase Details:</h3>
 		<% subtotal = 0 %>
 		<% @order.order_units.where.not(quantity: 0).each do |f| %>
 		<% subtotal += (f.unit.product.price*f.quantity) %>
-			<b><%= f.unit.product.name%></b>, <%=number_to_currency(f.unit.product.price, unit: '$') %><br />
+			<b><%= f.unit.product.name%></b><br />
+			<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
 			<% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
 			<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
 			<%elsif (f.unit.size) == 'n/a' and (f.unit.colour != 'n/a') %>
@@ -30,6 +31,7 @@ h2{
 			<% elsif (f.unit.size == 'n/a') and (f.unit.colour == 'n/a')%>
 			<%= f.quantity %>
 			<%end%>
+			<br /><br />
 			<b>Merchant Details:</b><br />
 			Store: <%= f.unit.product.user.merchant_name %><br /><br />
 			<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>

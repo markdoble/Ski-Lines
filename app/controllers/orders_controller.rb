@@ -172,8 +172,8 @@ class OrdersController < ApplicationController
       redirect_to orders_confirmation_path(@order)
 
       # refund order if not authorized
-      # update_inventory(@order)
-      # order_emails(@order)
+       update_inventory(@order)
+       order_emails(@order)
     rescue Stripe::CardError => e
       # The card has been declined
       @order.update_attribute(:success, false)

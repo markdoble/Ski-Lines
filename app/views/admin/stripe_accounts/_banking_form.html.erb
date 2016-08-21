@@ -65,12 +65,12 @@ $(function() {
      //Disable the submit button to prevent repeated clicks:
     $form.find('.submit').prop('disabled', true);
     // Request a token from Stripe:
-    Stripe.bankAccount.createToken($form, stripeResponseHandler);
+    Stripe.bankAccount.createToken($form, bankingStripeResponseHandler);
     // Prevent the form from being submitted:
     return false;
   });
 });
-function stripeResponseHandler(status, response) {
+function bankingStripeResponseHandler(status, response) {
   // Grab the form:
   var $form = $('#banking-form');
   if (response.error) { // Problem!
