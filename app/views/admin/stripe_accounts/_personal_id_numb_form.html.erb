@@ -1,0 +1,53 @@
+<%= form_tag "/admin/stripe_accounts/update_personal_id_number", :id => "id-form", :method => :get do %>
+<div class="merchant_form_headings col-xs-12">
+  <h2>Account Representative Identification:</h2>
+</div>
+<div class="id-errors" style="color:red;"></div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <% if @country == "us"%>
+    <%= label_tag :ssn, "Social Security Number:" %>
+    <%else%>
+    <%= label_tag :ssn, "Social Insurance Number:" %>
+    <%end%>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <%if @fields_needed.include?("legal_entity.personal_id_number")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="personal_id_number" class="form-control personal_id_number"></span><br />
+  </div>
+</div>
+<div class="col-xs-12" style="text-align:center">
+  <br />
+   <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save submit" %>
+   <br /><br />
+</div>
+<%end%>
+<script>
+$(function() {
+  var $form = $('#id-form');
+  $form.submit(function(event) {
+     //Disable the submit button to prevent repeated clicks:
+    $form.find('.submit').prop('disabled', true);
+    // Request a token from Stripe:
+    Stripe.piiData.createToken($form, stripeResponseHandler);
+    // Prevent the form from being submitted:
+    return false;
+  });
+});
+
+function stripeResponseHandler(status, response) {
+  // Grab the form:
+  var $form = $('#id-form');
+  if (response.error) { // Problem!
+    // Show the errors on the form:
+    $form.find('.id-errors').text(response.error.message);
+    $form.find('.submit').prop('disabled', false); // Re-enable submission
+  } else { // Token was created!
+    // Get the token ID:
+    var token = response.id;
+    // Insert the token ID into the form so it gets submitted to the server:
+    $form.append($('<input type="hidden" name="stripeToken">').val(token));
+    // Submit the form:
+    $form.get(0).submit();
+  }
+};
+</script>

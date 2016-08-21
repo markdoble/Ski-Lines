@@ -11,9 +11,6 @@ class Admin::OrdersController < ApplicationController
 
   def show
       @order = Order.find(params[:id])
-      if @order.transaction_id
-        @transaction = Braintree::Transaction.find(@order.transaction_id)
-      end
   end
 
   def update

@@ -154,13 +154,14 @@
     <%= check_box_tag :tos  %><span> I accept the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%></span>
   </div>
 <%else%>
-  <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-    You have already agreed to the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal"%>.
+  <div class="adjust_position_a col-lg-9 col-md-9 col-sm-8 col-xs-12">
+    <label> You have already agreed to the <%= link_to 'Terms of Service', "https://stripe.com/ca/connect-account/legal"%>.</label>
   </div>
 </div>
 <%end%>
 <div class="col-xs-12" style="text-align:center">
-  <br /><br />
+  <br />
    <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save" %>
+   <br /><br />
 </div>
 <%end%>

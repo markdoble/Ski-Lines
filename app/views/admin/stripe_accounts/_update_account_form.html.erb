@@ -2,6 +2,7 @@
 <div class="merchant_form_headings col-xs-12">
   <h2>Account Representative Details:</h2>
 </div>
+<div class="id-errors" style="color:red;"></div>
 <div class="field col-xs-12">
   <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
     <%= label_tag :first_name, "First Name:" %>
@@ -20,7 +21,7 @@
 </div>
 <div class="field col-xs-12">
   <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  <%= label_tag :date_of_birth, "Date of Birth" %>
+  <%= label_tag :date_of_birth, "Date of Birth" %></span>
   </div>
 <% months = {
             "January" => 1, "February" => 2, "March" => 3, "April" => 4, "May" => 5,
@@ -28,34 +29,28 @@
             "November" => 11, "December" => 12
             } %>
   <div class="edit_devise_label col-lg-3 col-md-3 col-sm-8 col-xs-12">
-    <%if @fields_needed.include?("legal_entity.dob.month")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_month, options_for_select(months, selected: @dob_month)%></span>
+    <%if @fields_needed.include?("legal_entity.dob.month")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_month, options_for_select(months, selected: @dob_month), :prompt => "-month-" %></span>
   </div>
   <div class="edit_devise_label col-lg-2 col-md-2 col-sm-8 col-xs-12">
-    <% if @fields_needed.include?("legal_entity.dob.day")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day) %></span>
+    <% if @fields_needed.include?("legal_entity.dob.day")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_day, options_for_select(1..31, selected: @dob_day), :prompt => "-day-" %></span>
   </div>
   <div class="edit_devise_label col-lg-2 col-md-2 col-sm-8 col-xs-12">
-    <% if @fields_needed.include?("legal_entity.dob.year")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year) %></span>
+    <% if @fields_needed.include?("legal_entity.dob.year")%><span class="fields_needed_class"><%else%><span><%end%><%= select_tag :dob_year, options_for_select(1900..2000, selected: @dob_year), :prompt => "-year-" %></span>
+    <br /><br />
   </div>
-</div>
-<!--
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  Last 4 digits of SSN:
-</div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :ssn_last_4, nil, value: @ssn_last_4, class: "form-control", placeholder: current_user.contact_last_name %><br />
 </div>
 
-<div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-  <% if @country == "us"%>
-  Social Security Number:
-  <%else%>
-  Social Insurance Number:
+  <% if @ssn_last_4.blank? && @fields_needed.include?("legal_entity.ssn_last_4") %>
+  <div class="field col-xs-12">
+    <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :last_4, "Last 4 Digits of SIN:" %>
+    </div>
+    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+        <% if @fields_needed.include?("legal_entity.ssn_last_4")%><span class="fields_needed_class"><%else%><span><%end%><%= text_field_tag :ssn_last_4, nil, value: @ssn_last_4, class: "form-control" %></span><br />
+    </div>
+  </div>
   <%end%>
-</div>
-<div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
-  <%= text_field_tag :personal_id_number, nil, value: @personal_id_number, class: "form-control" %><br />
-</div>
-
+<!--
 <div class="left_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
   Valid Gov't I.D.:
 </div>
@@ -66,7 +61,8 @@
 
 
 <div class="col-xs-12" style="text-align:center">
-  <br /><br />
+  <br />
    <%= submit_tag "Save Changes", class: "btn btn-primary merchant_pro_save" %>
+   <br /><br />
 </div>
 <%end%>

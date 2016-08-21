@@ -2,54 +2,55 @@ class Admin::StripeAccountsController < ApplicationController
   layout "devise"
   before_action :authenticate_user!
   before_filter :verify_is_merchant
+  Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
 
 
   def account
     if current_user.stripe_account_id.blank?
       redirect_to admin_stripe_accounts_new_stripe_account_path
-    end
-    begin
-      Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
-      user_account = current_user.stripe_account_id.to_s
-      account = Stripe::Account.retrieve(user_account)
-      @business_name = account.legal_entity.business_name unless account.legal_entity.business_name.nil?
-      @entity_type = account.legal_entity.type unless account.legal_entity.type.nil?
-      @account_first_name = account.legal_entity.first_name unless account.legal_entity.first_name.nil?
-      @account_last_name = account.legal_entity.last_name unless account.legal_entity.last_name.nil?
-      @dob_day = account.legal_entity.dob.day unless account.legal_entity.dob.day.nil?
-      @dob_month = account.legal_entity.dob.month unless account.legal_entity.dob.month.nil?
-      @dob_year = account.legal_entity.dob.year unless account.legal_entity.dob.year.nil?
-      @address = account.legal_entity.address.line1 unless account.legal_entity.address.line1.nil?
-      @city = account.legal_entity.address.city unless account.legal_entity.address.city.nil?
-      @country = account.legal_entity.address.country unless account.legal_entity.address.country.nil?
-      @state = account.legal_entity.address.state unless account.legal_entity.address.state.nil?
-      @zip_postal = account.legal_entity.address.postal_code unless account.legal_entity.address.postal_code.nil?
-      @tos_acceptance = account.tos_acceptance.date unless account.tos_acceptance.date.nil?
+    else
+      begin
+        user_account = current_user.stripe_account_id.to_s
+        account = Stripe::Account.retrieve(user_account)
+        @business_name = account.legal_entity.business_name unless account.legal_entity.business_name.nil?
+        @entity_type = account.legal_entity.type unless account.legal_entity.type.nil?
+        @account_first_name = account.legal_entity.first_name unless account.legal_entity.first_name.nil?
+        @account_last_name = account.legal_entity.last_name unless account.legal_entity.last_name.nil?
+        @dob_day = account.legal_entity.dob.day unless account.legal_entity.dob.day.nil?
+        @dob_month = account.legal_entity.dob.month unless account.legal_entity.dob.month.nil?
+        @dob_year = account.legal_entity.dob.year unless account.legal_entity.dob.year.nil?
+        @address = account.legal_entity.address.line1 unless account.legal_entity.address.line1.nil?
+        @city = account.legal_entity.address.city unless account.legal_entity.address.city.nil?
+        @country = account.legal_entity.address.country unless account.legal_entity.address.country.nil?
+        @state = account.legal_entity.address.state unless account.legal_entity.address.state.nil?
+        @zip_postal = account.legal_entity.address.postal_code unless account.legal_entity.address.postal_code.nil?
+        @tos_acceptance = account.tos_acceptance.date unless account.tos_acceptance.date.nil?
 
-      # will be true or false, depending on if tax id submitted
-      @business_tax_id_provided = account.legal_entity.business_tax_id_provided unless account.legal_entity.business_tax_id_provided.nil?
-      # for U.S. accounts only, lest 4 digist of SSN.
-      if @country == 'us'
-        @ssn_last_4 = account.legal_entity.ssn_last_4_provided unless account.legal_entity.ssn_last_4_provided.nil?
+        # will be true or false, depending on if tax id submitted
+        @business_tax_id_provided = account.legal_entity.business_tax_id_provided unless account.legal_entity.business_tax_id_provided.nil?
+        # for U.S. accounts only, lest 4 digist of SSN.
+        if @country == 'us'
+          @ssn_last_4 = account.legal_entity.ssn_last_4_provided unless account.legal_entity.ssn_last_4_provided.nil?
+        end
+        # will be false if personal id number hasn't been provided. SIN for Canada and SSN for U.S.
+        @personal_id_number_provided = account.legal_entity.personal_id_number_provided unless account.legal_entity.personal_id_number_provided.nil?
+
+        @transfer_schedule_delay = account.transfer_schedule.delay_days unless account.transfer_schedule.delay_days.nil?
+        @transfer_schedule_interval = account.transfer_schedule.interval unless account.transfer_schedule.interval.nil?
+        # list of fields needed to require identity
+        @fields_needed = account.verification.fields_needed
+        # account status
+        @charges_enabled = account.charges_enabled unless account.charges_enabled.nil?
+        # whether automatic transfers are enable for this account.
+        @transfers_enabled = account.transfers_enabled unless account.transfers_enabled.nil?
+        # identity verification status, can be unverified, pending, or verified.
+        @verification_status = account.legal_entity.verification.status
+
+        @external_accounts = account.external_accounts.all(:object => "bank_account") unless account.external_accounts.nil?
+
+      rescue Stripe::StripeError => e
+        flash[:error] = e.message
       end
-      # will be false if personal id number hasn't been provided. SIN for Canada and SSN for U.S.
-      @personal_id_number_provided = account.legal_entity.personal_id_number_provided unless account.legal_entity.personal_id_number_provided.nil?
-
-      @transfer_schedule_delay = account.transfer_schedule.delay_days unless account.transfer_schedule.delay_days.nil?
-      @transfer_schedule_interval = account.transfer_schedule.interval unless account.transfer_schedule.interval.nil?
-      # list of fields needed to require identity
-      @fields_needed = account.verification.fields_needed
-      # account status
-      @charge_status = account.charges_enabled unless account.charges_enabled.nil?
-      # whether automatic transfers are enable for this account.
-      @transfers_enabled = account.transfers_enabled unless account.transfers_enabled.nil?
-      # identity verification status, can be unverified, pending, or verified.
-      @verification_status = account.legal_entity.verification.status
-
-      @external_accounts = account.external_accounts.all(:object => "bank_account") unless account.external_accounts.nil?
-
-    rescue Stripe::StripeError => e
-      flash[:error] = e.message
     end
   end
 
@@ -89,7 +90,22 @@ class Admin::StripeAccountsController < ApplicationController
       end
       account.save
       redirect_to admin_account_path
-      flash[:notice] = "Successfully update!"
+      flash[:notice] = "Successfully updated!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
+    end
+  end
+
+  def update_personal_id_number
+    begin
+      user_account = current_user.stripe_account_id
+      token = params[:stripeToken]
+      account = Stripe::Account.retrieve(user_account)
+      account.legal_entity.personal_id_number = token
+      account.save
+      redirect_to admin_account_path
+      flash[:notice] = "Successfully updated!"
     rescue Stripe::StripeError => e
       redirect_to admin_account_path
       flash[:error] = e.message
@@ -101,16 +117,14 @@ class Admin::StripeAccountsController < ApplicationController
       user_account = current_user.stripe_account_id
       Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       account = Stripe::Account.retrieve(user_account)
-
-      account.legal_entity.first_name = params[:first_name]
-      account.legal_entity.last_name = params[:last_name]
-      account.legal_entity.dob.day = params[:dob_day]
-      account.legal_entity.dob.month = params[:dob_month]
-      account.legal_entity.dob.year = params[:dob_year]
-
+      account.legal_entity.first_name = params[:first_name] unless params[:first_name].blank?
+      account.legal_entity.last_name = params[:last_name] unless params[:last_name].blank?
+      account.legal_entity.dob.day = params[:dob_day] unless params[:dob_day].blank?
+      account.legal_entity.dob.month = params[:dob_month] unless params[:dob_month].blank?
+      account.legal_entity.dob.year = params[:dob_year] unless params[:dob_year].blank?
       account.save
       redirect_to admin_account_path
-      flash[:notice] = "Successfully update!"
+      flash[:notice] = "Successfully updated!"
     rescue Stripe::StripeError => e
       redirect_to admin_account_path
       flash[:error] = e.message
@@ -139,9 +153,10 @@ class Admin::StripeAccountsController < ApplicationController
         if terms_acceptance = params[:tos]
         update_stripe_attributes(user)
         redirect_to admin_account_path
+        flash[:notice] = "Congratulations! You have successfully created your Merchant Account!"
         else
           redirect_to admin_stripe_accounts_new_stripe_account_path
-          flash.now[:error] = e.message
+          flash[:error] = e.message
         end
       rescue Stripe::StripeError => e
         redirect_to admin_stripe_accounts_new_stripe_account_path
@@ -159,16 +174,16 @@ class Admin::StripeAccountsController < ApplicationController
       Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
       account = Stripe::Account.retrieve(user_account)
       account.legal_entity.type = "company"
-      account.legal_entity.business_name = user.merchant_name.to_s
-      account.legal_entity.first_name = user.contact_first_name.to_s
-      account.legal_entity.last_name = user.contact_last_name.to_s
-      account.legal_entity.address.line1 = user.street_address.to_s
-      account.legal_entity.address.city = user.city.to_s
-      country = santize_country(user.country)
-      account.legal_entity.address.country = country
-      state = sanitize_prov_state(user.state_prov)
-      account.legal_entity.address.state = state.to_s
-      account.legal_entity.address.postal_code = user.zip_postal.to_s
+      account.legal_entity.business_name = user.merchant_name.to_s unless user.merchant_name.blank?
+      account.legal_entity.first_name = user.contact_first_name.to_s unless user.contact_first_name.blank?
+      account.legal_entity.last_name = user.contact_last_name.to_s unless user.contact_last_name.blank?
+      account.legal_entity.address.line1 = user.street_address.to_s unless user.street_address.blank?
+      account.legal_entity.address.city = user.city.to_s unless user.city.blank?
+      country = santize_country(user.country) unless user.country.blank?
+      account.legal_entity.address.country = country unless user.country.blank?
+      state = sanitize_prov_state(user.state_prov) unless user.state_prov.blank?
+      account.legal_entity.address.state = state.to_s unless user.state_prov.blank?
+      account.legal_entity.address.postal_code = user.zip_postal.to_s unless user.zip_postal.blank?
       account.tos_acceptance.date = Time.now.to_i
       account.tos_acceptance.ip = request.remote_ip
       account.save

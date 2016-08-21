@@ -149,13 +149,16 @@ class OrdersController < ApplicationController
         currency = f.unit.product.currency
         description = "Ski-Lines" + "-" + f.unit.product.name
         # need unique identifier for each charge
-
+        merchant_stripe_account = f.unit.product.user.stripe_account_id
+        application_fee = (amount_in_cents*0.0985).to_s.split(".")[0].to_i
         charge_key << Stripe::Charge.create(
           :amount => amount_in_cents, # amount in cents
           :currency => currency,
           :customer => customer.id,
           :description => description,
-          :capture => false
+          :capture => false,
+          :destination => merchant_stripe_account,
+          :application_fee => application_fee
         )
       end
       # capture all charges if all authorized. if even one does not authorize, refund all
@@ -351,7 +354,7 @@ class OrdersController < ApplicationController
         from_state = f.unit.product.user.state_prov
         from_city = f.unit.product.user.city
         from_zip = f.unit.product.user.zip_postal
-        shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.unit.quantity)
+        shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.quantity)
         amount = f.unit.product.price*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),

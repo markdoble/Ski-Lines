@@ -1,15 +1,11 @@
 <div class="container">
 	<div class="row">
 		<br /><br />
-		<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+		<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
 		</div>
-		<div class="col-lg-8 col-md-8 col-sm-10 col-xs-12">
+		<div class="col-lg-6 col-md-6 col-sm-10 col-xs-12">
 			<h3 style="text-align:center">Thank you for your order, <%= @order.cust_first_name%>! </h3>
 			<p style="text-align:center">Please review your order details below. If you have any questions or concerns, feel free to send a message to the seller. </p>
-			<br />
-			<div style="text-align:center">
-			<%= link_to "CLEAR DETAILS", submittedordersession_clear_path, class:"btn btn-large btn-primary"%>
-			</div>
 			<br />
 			<div class="merchant_form_headings">
 				<h4><b>Customer Details:</b></h4>
@@ -32,15 +28,17 @@
 				<%= image_tag(f.unit.product.photo.url(:thumb)) %><br />
 				<h5><%= f.unit.product.name %></h5>
 				<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
-					<% if f.unit.size == "n/a" and f.unit.colour == "n/a" %>
-					Quantity: <%= f.quantity %><br />
-					<%elsif f.unit.size != "n/a" and f.unit.colour == "n/a" %>
-					<%= f.quantity %> X <%= f.unit.size %><br />
-					<%elsif f.unit.size != "n/a" and f.unit.colour != "n/a" %>
-					<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
-					<%else%>
-					<%end%>
-					<%= link_to f.unit.product.user.merchant_name, f.unit.product.user.merchant_url %><br /><br />
+				<% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
+				<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
+				<%elsif (f.unit.size) == 'n/a' and (f.unit.colour != 'n/a') %>
+				<%= f.quantity %> X <%= f.unit.colour %><br />
+				<%elsif (f.unit.size != 'n/a') and (f.unit.colour == 'n/a')%>
+				<%= f.quantity %> X <%= f.unit.size %><br />
+				<% elsif (f.unit.size == 'n/a') and (f.unit.colour == 'n/a')%>
+				<%= f.quantity %>
+				<%end%>
+				<br />
+				<%= link_to "Send a message to " + f.unit.product.user.merchant_name, new_conversation_path(product_id: f.unit.product.id), class: ""%><br /><br />
 					<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
 						<% if s.delivery_method == "Standard Shipping"%>
 							<b>Delivery Method:</b> <br />
@@ -62,6 +60,7 @@
 				<%end%>
 			</div>
 			<div class="merchant_form_headings">
+				<br />
 				<h4><b>Payment Details:</b></h4>
 			</div>
 			<div class="purchase_order_show">
@@ -77,10 +76,10 @@
 			</div>
 			<br />
 			<div style="text-align:center">
-			<%= link_to "CLEAR DETAILS", submittedordersession_clear_path, class:"btn btn-large btn-primary"%>
+			<%= link_to "CLEAR", submittedordersession_clear_path, class:"btn btn-large btn-primary"%>
 			</div>
 		</div>
-		<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+		<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
 		</div>
 
 	</div>

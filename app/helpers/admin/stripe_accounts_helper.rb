@@ -30,13 +30,13 @@ module Admin::StripeAccountsHelper
     when "tos_acceptance.ip"
       "You must accept the terms and conditions below."
     when "legal_entity.verification.document"
-      "We have been unable to successfully identify your business with the information you have provided. For security reasons, please fill out the form elements identified below"
+      "We have been unable to successfully identify your business with the information you have provided. For security reasons, please upload a photocopy of a government issued ID for your Account Representative."
     when "legal_entity.business_tax_id"
       "Provide your business tax identification number."
     when "legal_entity.personal_id_number"
-      "Please have your company representative confirm their social security/identity number."
+      "Please have your company representative confirm their social security/insurance number."
     when "legal_entity.ssn_last_4"
-      "Please have your company representative confirm the last four digits of their social insurance number."
+      "Please have your company representative confirm the last four digits of their social security number."
     else
       field
     end

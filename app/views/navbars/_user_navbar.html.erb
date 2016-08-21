@@ -3,10 +3,6 @@
   Hide the flag until the geolocation is completed
   <li class="country_flag_container"><a><span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
   -->
-
-  <%
-  # display the shopping cart
-  %>
   <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="badge badge-notify"><%= @cart.count%></span></a></li>
 
   <%
@@ -25,13 +21,23 @@
   %>
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu" role="menu" style="text-align:center;">
       <%
       # display different links based on the sign-in status of the user
       if user_signed_in?
         %>
+        <%if current_user.merchant?%>
+        <li><%= link_to "My Store", admin_products_path %></li>
+        <li><%= link_to "Account", admin_account_path %></li>
+        <%end%>
+        <% if current_user.merchant_rep? %>
+          <li><%= link_to "Add Merchant", new_user_registration_path %></li>
+        <%end%>
+        <% if current_user.article_publisher? %>
+          <li><%= link_to "Update", update_path %></li>
+        <%end%>
+        <li><%= link_to "Profile", edit_user_registration_path %></li>
         <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
-        <li><%= link_to "Edit", edit_user_registration_path %></li>
         <%
       else
         %>

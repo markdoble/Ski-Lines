@@ -36,9 +36,16 @@
     <%= favicon_link_tag 'Twitter_pic.jpg', :rel => 'shortcut icon' %>
 
     <%= javascript_include_tag "application" %>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    <script type="text/javascript">
+      Stripe.setPublishableKey('pk_test_faFoLDlCFHpuTiEHaihzanYo');
+    </script>
   </head>
     <body class="new_session">
+      <div class="container">
+        <br />
+        <%= bootstrap_flash %>
+      </div>
       <%= yield %>
-      <%= bootstrap_flash %>
     </body>
 </html>
