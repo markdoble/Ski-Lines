@@ -11,7 +11,7 @@ h2{
 
 <div class="merchant_order_email">
 	<p>Hello <%= @user.merchant_name %>,</p>
-	
+
 	<% user_product_units = [] %>
 	<%@order.order_units.where.not(quantity: 0).each do |u|%>
 		<% if u.unit.product.user.id == @user.id %>
@@ -19,12 +19,8 @@ h2{
 			<%else%><%next%>
 		<%end%>
 	<%end%>
-	
 	<p>You have <%= pluralize(user_product_units.count, 'item') %> to prepare!</p>
-
-	<p>Please fill this order as soon as possible. Once the purchased items have been sent for delivery, or picked up by the customer, mark this order as "Filled" on your merchant account, <a href="ski-lines.com/admin/orders/myperformance">here</a>.</p>
-	
-	
+	<p>Please fill this order as soon as possible. Once the purchased items have been sent for delivery, or picked up by the customer, mark this order as "Filled" on your merchant account.</p>
 	<h2><br /></h2>
 	<div class="order">
 		<div class="order_ref">
@@ -35,23 +31,16 @@ h2{
 			<h3>Customer Details:</h3>
 			Name: <%= @order.cust_first_name %> <%= @order.cust_last_name %> <br />
 			Email: <%= @order.cust_email %><br /><br />
-			
-			
 			<%= @order.street_address %><br />
 			<%= @order.city %>, <%= @order.prov_state %><br />
 			<%= @order.country %><br />
-			<%= @order.postal_zip %>			
-		</div>			
-
-		
-
+			<%= @order.postal_zip %>
+		</div>
 		<div class="products_listing">
 			<h3>Purchased <%= pluralize(user_product_units.count, 'Product') %>:</h3>
-
 			<% user_product_units.each_with_index do |p, index| %>
 			<div class="product_in_email">
 				<b>Product <%= index+1%>: </b><br />
-				
 					<%= p.unit.product.name %>, Product id: <%= p.unit.product.id %><br />
 					Price: <%= number_to_currency(p.unit.product.price, unit: '$') %><br />
 					<%if p.unit.size == "n/a" and p.unit.colour == "n/a" %>
@@ -71,30 +60,18 @@ h2{
 					Shipping Method: <%= @order.merchant_orders.where(product_id: p.unit.product.id).map{|s| s.delivery_method }.join %><br />
 					Customer Message:<br />
 					<%= @order.merchant_orders.where(product_id: p.unit.product.id).map{|s| s.customer_comments }.join%><br /><br />
-				
 			</div>
 			<%end%>
-		
 		</div>
-		
-		
 		<div class="payment_details">
 			<h3>Payment Details:</h3>
-			
-			<% total = 0 %>
-			<% subtotal = 0 %>
-			<% shipping = 0 %>
-			<% tax = 0 %>
-			
+			<% total = 0 %><% subtotal = 0 %><% shipping = 0 %><% tax = 0 %>
 			<% user_product_units.each do |p|  %>
-				<% @order.merchant_orders.where(product_id: p.unit.product_id).each do |m_o| %>
-					<% shipping += shipping_calc(m_o, p) %>
-					<% tax += tax_calc(m_o, p)%>
-				<%end%>
 				<% subtotal += (p.unit.product.price*p.quantity)%>
+				<% tax += p.sales_tax_charged %>
+				<% shipping += p.shipping_charged %>
 			<%end%>
 			<% total = subtotal + shipping + tax %>
-			
 			Subtotal: <%= number_to_currency(subtotal, unit: '$') %><br />
 			Shipping: <%= number_to_currency(shipping, unit: '$') %><br />
 			Sales Tax: <%= number_to_currency(tax, unit: '$') %><br />
@@ -104,11 +81,3 @@ h2{
 		<h2><br /></h2>
 	</div>
 </div>
-
-
-
-
-
-
-
-

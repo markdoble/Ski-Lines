@@ -44,6 +44,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.4.0)
     arel (6.0.3)
     aws-sdk (1.66.0)
       aws-sdk-v1 (= 1.66.0)
@@ -54,6 +55,12 @@ GEM
     braintree (2.62.0)
       builder (>= 2.0.0)
     builder (3.2.2)
+    carrierwave (0.11.2)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
+      mimemagic (>= 0.3.0)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     chronic (0.10.2)
@@ -76,6 +83,8 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    domain_name (0.5.20160615)
+      unf (>= 0.0.5, < 1.0.0)
     easy_translate (0.5.0)
       json
       thread
@@ -87,6 +96,15 @@ GEM
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     hike (1.2.3)
+    http (0.9.9)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (~> 1.0.1)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
+    http-form_data (1.0.1)
+    http_parser.rb (0.6.0)
     i18n (0.7.0)
     jbuilder (2.4.1)
       activesupport (>= 3.0.0, < 5.1)
@@ -110,6 +128,11 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    mailboxer (0.14.0)
+      carrierwave (>= 0.5.8)
+      rails (>= 4.2.0)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
@@ -117,6 +140,7 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.9.0)
     multi_json (1.12.1)
+    netrc (0.11.0)
     newrelic_rpm (3.15.2.317)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
@@ -170,6 +194,10 @@ GEM
     ref (2.0.0)
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     sass (3.2.19)
     sass-rails (4.0.5)
       railties (>= 4.0.0, < 5.0)
@@ -195,6 +223,14 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    stripe (1.49.0)
+      rest-client (>= 1.4, < 3.0)
+    taxjar-model_attribute (3.1.0)
+    taxjar-ruby (1.3.2)
+      addressable (~> 2.3)
+      http (~> 0.9.4)
+      memoizable (~> 0.4.0)
+      taxjar-model_attribute (~> 3.1)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -214,6 +250,9 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     warden (1.2.6)
       rack (>= 1.0)
     whenever (0.9.4)
@@ -236,6 +275,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   less-rails
+  mailboxer
   newrelic_rpm
   nokogiri
   paperclip (~> 4.3)
@@ -248,6 +288,8 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   sidekiq (= 3.2.5)
   spring (~> 1.3.6)
+  stripe
+  taxjar-ruby
   therubyracer
   turbolinks
   twitter-bootstrap-rails
@@ -259,4 +301,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.4
+   1.12.5

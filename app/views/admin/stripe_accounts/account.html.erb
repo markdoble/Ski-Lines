@@ -1,0 +1,36 @@
+<% if (current_user.merchant? || current_user.merchant_rep? || current_user.article_publisher? || current_user.admin?) %>
+<%= render 'admin/navbars/admin_navbar' %>
+<%end%>
+<div class="container">
+  <div class="edit_profile_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+      </div>
+      <div class="devise_forms_background col-lg-8 col-md-8 col-sm-10 col-xs-12">
+        <% if current_user.stripe_account_id %>
+        <h1><%=current_user.merchant_name%></h1>
+        <%= render :partial => 'status_account' %>
+          <br />
+          <div class="row">
+            <%= render :partial => 'update_account_form' %>
+            <% if @personal_id_number_provided.blank? && @fields_needed.include?("legal_entity.personal_id_number") %>
+            <%= render :partial => 'personal_id_numb_form' %>
+            <%end%>
+            <%= render :partial => 'update_company_details_form' %>
+            <% if @external_accounts.empty? %>
+            <%= render :partial => 'banking_form' %>
+            <%else%>
+            <%= render :partial => 'banking_details' %>
+            <%end%>
+          </div>
+        <%end%>
+        <br />
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
+      </div>
+    </div>
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br />
+    <br /><br /><br /><br />
+  </div>
+</div>

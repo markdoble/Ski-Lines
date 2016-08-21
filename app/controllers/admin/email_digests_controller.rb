@@ -21,25 +21,6 @@ class Admin::EmailDigestsController < ApplicationController
     redirect_to '/admin/email_digests/new_digest'
   end
 
-=begin
-  def send_digest
-    @subscribers = EmailDigest.all
-    @article_ids = params[:article_ids]
-    @articles = []
-    @article_ids.each do |m|
-      @articles << Article.find_by_id(m)
-    end
-    @subject = params[:subject]
-    @subscribers.uniq.where.not(status: "Inactive").each do |subscriber|
-       DigestMailer.weekly_digest(subscriber, @subject, @articles).deliver
-    end
-    session[:articleforemail] = @article_ids
-    session[:subjectforemail] = @subject
-    session[:mailexpiry] = Time.current + 100
-    redirect_to '/admin/email_digests/new_digest'
-  end
-=end
-
   def new_digest
     if session[:articleforemail]
       if session[:mailexpiry] > Time.current

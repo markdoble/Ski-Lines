@@ -1,0 +1,64 @@
+<ul class="nav navbar-nav navbar-right hidden-xs">
+  <!--
+  Hide the flag until the geolocation is completed
+  <li class="country_flag_container"><a><span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
+  -->
+  <% if user_signed_in? %>
+  <% unless current_user.merchant? %>
+  <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="badge badge-notify"><%= @cart.count%></span></a></li>
+  <%end%>
+  <%else%>
+  <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="badge badge-notify"><%= @cart.count%></span></a></li>
+  <%end%>
+  <%
+  # check to see if we want to dispay the mailbox
+  if user_signed_in? && current_user.has_mailbox_access
+    %>
+    <li class="cart">
+      <%= link_to mailbox_inbox_path, :class => '' do %> <span class="glyphicon glyphicon-envelope"></span><span class="badge badge-notify"><%=mailbox.inbox(:unread => true).count(:id, :distinct => true)%></span> <% end %>
+    </li>
+    <%
+  end
+  %>
+
+  <%
+  # display the rest of the navbar. The items below are always displayed
+  %>
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
+    <ul class="dropdown-menu" role="menu" style="text-align:center;">
+      <%
+      # display different links based on the sign-in status of the user
+      if user_signed_in?
+        %>
+        <%if current_user.merchant?%>
+        <li><%= link_to "My Store", admin_products_path %></li>
+        <li><%= link_to "Account", admin_account_path %></li>
+        <%end%>
+        <% if current_user.merchant_rep? %>
+          <li><%= link_to "Add Merchant", new_user_registration_path %></li>
+        <%end%>
+        <% if current_user.article_publisher? %>
+          <li><%= link_to "Update", update_path %></li>
+        <%end%>
+        <li><%= link_to "Profile", edit_user_registration_path %></li>
+        <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
+        <%
+      else
+        %>
+        <li><%= link_to "Login", new_user_session_path %></li>
+        <li><%= link_to "Sign Up", new_user_registration_path %></li>
+        <%
+      end
+      %>
+    </ul>
+  </li>
+
+  <%
+  # display the currently logged in username
+  if user_signed_in?
+    %><li><a><%= current_user.mailboxer_name %></a></li><%
+  end
+  %>
+
+</ul>

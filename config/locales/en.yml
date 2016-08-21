@@ -19,8 +19,40 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
+
 en:
-  hello: "Hello world"
-
-
-      
+  activerecord:
+    attributes:
+      order:
+        cust_email: "Your email address"
+        cust_first_name: "Your first name"
+        cust_last_name: "Your last name"
+        cust_email_confirmation: ""
+        street_address: "Your street address"
+        prov_state: "Your state/province"
+        country: "Your country"
+        postal_zip: "Your zip/postal code"
+        city: "Your city"
+    errors:
+      models:
+        order:
+          attributes:
+            cust_email:
+              blank: "is required!"
+              invalid: "is not a valid format."
+            cust_email_confirmation:
+              confirmation: "Please confirm your email address."
+            cust_first_name:
+              blank: "is required!"
+            cust_last_name:
+              blank: "is required!"
+            street_address:
+              blank: "is required!"
+            prov_state:
+              blank: "is required!"
+            country:
+              blank: "is required!"
+            postal_zip:
+              blank: "is required!"
+            city:
+              blank: "is required!"

@@ -1,0 +1,87 @@
+<div class="container">
+	<div class="row">
+		<br /><br />
+		<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
+		</div>
+		<div class="col-lg-6 col-md-6 col-sm-10 col-xs-12">
+			<h3 style="text-align:center">Thank you for your order, <%= @order.cust_first_name%>! </h3>
+			<p style="text-align:center">Please review your order details below. If you have any questions or concerns, feel free to send a message to the seller. </p>
+			<br />
+			<div class="merchant_form_headings">
+				<h4><b>Customer Details:</b></h4>
+			</div>
+			<div class="purchase_order_show">
+				Order No.: <%= @order.id%><br />
+				Order Date: <%= @order.created_at.strftime("%B %-d, %Y at %l:%M%P %Z") %><br /><br />
+				<%= @order.cust_first_name%> <%= @order.cust_last_name%> <br />
+				<%= @order.cust_email %><br /><br />
+				<%= @order.street_address %><br />
+				<%= @order.city%>, <%= @order.prov_state %>, <%= @order.country%><br />
+				<%= @order.postal_zip%><br />
+			</div>
+			<div class="merchant_form_headings">
+				<h4><b>Purchased Items:</b></h4>
+			</div>
+			<div class="purchase_order_show">
+				<% @order.order_units.where.not(quantity: 0).each do |f|%>
+				<div class="order_show_product">
+				<%= image_tag(f.unit.product.photo.url(:thumb)) %><br />
+				<h5><%= f.unit.product.name %></h5>
+				<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
+				<% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
+				<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
+				<%elsif (f.unit.size) == 'n/a' and (f.unit.colour != 'n/a') %>
+				<%= f.quantity %> X <%= f.unit.colour %><br />
+				<%elsif (f.unit.size != 'n/a') and (f.unit.colour == 'n/a')%>
+				<%= f.quantity %> X <%= f.unit.size %><br />
+				<% elsif (f.unit.size == 'n/a') and (f.unit.colour == 'n/a')%>
+				<%= f.quantity %>
+				<%end%>
+				<br />
+				<%= link_to "Send a message to " + f.unit.product.user.merchant_name, new_conversation_path(product_id: f.unit.product.id), class: ""%><br /><br />
+					<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |s| %>
+						<% if s.delivery_method == "Standard Shipping"%>
+							<b>Delivery Method:</b> <br />
+							<%= s.delivery_method%><br /><br />
+							<b>Shipping From:</b><br />
+							<%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br /><br />
+						<%else%>
+							<b>Delivery Method:</b><br />
+							<%= s.delivery_method%><br /><br />
+							<b>Pick Up Order From:</b><br />
+							<%= f.unit.product.user.merchant_name %> in <%= f.unit.product.user.city %>, <%= f.unit.product.user.state_prov%>, <%= f.unit.product.user.country %><br /><br />
+						<%end%>
+							<%unless s.customer_comments.blank?%>
+							<b>Customer Comments:</b><br />
+							<%= s.customer_comments %><br /><br />
+							<%end%>
+					<%end%>
+				</div>
+				<%end%>
+			</div>
+			<div class="merchant_form_headings">
+				<br />
+				<h4><b>Payment Details:</b></h4>
+			</div>
+			<div class="purchase_order_show">
+				Sub-total: <%= number_to_currency(calculate_sub_total(@order), unit: '$')%><br />
+				Total Shipping: <%= number_to_currency(@order.shipping, unit: '$') %><br />
+				Total Sales Tax: <%= number_to_currency(@order.sales_tax, unit: '$') %><br />
+				<b>Total: <%= number_to_currency(@order.amount, unit: '$' )%></b><br /><br />
+				<p><%= number_to_currency(@order.amount, unit: '$' ) %> has been charged to your credit card.</p>
+				<p>If you have any questions or concerns about your order, get in touch with the merchant at the details listed above.</p>
+			<br />
+			</div>
+			<div class="merchant_form_headings">
+			</div>
+			<br />
+			<div style="text-align:center">
+			<%= link_to "CLEAR", submittedordersession_clear_path, class:"btn btn-large btn-primary"%>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
+		</div>
+
+	</div>
+	<br /><br /><br /><br /><br /><br />
+</div>

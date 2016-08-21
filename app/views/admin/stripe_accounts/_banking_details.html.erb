@@ -1,0 +1,37 @@
+<% @external_accounts.each do |f| %>
+<div class="merchant_form_headings col-xs-12">
+  <h2>Banking Details:</h2>
+</div>
+<div class="row">
+  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    Account Country:
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <%= make_country_readable(f.country) %>
+  </div>
+</div>
+<div class="row">
+  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    Account Currency:
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <%= make_currency_readable(f.currency) %>
+  </div>
+</div>
+<div class="row">
+  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    Routing Number:
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <%= f.routing_number %>
+  </div>
+</div>
+<div class="row">
+  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    Account Number:
+  </div>
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <%= "XXXXX" + f.last4 %>
+  </div>
+</div>
+<%end%>

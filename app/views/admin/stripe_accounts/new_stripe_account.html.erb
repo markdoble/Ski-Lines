@@ -1,0 +1,45 @@
+<% if (current_user.merchant? || current_user.merchant_rep? || current_user.article_publisher? || current_user.admin?) %>
+<%= render 'admin/navbars/admin_navbar' %>
+<%end%>
+<br /><br /><br />
+<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
+</div>
+<div class="devise_forms_background col-lg-6 col-md-6 col-sm-10 col-xs-12">
+    <%= form_tag admin_create_account_path, :method => :get do %>
+  	<h1 style="text-align:center"><%=current_user.merchant_name%></h1>
+  	<h4 style="text-align:center">Create Your Merchant Account!</h4>
+    <br />
+    <div class="terms col-xs-12">
+      <p>
+        <br />Payment processing services for <b><%= current_user.merchant_name %></b> on Ski-Lines.com are
+        provided by Stripe and are subject to the <a href="https://stripe.com/ca/connect-account/legal" target="_blank"> Stripe Connected Account Agreement</a>, which includes the <a href="https://stripe.com/ca/legal" target="_blank"> Stripe Terms of Service</a>
+        (collectively, the “Stripe Services Agreement”). By agreeing to this agreement or continuing to operate as a Merchant on Ski-Lines.com,
+        you agree to be bound by the Stripe Services Agreement, as the same may be modified by Stripe from time to time.
+        As a condition of Ski-Lines.com enabling payment processing services through Stripe,
+        you agree to provide Ski-Lines.com accurate and complete information about you and your business,
+        and you authorize Ski-Lines.com to share it and transaction information related to your use of the payment processing services provided by Stripe.</p>
+        <p>As a Merchant, by continuing with the use of Ski-Lines.com, you agree to Ski-Lines.com's <%= link_to "terms", infos_terms_path, target:"_blank" %>.
+          These terms include details of our pricing structure, which are as follows:
+        </p>
+        <p>Ski-Lines.com's fee (the "Platform Fee"), in addition to the Payment Processing Fee, is applied as a fixed percentage of the transaction.
+          The Platform fee is 6.45%, and the Payment Processing Fee is 3.4%, for a total of 9.85%. All returns are 100% refundable to the merchant. If you don't get paid, nobody gets paid.
+        </p><br />
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align:center">
+      <br />
+      <%= check_box_tag :tos  %><span> I accept the <%= link_to "Terms of Service", "https://stripe.com/ca/connect-account/legal", target:"_blank"%></span>
+    </div>
+    <br /><br />
+  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			  <div class="edit_merchant_save_button actions">
+			    <%= submit_tag "CONNECT!", class: "btn btn-primary merchant_pro_save" %>
+			  </div>
+  	</div>
+  	<% end %>
+</div>
+<div class="col-lg-3 col-md-3 col-sm-1 hidden-xs">
+</div>
+
+<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br />

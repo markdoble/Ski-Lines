@@ -1,0 +1,89 @@
+<%= form_tag "/admin/stripe_accounts/update_banking", :id => "banking-form", :method => :get do %>
+<div class="merchant_form_headings col-xs-12">
+  <h2>Connect Bank Account:</h2>
+</div>
+<div class="banking-errors" style="color:red;"></div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :account_country, "Account Country:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%>
+      <div class="form-row edit_devise_label">
+        <select data-stripe="country" class="form_field_divs country">
+          <option value="" disabled selected>-country-</option>
+          <option value="us">United States of America</option>
+          <option value="ca">Canada</option>
+        </select>
+      </div>
+    </span><br />
+  </div>
+</div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :account_currency, "Account Currency:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%>
+      <div class="form-row edit_devise_label">
+        <select data-stripe="currency" class="form_field_divs currency">
+          <option value="" disabled selected>-currency-</option>
+          <option value="usd">USD</option>
+          <option value="cad">CAD</option>
+        </select>
+      </div>
+    </span><br />
+  </div>
+</div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :reouting_number, "Routing Number:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="routing-number" class="form-control routing-number"></span><br />
+  </div>
+</div>
+<div class="field col-xs-12">
+  <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
+    <%= label_tag :account_number, "Account Number:" %>
+  </div>
+  <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
+    <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="account-number" class="form-control account-number"></span><br />
+  </div>
+</div>
+
+<div class="col-xs-12" style="text-align:center">
+  <br />
+   <input type="submit" class="submit btn btn-primary btn-large" value="Save">
+   <br />
+</div>
+<% end %>
+<script>
+$(function() {
+  var $form = $('#banking-form');
+  $form.submit(function(event) {
+     //Disable the submit button to prevent repeated clicks:
+    $form.find('.submit').prop('disabled', true);
+    // Request a token from Stripe:
+    Stripe.bankAccount.createToken($form, bankingStripeResponseHandler);
+    // Prevent the form from being submitted:
+    return false;
+  });
+});
+function bankingStripeResponseHandler(status, response) {
+  // Grab the form:
+  var $form = $('#banking-form');
+  if (response.error) { // Problem!
+    // Show the errors on the form:
+    $form.find('.banking-errors').text(response.error.message);
+    $form.find('.submit').prop('disabled', false); // Re-enable submission
+  } else { // Token was created!
+    // Get the token ID:
+    var token = response.id;
+    // Insert the token ID into the form so it gets submitted to the server:
+    $form.append($('<input type="hidden" name="stripeToken">').val(token));
+    // Submit the form:
+    $form.get(0).submit();
+  }
+};
+</script>

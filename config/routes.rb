@@ -11,6 +11,22 @@ Rails.application.routes.draw do
   get '/cart/remove/:id' => 'orders#remove'
   get '/submittedordersession/clear' => "orders#clearOrderSession"
 
+  # mailboxer folder routes
+  get "mailbox/inbox" => "mailbox#inbox", as: :mailbox_inbox
+  get "mailbox/sent" => "mailbox#sent", as: :mailbox_sent
+  get "mailbox/trash" => "mailbox#trash", as: :mailbox_trash
+
+  # mailboxer conversation routes
+  resources :conversations do
+    member do
+      post :reply
+      post :trash
+      post :untrash
+      post :delete
+      post :empty_trash
+    end
+  end
+
   # vanity routes
   get '/mystore' => 'admin/products#index' # url for merchants
   get '/shop' => 'products#index' # url for public shopping
@@ -19,7 +35,17 @@ Rails.application.routes.draw do
   get '/new_subscriber' => 'email_digests#new_subscriber'
   resources :email_digests
 
-  resources :orders, :except => [:show, :index]
+  get 'orders/customer_details_form'
+  get 'orders/payment_form'
+  get 'orders/confirmation'
+  resources :orders, :except => [:show] do
+    member do
+      patch :create_customer_details
+      put :create_customer_details
+      patch :create_payment
+      put :create_payment
+    end
+  end
 
   root 'articles#cross_country'
 
@@ -38,7 +64,7 @@ Rails.application.routes.draw do
   get 'products/merchants'
 
 
-  resources :products, :only => :index
+  resources :products, :only => [:index, :show]
   get '/shop/:slug', controller: 'products', action: 'store'
 
   resources :articles, :except => [:edit, :update, :destroy]
@@ -63,16 +89,25 @@ Rails.application.routes.draw do
   resources :user_feedback_answers, :except => [:index, :show]
 
   namespace :admin do
-    get 'orders/myperformance'
     get 'products/hard_goods'
     get 'products/clothing'
     get 'products/waxing'
     get 'products/accessories'
-    get 'orders/all_orders'
-    get 'orders/merchants'
-    get 'orders/index'
+    get 'all_orders/merchants'
+    get 'all_orders/rep'
+
+    # stripe account routes
+    get 'stripe_accounts/verify_account'
+    get 'stripe_accounts/update_company_details'
+    get 'stripe_accounts/update_banking'
+    get 'stripe_accounts/update_personal_id_number'
+    get 'account' => "stripe_accounts#account"
+    get 'create_account' => "stripe_accounts#create_account"
+    get 'stripe_accounts/new_stripe_account'
+
     resources :products
     resources :articles, :except => [:show]
+    resources :all_orders
     resources :orders
     resources :product_categories
     resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]

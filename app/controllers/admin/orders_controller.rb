@@ -2,46 +2,25 @@ class Admin::OrdersController < ApplicationController
   layout "store_merchant_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :verify_is_merchant
 
 
   def index
-   verify_is_admin
-  end
-
-  def merchants
-    verify_is_admin
-    @merchants = User.merchants
-  end
-
-
-  def all_orders
-    verify_is_admin
-    @order = Order.all.order("created_at DESC")
-  end
-
-  def myperformance
-    verify_is_merchant
-    @orders = Order.all.verified
-    @order = current_user.orders.verified.order("created_at DESC")
+   @orders = current_user.orders.verified.order("created_at DESC")
   end
 
   def show
-    verify_is_admin
-    verify_is_merchant
       @order = Order.find(params[:id])
-      if @order.transaction_id
-        @transaction = Braintree::Transaction.find(@order.transaction_id)
-      end
   end
 
   def update
     @order = Order.find(params[:id])
     respond_to do |format|
     if @order.update(order_params)
-        format.html {redirect_to admin_orders_myperformance_url}
+        format.html {redirect_to admin_orders_url}
         format.json {respond_with_bip(@order) }
       else
-     redirect_to admin_orders_myperformance_url
+     redirect_to admin_orders_url
      end
    end
   end
