@@ -111,7 +111,7 @@
                   <script
                     src="https://checkout.stripe.com/checkout.js"
                     class="stripe-button"
-                    data-key="pk_test_faFoLDlCFHpuTiEHaihzanYo"
+                    data-key="<%=ENV['PLATFORM_PUBLISHABLE_KEY'] %>"
                     data-name=<%= @order.cust_first_name%>&nbsp;<%= @order.cust_last_name%>
                     data-amount=<%= amount_to_display %>
                     data-email=<%= @order.cust_email %>
