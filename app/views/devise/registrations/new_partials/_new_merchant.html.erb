@@ -18,7 +18,7 @@
 				    <%= f.label :merchant_name, "Merchant Name:" %>
 						</div>
 						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-						<%= f.email_field :merchant_name, autofocus: true, class: "form-control", placeholder: "Merchant Name" %>
+						<%= f.text_field :merchant_name, autofocus: true, class: "form-control", placeholder: "Merchant Name" %>
 						<br />
 						</div>
 				  </div>
@@ -30,7 +30,7 @@
 				    <%= f.label :contact_first_name, "Contact First Name:" %>
 						</div>
 						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control", placeholder: "Contact First Name" %>
+				    <%= f.text_field :contact_first_name, autofocus: true, class: "form-control", placeholder: "Contact First Name" %>
 						<br />
 						</div>
 				  </div>
@@ -39,7 +39,7 @@
 				    <%= f.label :contact_last_name, "Contact Last Name:" %>
 						</div>
 						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control", placeholder: "Contact Last Name" %>
+				    <%= f.text_field :contact_last_name, autofocus: true, class: "form-control", placeholder: "Contact Last Name" %>
 						<br />
 						</div>
 				  </div>
@@ -65,7 +65,7 @@
 				    <%= f.label :merchant_url, "Website URL:" %>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :merchant_url, autofocus: true, class: "form-control", placeholder: "Website" %>
+				    <%= f.text_field :merchant_url, autofocus: true, class: "form-control", placeholder: "Website" %>
 						<br />
 					</div>
 			  </div>
@@ -75,7 +75,7 @@
 			    <%= f.label :street_address, "Address:" %>
 						</div>
 						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-			    <%= f.email_field :street_address, autofocus: true, class: "form-control", placeholder: "Street Address" %><br />
+			    <%= f.text_field :street_address, autofocus: true, class: "form-control", placeholder: "Street Address" %><br />
 					</div>
 			  </div>
 		<% state_prov =
@@ -104,7 +104,7 @@
 				    <%= f.label :city, "City:" %>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :city, autofocus: true, class: "form-control", placeholder: "City" %><br />
+				    <%= f.text_field :city, autofocus: true, class: "form-control", placeholder: "City" %><br />
 					</div>
 			  </div>
 			  <div class="field col-xs-12">
@@ -112,7 +112,7 @@
 				    <%= f.label :zip_postal, "Zip/Postal:"%>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :zip_postal, autofocus: true, class: "form-control", placeholder: "Zip/Postal" %><br />
+				    <%= f.text_field :zip_postal, autofocus: true, class: "form-control", placeholder: "Zip/Postal" %><br />
 						<br /><br />
 					</div>
 			  </div>

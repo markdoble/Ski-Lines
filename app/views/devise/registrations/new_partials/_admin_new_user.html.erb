@@ -14,7 +14,7 @@
 				  <div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
-				    <%= f.email_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
+				    <%= f.text_field :merchant_name, autofocus: true, class: "form-control input-lg", placeholder: "Merchant Name" %>
 						<br />
 						</div>
 				  </div>
@@ -28,14 +28,14 @@
 					<div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :contact_first_name, "Contact First Name", hidden: true %>
-				    <%= f.email_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact First Name" %>
+				    <%= f.text_field :contact_first_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact First Name" %>
 						<br />
 						</div>
 				  </div>
 					<div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :contact_last_name, "Contact Last Name", hidden: true %>
-				    <%= f.email_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Last Name" %>
+				    <%= f.text_field :contact_last_name, autofocus: true, class: "form-control input-lg", placeholder: "Contact Last Name" %>
 						<br />
 						</div>
 				  </div>
@@ -48,7 +48,7 @@
 			  <div class="field">
 			    <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_url, "Merchant URL:", hidden: true %>
-				    <%= f.email_field :merchant_url, autofocus: true, class: "form-control input-lg", placeholder: "Website" %>
+				    <%= f.text_field :merchant_url, autofocus: true, class: "form-control input-lg", placeholder: "Website" %>
 						<br />
 					</div>
 			  </div>
@@ -56,7 +56,7 @@
 			  <div class="field">
 				    <div class="devise_label col-xs-12">
 			    <%= f.label :street_address, "Address:" %>
-			    <%= f.email_field :street_address, autofocus: true, class: "form-control input-lg", placeholder: "Street Address" %>
+			    <%= f.text_field :street_address, autofocus: true, class: "form-control input-lg", placeholder: "Street Address" %>
 					</div>
 			  </div>
 		<% state_prov =
@@ -79,13 +79,13 @@
 			  <div class="field">
 				  <div class="devise_label col-xs-12">
 				    <%= f.label :city, "City", hidden: true %>
-				    <%= f.email_field :city, autofocus: true, class: "form-control input-lg", placeholder: "City" %>
+				    <%= f.text_field :city, autofocus: true, class: "form-control input-lg", placeholder: "City" %>
 					</div>
 			  </div>
 			  <div class="field">
 				  <div class="devise_label col-xs-12">
 				    <%= f.label :zip_postal, "Zip/Postal", hidden: true %>
-				    <%= f.email_field :zip_postal, autofocus: true, class: "form-control input-lg", placeholder: "Zip/Postal" %>
+				    <%= f.text_field :zip_postal, autofocus: true, class: "form-control input-lg", placeholder: "Zip/Postal" %>
 						<br /><br />
 					</div>
 			  </div>
