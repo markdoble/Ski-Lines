@@ -3,7 +3,6 @@
   Hide the flag until the geolocation is completed
   <li class="country_flag_container"><a><span class="country_flag"><%= image_tag('can_flag.png', height:'18px') %></span></a></li>
   -->
-  <li class="cart"><a href='/cart'><span class="glyphicon glyphicon-shopping-cart" ></span><span class="badge badge-notify"><%= @cart.count%></span></a></li>
   <%
   # check to see if we want to dispay the mailbox
   if user_signed_in? && current_user.has_mailbox_access
