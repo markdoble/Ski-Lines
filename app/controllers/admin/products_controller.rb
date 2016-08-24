@@ -3,7 +3,7 @@ class Admin::ProductsController < ApplicationController
   layout "store_merchant_layout"
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_action :verify_is_merchant_or_admin
+  before_action :verify_is_merchant
 
   require 'paperclip'
 
@@ -115,17 +115,7 @@ class Admin::ProductsController < ApplicationController
         params.require(:product).permit(:id, :name, :description, :status, :user_id, :price, :currency, :created_at, :updated_at, :photo, :size_details, :product_category, :product_subcategory, :shipping_charge, :product_return_policy, units_attributes: [:id, :product_id, :size, :quantity, :quantity_sold, :colour, :_destroy], :order_ids => [], productfotos_attributes: [:id, :product_id, :foto, :_destroy])
       end
 
-      def verify_is_merchant_or_admin
-          if current_user.nil?
-            redirect_to(shop_path)
-          else
-            if current_user.merchant_rep?
-              redirect_to admin_all_orders_rep_path
-            elsif current_user.merchant_rep?
-              redirect_to update_path
-            else
-              redirect_to(shop_path) unless (current_user.merchant? | current_user.admin?)
-            end
-          end
+      def verify_is_merchant
+        (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
       end
 end

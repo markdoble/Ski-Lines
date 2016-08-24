@@ -36,9 +36,6 @@ class Admin::OrdersController < ApplicationController
       params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping, :merchant_orders_attributes => [:id, :user_id, :order_id, :order_status, :product_id, :delivery_method, :customer_comments], :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
     end
 
-    def verify_is_admin
-      (current_user.nil?) ? redirect_to(root_path) : (redirect_to(admin_products_path) unless current_user.admin?)
-    end
     def verify_is_merchant
         (current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.merchant?)
     end
