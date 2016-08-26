@@ -40,10 +40,12 @@
 						   <span class="caret"></span></button>
 						   <ul class="dropdown-menu">
 								<div class="product_categories_admin">
-									<p><%= link_to "CLOTHING", admin_products_clothing_path %></p>
-									<p><%= link_to "HARD GOODS", admin_products_hard_goods_path %></p>
-									<p><%= link_to "WAXING", admin_products_waxing_path %></p>
-									<p><%= link_to "ACCESSORIES", admin_products_accessories_path %></p>
+									<p><%= link_to "ALL", admin_products_path %></p>
+									<%
+									@root_categories.each do |category|
+										%><p><%= link_to category.name, admin_products_path(:category_id => category.id) %></p><%
+									end
+									%>
 								</div>
 						   </ul>
 						 </div>
@@ -61,6 +63,17 @@
 		                </span>
 		   	    </div>
 			</div>
+		</div>
+		<div>
+			<strong>Category Displayed:</strong>
+			<%
+			# Check to see if we are filtering on a category. If so, we will display this to the user
+			if params[:category_id]
+				%><%= @root_categories.find(params[:category_id]).name %><%
+			else
+				%>ALL<%
+			end
+			%>
 		</div>
 		<br />
 		<div class="products">

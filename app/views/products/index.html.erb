@@ -18,65 +18,32 @@
 	<div class="landing_page_arrow col-xs-12">
 		<span class="glyphicon glyphicon-chevron-down"></span>
 	</div>
-	<div class="product_results col-xs-12">
-		<h4>HARD GOODS</h4>
-		<div class="row">
-			<% @hard_goods.each do |product|%>
-			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<%= render :partial => "products/product", :locals => {:product => product} %>
-			<br />
-			</div>
-			<%end%>
-		</div>
-		<div class="product_row">
-			<p style="text-align:right"><%= link_to "See All Hard Goods", products_hard_goods_path %></p>
-		</div>
-	</div>
-	<div class="product_results col-xs-12">
-			<h4>CLOTHING</h4>
-		<div class="row">
 
-			<% @clothing.each do |product|%>
-			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<%= render :partial => "products/product", :locals => {:product => product} %>
-			<br />
-			</div>
-			<%end%>
-		</div>
-		<div class="product_row">
-			<p style="text-align:right"><%= link_to "See All Clothing", products_clothing_path %></p>
-		</div>
-	</div>
-	<div class="product_results col-xs-12">
-		<h4>WAXING</h4>
-		<div class="row">
+<%
 
-			<% @waxing.each do |product|%>
-			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<%= render :partial => "products/product", :locals => {:product => product} %>
-			<br />
-			</div>
-			<%end%>
-		</div>
-		<div class="product_row">
-				<p style="text-align:right"><%= link_to "See All Waxing", products_waxing_path %></p>
-		</div>
-	</div>
+# we want to display all ROOT categories
+@root_categories.each do |root_category|
+	%>
 	<div class="product_results col-xs-12">
-		<h4>ACCESSORIES</h4>
+		<h4><%=root_category.name%></h4>
 		<div class="row">
-
-			<% @accessories.each do |product|%>
-			<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<%= render :partial => "products/product", :locals => {:product => product} %>
-			<br />
-			</div>
-			<%end%>
-		</div>
-		<div class="product_row">
-				<p style="text-align:right"><%= link_to "See All Accessories", products_accessories_path %></p>
+			<%
+			Product.category_specific(root_category.descendents).active_products.index_products.each do |product|
+				%>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+					<%= render :partial => "products/product", :locals => {:product => product} %>
+				</div>
+				<%
+			end
+			%>
 		</div>
 	</div>
+	<div class="product_row">
+			<p style="text-align:right"><%= link_to "See All " + root_category.name, products_all_products_path(:category_id => root_category.id) %></p>
+	</div>
+	<%
+end
+%>
 
 </div>
 
