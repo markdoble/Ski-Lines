@@ -87,9 +87,6 @@ class Admin::ArticlesController < ApplicationController
     end
   end
 
-
-
-
   private
 
     def set_article
