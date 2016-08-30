@@ -2,7 +2,7 @@
     <% if current_user.admin? or current_user.article_publisher? %>
     <%= render 'admin/navbars/admin_user_navbar' %>
     <%end%>
-		<div class="container">
+	   <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 			<ul class="nav navbar-nav">
 				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), shop_path %> </li>
@@ -42,7 +42,7 @@
                   <li><a style="color:grey">ADMINISTRATOR</a></li>
                   <li><%= link_to "CONTACTS", admin_contacts_contact_path %></li>
                   <li><%= link_to "TEAM APPLICATIONS", admin_teams_team_path %></li>
-                  <li><%= link_to "PRODUCT CATEGORIES", admin_product_categories_path %></li>
+                  <li><%= link_to "PRODUCT CATEGORIES", categories_path %></li>
                   <li><%= link_to "ADD MERCHANT", new_user_registration_path %></li>
                   <li><%= link_to "ALL MERCHANTS", admin_all_orders_merchants_path %></li>
                   <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>

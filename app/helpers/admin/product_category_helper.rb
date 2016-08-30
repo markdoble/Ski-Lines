@@ -1,5 +1,0 @@
-module Admin::ProductCategoryHelper
-  
- 
-  
-end

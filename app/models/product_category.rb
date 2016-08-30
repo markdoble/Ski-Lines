@@ -1,5 +1,5 @@
 class ProductCategory < ActiveRecord::Base
+  # Associations needed to implement the product_categories join relationships
   belongs_to :product
-  has_many :product_subcategories
-  accepts_nested_attributes_for :product_subcategories, :allow_destroy => true, :reject_if => lambda { |a| a[:subcategory].blank? }
+  belongs_to :category
 end

@@ -65,14 +65,11 @@
         			<br />
         			  </div>
         		</div>
+
         		<div class="row">
         		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        		     <%= f.label :product_category, "Product Category:" %><br>
-        		     <%= f.collection_select :product_category, ProductCategory.order(:category), :category, :category, include_blank: true %>
-        		  </div>
-        		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        		     <%= f.label :product_subcategory, "Product Sub-category:" %><br>
-        		     <%= f.grouped_collection_select :product_subcategory, ProductCategory.order(:category), :product_subcategories, :category, :subcategory, :subcategory, include_blank: true %>
+        		     <%= f.label :category, "Product Category:" %><br>
+        		     <%= collection_select :category, :id, @root_categories, :id, :name, :selected => (f.object.categories.count() > 0 ? f.object.categories.first.id : 0) %>
         		  </div>
         	  </div><br /><br />
         		<div class="row">

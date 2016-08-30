@@ -1,0 +1,54 @@
+<h1>Categories</h1>
+
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+		<div class='product_category'>
+			<h4>Add New Root Category</h4>
+		</div>
+		<div class="product_subcategory">
+		<%= render 'form' %>
+		</div>
+	</div>
+</div>
+<br /><br />
+
+<div class="row">
+	<table class="hoverTable">
+		<thead>
+			<th>Category Name</th>
+			<th># Products</th>
+			<th colspan="4">Options</th>
+		</thead>
+		<tbody>
+			<%
+			@root_categories.each do |root_category|
+				subcategories = root_category.get_subcategories
+				subcategories.each do |subcat|
+					indent = "&nbsp;" * 4 * subcat[0]
+					%>
+					<tr>
+						<td>
+							<%=indent.html_safe + subcat[1].name%>
+						</td>
+						<td>
+							<%=subcat[1].get_total_product_count%>
+						</td>
+						<td colspan="4">
+							<%= link_to 'Show', category_path(subcat[1]) %>
+							&nbsp|&nbsp <%= link_to 'Edit', edit_category_path(subcat[1]) %>
+							&nbsp|&nbsp <%= link_to 'Add Child', new_category_path(:parent_id => subcat[1].id) %>
+							<%
+							# We only want to show the destroy link if we have no children
+				      if !subcat[1].children.any?
+								%>&nbsp|&nbsp <%= link_to 'Delete', category_path(subcat[1]), method: :delete, data: { confirm: 'Are you sure?'}%><%
+							end
+							%>
+						</td>
+					</tr>
+					<%
+				end
+			end
+			%>
+		</tbody>
+	</table>
+</div>
