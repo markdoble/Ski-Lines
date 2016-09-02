@@ -1,0 +1,25 @@
+<div class="modal fade" id="country_select" tabindex="-1" role="dialog" aria-labelledby="country_select_label">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="country_select_label">Select Country</h4>
+      </div>
+      <div class="modal-body">
+        <table class="tbl_country_select">
+          <tr>
+            <td><div class="navbarflag flag flag-ca"></div></td>
+            <td><%= link_to "Canada", change_site_country_path(:country => "ca") %></td>
+          </tr>
+          <tr>
+            <td><div class="navbarflag flag flag-us"></div></td>
+            <td><%= link_to "United States", change_site_country_path(:country => "us") %></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

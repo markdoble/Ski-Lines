@@ -49,6 +49,9 @@ Rails.application.routes.draw do
 
   root 'articles#cross_country'
 
+  # route for the country selector
+  get '/change_site_country', to: 'application#change_site_country', as: :change_site_country
+
   get 'infos/js_enabled'
   get 'infos/terms'
 

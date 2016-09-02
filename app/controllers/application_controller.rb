@@ -4,31 +4,34 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_permitted_parameters, if: :devise_controller?
   protect_from_forgery with: :exception
 
+  # Define the before_action elements
   before_filter :get_articles
   before_filter :site_stats
   before_filter :find_or_create_cart
-  #before_filter :set_cache_headers
+  before_filter :site_country_selection
 
   # helper for mailboxer
   helper_method :mailbox, :conversation
 
+  # Defines the variables used to display the total count of artices for today abd yesterday
   def site_stats
-
-  @today = Article.where(publish: 'Yes').where("DATE(date_published) = ?", Time.zone.now.to_date).count
-  @yesterday = Article.where(publish: 'Yes').where("DATE(date_published) = ?", Time.zone.yesterday.to_date).count
-
+    @today = Article.where(publish: 'Yes').where("DATE(date_published) = ?", Time.zone.now.to_date).count
+    @yesterday = Article.where(publish: 'Yes').where("DATE(date_published) = ?", Time.zone.yesterday.to_date).count
   end
+
+  # Defines the artices to be displayed
   def get_articles
     @featured_articles = Article.publish.where(article_format: 'standard').where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC")[2..6]
     @front_page_featured_articles = Article.publish.where(article_format: 'standard').where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC").first(2)
     @featured_videos = Article.publish.where("article_format like ? OR article_format like ?", "%facebook_video%", "%youtube_video%").order("date_published DESC", "created_at DESC", "description ASC").first(3)
   end
 
-
+  # To Do: Define what this does
   def after_sign_out_path_for(resource_or_scope)
     shop_path
   end
 
+  # Define the required and permitted parameters for devise
   def configure_devise_permitted_parameters
       registration_params = [:admin,
                             :merchant,
@@ -70,22 +73,33 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  # To Do: Define what this does
   def set_cache_headers
       response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
       response.headers["Pragma"] = "no-cache"
       response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
+  # Executed from the country select modal window. Will change the value in the current user session and reload the page
+  def change_site_country
+    session[:site_country] = params[:country]
+    redirect_to :back
+  end
+
+  # Private functions
   private
 
+  # Defines the mailbox for the current user
   def mailbox
     @mailbox ||= current_user.mailbox
   end
 
+  # Defines a converation for the current user mailbox by ID
   def conversation
     @conversation ||= mailbox.conversations.find(params[:id])
   end
 
+  # Define the cart to use
   def find_or_create_cart
     if session[:cart] then
       @cart = session[:cart]
@@ -94,5 +108,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Will determine the user's country and set it in the session to use throughout the site
+  def site_country_selection
+    if !session[:site_country] then
+      session[:site_country] = "ca"
+    end
+  end
 
 end
