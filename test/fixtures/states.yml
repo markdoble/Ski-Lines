@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  abbreviation: MyString
+  common_name: MyString
+  country_id: 
+
+two:
+  abbreviation: MyString
+  common_name: MyString
+  country_id: 
