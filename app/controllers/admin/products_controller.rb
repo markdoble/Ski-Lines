@@ -59,6 +59,7 @@ class Admin::ProductsController < ApplicationController
 
   # Setup for the creation of a new product
   def new
+
     @product = Product.new
 
     # Retrieve the root categories to display in the caterogy filter dropdown
@@ -159,7 +160,47 @@ class Admin::ProductsController < ApplicationController
 
     # Define the required and permitted parameters for product request variables
     def product_params
-      params.require(:product).permit(:id, :name, :description, :status, :user_id, :price, :currency, :created_at, :updated_at, :photo, :size_details, :shipping_charge, :product_return_policy, :category_id, units_attributes: [:id, :product_id, :size, :quantity, :quantity_sold, :colour, :_destroy], :order_ids => [], productfotos_attributes: [:id, :product_id, :foto, :_destroy])
+      params.require(:product).permit(
+        :id,
+        :name,
+        :description,
+        :status,
+        :user_id,
+        :price,
+        :usd_price,
+        :cad_price,
+        :currency,
+        :created_at,
+        :updated_at,
+        :photo,
+        :size_details,
+        :shipping_charge,
+        :product_return_policy,
+        :category_id,
+        :domestic_shipping,
+        :foreign_shipping,
+        :factory_sku,
+        :units_attributes => [
+          :id,
+          :product_id,
+          :size,
+          :quantity,
+          :quantity_sold,
+          :colour,
+          :_destroy
+          ],
+        :order_ids => [],
+        :permitted_destinations_attributes => [
+          :destination,
+          :product_id
+        ],
+        :productfotos_attributes => [
+          :id,
+          :product_id,
+          :foto,
+          :_destroy
+          ]
+        )
     end
 
     # Verify if the current user is logged in and is a merchant

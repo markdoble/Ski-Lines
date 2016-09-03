@@ -51,11 +51,19 @@ class ApplicationController < ActionController::Base
                             :street_address,
                             :zip_postal,
                             :shipping_cost,
+                            :domestic_shipping,
+                            :foreign_shipping,
                             :sales_tax,
                             :user_return_policy,
                             :merchant_rep,
+                            :email_for_orders,
+                            :default_permitted_destinations_attributes => [
+                              {destination: []},
+                              :user_id
+                            ],
                             :merchant_order_attributes => [:id,
-                                    :user_id, :order_id,
+                                    :user_id,
+                                    :order_id,
                                     :product_id,
                                     :order_status,
                                     :delivery_method

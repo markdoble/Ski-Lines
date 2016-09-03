@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160903165256) do
+ActiveRecord::Schema.define(version: 20160903215844) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,15 @@ ActiveRecord::Schema.define(version: 20160903165256) do
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
+
+  create_table "default_permitted_destinations", force: :cascade do |t|
+    t.string   "destination", default: "{}"
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "default_permitted_destinations", ["user_id"], name: "index_default_permitted_destinations_on_user_id", using: :btree
 
   create_table "email_digests", force: :cascade do |t|
     t.string   "first_name", limit: 255
@@ -201,10 +210,10 @@ ActiveRecord::Schema.define(version: 20160903165256) do
   add_index "orders_products", ["product_id"], name: "index_orders_products_on_product_id", using: :btree
 
   create_table "permitted_destinations", force: :cascade do |t|
-    t.string   "destination", default: [],              array: true
+    t.string   "destination", default: "{}"
     t.integer  "product_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "permitted_destinations", ["product_id"], name: "index_permitted_destinations_on_product_id", using: :btree
@@ -247,6 +256,8 @@ ActiveRecord::Schema.define(version: 20160903165256) do
     t.decimal  "usd_price",                         precision: 8, scale: 2
     t.decimal  "cad_price",                         precision: 8, scale: 2
     t.string   "factory_sku"
+    t.decimal  "domestic_shipping",                 precision: 8, scale: 2
+    t.decimal  "foreign_shipping",                  precision: 8, scale: 2
   end
 
   create_table "results", force: :cascade do |t|
@@ -370,11 +381,14 @@ ActiveRecord::Schema.define(version: 20160903165256) do
     t.string   "stripe_customer_id"
     t.string   "contact_last_name"
     t.string   "email_for_orders"
+    t.decimal  "domestic_shipping",                  precision: 8, scale: 2
+    t.decimal  "foreign_shipping",                   precision: 8, scale: 2
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "default_permitted_destinations", "users"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
