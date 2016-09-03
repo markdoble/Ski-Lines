@@ -142,8 +142,7 @@ class Admin::ProductsController < ApplicationController
       params.require(:product).permit(:id, :name, :description, :status, :user_id, :price, :currency, :created_at, :updated_at, :photo, :size_details, :shipping_charge, :product_return_policy, :category_id, units_attributes: [:id, :product_id, :size, :quantity, :quantity_sold, :colour, :_destroy], :order_ids => [], productfotos_attributes: [:id, :product_id, :foto, :_destroy])
     end
 
-      def verify_is_merchant
-        (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
-      end
+    def verify_is_merchant
+      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
     end
 end
