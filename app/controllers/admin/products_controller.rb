@@ -30,6 +30,26 @@ class Admin::ProductsController < ApplicationController
 
     # Retrieve the root categories to display in the caterogy filter dropdown
     @root_categories = Category.where(parent_id: nil).order(:name)
+
+    # Check to see if a user has selected a specific view type
+    if params[:product_admin_view]
+      # A view was selected, set it in the session
+      session[:product_admin_view] = params[:product_admin_view]
+    end
+
+    # Check the session to see if a view type was selected, if not, load the detailed view by default
+    if session[:product_admin_view]
+      # A session value exists, load the correct view
+      if session[:product_admin_view] == "list"
+        render 'index_list'
+      else
+        render 'index'
+      end
+    else
+      # A session value does not exist, load the default detailed view
+      render 'index'
+    end
+
   end
 
   # Will retrieve a single product to be displayed
