@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
                             :merchant_rep,
                             :email_for_orders,
                             :default_permitted_destinations_attributes => [
-                              {destination: []},
+                              :destination,
                               :user_id
                             ],
                             :merchant_order_attributes => [:id,

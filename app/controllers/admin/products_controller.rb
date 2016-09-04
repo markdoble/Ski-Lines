@@ -116,7 +116,12 @@ class Admin::ProductsController < ApplicationController
         # Product updated successfully. We will update the entry in the product_categories table if required
         if !params[:category].nil?
           @category = Category.find(params[:category][:id])
-          @product.product_categories.update_all(category_id: @category.id)
+            # Check to see if we have product_categories to update
+           if @product.product_categories.exists?(@category.id)
+             @product.product_categories.update_all(category_id: @category.id)
+           else
+             @product.product_categories.create(category: @category)
+           end
         end
 
         # Redirect to the products list
@@ -190,10 +195,7 @@ class Admin::ProductsController < ApplicationController
           :_destroy
           ],
         :order_ids => [],
-        :permitted_destinations_attributes => [
-          :destination,
-          :product_id
-        ],
+        :permitted_destination_ids => [],
         :productfotos_attributes => [
           :id,
           :product_id,
