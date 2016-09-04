@@ -9,9 +9,8 @@ class Product < ActiveRecord::Base
   has_many :categories, through: :product_categories
   accepts_nested_attributes_for :categories
 
+  has_many :countries, through: :permitted_destinations
   has_many :permitted_destinations
-  accepts_nested_attributes_for :permitted_destinations, reject_if: proc { |attributes| attributes['destination'].blank? }
-
 
   # Associations needed for the units
   has_many :units,

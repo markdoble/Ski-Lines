@@ -84,7 +84,7 @@
 					 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
              <h4>Permitted Destinations:</h4>
              <p><i>Select all regions you are willing to ship this product to.</i></p>
-             <%= f.collection_check_boxes(:permitted_destinations, Country.all, :id, :common_name) %><br />
+             <%= f.collection_check_boxes(:country_ids, Country.all, :id, :common_name) %><br />
 				 	</div>
 					<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="col-lg-4 col-md-4 col-sm-5 col-xs-8">

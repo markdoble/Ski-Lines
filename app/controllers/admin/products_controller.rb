@@ -195,7 +195,7 @@ class Admin::ProductsController < ApplicationController
           :_destroy
           ],
         :order_ids => [],
-        :permitted_destination_ids => [],
+        :country_ids => [],
         :productfotos_attributes => [
           :id,
           :product_id,
