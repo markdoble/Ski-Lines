@@ -7,8 +7,9 @@ class User < ActiveRecord::Base
   has_many :merchant_orders, :class_name => 'MerchantOrder'
   has_many :orders, :through => :merchant_orders
 
+  has_many :countries, through: :default_permitted_destinations
   has_many :default_permitted_destinations
-  accepts_nested_attributes_for :default_permitted_destinations, reject_if: proc { |attributes| attributes['destination'].blank? }
+
   # enables user-user messaging. Required by mailboxer
   acts_as_messageable
 

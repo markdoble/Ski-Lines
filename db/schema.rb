@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904174626) do
+ActiveRecord::Schema.define(version: 20160904203200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,8 +256,10 @@ ActiveRecord::Schema.define(version: 20160904174626) do
     t.decimal  "usd_price",                         precision: 8, scale: 2
     t.decimal  "cad_price",                         precision: 8, scale: 2
     t.string   "factory_sku"
-    t.decimal  "domestic_shipping",                 precision: 8, scale: 2
-    t.decimal  "foreign_shipping",                  precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping",             precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",              precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping",             precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",              precision: 8, scale: 2
   end
 
   create_table "results", force: :cascade do |t|
@@ -381,8 +383,10 @@ ActiveRecord::Schema.define(version: 20160904174626) do
     t.string   "stripe_customer_id"
     t.string   "contact_last_name"
     t.string   "email_for_orders"
-    t.decimal  "domestic_shipping",                  precision: 8, scale: 2
-    t.decimal  "foreign_shipping",                   precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping",              precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",               precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping",              precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",               precision: 8, scale: 2
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

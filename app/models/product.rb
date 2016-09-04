@@ -35,15 +35,17 @@ class Product < ActiveRecord::Base
 
   # Define the validations needed for the product model
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
-  validates :price, numericality: true
-  validates :shipping_charge, numericality: true
+  #validates :price, numericality: true
+  #validates :shipping_charge, numericality: true
+  validates :usd_price, numericality: true
+  validates :cad_price, numericality: true
   validates :name, :presence => {:message => 'cannot be blank.'}
   validates :description, :presence => {:message => 'cannot be blank.'}
-  validates :price, :presence => {:message => 'cannot be blank.'}
-  validates :currency, :presence => {:message => 'cannot be blank.'}
-  validates :shipping_charge, :presence => {:message => 'cannot be blank.'}
+  #validates :price, :presence => {:message => 'cannot be blank.'}
+  #validates :currency, :presence => {:message => 'cannot be blank.'}
+  #validates :shipping_charge, :presence => {:message => 'cannot be blank.'}
   validates :photo, :presence => {:message => 'cannot be blank.'}
-  validates_length_of :name, :minimum => 3, :maximum => 35
+  validates_length_of :name, :minimum => 3, :maximum => 40
 
   # Define the scopes to be used
   scope :search, ->(query) { where('name ilike :q', q: "%#{query}%") }

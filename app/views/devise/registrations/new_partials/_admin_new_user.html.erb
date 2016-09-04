@@ -118,10 +118,23 @@
 				  <div class="devise_label col-xs-12">
 		  	    <%= f.label :user_return_policy, "Return Policy:", hidden: true  %>
 		  	    <%= f.text_area :user_return_policy, class: "form-control input-lg", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %>
-				 		<%= f.hidden_field :shipping_cost, value: "0.00" %>
+						<%= f.hidden_field :domestic_shipping, value: "10.00" %>
+						<%= f.hidden_field :foreign_shipping, value: "15.00" %>
 						<br /><br />
 				  </div>
 			  </div>
+				<div class="merchant_form_headings">
+					<h2>Shipping:</h2>
+				</div>
+				<div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+						<p><i>Select the regions you are willing to ship to:</i></p>
+						<%= f.collection_check_boxes(:country_ids, Country.all, :id, :common_name) do |b| %>
+						<%= b.check_box %>
+						<%= b.label %>
+						<br />
+						<%end%>
+				</div>
+				<br />
 <!-- Password -->
 				<div class="merchant_form_headings">
 					<h2>Password:</h2>

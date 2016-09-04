@@ -135,18 +135,70 @@
   					</div>
   					<div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
   						<h2>Store-Wide Policies</h2>
-  						<p><i>*Shipping cost is customizable on a per-product basis.</i></p>
+  						<p><i>*Return policy and shipping charges are customizable on a per-product basis.</i></p>
   					</div>
   					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   						<div class="row">
   							<div class="address_fields">
   						  	  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-  						  	    <%= f.label :user_return_policy, "Return Policy:"  %>
-  								  </div>
-  								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  						  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>3, readonly: true %><br />
-  								  </div>
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :user_return_policy, "Return Policy:"  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>3 %><br />
+    								  </div>
+  						  	  </div>
+                    <% if current_user.country == "Canada" %>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :cad_domestic_shipping, "Domestic Shipping:"  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_field :cad_domestic_shipping, class: "form-control" %>
+                        <p style="font-size:12px;">Default shipping fee in Canadian Dollars for domestic shipments.</p><br />
+    								  </div>
+  						  	  </div>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :cad_foreign_shipping, "Int'l Shipping:"  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_field :cad_foreign_shipping, class: "form-control" %>
+                        <p style="font-size:12px;">Default shipping fee in Canadian Dollars for international shipments.</p><br />
+    								  </div>
+  						  	  </div>
+                    <% elsif current_user.country == "United States of America" %>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :usd_domestic_shipping, "Domestic Shipping:"  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_field :usd_domestic_shipping, class: "form-control" %>
+                        <p style="font-size:12px;">Default shipping fee in US dollars for domestic shipments.</p><br />
+    								  </div>
+  						  	  </div>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :usd_foreign_shipping, "Int'l Shipping:"  %>
+    								  </div>
+    								  <div class="col-lg-4 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_field :usd_foreign_shipping, class: "form-control" %>
+                        <p style="font-size:12px;">Default shipping fee in US dollars for international shipments.</p><br />
+    								  </div>
+  						  	  </div>
+                    <%end%>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label "Shipping:", hidden: true  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding-top:10px;">
+                        <p>Select the regions you are willing to ship to:</p>
+                        <%= f.collection_check_boxes(:country_ids, Country.all, :id, :common_name) do |b| %>
+                        <%= b.check_box %>
+                        <%= b.label %>
+                        <br />
+                        <%end%>
+    								  </div>
   						  	  </div>
   							</div>
   						</div>

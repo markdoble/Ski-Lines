@@ -136,6 +136,7 @@
   					</div>
   					<div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
   						<h2>Store-Wide Policies</h2>
+              <p><i>*Shipping cost is customizable on a per-product basis.</i></p>
   					</div>
   					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
   						<div class="row">
@@ -145,8 +146,21 @@
   						  	    <%= f.label :user_return_policy, "Return Policy:"  %>
   								  </div>
   								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  						  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>3, readonly: true %><br />
+  						  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>3 %><br />
   								  </div>
+  						  	  </div>
+                    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label "Shipping:"  %>
+    								  </div>
+    								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding-top:10px;">
+                        <p><i>Select the regions you are willing to ship to:</i></p>
+                        <%= f.collection_check_boxes(:country_ids, Country.all, :id, :common_name) do |b| %>
+                        <%= b.check_box %>
+                        <%= b.label %>
+                        <br />
+                        <%end%>
+    								  </div>
   						  	  </div>
   							</div>
   						</div>
