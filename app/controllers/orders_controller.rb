@@ -113,17 +113,24 @@ class OrdersController < ApplicationController
       # before you can update order attributes
       if @order.update_attributes(order_params)
         if update_order_units_attributes(@order)
-          format.html { redirect_to orders_payment_form_path(@order) }
-          format.json { render json: @order }
+          if check_permitted_destinations(@order)
+            format.html { redirect_to orders_payment_form_path(@order) }
+            format.json { render json: @order }
+          else
+            format.html { render action: 'index' }
+            flash[:error] = "One or more products cannot be shipped to your address. Please review your selections before continuing."
+            format.json { render json: @order.errors, status: :unprocessable_entity }
+          end
         else
           format.html { render action: 'customer_details_form' }
-          flash.now[:error] = "Please make sure your address is correct before continuing!"
+          flash[:error] = "Please make sure your address is correct before continuing!"
           format.json { render json: @order.errors, status: :unprocessable_entity }
         end
       else
         format.html { render action: 'customer_details_form' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
+
     end
   end
 
@@ -236,6 +243,14 @@ class OrdersController < ApplicationController
           @cart = session[:cart]
         else
           @cart = {}
+        end
+      end
+
+      def check_permitted_destinations(order)
+        order.order_units.each do |m|
+          country = m.order.country
+          sanitized_country = santize_country(country)
+          return false unless m.unit.product.user.default_permitted_destinations.any?{ |a| a.country.alpha_2_code == sanitized_country}
         end
       end
 

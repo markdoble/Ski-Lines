@@ -72,10 +72,12 @@
                    </p>
                   <%end%>
                 <%end%>
-                <% if @product.shipping_charge == 0 %>
-                <%else%>
-                <p>Save the shipping fee by picking up the product in person!</p>
+                <p>
+                  Shipping to:<br />
+                <% @product.user.default_permitted_destinations.each do |country| %>
+                   - <%= country.country.common_name %><br />
                 <%end%>
+               </p>
                   </div>
               </div>
           </div>

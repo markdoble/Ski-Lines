@@ -6,7 +6,7 @@ class Country < ActiveRecord::Base
   has_many :products, through: :permitted_destinations
 
   has_many :default_permitted_destinations
-  has_many :products, through: :default_permitted_destinations
+  has_many :users, through: :default_permitted_destinations
 
     def country_name
       "#{common_name}"

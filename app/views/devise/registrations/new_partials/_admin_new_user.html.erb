@@ -10,7 +10,8 @@
 					<h2>Create User:</h2>
 					</div>
 				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-				  <%= devise_error_messages! %>
+				  <div class="devise_error"><%= devise_error_messages! %>
+					</div>
 				  <div class="field">
 					  <div class="devise_label col-xs-12">
 				    <%= f.label :merchant_name, "Store Name", hidden: true %>
@@ -118,8 +119,10 @@
 				  <div class="devise_label col-xs-12">
 		  	    <%= f.label :user_return_policy, "Return Policy:", hidden: true  %>
 		  	    <%= f.text_area :user_return_policy, class: "form-control input-lg", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>7 %>
-						<%= f.hidden_field :domestic_shipping, value: "10.00" %>
-						<%= f.hidden_field :foreign_shipping, value: "15.00" %>
+						<%= f.hidden_field :cad_domestic_shipping, value: "10.00" %>
+						<%= f.hidden_field :cad_foreign_shipping, value: "15.00" %>
+						<%= f.hidden_field :usd_domestic_shipping, value: "10.00" %>
+						<%= f.hidden_field :usd_foreign_shipping, value: "15.00" %>
 						<br /><br />
 				  </div>
 			  </div>

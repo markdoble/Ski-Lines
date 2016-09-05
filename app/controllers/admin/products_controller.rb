@@ -12,44 +12,47 @@ class Admin::ProductsController < ApplicationController
 
   # Displays the index of all products for the current user
   def index
-    # Retrieve all of the producs that belong to the current user
-    @products = current_user.products.order("updated_at DESC")
+    if current_user.stripe_account_id.blank?
+      redirect_to admin_stripe_accounts_new_stripe_account_path
+    else
+      # Retrieve all of the producs that belong to the current user
+      @products = current_user.products.order("updated_at DESC")
 
-    # Check to see if we have a query parameter. This is used for the product search bar
-    if params[:query]
-      @products = @products.search(params[:query])
-    end
+      # Check to see if we have a query parameter. This is used for the product search bar
+      if params[:query]
+        @products = @products.search(params[:query])
+      end
 
-    # Check to see if we have a category id. This is used for the category dropdown filter
-    if params[:category_id]
-      @products = @products.category_specific(Category.find(params[:category_id]).descendents)
-    end
+      # Check to see if we have a category id. This is used for the category dropdown filter
+      if params[:category_id]
+        @products = @products.category_specific(Category.find(params[:category_id]).descendents)
+      end
 
-    # Paginate the products list
-    @products = @products.paginate(:page => params[:page],:per_page => 5)
+      # Paginate the products list
+      @products = @products.paginate(:page => params[:page],:per_page => 5)
 
-    # Retrieve the root categories to display in the caterogy filter dropdown
-    @root_categories = Category.where(parent_id: nil).order(:name)
+      # Retrieve the root categories to display in the caterogy filter dropdown
+      @root_categories = Category.where(parent_id: nil).order(:name)
 
-    # Check to see if a user has selected a specific view type
-    if params[:product_admin_view]
-      # A view was selected, set it in the session
-      session[:product_admin_view] = params[:product_admin_view]
-    end
+      # Check to see if a user has selected a specific view type
+      if params[:product_admin_view]
+        # A view was selected, set it in the session
+        session[:product_admin_view] = params[:product_admin_view]
+      end
 
-    # Check the session to see if a view type was selected, if not, load the detailed view by default
-    if session[:product_admin_view]
-      # A session value exists, load the correct view
-      if session[:product_admin_view] == "list"
-        render 'index_list'
+      # Check the session to see if a view type was selected, if not, load the detailed view by default
+      if session[:product_admin_view]
+        # A session value exists, load the correct view
+        if session[:product_admin_view] == "list"
+          render 'index_list'
+        else
+          render 'index'
+        end
       else
+        # A session value does not exist, load the default detailed view
         render 'index'
       end
-    else
-      # A session value does not exist, load the default detailed view
-      render 'index'
     end
-
   end
 
   # Will retrieve a single product to be displayed

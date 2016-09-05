@@ -1,34 +1,41 @@
+
 <% if @fields_needed.blank? %>
 <div class="col-xs-12" style="text-align:center;">
+  <br />
   <p>Your account is active!</p>
 </div>
 <%end%>
 <% if @transfers_enabled == false %>
   <% if @charges_enabled == true %>
-    <div class="col-xs-12">
+
+    <div class="terms col-xs-12">
+      <br />
       <p style="text-align:center;">Your account is currently active, and you are ready to sell!</p><br />
         <p>However, in order to remain active, and for us to transfer you your funds,
         the following information is required at some point in the near future:
       </p>
     </div>
   <%else%>
-    <div class="col-xs-12">
+  <br />
+    <div class="terms col-xs-12">
       <p>Your products are currently not for sale, and all charges have been disabled.</p>
       <p>In order to reactivate your account, the following information is required:</p>
     </div>
+    <br />
   <%end%>
-  <div class="col-xs-12 account_verification">
+  <div class="terms col-xs-12">
     <% @fields_needed.each do |f| %>
       <ul>
-        <li style="color:red;"><p><%= fields_needed_translate(f, @country) %></p></li>
+        <li><p><%= fields_needed_translate(f, @country) %></p></li>
       </ul>
     <%end%>
   </div>
 <%else%>
-  <div class="col-xs-12 account_verification">
+<br />
+  <div class="col-xs-12 terms">
     <% @fields_needed.each do |f| %>
       <ul>
-        <li style="color:red;"><p><%= fields_needed_translate(f, @country) %></p></li>
+        <li><p><%= fields_needed_translate(f, @country) %></p></li>
       </ul>
     <%end%>
   </div>

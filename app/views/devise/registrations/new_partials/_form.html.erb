@@ -10,7 +10,8 @@
 					<div class="merchant_form_headings col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					</div>
 				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-				  <%= devise_error_messages! %>
+				  <div class="devise_error"><%= devise_error_messages! %>
+					</div>
 					<div class="field col-xs-12">
 					  <div class="devise_label col-lg-3 col-md-3 col-sm-3 hidden-xs">
 				    <%= f.label :contact_first_name, "First Name:" %>

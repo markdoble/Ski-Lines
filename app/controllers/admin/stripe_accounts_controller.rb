@@ -149,7 +149,7 @@ class Admin::StripeAccountsController < ApplicationController
         user.update_attribute(:stripe_account_id, account.id)
         if terms_acceptance = params[:tos]
         update_stripe_attributes(user)
-        redirect_to admin_account_path
+        redirect_to admin_products_path
         flash[:notice] = "Congratulations! You have successfully created your Merchant Account!"
         else
           redirect_to admin_stripe_accounts_new_stripe_account_path

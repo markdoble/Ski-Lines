@@ -11,6 +11,12 @@
         <h1><%=current_user.merchant_name%></h1>
         <%= render :partial => 'status_account' %>
           <br />
+          <div class="terms col-xs-12">
+          <p>Sensitive personal details, such as identitification numbers and banking details, are never stored by Ski-Lines, nor will they ever appear on this page after you submit any of the forms below.
+            Any personal information we request gets sent directly to our payments provider, <%= link_to "Stripe", "https://www.stripe.com"%>, where it is securely stored.
+            <br /><br />
+          </p>
+        </div>
           <div class="row">
             <%= render :partial => 'update_account_form' %>
             <% if @personal_id_number_provided.blank? && @fields_needed.include?("legal_entity.personal_id_number") %>
