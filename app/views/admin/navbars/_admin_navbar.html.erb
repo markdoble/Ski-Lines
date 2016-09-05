@@ -5,7 +5,11 @@
 	   <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 			<ul class="nav navbar-nav hidden-xs">
-				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), shop_path %> </li>
+        <% if current_user.article_publisher? && !current_user.admin? %>
+				<li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), root_path %> </li>
+        <%else%>
+        <li><%= link_to image_tag('store_logo_bitmap.png', height:'25px'), shop_path %> </li>
+        <%end%>
         <% if current_user.merchant?  %>
         <li><%= link_to "MY ORDERS", admin_orders_path %> </li>
         <li><%= link_to "MY PRODUCTS", admin_products_path %> </li>

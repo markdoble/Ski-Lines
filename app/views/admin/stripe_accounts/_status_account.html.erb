@@ -8,7 +8,7 @@
 <% if @transfers_enabled == false %>
   <% if @charges_enabled == true %>
 
-    <div class="terms col-xs-12">
+    <div class="col-xs-12">
       <br />
       <p style="text-align:center;">Your account is currently active, and you are ready to sell!</p><br />
         <p>However, in order to remain active, and for us to transfer you your funds,
@@ -17,13 +17,13 @@
     </div>
   <%else%>
   <br />
-    <div class="terms col-xs-12">
+    <div class="col-xs-12">
       <p>Your products are currently not for sale, and all charges have been disabled.</p>
       <p>In order to reactivate your account, the following information is required:</p>
     </div>
     <br />
   <%end%>
-  <div class="terms col-xs-12">
+  <div class="col-xs-12">
     <% @fields_needed.each do |f| %>
       <ul>
         <li><p><%= fields_needed_translate(f, @country) %></p></li>
@@ -32,7 +32,7 @@
   </div>
 <%else%>
 <br />
-  <div class="col-xs-12 terms">
+  <div class="col-xs-12">
     <% @fields_needed.each do |f| %>
       <ul>
         <li><p><%= fields_needed_translate(f, @country) %></p></li>
