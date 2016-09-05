@@ -48,10 +48,13 @@
   <%
   # display the country flag currently used
   %>
+  <% if @prevent_change_to_country %>
+  <li><a><div class="navbarflag flag flag-<%=session[:site_country]%>"></div></a></li>
+  <%else%>
   <li class="cart">
     <a class="country_icon" href="#" data-toggle="modal" data-target="#country_select"><div class="navbarflag flag flag-<%=session[:site_country]%>"></div></a>
   </li>
-
+  <%end%>
   <%
   # display the currently logged in username
   if user_signed_in?

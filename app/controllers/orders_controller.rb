@@ -103,6 +103,7 @@ class OrdersController < ApplicationController
 
   def customer_details_form
     @order = Order.find_by_id(session[:order_session])
+    @prevent_change_to_country = true
     redirect_if_no_order_session_present
   end
 
@@ -137,6 +138,7 @@ class OrdersController < ApplicationController
 
   def payment_form
     @order = Order.find_by_id(session[:order_session])
+    @prevent_change_to_country = true
     redirect_if_no_order_session_present
   end
 
@@ -217,6 +219,7 @@ class OrdersController < ApplicationController
 
   def confirmation
     @order = Order.find_by_id(session[:order_confirmation_session])
+    @prevent_change_to_country = true
     if session[:create_order_confirmation_session]
       @create_order_confirmation_session = true
     else
@@ -353,10 +356,10 @@ class OrdersController < ApplicationController
             # update order_unit attributes
             f.update_attributes(
               :sales_tax_charged => sales_tax_charged,
-              :shipping_charged => total_shipping_fee
-              # :sub_total => order_unit_amount_less_tax_and_shipping
+              :shipping_charged => total_shipping_fee,
+              :sub_total => order_unit_amount_less_tax_and_shipping,
               # save the currency that is used for order.
-              # currency => currency_from_session_method
+              :currency => currency_session(session[:site_country])
             )
           end
         end
@@ -369,8 +372,8 @@ class OrdersController < ApplicationController
         order.update_attributes(
           :sales_tax => calculate_sales_tax(@order),
           :shipping => calculate_shipping(@order),
-          :amount => calculate_total_amount(@order)
-          # currency => currency_from_session_method
+          :amount => calculate_total_amount(@order),
+          :currency => currency_session(session[:site_country])
         )
       end
 
