@@ -122,4 +122,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Will return the correct currency string depending on the site country specified
+  # If a country does not belong to the select case, a blank string will be returned
+  def currency_session(site_country)
+    case site_country
+      when "ca"
+        "CAD"
+      when "us"
+        "USD"
+      else
+        ""
+    end
+  end
+
 end
