@@ -2,10 +2,13 @@
 <%= form_for @order, :url => create_customer_details_order_path(@order) do |f| %>
 <div class="col-lg-12 col-md-12 col-sm-12">
 <div class="row">
+  <div class="col-xs-12">
+    <br />
+  <h4><%= bootstrap_flash %></h4>
+  </div>
     <div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
     </div>
     <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12">
-      <br />
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <% if @order.errors.any? %><br />
           <div id="error_explanation" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -14,13 +17,11 @@
               <li><%= message %></li>
             <% end %>
             </ul>
-            <div class="braintree_errors">
-      			<h4><%= bootstrap_flash %></h4>
-      			</div>
           </div>
           <br />
         <% end %>
       </div>
+
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="order_form_headings"><h2>Customer Details:</h2></div>
       </div>

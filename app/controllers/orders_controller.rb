@@ -117,7 +117,7 @@ class OrdersController < ApplicationController
             format.html { redirect_to orders_payment_form_path(@order) }
             format.json { render json: @order }
           else
-            format.html { render action: 'index' }
+            format.html { redirect_to cart_path }
             flash[:error] = "One or more products cannot be shipped to your address. Please review your selections before continuing."
             format.json { render json: @order.errors, status: :unprocessable_entity }
           end
@@ -127,6 +127,7 @@ class OrdersController < ApplicationController
           format.json { render json: @order.errors, status: :unprocessable_entity }
         end
       else
+        flash[:error] = "Please make sure your address is correct before continuing!"
         format.html { render action: 'customer_details_form' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end

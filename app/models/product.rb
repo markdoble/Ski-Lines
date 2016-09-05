@@ -55,4 +55,8 @@ class Product < ActiveRecord::Base
   scope :query, ->(query) { where('name ilike :q', q: "%#{query}%") }
   scope :category_specific, -> (category_id) { joins(:product_categories).where("product_categories.category_id IN (?)", category_id) }
 
+  def currency_price
+    self[:price]
+  end
+
 end
