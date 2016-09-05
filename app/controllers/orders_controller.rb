@@ -210,7 +210,7 @@ class OrdersController < ApplicationController
       @order.update_attribute(:success, false)
       # redirect to the payment form page if charge fails
       redirect_to orders_payment_form_path(@order)
-      # flash the payment error message 
+      # flash the payment error message
       flash[:error] = e.message
     end
   end
@@ -326,10 +326,10 @@ class OrdersController < ApplicationController
             # if customer and merchant are in the same country
             if f.order.country == f.unit.product.user.country
               # apply the domestic shipping fee
-              shipping_fee_per_unit = f.unit.product.currency_domestic_shipping
+              shipping_fee_per_unit = f.unit.product.currency_domestic_shipping(session[:site_country])
             else
               # otherwise apply the foreign shipping fee
-              shipping_fee_per_unit = f.unit.product.currency_foreign_shipping
+              shipping_fee_per_unit = f.unit.product.currency_foreign_shipping(session[:site_country])
             end
             # determine is customer is picking up product in store
             delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
@@ -349,7 +349,7 @@ class OrdersController < ApplicationController
             return false
           else
             # shipping fee that is saved accounts for quantity.
-            order_unit_amount_less_tax_and_shipping = f.unit.product.currency_price*f.quantity
+            order_unit_amount_less_tax_and_shipping = f.unit.product.currency_price(session[:site_country])*f.quantity
             # update order_unit attributes
             f.update_attributes(
               :sales_tax_charged => sales_tax_charged,
@@ -410,7 +410,7 @@ class OrdersController < ApplicationController
         from_city = f.unit.product.user.city
         from_zip = f.unit.product.user.zip_postal
         shipping = (shipping_fee_per_unit*f.quantity)
-        amount = f.unit.product.currency_price*f.quantity
+        amount = f.unit.product.currency_price(session[:site_country])*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
@@ -439,7 +439,7 @@ class OrdersController < ApplicationController
         to_state = from_state
         to_city = from_city
         to_zip = from_zip
-        amount = f.unit.product.currency_price*f.quantity
+        amount = f.unit.product.currency_price(session[:site_country])*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,

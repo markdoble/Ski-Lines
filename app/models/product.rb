@@ -55,23 +55,59 @@ class Product < ActiveRecord::Base
   scope :query, ->(query) { where('name ilike :q', q: "%#{query}%") }
   scope :category_specific, -> (category_id) { joins(:product_categories).where("product_categories.category_id IN (?)", category_id) }
 
-  def currency_price
-    # temporary
-    self[:price]
+  # Will return the correct value depending on the site country specified
+  # If a product does not have a value in the given currency, the value of 0 will be returned
+  def currency_price(site_country)
+    # Execute the case statements for the country
+    case site_country
+      when "ca"
+        self[:cad_price].blank? ? 0 : self[:cad_price]
+      when "us"
+        self[:usd_price].blank? ? 0 : self[:usd_price]
+      else
+        0
+    end
   end
 
-  def currency_domestic_shipping
-    # temporary
-    self[:shipping_charge]
+  # Will return the correct value depending on the site country specified
+  # If a product does not have a value in the given currency, the value of 0 will be returned
+  def currency_domestic_shipping(site_country)
+    # Execute the case statements for the country
+    case site_country
+      when "ca"
+        self[:cad_domestic_shipping].blank? ? 0 : self[:cad_domestic_shipping]
+      when "us"
+        self[:usd_domestic_shipping].blank? ? 0 : self[:usd_domestic_shipping]
+      else
+        0
+    end
   end
 
-  def currency_foreign_shipping
-    # temporary
-    self[:shipping_charge]
+  # Will return the correct value depending on the site country specified
+  # If a product does not have a value in the given currency, the value of 0 will be returned
+  def currency_foreign_shipping(site_country)
+    # Execute the case statements for the country
+    case site_country
+      when "ca"
+        self[:cad_foreign_shipping].blank? ? 0 : self[:cad_foreign_shipping]
+      when "us"
+        self[:usd_foreign_shipping].blank? ? 0 : self[:usd_foreign_shipping]
+      else
+        0
+    end
   end
 
-  def currency_session
-    # return 'cad' or 'usd' depending on country session.
+  # Will return the correct currency string depending on the site country specified
+  # If a country does not belong to the select case, a blank string will be returned
+  def currency_session(site_country)
+    case site_country
+      when "ca"
+        "CAD"
+      when "us"
+        "USD"
+      else
+        ""
+    end
   end
 
 end

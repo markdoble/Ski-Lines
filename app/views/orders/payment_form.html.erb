@@ -27,7 +27,7 @@
       				<div class="order_show_product">
                 <%= image_tag(f.unit.product.photo.url(:thumb)) %><br />
       				<h5><%= f.unit.product.name %></h5>
-      				<%=number_to_currency(f.unit.product.currency_price, unit: '$') %><br />
+      				<%=number_to_currency(f.unit.product.currency_price(session[:site_country]), unit: '$') %><br />
               <% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
               <%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
               <%elsif (f.unit.size) == 'n/a' and (f.unit.colour != 'n/a') %>
