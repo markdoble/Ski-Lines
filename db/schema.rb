@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904203200) do
+ActiveRecord::Schema.define(version: 20160905163829) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,8 @@ ActiveRecord::Schema.define(version: 20160904203200) do
     t.datetime "updated_at"
     t.decimal  "sales_tax_charged", precision: 8, scale: 2
     t.decimal  "shipping_charged",  precision: 8, scale: 2
+    t.string   "currency"
+    t.decimal  "sub_total",         precision: 8, scale: 2
   end
 
   create_table "orders", force: :cascade do |t|
@@ -199,6 +201,7 @@ ActiveRecord::Schema.define(version: 20160904203200) do
     t.decimal  "shipping",                     precision: 8, scale: 2
     t.string   "transaction_id",   limit: 255
     t.boolean  "success"
+    t.string   "currency"
   end
 
   create_table "orders_products", id: false, force: :cascade do |t|
@@ -242,7 +245,7 @@ ActiveRecord::Schema.define(version: 20160904203200) do
     t.text     "description"
     t.boolean  "status"
     t.integer  "user_id"
-    t.decimal  "price",                             precision: 8, scale: 2
+    t.decimal  "price",                             precision: 8, scale: 2, default: 0.0
     t.string   "currency",              limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -253,8 +256,8 @@ ActiveRecord::Schema.define(version: 20160904203200) do
     t.decimal  "shipping_charge",                   precision: 8, scale: 2
     t.text     "size_details"
     t.text     "product_return_policy"
-    t.decimal  "usd_price",                         precision: 8, scale: 2
-    t.decimal  "cad_price",                         precision: 8, scale: 2
+    t.decimal  "usd_price",                         precision: 8, scale: 2, default: 0.0
+    t.decimal  "cad_price",                         precision: 8, scale: 2, default: 0.0
     t.string   "factory_sku"
     t.decimal  "cad_domestic_shipping",             precision: 8, scale: 2
     t.decimal  "cad_foreign_shipping",              precision: 8, scale: 2

@@ -14,8 +14,8 @@
 						<div id="product_shipping" data-shipping="<%= p.shipping_charge %>" class="product_name">
 							<h3><%= p.name %></h3>
 						</div>
-						<div id="product_price" data-price="<%= p.price %>" class="product_price">
-								<h4 > <%= number_to_currency(p.price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
+						<div id="product_price" data-price="<%= p.currency_price %>" class="product_price">
+								<h4 > <%= number_to_currency(p.currency_price, unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
 						</div>
 						<div class="contact_merchant">
 	            <p>

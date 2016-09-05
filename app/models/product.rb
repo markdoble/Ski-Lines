@@ -56,7 +56,22 @@ class Product < ActiveRecord::Base
   scope :category_specific, -> (category_id) { joins(:product_categories).where("product_categories.category_id IN (?)", category_id) }
 
   def currency_price
+    # temporary
     self[:price]
+  end
+
+  def currency_domestic_shipping
+    # temporary
+    self[:shipping_charge]
+  end
+
+  def currency_foreign_shipping
+    # temporary
+    self[:shipping_charge]
+  end
+
+  def currency_session
+    # return 'cad' or 'usd' depending on country session.
   end
 
 end

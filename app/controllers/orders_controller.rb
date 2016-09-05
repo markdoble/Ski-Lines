@@ -142,27 +142,43 @@ class OrdersController < ApplicationController
 
   def create_payment
     @order = Order.find_by_id(session[:order_session])
+    # receive token from client side Stripe
     token = params[:stripeToken]
     begin
-      # create customer
+      # create customer to be used in charge in order_units loop below
       customer = Stripe::Customer.create(
         :card => token,
         :email => @order.cust_email
       )
-
-      # authorize payment for each unit (order_unit * quantity)
-      charge_key = []
+      # authorize payment for each unit before capturing payments
+      # initialize empty array of charges
+      array_of_charges = []
+      # loop through each order_unit, and charge each individually
       @order.order_units.where.not(quantity: 0).each do |f|
-        amount_in_dollars = ((f.unit.product.price*f.quantity)+f.sales_tax_charged+f.shipping_charged)*100
-        amount_in_cents = amount_in_dollars.to_s.split(".")[0].to_i
-        amount_less_tax = ((f.unit.product.price*f.quantity)+f.shipping_charged)*100
-        currency = f.unit.product.currency
+        # calculate amount in cents
+        amount_times_one_hundred = (f.sub_total+f.sales_tax_charged+f.shipping_charged)*100
+        # remove decimal and everything after the decimal to calculate amount_in_cents
+        amount_in_cents = amount_times_one_hundred.to_s.split(".")[0].to_i
+        # calculate amount not including tax for calculation of application_fee
+        amount_less_tax_times_one_hundred = (f.sub_total+f.shipping_charged)*100
+        # remove decimal and everything after
+        amount_less_tax_in_cents = amount_less_tax_times_one_hundred.to_s.split(".")[0].to_i
+        # calculate platform "commission" fee
+        platform_fee = amount_less_tax_in_cents*0.0645
+        # calculate fee for payment processing
+        payment_processing_fee = amount_in_cents*0.034
+        # summ the fees to calculate application_fee sent to Stripe
+        application_fee = platform_fee+payment_processing_fee
+        # get currency from order_units
+        currency = f.currency
+        # add description to appear con credit card statement
         description = "Ski-Lines" + "-" + f.unit.product.name
-        # need unique identifier for each charge
+        # merchant stripe account id to charge to
         merchant_stripe_account = f.unit.product.user.stripe_account_id
-        application_fee = (amount_in_cents*0.0985).to_s.split(".")[0].to_i
-        charge_key << Stripe::Charge.create(
-          :amount => amount_in_cents, # amount in cents
+        # create array of charges to for later capture.
+        # Need to know all charges will pass first before capturing them
+        array_of_charges << Stripe::Charge.create(
+          :amount => amount_in_cents,
           :currency => currency,
           :customer => customer.id,
           :description => description,
@@ -171,23 +187,30 @@ class OrdersController < ApplicationController
           :application_fee => application_fee
         )
       end
-      # capture all charges if all authorized. if even one does not authorize, refund all
-      charge_key.each do |f|
+      # capture each charge if all authorized. if even one does not authorize, refund all
+      array_of_charges.each do |f|
         Stripe::Charge.retrieve(f.id).capture
       end
+      # update the transaction_id on order with Stripe customer id
       @order.update_attributes(transaction_id: customer.id)
+      # create successful order session
       create_order_confirmation_session
+      # update the success attribute on order to true, indicating successful order complete
       @order.update_attribute(:success, true)
+      # update the inventory refective of order quantities
+      update_inventory(@order)
+      # send order emails
+      order_emails(@order)
+      # delete cart session
       session.delete(:cart)
+      # redirect to successful order confirmation page
       redirect_to orders_confirmation_path(@order)
-
-      # refund order if not authorized
-       update_inventory(@order)
-       order_emails(@order)
     rescue Stripe::CardError => e
-      # The card has been declined
+      # The card/charge has been declined
       @order.update_attribute(:success, false)
+      # redirect to the payment form page if charge fails
       redirect_to orders_payment_form_path(@order)
+      # flash the payment error message 
       flash[:error] = e.message
     end
   end
@@ -300,29 +323,40 @@ class OrdersController < ApplicationController
       def update_order_units_attributes(order)
         order.order_units.where.not(quantity: 0).each do |f|
           begin
+            # if customer and merchant are in the same country
             if f.order.country == f.unit.product.user.country
-              customs_handling_factor = 1
+              # apply the domestic shipping fee
+              shipping_fee_per_unit = f.unit.product.currency_domestic_shipping
             else
-              customs_handling_factor = 1.5
+              # otherwise apply the foreign shipping fee
+              shipping_fee_per_unit = f.unit.product.currency_foreign_shipping
             end
+            # determine is customer is picking up product in store
             delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
             case delivery_method
             when "Standard Shipping"
-              shipping_fee = f.unit.product.shipping_charge*f.quantity
-              sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
+              # when customer requests shipping
+              total_shipping_fee = shipping_fee_per_unit*f.quantity
+              # calculate sales tax with shipping
+              sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, shipping_fee_per_unit)
             else
-              shipping_fee = 0
+              # when customer is picking up product in store
+              total_shipping_fee = 0
+              # calculate sales tax without shipping
               sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
             end
           rescue => e
             return false
-            # this error is not getting added for some reason. the rescue works, but error message not displayed.
-            f.order.errors.add(:base, "please make sure your address is correct.")
           else
-            shipping_charged = (shipping_fee*customs_handling_factor)
+            # shipping fee that is saved accounts for quantity.
+            order_unit_amount_less_tax_and_shipping = f.unit.product.currency_price*f.quantity
+            # update order_unit attributes
             f.update_attributes(
               :sales_tax_charged => sales_tax_charged,
-              :shipping_charged => shipping_charged
+              :shipping_charged => total_shipping_fee
+              # :sub_total => order_unit_amount_less_tax_and_shipping
+              # save the currency that is used for order.
+              # currency => currency_from_session_method
             )
           end
         end
@@ -330,17 +364,20 @@ class OrdersController < ApplicationController
       end
 
       def update_order_attributes(order)
+        # update order with tax, shipping, and total
+        # save the currency that is used for order, using same method as above.
         order.update_attributes(
           :sales_tax => calculate_sales_tax(@order),
           :shipping => calculate_shipping(@order),
           :amount => calculate_total_amount(@order)
+          # currency => currency_from_session_method
         )
       end
 
       def calculate_total_amount(order)
         total = 0
         order.order_units.where.not(quantity: 0).each do |p|
-          total += (p.unit.product.price*p.quantity)+p.shipping_charged+p.sales_tax_charged
+          total += (p.sub_total)+p.shipping_charged+p.sales_tax_charged
         end
         total
       end
@@ -361,7 +398,7 @@ class OrdersController < ApplicationController
         sales_tax_total
       end
 
-      def tax_jar_sales_tax_request_for_delivery(f, customs_handling_factor)
+      def tax_jar_sales_tax_request_for_delivery(f, shipping_fee_per_unit)
         require 'taxjar'
         client = Taxjar::Client.new(api_key: ENV['TAXJAR_APIKEY'])
         to_country = f.order.country
@@ -372,8 +409,8 @@ class OrdersController < ApplicationController
         from_state = f.unit.product.user.state_prov
         from_city = f.unit.product.user.city
         from_zip = f.unit.product.user.zip_postal
-        shipping = (customs_handling_factor*f.unit.product.shipping_charge*f.quantity)
-        amount = f.unit.product.price*f.quantity
+        shipping = (shipping_fee_per_unit*f.quantity)
+        amount = f.unit.product.currency_price*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
@@ -402,7 +439,7 @@ class OrdersController < ApplicationController
         to_state = from_state
         to_city = from_city
         to_zip = from_zip
-        amount = f.unit.product.price*f.quantity
+        amount = f.unit.product.currency_price*f.quantity
         taxjar_result = client.tax_for_order({
             :to_country => santize_country(to_country),
             :to_city => to_city,
