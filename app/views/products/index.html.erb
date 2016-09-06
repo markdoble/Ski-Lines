@@ -27,7 +27,7 @@
 		<h4><%=root_category.name%></h4>
 		<div class="row">
 			<%
-			Product.category_specific(root_category.descendents).active_products.index_products.each do |product|
+			Product.category_specific(root_category.descendents).active_products.index_products.country_specific(session[:site_country]).each do |product|
 				%>
 				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					<%= render :partial => "products/product", :locals => {:product => product} %>

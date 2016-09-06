@@ -55,6 +55,8 @@ class Product < ActiveRecord::Base
   scope :query, ->(query) { where('name ilike :q', q: "%#{query}%") }
   scope :category_specific, -> (category_id) { joins(:product_categories).where("product_categories.category_id IN (?)", category_id) }
 
+  scope :country_specific, -> (site_country) { where("('ca' = ? AND cad_price > 0) OR ('us' = ? AND usd_price > 0)", site_country, site_country) }
+
   # Will return the correct value depending on the site country specified
   # If a product does not have a value in the given currency, the value of 0 will be returned
   def currency_price(site_country)
