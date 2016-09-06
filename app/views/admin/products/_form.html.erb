@@ -80,63 +80,83 @@
 			 <!-- Pricing and permitted destinations -->
 			 <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				 <div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+          <div class="currency_pricing_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
               <label>Currency:</label>
-              <% if current_user.country == 'Canada' %>
+
               <div style="padding-top:5px;">
-                <div class="navbarflag flag flag-ca">
+                <div class="navbarflag flag flag-us">
                 </div>
               </div>
-              <% elsif current_user.country == 'United States of America' %>
-              <div class="navbarflag flag flag-us">
-              </div>
-              <%end%>
+
             </div>
               <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                  <% if current_user.country == 'Canada' %>
-                  <%= f.label :cad_price, "Price (in CAD):"%><br />
-                  <%= f.text_field :cad_price, class: "form-control", placeholder: "Price" %>
-                  <% elsif current_user.country == 'United States of America' %>
+
                   <%= f.label :usd_price, "Price (in USD):"%><br />
                   <%= f.text_field :usd_price, class: "form-control", placeholder: "Price" %>
-                  <%end%>
+
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <% if current_user.country == 'Canada' %>
-                  <%= f.label :cad_domestic_shipping, "Domestic Shipping (in CAD):"%><br />
-                  <% if f.object.cad_domestic_shipping.nil? %>
-                  <%= f.text_field :cad_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_domestic_shipping, :precision => 2) || 0) %>
-                  <%else%>
-                  <%= f.text_field :cad_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.cad_domestic_shipping, :precision => 2) || 0) %>
-                  <%end%>
-                <% elsif current_user.country == 'United States of America' %>
+
                   <%= f.label :usd_domestic_shipping, "Domestic Shipping (in USD):"%><br />
                   <% if f.object.usd_domestic_shipping.nil? %>
                   <%= f.text_field :usd_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.usd_domestic_shipping, :precision => 2) || 0) %>
                   <%else%>
-                  <%= f.text_field :usd_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.usd_domestic_shipping, :precision => 2) || 0) %>
+                  <%= f.text_field :usd_domestic_shipping, class: "form-control", placeholder: "Price" %>
                   <%end%>
-                <%end%>
+
               </div>
               <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <% if current_user.country == 'Canada' %>
-                  <%= f.label :cad_foreign_shipping, "Int'l Shipping (in CAD):"%><br />
-                  <% if f.object.cad_foreign_shipping.nil? %>
-                  <%= f.text_field :cad_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_foreign_shipping, :precision => 2) || 0) %>
-                  <%else%>
-                  <%= f.text_field :cad_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.cad_foreign_shipping, :precision => 2) || 0) %>
-                  <%end%>
-                <% elsif current_user.country == 'United States of America' %>
+
                   <%= f.label :usd_foreign_shipping, "Int'l Shipping (in USD):"%><br />
                   <% if f.object.usd_foreign_shipping.nil? %>
                   <%= f.text_field :usd_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.usd_foreign_shipping, :precision => 2) || 0) %>
                   <%else%>
-                  <%= f.text_field :usd_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(f.object.usd_foreign_shipping, :precision => 2) || 0) %>
+                  <%= f.text_field :usd_foreign_shipping, class: "form-control", placeholder: "Price" %>
                   <%end%>
-                <%end%>
+
               </div>
 					</div>
+          <div class="currency_pricing_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <br /><br />
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label>Currency:</label>
+
+              <div style="padding-top:5px;">
+                <div class="navbarflag flag flag-ca">
+                </div>
+              </div>
+
+            </div>
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+
+                  <%= f.label :cad_price, "Price (in CAD):"%><br />
+                  <%= f.text_field :cad_price, class: "form-control", placeholder: "Price" %>
+
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                  <%= f.label :cad_domestic_shipping, "Domestic Shipping (in CAD):"%><br />
+                  <% if f.object.cad_domestic_shipping.nil? %>
+                  <%= f.text_field :cad_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_domestic_shipping, :precision => 2) || 0) %>
+                  <%else%>
+                  <%= f.text_field :cad_domestic_shipping, class: "form-control", placeholder: "Price" %>
+                  <%end%>
+
+              </div>
+              <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                  <%= f.label :cad_foreign_shipping, "Int'l Shipping (in CAD):"%><br />
+                  <% if f.object.cad_foreign_shipping.nil? %>
+                  <%= f.text_field :cad_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_foreign_shipping, :precision => 2) || 0) %>
+                  <%else%>
+                  <%= f.text_field :cad_foreign_shipping, class: "form-control", placeholder: "Price" %>
+                  <%end%>
+
+              </div>
+					</div>
+
 				 </div>
 			 </div>
 			 <!-- Addiitonal Product Photos -->

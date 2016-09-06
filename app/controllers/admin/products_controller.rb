@@ -198,8 +198,10 @@ class Admin::ProductsController < ApplicationController
         :shipping_charge,
         :product_return_policy,
         :category_id,
-        :domestic_shipping,
-        :foreign_shipping,
+        :cad_domestic_shipping,
+        :cad_foreign_shipping,
+        :usd_domestic_shipping,
+        :usd_foreign_shipping,
         :factory_sku,
         :units_attributes => [
           :id,

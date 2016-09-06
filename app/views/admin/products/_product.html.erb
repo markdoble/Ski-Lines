@@ -12,6 +12,7 @@
 			<% if product.usd_price > 0 %>
 			<p><strong>Price in USD:</strong> <%=number_to_currency(product.usd_price, precision: 2)%></p>
 			<%end%>
+			<br />
 			<% unless product.size_details.blank?%>
 			<div class="row sizing_information col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<a class="size_details_button">
