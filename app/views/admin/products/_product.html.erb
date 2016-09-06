@@ -1,52 +1,41 @@
-	<div class="admin_products">	
+	<div class="admin_products">
 		<div class="row">
-	
 			<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12">
 				<%= image_tag product.photo.url(:large), class: "img-responsive", width:"100%" %>
-				
-				
-				
 			</div>
-	
 			<div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
 			<h3><%=product.name%></h3>
-	
 			<p><%=product.description%></p><br />
-			<p><strong>Price:</strong> <%=number_to_currency(product.price, precision: 2)%></p>
-			<p><strong>Shipping Charge:</strong> <%=number_to_currency(product.shipping_charge, precision: 2)%></p><br />
+			<% if product.cad_price > 0 %>
+			<p><strong>Price in CAD:</strong> <%=number_to_currency(product.cad_price, precision: 2)%></p>
+			<%end%>
+			<% if product.usd_price > 0 %>
+			<p><strong>Price in USD:</strong> <%=number_to_currency(product.usd_price, precision: 2)%></p>
+			<%end%>
 			<% unless product.size_details.blank?%>
 			<div class="row sizing_information col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				
 				<a class="size_details_button">
 					<b>Sizing Information</b>
 				</a>
 				<div class="size_details">
 				<%= simple_format(product.size_details) %>
 				</div>
-				
 			</div>
-			
 			<%end%>
-	   		
-			<% total_units = 0 %> 
+			<% total_units = 0 %>
 			<% total_units_sold = 0 %>
-			
 			<% product.units.each do |t|%>
 				<% total_units += t.quantity  %>
 				<% total_units_sold += t.quantity_sold %>
 			<%end%>
-			
 			 <% if (total_units + total_units_sold) != 0 %>
 	  		<strong>Inventory:</strong><br />
 		  		<% product.units.each do |u| %>
-			   		 
 				<p> <%unless u.size == "n/a" %><%= u.size %><%end%><%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold) </p>
-					 
 		  		  <%end%>
 	   		   <%else%>
 	   		 <p><strong>Currently no inventory or units sold.</strong></p>
 	   		 <%end%>
-	 
 	  		  <% if (total_units + total_units_sold) != 0 %>
 	  		 <p><%= link_to 'Manage Inventory', admin_product_path(product)%></p>
 	  			 <%else%>
@@ -59,36 +48,25 @@
 				   <%else%>
 	           &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-	   
-			   
 			    <% if total_units != 0 %>
-	   
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
-	   
 			   <%else%><br />
-	   
 			   <p><strong>You must add inventory before you can start selling.</strong></p>
 			   <%end%>
-  	
 			<div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<br /> <br />
 				<%if product.productfotos.any?%>
 				<b>More Photos:</b>
-				
 				<div class="row">
 					<% product.productfotos.each do |ph| %>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">	
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="image_frame" style="height:100px">
-							
 							<a class="fancybox fancybox.image" rel="<%=ph.product.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
-							
 						</div>
 					</div>
 					<%end%>
 				</div>
 				<%end%>
 			</div>
-	
-	
 			</div>
 		</div>

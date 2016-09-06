@@ -170,7 +170,7 @@ class OrdersController < ApplicationController
         # calculate fee for payment processing
         payment_processing_fee = amount_in_cents*0.034
         # summ the fees to calculate application_fee sent to Stripe
-        application_fee = platform_fee+payment_processing_fee
+        application_fee = (platform_fee+payment_processing_fee).to_s.split(".")[0].to_i
         # get currency from order_units
         currency = f.currency
         # add description to appear con credit card statement
