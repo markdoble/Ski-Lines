@@ -31,6 +31,19 @@ class Admin::ProductsController < ApplicationController
       # Paginate the products list
       @products = @products.paginate(:page => params[:page],:per_page => 5)
 
+      # list view products
+      @list_view_products = current_user.products.order("updated_at DESC")
+
+      # Check to see if we have a category id. This is used for the category dropdown filter
+      if params[:category_id]
+        @list_view_products = @list_view_products.category_specific(Category.find(params[:category_id]).descendents)
+      end
+
+      # Check to see if we have a query parameter. This is used for the product search bar on list view
+      if params[:query]
+          @list_view_products = @list_view_products.search(params[:query])
+      end
+
       # Retrieve the root categories to display in the caterogy filter dropdown
       @root_categories = Category.where(parent_id: nil).order(:name)
 

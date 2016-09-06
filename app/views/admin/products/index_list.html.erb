@@ -76,14 +76,14 @@
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Shipping Charge</th>
-            <th>Total Units in Stock</th>
-            <th>Total Units Sold</th>
+            <th>Stock</th>
+            <th>Sold</th>
+            <th>Status</th>
             <th colspan="2">Options</th>
           </tr>
   		    <%
           row_class = "even"
-          @products.each do |product|
+          @list_view_products.each do |product|
             # Calculate the total units and total units sold
             total_units = 0
       			total_units_sold = 0
@@ -103,9 +103,9 @@
                 CAD: <%=number_to_currency(product.cad_price, precision: 2)%>
                 <%end%>
               </td>
-              <td><%=number_to_currency(product.shipping_charge, precision: 2)%></td>
               <td><%=total_units%></td>
               <td><%=total_units_sold%></td>
+              <td><% if product.status %>Active<%else%>Not For Sale<%end%></td>
               <td><%=link_to 'Edit', edit_admin_product_path(product)%></td>
               <td>
                 <%
