@@ -21,6 +21,9 @@ class ProductsController < ApplicationController
     # Retrieve all of the active products
     @products = Product.active_products
 
+    # Scope the products to only display the ones available based on country selection
+    @products = @products.country_specific(session[:site_country])
+
     # Check to see if we have to display a filtered list
     if !params[:category_id].nil?
       # A category filter exists, we will further filter the products
@@ -51,6 +54,9 @@ class ProductsController < ApplicationController
     if @user.respond_to? :products
       # We have products to list. We will gather all of the acitve products for that merchant
       @products = @user.products.active_products
+
+      # Scope the products to only display the ones available based on country selection
+      @products = @products.country_specific(session[:site_country])
 
       # Check to see if we have to display a filtered list
       if !params[:category_id].nil?

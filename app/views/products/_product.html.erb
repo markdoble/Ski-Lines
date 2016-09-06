@@ -3,7 +3,7 @@
 			<%= image_tag(product.photo.url(:medium), class:"img-responsive", width:"100%") %>
 		<div class="product_text">
 			<h3><%= product.name %></h3>
-			<p><b><%=number_to_currency(product.price, precision: 2)%></b></p>
+			<p><b><%=number_to_currency(product.currency_price(session[:site_country]), precision: 2)%></b></p>
 			<p class="product_merchant_name"><%= product.user.merchant_name %></p>
 		</div>
 	</a>
