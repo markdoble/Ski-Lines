@@ -15,7 +15,7 @@
 							<h3><%= p.name %></h3>
 						</div>
 						<div id="product_price" data-price="<%= p.currency_price(session[:site_country]) %>" class="product_price">
-								<h4 > <%= number_to_currency(p.currency_price(session[:site_country]), unit: '$') %> <span><%= image_tag("can_flag.png", height: "15px", style: "padding-bottom:3px")%> </span></h4>
+								<h4 > <%= number_to_currency(p.currency_price(session[:site_country]), unit: '$') %></h4>
 						</div>
 						<div class="contact_merchant">
 	            <p>
@@ -28,7 +28,7 @@
 						<div id="tax_rate" data-tax="<%= p.user.sales_tax %>">
 						</div>
 					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="product_tabs col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div id="content">
 						    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 	 				           <li class="active"><a data-toggle="tab" href='#<%= p.id%>A'>Merchant</a></li>

@@ -8,11 +8,14 @@
 			<ul>
 				<li><%=link_to "TERMS OF SERVICE", infos_terms_path %></li>
 				<li><%= link_to "CONTACT", "mailto:store@ski-lines.com?Subject=Inquiry" %></li>
-				<li><%= link_to "RETURNS", infos_terms_path %></li>
 				<li><%= link_to "PURCHASE INFO", infos_terms_path %></li>
 				<li><%= link_to "ABOUT", infos_about_path %></li>
-				<li><%= link_to "JOIN SKI-LINES", new_team_path %></li>
+				<li><%= link_to "WE'RE HIRING!", new_team_path %></li>
+				<% if user_signed_in? %>
+					<% if current_user.merchant? %>
 				<li><%= link_to "MY STORE", admin_products_path%></li>
+					<%end%>
+				<%end%>
 			</ul>
 		</div>
 
