@@ -151,10 +151,28 @@
   						  	    <%= f.text_area :user_return_policy, class: "form-control", value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense.", :rows=>3 %><br />
   								  </div>
   						  	  </div>
-                    <% if current_user.country == "Canada" %>
+                    <div class="field col-xs-12">
+                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <label>Default Shipping Prices:</label>
+                      </div>
+                      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                      </div>
+                    </div>
+
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    						  	    <%= f.label :cad_domestic_shipping, "Domestic Shipping:"  %>
+                      <div class="devise_label col-xs-3">
+                        <label>Currency:</label>
+                      </div>
+                      <div class="col-xs-9">
+                        <div style="padding-top:5px;">
+                          <div class="navbarflag flag flag-ca">
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+
+                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    						  	    <%= f.label :cad_domestic_shipping, "Domestic:"  %>
     								  </div>
     								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row">
@@ -167,9 +185,10 @@
                         </div>
     								  </div>
   						  	  </div>
+
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    						  	    <%= f.label :cad_foreign_shipping, "Int'l Shipping:"  %>
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-6">
+    						  	    <%= f.label :cad_foreign_shipping, "International:"  %>
     								  </div>
     								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row">
@@ -182,10 +201,21 @@
                       </div>
   						  	  </div>
                   </div>
-                    <% elsif current_user.country == "United States of America" %>
+
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="devise_label col-xs-3">
+                        <label>Currency:</label>
+                      </div>
+                      <div class="col-xs-9">
+                        <div style="padding-top:5px;">
+                          <div class="navbarflag flag flag-us">
+                          </div>
+                        </div>
+                        <br />
+                      </div>
+
     								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    						  	    <%= f.label :usd_domestic_shipping, "Domestic Shipping:"  %>
+    						  	    <%= f.label :usd_domestic_shipping, "Domestic:"  %>
     								  </div>
     								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row">
@@ -200,7 +230,7 @@
   						  	  </div>
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
     								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    						  	    <%= f.label :usd_foreign_shipping, "Int'l Shipping:"  %>
+    						  	    <%= f.label :usd_foreign_shipping, "International:"  %>
     								  </div>
     								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row">
@@ -213,10 +243,10 @@
                         </div>
                       </div>
   						  	  </div>
-                    <%end%>
+                
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
     								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-    						  	    <%= f.label "Shipping:"  %>
+    						  	    <%= f.label "Shipping to:"  %>
     								  </div>
     								  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9" style="padding-top:10px;">
                         <p><i>Select the regions you are willing to ship to:</i></p>
