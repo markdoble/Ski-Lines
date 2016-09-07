@@ -96,10 +96,10 @@
               <td><%=product.id%></td>
               <td><%=product.name%></td>
               <td>
-                <% if product.usd_price > 0 %>
+                <% if !product.usd_price.blank? && product.usd_price > 0 %>
                 USD: <%=number_to_currency(product.usd_price, precision: 2)%><br />
                 <% end %>
-                <% if product.cad_price > 0 %>
+                <% if !product.cad_price.blank? && product.cad_price > 0 %>
                 CAD: <%=number_to_currency(product.cad_price, precision: 2)%>
                 <%end%>
               </td>
@@ -112,9 +112,10 @@
                 if total_units_sold != 0
                   %>&nbsp;<%
                 else
-                  %><%=link_to admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%></td><%
+                  %><%=link_to admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%><%
                 end
                 %>
+              </td>
             <tr>
             <%
             if row_class == "even"

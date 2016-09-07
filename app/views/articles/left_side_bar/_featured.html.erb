@@ -23,11 +23,13 @@ $(document).ready(function(){
 <div class="left_side">
 	<div class="featured_headlines">
 			<h4 class="feature_heading"><span class="glyphicon glyphicon-tags" ></span>Featured Stories</h4>
-			<% @featured_articles.each do |article| %>
-				<% if article.notes == "Featured" %>
-		 		<%= render :partial => "articles/left_side_bar/f_standard", :locals => {:article => article} %>
-				<%else%>
-				<%end%>
-				<%end%>
+			<%
+			if !@featured_articles.blank?
+				@featured_articles.each do |article| %>
+					<% if article.notes == "Featured" %>
+		 				<%= render :partial => "articles/left_side_bar/f_standard", :locals => {:article => article} %>
+					<%end%>
+			 <%end%>
+		 <%end%>
 	</div>
 </div>

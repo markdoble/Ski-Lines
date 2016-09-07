@@ -133,7 +133,7 @@ class Admin::ProductsController < ApplicationController
         if !params[:category].nil?
           @category = Category.find(params[:category][:id])
             # Check to see if we have product_categories to update
-           if @product.product_categories.exists?(@category.id)
+           if @product.product_categories.exists?
              @product.product_categories.update_all(category_id: @category.id)
            else
              @product.product_categories.create(category: @category)

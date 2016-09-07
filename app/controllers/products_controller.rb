@@ -21,6 +21,11 @@ class ProductsController < ApplicationController
     # Retrieve all of the active products
     @products = Product.active_products
 
+    # Check to see if we have a query parameter. This is used for the product search bar
+    if params[:query]
+      @products = @products.search(params[:query])
+    end
+
     # Scope the products to only display the ones available based on country selection
     @products = @products.country_specific(session[:site_country])
 

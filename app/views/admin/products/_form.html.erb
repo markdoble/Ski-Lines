@@ -18,7 +18,7 @@
 					<%= f.hidden_field :user_id, :value => current_user.id %>
 					<%= f.hidden_field :status, :value => "false"%>
 					<%= f.label :name, "Product Name:", hidden: true %>
-					<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name", autofocus: true %>
+					<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name", autofocus: !@product.persisted? %>
 					</div>
 				</div>
 			</div>
@@ -192,7 +192,13 @@
 	      <div class="row">
 	      	<div class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	             <div class="actions">
-	             <%= f.submit "ADD PRODUCT", class: "btn btn-large btn-primary purchase_button" %>
+                 <%
+                 if @product.persisted?
+                   %><%= f.submit "EDIT PRODUCT", class: "btn btn-large btn-primary purchase_button" %><%
+                 else
+                   %><%= f.submit "ADD PRODUCT", class: "btn btn-large btn-primary purchase_button" %><%
+                 end
+	               %>
 	             </div>
 	      	</div>
 	      </div>
