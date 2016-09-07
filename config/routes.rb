@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     get 'products/hard_goods'
     get 'products/clothing'
     get 'products/waxing'
+    get 'products/new_import'
     get 'products/accessories'
     get 'all_orders/merchants'
     get 'all_orders/rep'
@@ -109,7 +110,9 @@ Rails.application.routes.draw do
     get 'create_account' => "stripe_accounts#create_account"
     get 'stripe_accounts/new_stripe_account'
 
-    resources :products
+    resources :products do
+      collection { post :import }
+    end
     resources :articles, :except => [:show]
     resources :all_orders
     resources :orders

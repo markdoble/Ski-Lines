@@ -3,7 +3,7 @@ class Admin::ProductsController < ApplicationController
   layout "store_merchant_layout"
 
   # Define the before_action elements
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :import]
   before_action :authenticate_user!
   before_action :verify_is_merchant
 
@@ -71,6 +71,16 @@ class Admin::ProductsController < ApplicationController
   # Will retrieve a single product to be displayed
   def show
     @product = Product.find(params[:id])
+  end
+
+  # CSV upload to this action
+  def import
+    begin
+      Product.import(params[:file])
+      redirect_to admin_products_url, notice: "Products successfully imported."
+    rescue
+      redirect_to admin_products_url, notice: "Products successfully imported."
+    end
   end
 
   # Setup for the creation of a new product
