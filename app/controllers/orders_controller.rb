@@ -58,7 +58,21 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
+
+
+      # initialize empty array
+      @products_without_currency = []
+      # loop through the array of products in the cart
+      @cart.each do |f|
+        # find the product based on cart value
+        product = Product.find_by_id(f)
+        # skip loop if the product price for that currency is not 0
+        next unless product.currency_price(session[:site_country]) == 0
+        # when currency price for that product is 0, add that product to the array
+        @products_without_currency << product.id
+      end
     
+
     if @cart.empty?
       @nofooter = true
     end

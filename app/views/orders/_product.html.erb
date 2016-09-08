@@ -14,9 +14,17 @@
 						<div id="product_shipping" data-shipping="<%= p.shipping_charge %>" class="product_name">
 							<h3><%= p.name %></h3>
 						</div>
+						<% if p.currency_price(session[:site_country]) == 0 %>
+						<% disabled_checker = true %>
+						<div id="product_price" data-price="<%= p.currency_price(session[:site_country]) %>" class="product_price">
+								<h4>Not Available! <br />Remove from cart to continue.</h4>
+						</div>
+						<%else%>
+						<% disabled_checker = false %>
 						<div id="product_price" data-price="<%= p.currency_price(session[:site_country]) %>" class="product_price">
 								<h4 > <%= number_to_currency(p.currency_price(session[:site_country]), unit: '$') %></h4>
 						</div>
+						<%end%>
 						<div class="contact_merchant">
 	            <p>
 	              <a href="<%= new_conversation_path(product_id: p.id) %>">
@@ -114,7 +122,7 @@
 											<%end%>
 											</div>
 											<div class="right cart_data col-lg-4 col-md-4 col-sm-4 col-xs-6" id="unit_size" data-size="<%= u.size %>" data-colour="<%= u.colour %>">
-											<%= ff.select :quantity, (0..u.quantity), {}, {class: "quantity_for_sum", "data-unit" => u.id} %>
+											<%= ff.select :quantity, (0..u.quantity), {}, {class: "quantity_for_sum", "data-unit" => u.id, disabled: disabled_checker} %>
 											<%= ff.hidden_field :unit_id, :value => u.id %>
 											</div>
 										</div>
