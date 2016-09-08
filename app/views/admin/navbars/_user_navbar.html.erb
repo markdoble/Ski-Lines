@@ -20,6 +20,7 @@
       # display different links based on the sign-in status of the user
       if user_signed_in?
         %>
+        <li><%= link_to "My Profile", edit_user_registration_path %></li>
         <%if current_user.merchant?%>
         <li><%= link_to "My Store", admin_products_path %></li>
         <li><%= link_to "Account", admin_account_path %></li>
@@ -30,7 +31,7 @@
         <% if current_user.article_publisher? %>
           <li><%= link_to "Update", update_path %></li>
         <%end%>
-        <li><%= link_to "Profile", edit_user_registration_path %></li>
+
         <li> <%= link_to "Logout", destroy_user_session_path, method: :delete %></li>
         <%
       else
