@@ -58,6 +58,7 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
+    
     if @cart.empty?
       @nofooter = true
     end
@@ -74,8 +75,8 @@ class OrdersController < ApplicationController
       else
         @order.update_attribute(:success, false)
         create_order_session
-        flash.now[:error] = "You must make a selection before continuing."
-        format.html { render action: 'index' }
+        flash[:error] = "You must make a selection before continuing."
+        format.html { redirect_to cart_path }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end

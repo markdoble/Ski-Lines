@@ -42,7 +42,7 @@ h2{
 			<div class="product_in_email">
 				<b>Product <%= index+1%>: </b><br />
 					<%= p.unit.product.name %>, Product id: <%= p.unit.product.id %><br />
-					Price: <%= number_to_currency(p.unit.product.price, unit: '$') %><br />
+					Price: <%= number_to_currency(p.sub_total/p.quantity, unit: '$') %><br />
 					<%if p.unit.size == "n/a" and p.unit.colour == "n/a" %>
 					Quantity: <%= p.quantity %><br />
 					<% elsif p.unit.size != "n/a" and p.unit.colour == "n/a"%>
@@ -67,7 +67,7 @@ h2{
 			<h3>Payment Details:</h3>
 			<% total = 0 %><% subtotal = 0 %><% shipping = 0 %><% tax = 0 %>
 			<% user_product_units.each do |p|  %>
-				<% subtotal += (p.unit.product.price*p.quantity)%>
+				<% subtotal += p.sub_total%>
 				<% tax += p.sales_tax_charged %>
 				<% shipping += p.shipping_charged %>
 			<%end%>

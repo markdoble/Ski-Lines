@@ -41,7 +41,7 @@ module Admin::OrderHelper
     subtotal = 0
     f.order_units.where.not(quantity: 0).each do |p|
       next unless p.unit.product.user.id == current_user.id
-      subtotal += p.unit.product.price*p.quantity
+      subtotal += p.sub_total
     end
     subtotal
   end
@@ -68,7 +68,7 @@ module Admin::OrderHelper
     total = 0
     f.order_units.where.not(quantity: 0).each do |p|
       next unless p.unit.product.user.id == current_user.id
-      total += ((p.unit.product.price*p.quantity)+p.sales_tax_charged+p.shipping_charged)
+      total += (p.sub_total+p.sales_tax_charged+p.shipping_charged)
     end
     total
   end

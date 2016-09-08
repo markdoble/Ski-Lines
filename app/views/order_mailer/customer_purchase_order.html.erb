@@ -19,9 +19,9 @@ h2{
 		<h3>Purchase Details:</h3>
 		<% subtotal = 0 %>
 		<% @order.order_units.where.not(quantity: 0).each do |f| %>
-		<% subtotal += (f.unit.product.price*f.quantity) %>
+		<% subtotal += (f.sub_total) %>
 			<b><%= f.unit.product.name%></b><br />
-			<%=number_to_currency(f.unit.product.price, unit: '$') %><br />
+			<%=number_to_currency(f.sub_total/f.quantity, unit: '$') %><br />
 			<% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
 			<%= f.quantity %> X <%= f.unit.size %>, <%= f.unit.colour %><br />
 			<%elsif (f.unit.size) == 'n/a' and (f.unit.colour != 'n/a') %>
@@ -52,6 +52,6 @@ h2{
 	Total Sales Tax: <%= number_to_currency(@order.sales_tax, unit: '$') %><br />
 	<b>Total: <%= number_to_currency(@order.amount, unit: '$' )%></b><br />
 	<p><%= number_to_currency(@order.amount, unit: '$' ) %> has been charged to your credit card.</p>
-	<p>If you have any questions or concerns about your order, get in touch with the merchant at the details listed above.</p>
+	<p>If you have any questions or concerns about your order, please contact the merchant at the details listed above.</p>
 	<h2><br /></h2>
 </div>
