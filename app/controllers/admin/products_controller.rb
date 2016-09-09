@@ -44,8 +44,8 @@ class Admin::ProductsController < ApplicationController
           @list_view_products = @list_view_products.search(params[:query])
       end
 
-      # Retrieve the root categories to display in the caterogy filter dropdown
-      @root_categories = Category.where(parent_id: nil).order(:name)
+      # Retrieve all the categories to display in the caterogy filter dropdown
+      @all_categories = Category.order(:name)
 
       # Check to see if a user has selected a specific view type
       if params[:product_admin_view]

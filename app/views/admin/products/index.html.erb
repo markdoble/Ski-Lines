@@ -39,14 +39,18 @@
 						   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
 						   <span class="caret"></span></button>
 						   <ul class="dropdown-menu">
-								<div class="product_categories_admin">
-									<p><%= link_to "ALL", admin_products_path %></p>
-									<%
-									@root_categories.each do |category|
-										%><p><%= link_to category.name, admin_products_path(:category_id => category.id) %></p><%
-									end
-									%>
-								</div>
+								 <div class="product_categories_admin">
+ 									<p><%= link_to "ALL", admin_products_path %></p>
+ 									<%
+ 									@all_categories.where(parent_id: nil).each do |root_category|
+ 										subcategories = root_category.get_subcategories
+ 										subcategories.each do |subcat|
+ 											indent = "-" * 4 * subcat[0]
+ 											%><p><%= link_to indent.html_safe + subcat[1].name, admin_products_path(:category_id => subcat[1].id) %></p><%
+ 										end
+ 									end
+ 									%>
+ 								</div>
 						   </ul>
 						 </div>
 					 </div>
@@ -69,7 +73,7 @@
 			<%
 			# Check to see if we are filtering on a category. If so, we will display this to the user
 			if params[:category_id]
-				%><%= @root_categories.find(params[:category_id]).name %><%
+				%><%= @all_categories.find(params[:category_id]).name %><%
 			else
 				%>ALL<%
 			end
