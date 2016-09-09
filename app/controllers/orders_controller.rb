@@ -58,8 +58,6 @@ class OrdersController < ApplicationController
 
   def index
     @order = Order.new
-
-
       # initialize empty array
       @products_without_currency = []
       # loop through the array of products in the cart
@@ -71,7 +69,7 @@ class OrdersController < ApplicationController
         # when currency price for that product is 0, add that product to the array
         @products_without_currency << product.id
       end
-    
+
 
     if @cart.empty?
       @nofooter = true
