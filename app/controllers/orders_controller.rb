@@ -3,8 +3,6 @@ class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation, :create_customer_details]
 
-  # for pre-launch only:
-  before_action :authenticate_user!
 
 # Cart FUnctions
   def add
