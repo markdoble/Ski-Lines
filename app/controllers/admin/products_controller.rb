@@ -1,9 +1,10 @@
 class Admin::ProductsController < ApplicationController
+  require 'csv'
   # Define the layout to be used
   layout "store_merchant_layout"
 
   # Define the before_action elements
-  before_action :set_product, only: [:show, :edit, :update, :destroy, :import]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :verify_is_merchant
 
@@ -76,10 +77,27 @@ class Admin::ProductsController < ApplicationController
   # CSV upload to this action
   def import
     begin
-      Product.import(params[:file])
+      file = params[:file]
+      CSV.foreach(file.path, headers: true) do |row|
+        Product.create!(
+          :brand => row['brand'],
+          :name => row['model'],
+          :description => row['description'],
+          :status => false,
+          :user_id => current_user.id,
+          :size_details => row['size_details'],
+          :product_return_policy => row['return_policy'],
+          :usd_price => row['usd_price'].to_i,
+          :cad_price => row['cad_price'].to_i,
+          :factory_sku => row['sku'],
+          :cad_domestic_shipping => current_user.cad_domestic_shipping,
+          :cad_foreign_shipping => current_user.cad_foreign_shipping,
+          :usd_domestic_shipping => current_user.usd_domestic_shipping,
+          :usd_foreign_shipping => current_user.usd_foreign_shipping)
+      end # end CSV.foreach
       redirect_to admin_products_url, notice: "Products successfully imported."
     rescue
-      redirect_to admin_products_url, notice: "Products successfully imported."
+      redirect_to admin_products_new_import_url, alert: "There was an error. Check your file and try again."
     end
   end
 
@@ -194,6 +212,7 @@ class Admin::ProductsController < ApplicationController
       params.require(:product).permit(
         :id,
         :name,
+        :brand,
         :description,
         :status,
         :user_id,

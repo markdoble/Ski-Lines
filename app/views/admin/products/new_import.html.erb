@@ -1,32 +1,48 @@
 <div class="store col-xs-12">
 <h3 style="text-align:center;">Import a CSV File</h3>
 <br />
-<p>Your csv file should have at least some of the following fields, with these exact names. Note that your
-field column names/titles must match the below headers exactly. </p>
+<p>Your csv file should have at least some of the following fields, with these exact names.
+  Your field column names/titles must match the below headers exactly. </p>
+<p>If your file does not have one or more of these column names, that's no problem. The columns that match
+will be saved.</p>
 <div class="admin_performance">
   <table style="width:100%">
-    <tr>
-      <th>Brand</th>
-      <th>Name</th>
-      <th>Description</th>
-      <th>Price CAD</th>
-      <th>Price USD</th>
-      <th>SKU</th>
+    <tr class="table_row_standard">
+      <th>brand</th>
+      <th>model</th>
+      <th>description</th>
+      <th>size_details</th>
+      <th>return_policy</th>
+      <th>usd_price</th>
+      <th>cad_price</th>
+      <th>sku</th>
     </tr>
-    <tr>
+    <tr class="table_row_standard">
+      <td>(optional)</td>
+      <td>(mandatory)</td>
+      <td>(optional)</td>
+      <td>(optional)</td>
+      <td>(optional)</td>
+      <td>(optional)</td>
+      <td>(optional)</td>
+      <td>(optional)</td>
+    </tr>
+    <tr class="table_row_standard">
       <td><p>This is the name of the company the manufactures the product. </p></td>
-      <td><p>The Name describes the model of the product. This is the primary way users will identify the product.</p></td>
+      <td><p>After the brand, the model is the primary way users will identify the product.</p></td>
       <td><p>The Description provides more details about the product that may not be readily available from the photo or Name.</p></td>
+      <td><p>This attribute provides the customer with additional details about the proper sizing.</p></td>
+      <td><p>The return_policy attribute permits you to customize your return policy on a per product basis.</p></td>
       <td><p>This is the price of the product in Canadian dollars. </p></td>
       <td><p>This is the price of the product in American dollars.</p></td>
-      <td><p>This field should contain the unique stock keeping unit identifier provided by the manufacturer.</p></td>
+      <td><p>This field should contain the unique stock keeping unit (sku) identifier provided by the manufacturer.</p></td>
     </tr>
   </table>
 </div>
 <br />
 <br />
   <%= form_tag import_admin_products_path, multipart: true do %>
-    <%= file_field_tag :file %>
+    <%= file_field_tag :file, accept: 'text/csv' %>
     <br /><br />
     <%= submit_tag "Import CSV", class: 'btn btn-primary' %>
   <% end %>

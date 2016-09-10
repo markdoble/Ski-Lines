@@ -34,18 +34,19 @@ class Product < ActiveRecord::Base
                       }
 
   # Define the validations needed for the product model
-  validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
+  #validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
   #validates :price, numericality: true
   #validates :shipping_charge, numericality: true
-  validates :usd_price, numericality: true
-  validates :cad_price, numericality: true
+  #validates :usd_price, numericality: true
+  #validates :cad_price, numericality: true
   validates :name, :presence => {:message => 'cannot be blank.'}
-  validates :description, :presence => {:message => 'cannot be blank.'}
+  #validates :description, :presence => {:message => 'cannot be blank.'}
   #validates :price, :presence => {:message => 'cannot be blank.'}
   #validates :currency, :presence => {:message => 'cannot be blank.'}
   #validates :shipping_charge, :presence => {:message => 'cannot be blank.'}
-  validates :photo, :presence => {:message => 'cannot be blank.'}
-  validates_length_of :name, :minimum => 3, :maximum => 40
+  # validates :photo, :presence => {:message => 'cannot be blank.'}
+  validates_length_of :name, :minimum => 0, :maximum => 40
+  validates_length_of :description, :minimum => 0, :maximum => 1000
 
   # Define the scopes to be used
   scope :search, ->(query) { where('name ilike :q', q: "%#{query}%") }
@@ -98,19 +99,5 @@ class Product < ActiveRecord::Base
         0
     end
   end
-
-  def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
-
-      product_hash = row.to_hash 
-      product = Product.where(id: product_hash["id"])
-
-      if product.count == 1
-        product.first.update_attributes(product_hash)
-      else
-        Product.create!(product_hash)
-      end # end if !product.nil?
-    end # end CSV.foreach
-  end # end self.import(file)
 
 end
