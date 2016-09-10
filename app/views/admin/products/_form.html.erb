@@ -64,8 +64,12 @@
                    @root_categories.each do |root_category|
                      subcategories = root_category.get_subcategories
            				   subcategories.each do |subcat|
+                       selected = ""
+                       if (f.object.categories.count() > 0) && (subcat[1].id == f.object.categories.first.id)
+                         selected = "selected"
+                       end
                        indent = "-" * 4 * subcat[0]
-                       %><option value="<%=subcat[1].id%>"><%=indent.html_safe + subcat[1].name%></option><%
+                       %><option value="<%=subcat[1].id%>" <%=selected%>><%=indent.html_safe + subcat[1].name%></option><%
                      end
                    end
                    %>
