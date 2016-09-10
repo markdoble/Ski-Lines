@@ -418,7 +418,7 @@ else
       rescue
         next
       end
-    next unless title_norw && location && description_norw && date_pub && image
+    next unless title_norw && location && description_norw && image
 
     Article.find_or_create_by(location: "#{location}") do |article|
       article.category = "Cross Country"
