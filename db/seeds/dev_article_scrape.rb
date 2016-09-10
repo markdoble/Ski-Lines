@@ -541,14 +541,14 @@ end
 
 # bezkuj.com/clanky - top article
 begin
-    url = "http://www.bezkuj.com/clanky"
+    url = "https://www.bezkuj.com/clanky"
     doc = Nokogiri::HTML(open(url))
     doc.encoding = 'UTF-8'
 rescue OpenURI::HTTPError => e
 else
     doc.css(".article-top .perex").each do |i|
       begin
-        location = i.at_css(".content-header h1 a")[:href].prepend("http://www.bezkuj.com")
+        location = i.at_css(".content-header h1 a")[:href].prepend("https://www.bezkuj.com")
         description_cze = i.at_css(".text p").content
         title_cze = i.at_css(".content-header h1 a").content
         image = i.at_css(".flt img")[:src]
@@ -573,14 +573,14 @@ end
 
 # bezkuj.com/clanky - list of articles article
 begin
-    url = "http://www.bezkuj.com/clanky"
+    url = "https://www.bezkuj.com/clanky"
     doc = Nokogiri::HTML(open(url))
     doc.encoding = 'UTF-8'
   rescue OpenURI::HTTPError => e
   else
     doc.css(".articles-col2 .content-articles .perex").each do |i|
       begin
-        location = i.at_css("a")[:href].prepend("http://www.bezkuj.com")
+        location = i.at_css("a")[:href].prepend("https://www.bezkuj.com")
         description_cze = i.at_css(".text p").content
         title_cze = i.at_css("h2 a").content
         image = i.at_css("a img")[:src]

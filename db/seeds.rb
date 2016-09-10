@@ -415,7 +415,6 @@ else
         location = i.at_css("a")[:href]
         image = i.at_css(".media a img")[:src]
         description_norw = Nokogiri::HTML(open(URI.escape(location))).at_css(".body p")
-        date_pub = Nokogiri::HTML(open(URI.escape(location))).at_css(".dateline").content[12..23].strip
       rescue
         next
       end
@@ -425,7 +424,7 @@ else
       article.category = "Cross Country"
       article.title = EasyTranslate.translate(title_norw.content, :to => :english)
       article.description = EasyTranslate.translate(description_norw.content, :to => :english)
-      article.date_published = Date.parse(date_pub)
+      article.date_published = Time.zone.now.to_date
       article.source = "adressa.no"
       article.notes = "Translated"
       article.image = image
@@ -540,14 +539,14 @@ end
 
 # bezkuj.com/clanky - top article
 begin
-    url = "http://www.bezkuj.com/clanky"
+    url = "https://www.bezkuj.com/clanky"
     doc = Nokogiri::HTML(open(url))
     doc.encoding = 'UTF-8'
 rescue OpenURI::HTTPError => e
 else
     doc.css(".article-top .perex").each do |i|
       begin
-        location = i.at_css(".content-header h1 a")[:href].prepend("http://www.bezkuj.com")
+        location = i.at_css(".content-header h1 a")[:href].prepend("https://www.bezkuj.com")
         description_cze = i.at_css(".text p").content
         title_cze = i.at_css(".content-header h1 a").content
         image = i.at_css(".flt img")[:src]
@@ -573,14 +572,14 @@ end
 
 # bezkuj.com/clanky - list of articles article
 begin
-    url = "http://www.bezkuj.com/clanky"
+    url = "https://www.bezkuj.com/clanky"
     doc = Nokogiri::HTML(open(url))
     doc.encoding = 'UTF-8'
 rescue OpenURI::HTTPError => e
 else
     doc.css(".articles-col2 .content-articles .perex").each do |i|
       begin
-        location = i.at_css("a")[:href].prepend("http://www.bezkuj.com")
+        location = i.at_css("a")[:href].prepend("https://www.bezkuj.com")
         description_cze = i.at_css(".text p").content
         title_cze = i.at_css("h2 a").content
         image = i.at_css("a img")[:src]
