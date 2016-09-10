@@ -1,10 +1,14 @@
 	<div class="admin_products">
 		<div class="row">
 			<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12">
+				<% if product.photo.blank? %>
+				<%= image_tag "blank_photo.jpg", class: "img-responsive", width:"100%" %>
+				<%else%>
 				<%= image_tag product.photo.url(:large), class: "img-responsive", width:"100%" %>
+				<%end%>
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
-			<h3><%=product.name%></h3>
+			<h3><%=product.name%>, <%= product.brand %></h3>
 			<p><%=product.description%></p><br />
 			<% if !product.cad_price.blank? && product.cad_price > 0 %>
 			<p><strong>Price in CAD:</strong> <%=number_to_currency(product.cad_price, precision: 2)%></p>
@@ -49,10 +53,10 @@
 				   <%else%>
 	           &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-			    <% if total_units != 0 %>
+			    <% if total_units != 0 && product.photo.present? && (product.cad_price > 0 || product.usd_price > 0) %>
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
 			   <%else%><br />
-			   <p><strong>You must add inventory before you can start selling.</strong></p>
+			   <p><strong>You must have inventory, a photo, and a price listed before you can start selling.</strong></p>
 			   <%end%>
 			<div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<br /> <br />

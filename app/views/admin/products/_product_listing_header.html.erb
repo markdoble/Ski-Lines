@@ -1,0 +1,39 @@
+  <div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div class="row">
+         <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <div class="dropdown">
+             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
+             <span class="caret"></span></button>
+             <ul class="dropdown-menu">
+              <div class="product_categories_admin">
+                <p><%= link_to "ALL", admin_products_path %></p>
+                <%
+                @root_categories.each do |category|
+                  %><p><%= link_to category.name, admin_products_path(:category_id => category.id) %></p><%
+                end
+                %>
+              </div>
+             </ul>
+           </div>
+         </div>
+
+      </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="text-align:left">
+        <div class="field input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <%= form_tag("/admin/products", :method => 'get') do %>
+               <%= text_field_tag :query, params[:query], class:"form-control", style: "width:80%", placeholder: "Search" %>
+                   <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+              <% end %>
+                  </span>
+          </div>
+    </div>
+
+  </div>
+  <div>
+    <span style="float:left">View: <%= link_to "List", admin_products_path(:product_admin_view => "list") %> | <%= link_to "Detailed", admin_products_path(:product_admin_view => "detailed") %></span>
+    <br />
+  </div>
+  <br />

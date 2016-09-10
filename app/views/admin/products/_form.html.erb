@@ -14,11 +14,15 @@
 			</div>
 			<div class="admin_product_well_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row">
-					<div class="title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="title col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					<%= f.hidden_field :user_id, :value => current_user.id %>
 					<%= f.hidden_field :status, :value => "false"%>
-					<%= f.label :name, "Product Name:", hidden: true %>
-					<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name", autofocus: !@product.persisted? %>
+          <%= f.label :brand, "Brand:", hidden: true %>
+					<%= f.text_field :brand, class: "form-control input-lg", placeholder: "Brand" %>
+					</div>
+          <div class="title col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <%= f.label :name, "Product Model:", hidden: true %>
+  					<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name", autofocus: !@product.persisted? %>
 					</div>
 				</div>
 			</div>
