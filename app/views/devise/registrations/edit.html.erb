@@ -1,4 +1,4 @@
 <% if (current_user.merchant? || current_user.merchant_rep? || current_user.article_publisher? || current_user.admin?) %>
-<%= render 'admin/navbars/admin_navbar' %>
+<%= render 'navbars/layouts/admin_navbar' %>
 <%end%>
 <%= select_uer_edit_form(current_user) %>

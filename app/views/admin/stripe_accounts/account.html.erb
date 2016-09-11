@@ -1,5 +1,5 @@
 <% if (current_user.merchant? || current_user.merchant_rep? || current_user.article_publisher? || current_user.admin?) %>
-<%= render 'admin/navbars/admin_navbar' %>
+<%= render 'navbars/layouts/admin_navbar' %>
 <%end%>
 <div class="container">
   <div class="edit_profile_form col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -9,8 +9,10 @@
 			<br /><br /><br /><br /><br /><br /><br />
 			<h2>Buy from your favorite ski retailers.</h2>
 			<h4>All in one location.</h4>
+			<br />
+			 <%= link_to  "Become A Merchant", new_merchant_application_path, class: "btn btn-primary" %>
 			<br /><br /><br /><br /><br /><br />
-			<br /><br /><br /><br /><br /><br />
+			<br /><br />
 		</div>
 	</div>
 </div>
@@ -29,7 +31,7 @@
 			<%
 			Product.category_specific(root_category.descendents).active_products.index_products.country_specific(session[:site_country]).each do |product|
 				%>
-				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
 					<%= render :partial => "products/product", :locals => {:product => product} %>
 				</div>
 				<%

@@ -1,0 +1,39 @@
+<!-- Store Page Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<!--
+		<%= render 'navbars/components/category_dropdown' %>
+	-->
+	  <div class="container">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href='<%=products_path%>'>
+			 		<%= image_tag('store_logo_bitmap.png', height:'25px') %>
+		  	</a>
+			</div>
+			<div class="nav navbar-nav hidden-sm hidden-xs">
+		     <div class="input-group">
+		 		  <div class="product_search_large">
+		  		 <%= form_tag(products_all_products_path, :method => 'get', id: "search-form") do %>
+		          <%= text_field_tag :query, params[:query], class:"form-control", placeholder: "Search..." %>
+		               <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+				   <%end%>
+		       </div>
+				 </div>
+			</div>
+			<!-- Render the user navbar that sits on the right hand side of the top menu bar -->
+			<%= render 'navbars/components/user_navbar' %>
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
+					<%= render 'navbars/components/user_navbar_toggle' %> 
+					<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
+			 </ul>
+		  </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>

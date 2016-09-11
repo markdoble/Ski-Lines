@@ -1,0 +1,48 @@
+<!-- Store Page Navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+	<!--
+	<%= render 'navbars/components/category_dropdown' %>
+-->
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <% if current_user.article_publisher? && !current_user.admin? %>
+      <a class="navbar-brand" href='<%=root_path%>'>
+		 		<%= image_tag('store_logo_bitmap.png', height:'25px') %>
+	  	</a>
+      <%else%>
+      <a class="navbar-brand" href='<%=products_path%>'>
+		 		<%= image_tag('store_logo_bitmap.png', height:'25px') %>
+	  	</a>
+      <%end%>
+		</div>
+    <% if current_user.admin? || current_user.article_publisher? %>
+    <%= render 'navbars/components/admin_menu' %>
+    <%end%>
+
+		<!-- Render the user navbar that sits on the right hand side of the top menu bar -->
+		<%= render 'navbars/components/user_navbar' %>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="nav navbar-nav hidden-sm">
+        <% if current_user.merchant?  %>
+        <%= render 'navbars/components/merchant_menu'%>
+        <%end%>
+      </div>
+      <div class="nav navbar-nav hidden-lg hidden-md hidden-xs">
+        <% if current_user.merchant?  %>
+        <%= render 'navbars/components/merchant_menu_tablet'%>
+        <%end%>
+      </div>
+		 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
+				<%= render 'navbars/components/user_navbar_toggle' %>
+		 </ul>
+	  </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

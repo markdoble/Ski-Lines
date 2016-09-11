@@ -1,7 +1,7 @@
 <div class="nav navbar-nav hidden-xs">
   <li class="dropdown">
       <a href="#" class="dropdown-toggle menu_logo" data-toggle="dropdown" role="button" aria-expanded="false"><%= image_tag('menu_icon.png') %> </a>
-      <ul class="dropdown-menu main_menu" role="menu">
+      <ul class="dropdown-menu" role="menu">
         <% if user_signed_in? %>
           <% if current_user.article_publisher? %>
           <li class="divider"></li>
@@ -25,7 +25,7 @@
           <li><%= link_to "ALL ORDERS", admin_all_orders_path %></li>
           <%end%>
         <%end%>
-          <br /><br /><br /><br />
+          <br />
       </ul>
   </li>
 </div>
