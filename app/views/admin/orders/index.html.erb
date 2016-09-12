@@ -7,9 +7,9 @@
 	</div>
 	<br />
 <% if @orders.any? %>
-	<div class="admin_performance">
-		<table style="width:100%">
-			<tr class="table_header">
+	<div class="products">
+		<table style="width:100%" class="hoverTable">
+			<tr>
 				<th>Order ID</th>
 				<th>Date</th>
 				<th>Customer</th>
@@ -21,8 +21,9 @@
 				<th>Total</th>
 				<th>Order Status</th>
 			</tr>
+			<% row_class = "even" %>
 		<% @orders.uniq.each do |f| %>
-			<tr class="table_body">
+			<tr class="<%=row_class%>">
 				<td><%= link_to f.id, admin_order_path(f) %></td>
 				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
 				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
@@ -33,8 +34,16 @@
 				<td> <%= number_to_currency(merchant_order_tax(f), unit: '$')%></td>
 				<td> <%= number_to_currency(merchant_order_total(f), unit: '$') %></td>
 				<td><%= link_to order_status_indicator(f), admin_order_path(f) %></td>
-				<%end%>
+
 			</tr>
+			<%
+			if row_class == "even"
+				row_class = "odd"
+			else
+				row_class = "even"
+			end
+		%>
+		<%end%>
 		</table>
 	</div>
 	<%else%>
