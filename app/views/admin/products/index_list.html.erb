@@ -32,7 +32,8 @@
         <table class="hoverTable">
           <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Brand</th>
+            <th>Model</th>
             <th>Price</th>
             <th>Stock</th>
             <th>Sold</th>
@@ -52,6 +53,7 @@
             %>
             <tr class="<%=row_class%>">
               <td><%=product.id%></td>
+              <td><%=product.brand%></td>
               <td><%=product.name%></td>
               <td>
                 <% if !product.usd_price.blank? && product.usd_price > 0 %>
