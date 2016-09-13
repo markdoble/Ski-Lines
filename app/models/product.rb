@@ -37,8 +37,14 @@ class Product < ActiveRecord::Base
   validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
   #validates :price, numericality: true
   #validates :shipping_charge, numericality: true
-  #validates :usd_price, numericality: true
-  #validates :cad_price, numericality: true
+
+  validates_numericality_of :usd_price, :allow_nil => true
+  validates_numericality_of :cad_price, :allow_nil => true
+  validates_numericality_of :cad_domestic_shipping, :allow_nil => true
+  validates_numericality_of :cad_foreign_shipping, :allow_nil => true
+  validates_numericality_of :usd_domestic_shipping, :allow_nil => true
+  validates_numericality_of :usd_foreign_shipping, :allow_nil => true
+  
   validates :name, :presence => {:message => 'cannot be blank.'}
   #validates :description, :presence => {:message => 'cannot be blank.'}
   #validates :price, :presence => {:message => 'cannot be blank.'}

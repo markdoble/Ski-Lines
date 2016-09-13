@@ -131,6 +131,7 @@ class Admin::ProductsController < ApplicationController
     respond_to do |format|
       # Try and save the product to the database
       if @product.save
+        update_nil_values(@product)
         # Product saved successfully. We will create the entry in the product_categories table
         @category = Category.find(params[:category][:id])
         @product.product_categories.create(category: @category)
@@ -157,6 +158,7 @@ class Admin::ProductsController < ApplicationController
     respond_to do |format|
       # Try and update the product in the database
       if @product.update(product_params)
+        update_nil_values(@product)
         # Product updated successfully. We will update the entry in the product_categories table if required
         if !params[:category].nil?
           @category = Category.find(params[:category][:id])
@@ -250,6 +252,27 @@ class Admin::ProductsController < ApplicationController
           :_destroy
           ]
         )
+    end
+
+    def update_nil_values(product)
+      if product.usd_price == nil
+        product.update_attribute(:usd_price, 0)
+      end
+      if product.cad_price == nil
+        product.update_attribute(:cad_price, 0)
+      end
+      if product.cad_domestic_shipping == nil
+        product.update_attribute(:cad_domestic_shipping, 0)
+      end
+      if product.cad_foreign_shipping == nil
+        product.update_attribute(:cad_foreign_shipping, 0)
+      end
+      if product.usd_domestic_shipping == nil
+        product.update_attribute(:usd_domestic_shipping, 0)
+      end
+      if product.usd_foreign_shipping == nil
+        product.update_attribute(:usd_foreign_shipping, 0)
+      end
     end
 
     # Verify if the current user is logged in and is a merchant
