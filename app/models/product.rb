@@ -34,7 +34,7 @@ class Product < ActiveRecord::Base
                       }
 
   # Define the validations needed for the product model
-  #validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
   #validates :price, numericality: true
   #validates :shipping_charge, numericality: true
   #validates :usd_price, numericality: true
