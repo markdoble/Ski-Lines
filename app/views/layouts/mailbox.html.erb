@@ -44,7 +44,7 @@
   <div class="store_layout_bakground" id='main'>
     <% if user_signed_in? %>
       <% if current_user.merchant? or current_user.admin? %>
-      <%= render 'navbars/layout/admin_navbar' %>
+      <%= render 'navbars/layouts/admin_navbar' %>
       <%else%>
       <%= render 'navbars/layouts/products_navbar' %>
       <%end%>
