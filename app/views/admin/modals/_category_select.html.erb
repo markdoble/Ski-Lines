@@ -1,0 +1,33 @@
+<div class="modal fade" id="modal_category_select" tabindex="-1" role="dialog" aria-labelledby="modal_category_select_label">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal_category_select_label">Select Category</h4>
+      </div>
+
+      <div class="modal-body">
+        <div id="div_selected_categories" class="div_selected_categories_modal">
+          <span id="span_selected_category_0">None Selected</span>
+        </div>
+
+        <div id="div_root_categories">
+          <select name="category_select_0" id="category_select_0">
+            <option value="0">-- Select --</option>
+            <%
+            @root_categories.each do |root_category|
+              %><option value="<%=root_category.id%>"><%=root_category.name%></option><%
+            end
+            %>
+          </select>
+        </div>
+
+        <div id="div_subcategories"></div>
+        <br />
+
+        <input type="hidden" id="hidden_category_modal_category_id" name="hidden_category_modal_category_id" value="" />
+        <button id="btn_category_modal_save" type="button" class="btn btn-primary disabled">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> or <a href="#" id="href_cancel_category_modal">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>

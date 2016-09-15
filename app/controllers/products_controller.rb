@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   # Default index action for the controller
   def index
     # Retrieve all the root categories to be displayed
-    @root_categories = Category.where(parent_id: nil)
+    @root_categories = Category.where(parent_id: nil).order(:name)
   end
 
   # Will retrieve all of the active products to be displayed

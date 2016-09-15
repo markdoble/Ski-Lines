@@ -1,5 +1,5 @@
 <div class="container ">
-      <%= form_for [:admin, @product], html: { class: "directUpload"} do |f| %>
+      <%= form_for [:admin, @product], :html => { :onsubmit => "return validateProductForm();", :class => "directUpload" } do |f| %>
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <% if @product.errors.any? %>
 	      <div id="error_explanation">
@@ -61,9 +61,31 @@
         		  </div>
         		</div>
 						<div class="row">
-        		  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        		     <%= f.label :category, "Product Category:" %><br>
-        		     <%= collection_select :category, :id, @root_categories, :id, :name, :selected => (f.object.categories.count() > 0 ? f.object.categories.first.id : 0), :prompt => true %>
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        		     <%= f.label :category, "Product Category:"%>
+                 <br />
+                 <span id="product_form_category_display" name="product_form_category_display">
+                   <%
+                   # Loop through all of the parent categories and display them if any exist
+                   category_id_value = "0"
+                   if(!f.object.categories.first.nil?)
+                     category_id_value = f.object.categories.first.id
+                     f.object.categories.first.get_parent_categories.reverse_each do |parent_category|
+                       %><%=parent_category.name + " > "%><%
+                     end
+                     # Display the name of the current category
+                     %><%=f.object.categories.first.name%><%
+                   else
+                     %><%="None Selected"%><%
+                   end
+                   %>
+                 </span>
+                 <%
+                 # Display the edit link
+                 %>&nbsp;<a href=# data-toggle="modal" data-target="#modal_category_select">Edit</a><%
+                 # Set the hidden input field to store the form value for the category_id
+                 %>
+                 <input id="category_id" name="category_id" type="hidden" value="<%=category_id_value%>" />
         		  </div>
         	  </div>
 						<br />
@@ -134,3 +156,4 @@
       <% end %>
    </div>
   <br /><br /><br /><br /><br /><br /><br /><br />
+<%= render 'admin/modals/category_select' %>

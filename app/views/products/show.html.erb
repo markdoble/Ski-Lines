@@ -10,9 +10,15 @@
           <div class="product_name">
             <h3><%= @product.name %></h3>
           </div>
+          <% if @product.currency_price(session[:site_country]) == 0 %>
           <div class="product_price">
-              <h4><%=number_to_currency(@product.currency_price(session[:site_country]), unit: '$')%>&nbsp;<div class="navbarflag flaginline flag flag-<%=session[:site_country]%>"></div></h4>
+              <h4>This product is not available in selected Country!</h4>
           </div>
+          <%else%>
+          <div class="product_price">
+              <h4 > <%= number_to_currency(@product.currency_price(session[:site_country]), unit: '$') %></h4>
+          </div>
+          <%end%>
           <div class="contact_merchant">
             <p>
               <a href="<%= new_conversation_path(product_id: @product.id) %>">
@@ -60,15 +66,15 @@
                   </div>
                   <%end%>
                   <div class="tab-pane" id='<%= @product.id%>D'>
-                <% if @product.shipping_charge.blank? %>
+                <% if @product.currency_domestic_shipping(session[:site_country]).blank? && @product.currency_foreign_shipping(session[:site_country]).blank? %>
                   <p>There is no shipping information to show.</p>
                 <%else%>
-                  <% if @product.shipping_charge == 0 %>
+                  <% if @product.currency_domestic_shipping(session[:site_country]) == 0 && @product.currency_foreign_shipping(session[:site_country]) == 0 %>
                   <p>This product has free shipping!</p>
                   <%else%>
                   <p>
-                    <%= number_to_currency(@product.shipping_charge, unit: '$') %> per unit for deliveries within country of seller, and
-                    <%= number_to_currency(@product.shipping_charge*1.5, unit: '$') %> per unit for deliveries out of country.
+                    <%= number_to_currency(@product.currency_domestic_shipping(session[:site_country]), unit: '$') %> per unit for deliveries within <%=@product.user.country%>, and
+                    <%= number_to_currency(@product.currency_foreign_shipping(session[:site_country]), unit: '$') %> per unit for deliveries outside of <%=@product.user.country%>.
                    </p>
                   <%end%>
                 <%end%>
@@ -82,6 +88,7 @@
               </div>
           </div>
         </div>
+        <% unless @product.currency_price(session[:site_country]) == 0 %>
         <div class="add_to_cart col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <br />
           <a href='/cart/"<%= @product.id %>"'>
@@ -90,6 +97,7 @@
             </div>
           </a>
         </div>
+        <%end%>
       <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <br /> <br />
         <%if @product.productfotos.any?%>

@@ -45,8 +45,8 @@ class Admin::ProductsController < ApplicationController
           @list_view_products = @list_view_products.search(params[:query])
       end
 
-      # Retrieve the root categories to display in the caterogy filter dropdown
-      @root_categories = Category.where(parent_id: nil).order(:name)
+      # Retrieve all the categories to display in the caterogy filter dropdown
+      @all_categories = Category.order(:name)
 
       # Check to see if a user has selected a specific view type
       if params[:product_admin_view]
@@ -133,7 +133,7 @@ class Admin::ProductsController < ApplicationController
       if @product.save
         update_nil_values(@product)
         # Product saved successfully. We will create the entry in the product_categories table
-        @category = Category.find(params[:category][:id])
+        @category = Category.find(params[:category_id])
         @product.product_categories.create(category: @category)
 
         # Redirect to the products list indicating success
@@ -160,8 +160,8 @@ class Admin::ProductsController < ApplicationController
       if @product.update(product_params)
         update_nil_values(@product)
         # Product updated successfully. We will update the entry in the product_categories table if required
-        if !params[:category].nil?
-          @category = Category.find(params[:category][:id])
+        if !params[:category_id].nil?
+          @category = Category.find(params[:category_id])
             # Check to see if we have product_categories to update
            if @product.product_categories.exists?
              @product.product_categories.update_all(category_id: @category.id)

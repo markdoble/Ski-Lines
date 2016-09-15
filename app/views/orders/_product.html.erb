@@ -49,14 +49,7 @@
 						    <div id="my-tab-content" class="tab-content">
 								<div class="tab-pane active" id='<%= p.id%>A'>
 		 							<p>
-									<% if p.user.merchant_url.blank? %>
-									<%= p.user.merchant_name %><br />
-									<%else%>
-									<!-- full production link, send user to store products page
-									<i><%= link_to p.user.merchant_name, {:controller => "products", :action => "store", :slug => p.user.slug } %></i><br />
-									-->
 									<i> <%= p.user.merchant_name %> </i><br />
-									<%end%>
 									<%= p.user.city %>, <%= p.user.state_prov%>	<br />
 									</p>
 						        </div>
@@ -77,19 +70,19 @@
 						        </div>
 										<%end%>
 						        <div class="tab-pane" id='<%= p.id%>D'>
-									<% if p.shipping_charge.blank? %>
-										<p>There is no shipping information to show.</p>
-									<%else%>
-										<% if p.shipping_charge == 0 %>
-										<p>This product has free shipping!</p>
-										<%else%>
-										<p>
-											<%= number_to_currency(p.shipping_charge, unit: '$') %> per unit for deliveries within Canada, and
-											<%= number_to_currency(p.shipping_charge*1.5, unit: '$') %> per unit for deliveries to the U.S..
-										 </p>
-										<%end%>
-									<%end%>
-									<p>
+											<% if p.currency_domestic_shipping(session[:site_country]).blank? && p.currency_foreign_shipping(session[:site_country]).blank? %>
+			                  <p>There is no shipping information to show.</p>
+			                <%else%>
+			                  <% if p.currency_domestic_shipping(session[:site_country]) == 0 && p.currency_foreign_shipping(session[:site_country]) == 0 %>
+			                  <p>This product has free shipping!</p>
+			                  <%else%>
+			                  <p>
+			                    <%= number_to_currency(p.currency_domestic_shipping(session[:site_country]), unit: '$') %> per unit for deliveries within <%=p.user.country%>, and
+			                    <%= number_to_currency(p.currency_foreign_shipping(session[:site_country]), unit: '$') %> per unit for deliveries outside of <%=p.user.country%>.
+			                   </p>
+			                  <%end%>
+			                <%end%>
+			                <p>
 										Shipping to:<br />
 									<% p.user.default_permitted_destinations.each do |country| %>
 										 - <%= country.country.common_name %><br />

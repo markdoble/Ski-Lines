@@ -20,6 +20,12 @@ class Category < ActiveRecord::Base
     return count
   end
 
+  # Will retrieve the count of sub categories that have a given category as their parent.
+  # This function is not recursive and will only go one level down.
+  def get_immediate_subcategory_count
+    return self.children.count()
+  end
+
   # Recursive function that will retrieve all of the product objects within a given category and all its subcategories
   def get_all_products(level = 0, result = [])
     # Add the current level and products to the result array if any exist
@@ -42,6 +48,19 @@ class Category < ActiveRecord::Base
     if(level == 0)
       return result
     end
+  end
+
+  # Recursively retrieves the list of parent categories given a subcategory ID
+  def get_parent_categories(result = [])
+    if(!self.parent.nil?)
+      # Add the parent node to the results array
+      result.push(self.parent)
+      # Recursively call the function with the current object
+      self.parent.get_parent_categories(result)
+    end
+
+    # End recursion and return result
+    return result
   end
 
   # Recursive function that will retrieve all categories and their structure

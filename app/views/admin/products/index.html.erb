@@ -4,14 +4,14 @@
 	</div>
 	<div class="merchant_title col-lg-10 col-md-10 col-sm-9 col-xs-12">
         <h3><%= current_user.merchant_name%> </h3>
-        <%
-				# Check to see if we are filtering on a category. If so, we will display this to the user
-				if params[:category_id]
-					%><h4><%= @root_categories.find(params[:category_id]).name %></h4><%
-				else
-					%><h4>All Products</h4><%
-				end
-				%>
+				<%
+			  # Check to see if we are filtering on a category. If so, we will display this to the user
+			  if params[:category_id]
+			    %><h4><%= @all_categories.find(params[:category_id]).name %></h4><%
+			  else
+			    %>ALL<%
+			  end
+			  %>
 
 		<br /><br />
     </div>
@@ -33,7 +33,7 @@
 	<%else%>
 	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
 		<%= render 'admin/products/product_listing_header'%>
-		<div class="products">
+			<div class="products">
 		<%= render 'admin/products/paginate/index'%>
 		</div>
 	<%end%>

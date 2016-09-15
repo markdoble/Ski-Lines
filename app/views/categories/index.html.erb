@@ -35,7 +35,7 @@
 						</td>
 						<td colspan="4">
 							<%= link_to 'Show', category_path(subcat[1]) %>
-							&nbsp|&nbsp <%= link_to 'Edit', edit_category_path(subcat[1]) %>
+							&nbsp|&nbsp <%= link_to 'Edit', edit_category_path(subcat[1], :parent_id => subcat[1].parent_id) %>
 							&nbsp|&nbsp <%= link_to 'Add Child', new_category_path(:parent_id => subcat[1].id) %>
 							<%
 							# We only want to show the destroy link if we have no children

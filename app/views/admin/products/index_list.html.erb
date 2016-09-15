@@ -27,7 +27,65 @@
     	</div>
   	<%else%>
   	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+<<<<<<< HEAD
   	<%= render 'admin/products/product_listing_header'%>
+=======
+  		<div class="row">
+  			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+  			    <div class="row">
+  					<div class="dropdown_for_filter col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  					<%= link_to "NEW PRODUCT", new_admin_product_path, id: "new_product", class: "btn btn-primary dropdown-toggle" %>
+  					<br />
+  					</div>
+
+  					 <div class="dropdown_for_filter col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  						 <div class="dropdown">
+  						   <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
+  						   <span class="caret"></span></button>
+  						   <ul class="dropdown-menu">
+  								<div class="product_categories_admin">
+  									<p><%= link_to "ALL", admin_products_path %></p>
+  									<%
+  									@all_categories.where(parent_id: nil).each do |root_category|
+                      subcategories = root_category.get_subcategories
+            				  subcategories.each do |subcat|
+                        indent = "-" * 4 * subcat[0]
+                        %><p><%= link_to indent.html_safe + subcat[1].name, admin_products_path(:category_id => subcat[1].id) %></p><%
+                      end
+  									end
+  									%>
+  								</div>
+  						   </ul>
+  						 </div>
+  					 </div>
+
+  			 	</div>
+  			</div>
+  			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align:left">
+  			    <div class="field input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  		     		 <%= form_tag("/admin/products", :method => 'get') do %>
+  		             <%= text_field_tag :query, params[:query], class:"form-control", style: "width:80%", placeholder: "Search" %>
+  		                 <span class="input-group-btn">
+  		                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+  		   		      <% end %>
+  		                </span>
+  		   	    </div>
+  			</div>
+  		</div>
+  		<div>
+  			<strong>Category Displayed:</strong>
+  			<%
+  			# Check to see if we are filtering on a category. If so, we will display this to the user
+  			if params[:category_id]
+  				%><%= @all_categories.find(params[:category_id]).name %><%
+  			else
+  				%>ALL<%
+  			end
+  			%>
+  			<span style="float:right">View: <%= link_to "List", admin_products_path(:product_admin_view => "list") %> | <%= link_to "Detailed", admin_products_path(:product_admin_view => "detailed") %></span>
+  		</div>
+  		<br />
+>>>>>>> c13e97681c4a2c3dbda6be861f0df9d8b5cda2a9
   		<div class="products">
         <table class="hoverTable">
           <tr>
