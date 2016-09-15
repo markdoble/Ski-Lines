@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   get 'products/merchants'
 
   resources :categories
+  post '/categories/update_subcategories', to: 'categories#update_subcategories', as: :update_subcategorie
 
   resources :products, :only => [:index, :show]
   get '/shop/:slug', controller: 'products', action: 'store'

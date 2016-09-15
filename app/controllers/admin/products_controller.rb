@@ -104,7 +104,7 @@ class Admin::ProductsController < ApplicationController
       # Try and save the product to the database
       if @product.save
         # Product saved successfully. We will create the entry in the product_categories table
-        @category = Category.find(params[:category][:id])
+        @category = Category.find(params[:category_id])
         @product.product_categories.create(category: @category)
 
         # Redirect to the products list indicating success
@@ -130,8 +130,8 @@ class Admin::ProductsController < ApplicationController
       # Try and update the product in the database
       if @product.update(product_params)
         # Product updated successfully. We will update the entry in the product_categories table if required
-        if !params[:category].nil?
-          @category = Category.find(params[:category][:id])
+        if !params[:category_id].nil?
+          @category = Category.find(params[:category_id])
             # Check to see if we have product_categories to update
            if @product.product_categories.exists?
              @product.product_categories.update_all(category_id: @category.id)

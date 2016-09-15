@@ -3,8 +3,8 @@ class CategoriesController < ApplicationController
   layout "store_merchant_layout"
 
   # Define the before_action elements
-  before_action :authenticate_user!
-  before_filter :verify_is_admin
+  before_action :authenticate_user!, :except => [:update_subcategories]
+  before_filter :verify_is_admin, :except => [:update_subcategories]
 
   # Will retrieve all of the root categories that exist to display on the index
   def index
@@ -68,6 +68,15 @@ class CategoriesController < ApplicationController
     redirect_to categories_path
   end
 
+  # Will retrieve the immediate subcategories of a parent category
+  # This function is called with Ajax and returns the list of category objects in Json format
+  def update_subcategories
+    @subcategories = Category.where("parent_id = ?", params[:parent_id]).order(:name)
+    respond_to do |format|
+      format.json  { render :json => @subcategories }
+    end
+  end
+
   # Private functions
   private
 
@@ -81,5 +90,5 @@ class CategoriesController < ApplicationController
     def verify_is_admin
       (current_user.nil?) ? redirect_to(admin_products_path) : (redirect_to(admin_products_path) unless current_user.admin?)
     end
-    
+
 end
