@@ -59,6 +59,7 @@ class OrdersController < ApplicationController
       # initialize empty array
       @products_without_currency = []
       # loop through the array of products in the cart
+=begin
       @cart.each do |f|
         # find the product based on cart value
         product = Product.find_by_id(f)
@@ -67,7 +68,7 @@ class OrdersController < ApplicationController
         # when currency price for that product is 0, add that product to the array
         @products_without_currency << product.id
       end
-
+=end
 
     if @cart.empty?
       @nofooter = true
