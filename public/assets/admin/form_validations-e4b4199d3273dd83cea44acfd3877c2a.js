@@ -1,0 +1,1 @@
+function validateProductForm(){return 0==$("#category_id").val()?(alert("Error: You must select a category."),!1):!0}
