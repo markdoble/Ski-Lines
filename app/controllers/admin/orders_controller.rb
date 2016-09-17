@@ -34,8 +34,9 @@ class Admin::OrdersController < ApplicationController
 
     def order_params
       params.require(:order).permit(:street_address, :prov_state, :country, :city, :postal_zip, :cust_first_name, :cust_last_name, :cust_email, :cust_phone, :status, :marketing_optout, :amount, :sales_tax, :shipping,
-      :merchant_orders_attributes => [:id, :user_id, :order_id, :order_status, :product_id, :delivery_method, :customer_comments], 
-      :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity])
+      :merchant_orders_attributes => [:id, :user_id, :order_id, :order_status, :product_id, :delivery_method, :customer_comments],
+      :product_ids => [], :order_units_attributes => [:id, :unit_id, :order_id, :quantity, :return_attributes => [:qty_returned, :reason, :order_units_id, :order_id]],
+      )
     end
 
     def verify_is_merchant
