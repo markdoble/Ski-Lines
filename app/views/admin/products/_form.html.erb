@@ -16,7 +16,9 @@
 				<div class="row">
 					<div class="title col-lg-4 col-md-4 col-sm-12 col-xs-12">
 					<%= f.hidden_field :user_id, :value => current_user.id %>
+          <% unless f.object.persisted? %>
 					<%= f.hidden_field :status, :value => "false"%>
+          <%end%>
           <%= f.label :brand, "Brand:", hidden: true %>
 					<%= f.text_field :brand, class: "form-control input-lg", placeholder: "Brand" %>
 					</div>

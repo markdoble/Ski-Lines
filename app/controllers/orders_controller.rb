@@ -478,7 +478,7 @@ class OrdersController < ApplicationController
             :amount => amount,
             :shipping => 0
         })
-        taxjar_result.amount_to_collect
+        taxjar_result
       end
 
       def santize_country(country)
