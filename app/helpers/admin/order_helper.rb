@@ -82,5 +82,21 @@ module Admin::OrderHelper
     end
   end
 
+  def check_for_custom_return_amount(return_request)
+    if [return_request.suggested_sub_total, return_request.suggested_sales_tax, return_request.suggested_shipping_charge].all? { |check| check.nil? || check == 0.00  }
+      checker = true
+    else
+      checker = false
+    end
+    checker
+  end
+
+  def sum_default_amounts(return_request)
+    return_request.default_sub_total+return_request.default_sales_tax+return_request.default_shipping_charge
+  end
+
+  def sum_suggested_amounts(return_request)
+    return_request.suggested_sub_total+return_request.suggested_sales_tax+return_request.suggested_shipping_charge
+  end
 
 end

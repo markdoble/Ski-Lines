@@ -1,3 +1,4 @@
+<div class="col-xs-12">
 <%= form_for [:admin, @return] do |f| %>
 <div class="row">
   <div class="merchant_form_headings"><h2>Returned Products:</h2></div>
@@ -15,6 +16,7 @@
   <div id="tax_rate" data-taxrate="<%= @order_unit.sales_tax_rate%>"></div>
   <%= f.hidden_field :order_id, value: @order.id %>
   <%= f.hidden_field :order_units_id, value: @order_unit.id %>
+  <%= f.hidden_field :refund_complete, value: false %>
 
 </div>
 <!-- Notes to submit to refund request -->
@@ -89,3 +91,4 @@
   </div>
 </div>
 <%end%>
+</div>

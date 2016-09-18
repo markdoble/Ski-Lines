@@ -1,4 +1,4 @@
-<div class="admin_order_show">
+<div class="admin_order_show col-xs-12">
 <br />
 	<div class="row">
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -82,8 +82,28 @@
 									<%end%>
 									<br />
 									<div class="order_unit_show_form_headings">Returns:</div>
+									<% if f.return.blank? %>
 									<%= link_to "Submit Refund Request", new_admin_return_path(order_unit_id: f.id, order_id: @order.id) %>
-						 	</div>
+									<%else%>
+									<div class="col-xs-12">
+										<div class="row">
+										<p>A refund has been submitted for the following amounts:</p><br />
+										<p>
+										<% if check_for_custom_return_amount(f.return)%>
+										<label>Subtotal: </label> <%= number_to_currency(f.return.default_sub_total, precision: 2)%><br />
+										<label>Sales Tax: </label> <%= number_to_currency(f.return.default_sales_tax, precision: 2)%><br />
+										<label>Shipping: </label> <%= number_to_currency(f.return.default_shipping_charge, precision: 2)%><br />
+										<label>Total: </label> <%= number_to_currency(sum_default_amounts(f.return), precision: 2)%><br />
+										<%else%>
+										<label>Subtotal: </label> <%= number_to_currency(f.return.suggested_sub_total, precision: 2)%><br />
+										<label>Sales Tax: </label> <%= number_to_currency(f.return.suggested_sales_tax, precision: 2)%><br />
+										<label>Shipping: </label> <%= number_to_currency(f.return.suggested_shipping_charge, precision: 2)%><br />
+										<label>Total: </label> <%= number_to_currency(sum_suggested_amounts(f.return), precision: 2)%><br />
+										<%end%></p>
+										</div>
+									</div>
+									<%end%>
+							</div>
 						</div>
 						<br /><br />
 					 	<%end%>

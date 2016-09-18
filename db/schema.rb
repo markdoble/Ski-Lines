@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918150944) do
+ActiveRecord::Schema.define(version: 20160918183031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,10 +297,12 @@ ActiveRecord::Schema.define(version: 20160918150944) do
     t.decimal  "default_sales_tax",               precision: 8, scale: 2
     t.decimal  "default_shipping_charge",         precision: 8, scale: 2
     t.boolean  "refund_complete"
+    t.integer  "user_id"
   end
 
   add_index "returns", ["order_id"], name: "index_returns_on_order_id", using: :btree
   add_index "returns", ["order_units_id"], name: "index_returns_on_order_units_id", using: :btree
+  add_index "returns", ["user_id"], name: "index_returns_on_user_id", using: :btree
 
   create_table "states", force: :cascade do |t|
     t.string   "abbreviation"
@@ -414,6 +416,7 @@ ActiveRecord::Schema.define(version: 20160918150944) do
   add_foreign_key "permitted_destinations", "products"
   add_foreign_key "returns", "order_units", column: "order_units_id"
   add_foreign_key "returns", "orders"
+  add_foreign_key "returns", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "user_feedback_answers", "user_feedbacks"
 end

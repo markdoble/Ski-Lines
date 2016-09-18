@@ -34,7 +34,6 @@
 				<td> <%= number_to_currency(merchant_order_tax(f), unit: '$')%></td>
 				<td> <%= number_to_currency(merchant_order_total(f), unit: '$') %></td>
 				<td><%= link_to order_status_indicator(f), admin_order_path(f) %></td>
-
 			</tr>
 			<%
 			if row_class == "even"
