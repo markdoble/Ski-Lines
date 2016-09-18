@@ -1,4 +1,4 @@
-<div class="admin_order_show">
+<div class="admin_order_show col-xs-12">
 <br />
 	<div class="row">
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -18,7 +18,10 @@
  	 				<p>Subtotal: <%= number_to_currency(merchant_order_subtotal(@order), unit: '$')%><br />
  	 				Shipping: <%= number_to_currency(merchant_order_shipping(@order), unit: '$') %><br />
  	 				Sales Tax: <%= number_to_currency(merchant_order_tax(@order), unit: '$')%><br />
- 	 				Total: <%= number_to_currency(merchant_order_total(@order), unit: '$') %></p>
+ 	 				Total: <%= number_to_currency(merchant_order_total(@order), unit: '$') %><br />
+					Currency:
+					<div class="navbarflag flag flag-<%=flag_selector_based_on_currency(@order.currency)%>"></div></p>
+
 					<br /><br />
 					</div>
 					<br />
@@ -36,7 +39,16 @@
 							</div>
 					  	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<h4><b><%= f.unit.product.name %></b></h4>
+								<p><%= number_to_currency(f.sub_total/f.quantity, unit: '$') %></p>
+								<br />
+									<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |m|%>
+										<% unless m.customer_comments.blank? %>
+										Customer Comment: <br /><%= m.customer_comments %><br /><br />
+										<%end%>
+									<%end%>
+
 							<!-- Loop through each unit belonging to this product in the loop in this order of this merchant -->
+							<div class="order_unit_show_form_headings">Selections:</div>
 
 							<!-- Exclude units not belonging to this product -->
 								<% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
@@ -48,24 +60,14 @@
 	              <% elsif (f.unit.size == 'n/a') and (f.unit.colour == 'n/a')%>
 	              <%= f.quantity %>
 	              <%end%>
-
-								<%= f.unit.product.description %>
 								<br />
-								<h4> <%= number_to_currency(f.sub_total/f.quantity, unit: '$') %></h4>
-								Currency:
-								<div class="navbarflag flag flag-<%=flag_selector_based_on_currency(f.currency)%>"></div>
-									<% @order.merchant_orders.where(product_id: f.unit.product.id).each do |m|%>
-										<% unless m.customer_comments.blank? %>
-										Customer Comment: <br /><%= m.customer_comments %><br /><br />
-										<%end%>
-									<%end%>
+								<div class="order_unit_show_form_headings">Order Status:</div>
 									<%= form_for [:admin, @order] do |m| %>
 										<%= m.fields_for :merchant_orders do |ff| %>
 											<% if ff.object.product_id == f.unit.product.id %>
-											<br />
-											<% if ff.object.order_status == false%>
-											<h4 style="color:red">Action Required!</h4>
-											<%end%>
+												<% if ff.object.order_status == false%>
+												<h4 style="color:red">Action Required!</h4>
+												<%end%>
 												<% if ff.object.delivery_method == "Standard Shipping" %>
 												<b>Delivery Method:</b> Standard Shipping<br />
 												<%= ff.label :order_status, 'Sent for delivery?'%>
@@ -73,12 +75,35 @@
 												<b>Delivery Method:</b> Pick-up In Store<br />
 												<%= ff.label :order_status, 'Ready for pick-up?'%>
 												<%end%>
-												<%= ff.check_box :order_status %><br />
-												<%end%>
+												<%= ff.check_box :order_status %>
 											<%end%>
-											<%= m.submit "Save Changes", data: { confirm: 'Are you sure you want to change the status of this order?' }%>
 										<%end%>
-						 	</div>
+										<%= m.submit "Save Changes", data: { confirm: 'Are you sure you want to change the status of this order?' }, class: "order_status_button" %>
+									<%end%>
+									<br />
+									<div class="order_unit_show_form_headings">Returns:</div>
+									<% if f.return.blank? %>
+									<%= link_to "Submit Refund Request", new_admin_return_path(order_unit_id: f.id, order_id: @order.id) %>
+									<%else%>
+									<div class="col-xs-12">
+										<div class="row">
+										<p>A refund has been submitted for the following amounts:</p><br />
+										<p>
+										<% if check_for_custom_return_amount(f.return)%>
+										<label>Subtotal: </label> <%= number_to_currency(f.return.default_sub_total, precision: 2)%><br />
+										<label>Sales Tax: </label> <%= number_to_currency(f.return.default_sales_tax, precision: 2)%><br />
+										<label>Shipping: </label> <%= number_to_currency(f.return.default_shipping_charge, precision: 2)%><br />
+										<label>Total: </label> <%= number_to_currency(sum_default_amounts(f.return), precision: 2)%><br />
+										<%else%>
+										<label>Subtotal: </label> <%= number_to_currency(f.return.suggested_sub_total, precision: 2)%><br />
+										<label>Sales Tax: </label> <%= number_to_currency(f.return.suggested_sales_tax, precision: 2)%><br />
+										<label>Shipping: </label> <%= number_to_currency(f.return.suggested_shipping_charge, precision: 2)%><br />
+										<label>Total: </label> <%= number_to_currency(sum_suggested_amounts(f.return), precision: 2)%><br />
+										<%end%></p>
+										</div>
+									</div>
+									<%end%>
+							</div>
 						</div>
 						<br /><br />
 					 	<%end%>

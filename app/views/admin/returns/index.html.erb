@@ -1,0 +1,48 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<div class="merchant_title">
+		<div class="row">
+	        <h3><%= current_user.merchant_name%> </h3>
+        	<h4><i>Returns</i></h4>
+	    </div>
+	</div>
+	<br />
+<% if @user_returns.any? %>
+	<div class="products">
+		<table style="width:100%" class="hoverTable">
+			<tr>
+				<th>Order ID</th>
+				<th>Date</th>
+				<th>Customer</th>
+				<th>Address</th>
+				<th>Currency</th>
+				<th>Refund Amount</th>
+				<th>Status</th>
+			</tr>
+			<% row_class = "even" %>
+		<% @user_returns.uniq.each do |f| %>
+			<tr class="<%=row_class%>">
+				<td><%= link_to f.order_id, admin_order_path(f.order_id) %></td>
+				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
+				<td><%= f.order.cust_last_name %>, <%= f.order.cust_first_name %></td>
+				<td><%= f.order.street_address %>, <%= f.order.city %><br /><%= f.order.prov_state %>, <%=f.order.country %><br /><%= f.order.postal_zip %></td>
+				<td><div class="navbarflag flag flag-<%=flag_selector_based_on_currency(f.order.currency)%>"></div> </td>
+				<td><%= number_to_currency(refund_total(f), unit: '$')%></td>
+        <td><%= refund_status_indicator(f.refund_complete) %></td>
+			</tr>
+			<%
+			if row_class == "even"
+				row_class = "odd"
+			else
+				row_class = "even"
+			end
+		%>
+		<%end%>
+		</table>
+	</div>
+	<%else%>
+	<div class="merchant_title">
+	<i>You currently have no returns submitted.
+  </div>
+	<%end%>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</div>

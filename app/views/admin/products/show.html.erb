@@ -8,7 +8,6 @@
 				</div>
 				<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
 					<h3><%=@product.name%></h3>
-					<p><strong>Price:</strong><%=number_to_currency(@product.price, precision: 2)%> </p><br />
 					 <div class="old_unit_form">
 						  <% if @product.units.exists? %>
 								  <% if @product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>

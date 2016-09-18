@@ -200,6 +200,8 @@ class OrdersController < ApplicationController
           :destination => merchant_stripe_account,
           :application_fee => application_fee
         )
+        # save the application fee applied to the order
+        f.update_attributes(application_fee_applied: application_fee)
       end
       # capture each charge if all authorized. if even one does not authorize, refund all
       array_of_charges.each do |f|
@@ -346,19 +348,25 @@ class OrdersController < ApplicationController
               # otherwise apply the foreign shipping fee
               shipping_fee_per_unit = f.unit.product.currency_foreign_shipping(session[:site_country])
             end
-            # determine is customer is picking up product in store
+            # determine if customer is picking up product in store
             delivery_method = f.order.merchant_orders.find_by(product_id: f.unit.product.id).delivery_method
             case delivery_method
             when "Standard Shipping"
               # when customer requests shipping
               total_shipping_fee = shipping_fee_per_unit*f.quantity
-              # calculate sales tax with shipping
-              sales_tax_charged = tax_jar_sales_tax_request_for_delivery(f, shipping_fee_per_unit)
+              # calculate sales tax and sales tax rate with shipping
+              taxjar_result = tax_jar_sales_tax_request_for_delivery(f, shipping_fee_per_unit)
+              sales_tax_charged = taxjar_result.amount_to_collect
+              sales_tax_rate = taxjar_result.rate
+              freight_taxable = taxjar_result.freight_taxable
             else
               # when customer is picking up product in store
               total_shipping_fee = 0
-              # calculate sales tax without shipping
-              sales_tax_charged = tax_jar_sales_tax_request_for_in_store_pickup(f)
+              # calculate sales tax and sales tax rate without shipping
+              taxjar_result = tax_jar_sales_tax_request_for_in_store_pickup(f)
+              sales_tax_charged = taxjar_result.amount_to_collect
+              sales_tax_rate = taxjar_result.rate
+              freight_taxable = taxjar_result.freight_taxable
             end
           rescue => e
             return false
@@ -371,7 +379,10 @@ class OrdersController < ApplicationController
               :shipping_charged => total_shipping_fee,
               :sub_total => order_unit_amount_less_tax_and_shipping,
               # save the currency that is used for order.
-              :currency => currency_session(session[:site_country])
+              :currency => currency_session(session[:site_country]),
+              # whether shipping is a taxable amount, boolean
+              :freight_taxable => freight_taxable,
+              :sales_tax_rate => sales_tax_rate
             )
           end
         end
@@ -438,7 +449,7 @@ class OrdersController < ApplicationController
             :amount => amount,
             :shipping => shipping
         })
-        taxjar_result.amount_to_collect
+        taxjar_result
       end
 
       def tax_jar_sales_tax_request_for_in_store_pickup(f)
@@ -467,7 +478,7 @@ class OrdersController < ApplicationController
             :amount => amount,
             :shipping => 0
         })
-        taxjar_result.amount_to_collect
+        taxjar_result
       end
 
       def santize_country(country)

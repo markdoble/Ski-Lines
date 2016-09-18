@@ -6,26 +6,30 @@
           <%
   				# Check to see if we are filtering on a category. If so, we will display this to the user
   				if params[:category_id]
-  					%><h4><%= @all_categories.find(params[:category_id]).name %></h4><%
+  					%>
+            <h4>
+              <%
+              # Get the current category object
+              cur_category_object = @all_categories.find(params[:category_id])
+              # Display the parent categories
+              cur_category_object.get_parent_categories.reverse_each do |parent_category|
+                %><%=parent_category.name + " > "%><%
+              end
+              # Display the current category
+              %><%=cur_category_object.name%><%
+              %>
+            </h4>
+            <%
   				else
   					%><h4>All Products</h4><%
   				end
   				%>
-
   		<br /><br />
       </div>
   	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
   </div>
   <div class="row">
   	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
-  	<% if @products.empty? %>
-    	<div style="text-align:center">
-        <br />
-    		<i>Currently no products exist.</i>
-    		<br /><br /><br />
-    	  <%= link_to "ADD PRODUCT", new_admin_product_path, class: "btn btn-primary add_product"%>
-    	</div>
-  	<%else%>
   	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
   	<%= render 'admin/products/product_listing_header'%>
   		<div class="products">
@@ -35,61 +39,101 @@
             <th>Brand</th>
             <th>Model</th>
             <th>Price</th>
+            <th>Domestic Shipping</th>
+            <th>Foreign Shipping</th>
             <th>Stock</th>
             <th>Sold</th>
             <th>Status</th>
             <th colspan="2">Options</th>
           </tr>
   		    <%
-          row_class = "even"
-          @list_view_products.each do |product|
-            # Calculate the total units and total units sold
-            total_units = 0
-      			total_units_sold = 0
-      			product.units.each do |t|
-      		    total_units += t.quantity
-      			  total_units_sold += t.quantity_sold
-      			end
-            %>
-            <tr class="<%=row_class%>">
-              <td><%=product.id%></td>
-              <td><%=product.brand%></td>
-              <td><%=product.name%></td>
-              <td>
-                <% if !product.usd_price.blank? && product.usd_price > 0 %>
-                USD: <%=number_to_currency(product.usd_price, precision: 2)%><br />
-                <% end %>
-                <% if !product.cad_price.blank? && product.cad_price > 0 %>
-                CAD: <%=number_to_currency(product.cad_price, precision: 2)%>
-                <%end%>
-              </td>
-              <td><%=total_units%></td>
-              <td><%=total_units_sold%></td>
-              <td><% if product.status %>Active<%else%>Not For Sale<%end%></td>
-              <td><%=link_to 'Edit', edit_admin_product_path(product)%></td>
-              <td>
-                <%
-                if total_units_sold != 0
-                  %>&nbsp;<%
-                else
-                  %><%=link_to admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%><%
-                end
-                %>
-              </td>
-            <tr>
-            <%
-            if row_class == "even"
-              row_class = "odd"
-            else
-              row_class = "even"
+          # Only display table rows if we have products to show
+          if !@list_view_products.empty?
+            row_class = "even"
+            @list_view_products.each do |product|
+              # Calculate the total units and total units sold
+              total_units = 0
+        			total_units_sold = 0
+        			product.units.each do |t|
+        		    total_units += t.quantity
+        			  total_units_sold += t.quantity_sold
+        			end
+              %>
+              <tr class="<%=row_class%>">
+                <td><%=product.id%></td>
+                <td><%=product.brand%></td>
+                <td><%=product.name%></td>
+                <td>
+                  <% if !product.usd_price.blank? && product.usd_price > 0 %>
+                  USD: <%=number_to_currency(product.usd_price, precision: 2)%><br />
+                  <% end %>
+                  <% if !product.cad_price.blank? && product.cad_price > 0 %>
+                  CAD: <%=number_to_currency(product.cad_price, precision: 2)%>
+                  <%end%>
+                </td>
+                <td>
+                  <% if !product.usd_domestic_shipping.blank? && product.usd_domestic_shipping > 0 && product.usd_price > 0 %>
+                  USD: <%=number_to_currency(product.usd_domestic_shipping, precision: 2)%><br />
+                  <% end %>
+                  <% if !product.cad_domestic_shipping.blank? && product.cad_domestic_shipping > 0 && product.cad_price > 0 %>
+                  CAD: <%=number_to_currency(product.cad_domestic_shipping, precision: 2)%>
+                  <%end%>
+                </td>
+                <td>
+                  <% if !product.usd_foreign_shipping.blank? && product.usd_foreign_shipping > 0 && product.usd_price > 0 %>
+                  USD: <%=number_to_currency(product.usd_foreign_shipping, precision: 2)%><br />
+                  <% end %>
+                  <% if !product.cad_foreign_shipping.blank? && product.cad_foreign_shipping > 0 && product.cad_price > 0 %>
+                  CAD: <%=number_to_currency(product.cad_foreign_shipping, precision: 2)%>
+                  <%end%>
+                </td>
+                <td><%=total_units%></td>
+                <td><%=total_units_sold%></td>
+                <td><% if product.status %>Active<%else%>Not For Sale<%end%></td>
+                <td><%=link_to 'Edit', edit_admin_product_path(product)%></td>
+                <td>
+                  <%
+                  if total_units_sold != 0
+                    %>&nbsp;<%
+                  else
+                    %><%=link_to admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%><%
+                  end
+                  %>
+                </td>
+              <tr>
+              <%
+              if row_class == "even"
+                row_class = "odd"
+              else
+                row_class = "even"
+              end
             end
           end
           %>
         </table>
+        <%
+        # If we have no products to show, we will display the Add Product button
+        if @list_view_products.empty?
+          %>
+          <div style="text-align:center">
+        		<br />
+        		<i>No products exist for the selected category.</i>
+        		<br /><br />
+            <%
+            if params[:category_id]
+        	     %><%= link_to "ADD PRODUCT", new_admin_product_path(:category_id => params[:category_id]), class: "btn btn-primary add_product"%><%
+            else
+              %><%= link_to "ADD PRODUCT", new_admin_product_path, class: "btn btn-primary add_product"%><%
+            end
+            %>
+        	</div>
+          <%
+        end
+        %>
   		</div>
-  	<%end%>
   	</div>
   	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
   	</div>
   </div>
 </div>
+<%= render 'admin/modals/category_filter' %>

@@ -1,8 +1,8 @@
 //******************************************************************************
-// Category Select Modal Section
+// Category Select and Filter Modal Section
 //
 // Contains all of the methods and handlers for functionality of the elements
-// within the category select modal
+// within the category select and filter modals
 //******************************************************************************
 $(function() {
   // Click handler for the cancel link
@@ -30,6 +30,24 @@ $(function() {
     $('#product_form_category_display').html($('#div_selected_categories').text());
     // Update the category_id hidden field on the product create/edit form with the selected category_id in the modal
     $('#category_id').val($('#hidden_category_modal_category_id').val());
+    // Close the modal window
+    $('#modal_category_select').modal('toggle');
+  });
+
+  // Click hanlder for the filter button
+  $('#btn_category_modal_filter').click(function( event ) {
+    var filter_category_id = $('#hidden_category_modal_category_id').val();
+
+    // If the user has selected a valid category, we will reload the page with the correct filter
+    if (filter_category_id > 0) {
+      // Add the category_id to the href before redirecting
+      $(this).attr('href', $(this).attr('href') + '?category_id=' + filter_category_id);
+    }
+    else {
+      // No valid category has been chosen, we will prevent the href link
+      event.preventDefault();
+    }
+
     // Close the modal window
     $('#modal_category_select').modal('toggle');
   });
@@ -148,8 +166,10 @@ function addChangeHandler(element_id) {
           }
           else {
             $('#btn_category_modal_save').removeClass('disabled');
-            $('#hidden_category_modal_category_id').val(cur_category_id);
           }
+
+          // Set the hidden input field for the category_id
+          $('#hidden_category_modal_category_id').val(cur_category_id);
         }
       });
   });

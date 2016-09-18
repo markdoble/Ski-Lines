@@ -1,0 +1,94 @@
+<div class="col-xs-12">
+<%= form_for [:admin, @return] do |f| %>
+<div class="row">
+  <div class="merchant_form_headings"><h2>Returned Products:</h2></div>
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-8">
+    <%= f.label :qty_returned, "Quantity Returned:"%>
+  </div>
+  <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+    <%= f.select :qty_returned, (0..@order_unit.quantity), {}, {class: "refund_select form-control"} %>
+    <br />
+  </div>
+  <div class="col-lg-7 col-md-6 col-sm-3 hidden-xs">
+  </div>
+  <div id="quantity_ordered" data-quantity="<%= @order_unit.quantity%>"></div>
+  <div id="freight_taxable" data-freight="<%= @order_unit.freight_taxable%>"></div>
+  <div id="tax_rate" data-taxrate="<%= @order_unit.sales_tax_rate%>"></div>
+  <%= f.hidden_field :order_id, value: @order.id %>
+  <%= f.hidden_field :order_units_id, value: @order_unit.id %>
+  <%= f.hidden_field :refund_complete, value: false %>
+
+</div>
+<!-- Notes to submit to refund request -->
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+    <%= f.label :reason, "Reason for Return:"%>
+  </div>
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+    <%= f.text_area :reason, class:"form-control", rows: "4" %>
+  </div>
+</div>
+<br /><br />
+<!-- Precalculated values to use for refund -->
+<div class="row" style="text-align:center;">
+  <div class="merchant_form_headings"><h2>Amount to Refund:</h2></div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <label>Sub Total:</label>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <label>Sales Tax:</label>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <label>Shipping:</label>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <label>Total Refund:</label>
+  </div>
+</div>
+<div class="row" style="text-align:center;" id="default_refund_amounts">
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="default_subtotal" data-subtotal="<%= @order_unit.sub_total %>">$0.00</div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="default_sales_tax" data-salestax="<%= @order_unit.sales_tax_charged %>">$0.00</div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="default_shipping_charge" data-shipping="<%= @order_unit.shipping_charged %>">$0.00</div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="default_total">$0.00</div>
+  </div>
+</div>
+
+
+<!-- Values suggested by merchant -->
+<div class="row" style="text-align:center;" id="suggested_refund_amounts">
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <%= f.label :suggested_sub_total, "Subtotal:", hidden: true %>
+    <%= f.text_field :suggested_sub_total, class:"form-control suggested_amount" %>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <%= f.label :suggested_sales_tax, "Sales Tax:", hidden: true %>
+    <%= f.text_field :suggested_sales_tax, class:"form-control suggested_amount" %>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <%= f.label :suggested_shipping_charge, "Shipping:", hidden: true %>
+    <%= f.text_field :suggested_shipping_charge, class:"form-control suggested_amount" %>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    <div id="suggested_total">$0.00</div>
+  </div>
+</div>
+<br /><br />
+<div class="row" style="text-align:center;">
+  <div id="show_suggest_fields"><p>Customize Refund Amounts</p></div>
+  <div id="show_default_fields"><p>Use Default Amounts</p></div>
+</div>
+<div class="row">
+  <div class="merchant_form_headings"><h2><br /></h2></div>
+  <div class="col-xs-12" style="text-align:center;">
+  <%= f.submit "Submit for Refund", class:"btn btn-primary", id:"refund_submit", data: { confirm: "Are you sure you want to refund "+@order.cust_first_name+" this amount?"  } %>
+  </div>
+</div>
+<%end%>
+</div>

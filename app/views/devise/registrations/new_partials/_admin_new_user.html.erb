@@ -20,10 +20,13 @@
 						</div>
 				  </div>
 			  	<div class="field">
-				    <div class="devise_label col-xs-12">
-				    <%= f.label :slug, "Merchant url: ski-lines.com/shop/" %>
-				    <%= f.text_field :slug, class: "form-control input-lg", readonly: true%>
-						<br />
+				    <div class="devise_label col-xs-12" style="text-align:left;">
+							<%= f.label :slug do %>
+							  <span class="glyphicon glyphicon-info-sign" rel="popover" title="Merchant Specific Shop" data-content="The merchant can use this url to allow direct access to their online store." data-trigger="hover" data-placement="top" data-template='<div class="popover" role="tooltip"><div class="popover-arrow"></div><h3 class="popover-title popover-title-userforms"></h3><div class="popover-content popover-content-userforms"></div></div>'></span>
+								Merchant url: ski-lines.com/shop/
+							<% end %>
+					    <%= f.text_field :slug, class: "form-control input-lg", readonly: true%>
+							<br />
 						</div>
 			    </div>
 					<div class="field">
@@ -54,9 +57,11 @@
 					</div>
 			  </div>
 <!-- Address -->
+				<div class="merchant_form_headings">
+					<h2>Address:</h2>
+				</div>
 			  <div class="field">
 				    <div class="devise_label col-xs-12">
-			    <%= f.label :street_address, "Address:" %>
 			    <%= f.text_field :street_address, autofocus: true, class: "form-control input-lg", placeholder: "Street Address" %>
 					</div>
 			  </div>

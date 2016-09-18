@@ -76,7 +76,59 @@
 .account{
 
 }
-
+.return_form{
+	.return_labels{
+		text-align:right;
+		padding-top:3px;
+	}
+	input{
+		text-align:center;
+	}
+}
+#show_suggest_fields:hover{
+	cursor:pointer;
+	text-decoration: underline;
+}
+#show_default_fields:hover{
+	cursor:pointer;
+	text-decoration: underline;
+}
+#show_suggest_fields{
+	cursor:pointer;
+	color:black;
+}
+#show_default_fields{
+	cursor:pointer;
+	color:black;
+}
+.merchant_navigation{
+	padding-left:10px;
+	background-color:#f0f0f0;
+	ul{
+		padding:4px;
+		.title{
+			padding:0px;
+			margin-bottom:5px;
+			margin-top:10px;
+			color:#404040;
+		}
+		.navigation_list{
+			padding-left:3px;
+			li{
+			list-style-type: none;
+			padding:0px;
+			mrgin-top:5px;
+			margin-bottom:5px;
+			a{
+				color:black;
+			}
+			a:active{
+				color:blue;
+			}
+			}
+		}
+	}
+}
 .store_header{
 	background: url("landing_4.jpg") no-repeat center center;
 	background-size: cover;
@@ -635,7 +687,15 @@ nav.merchant{
 		}
 	}
 }
-
+.product_detailed_list_headings{
+	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+	text-align:left;
+	margin-bottom:2px;
+	margin-top:10px;
+	padding-bottom:0px;
+	font-size:14px;
+	color:black;
+}
 .product_well{
 	box-shadow: 0 0 3px black;
 	padding:10px;
@@ -1870,6 +1930,29 @@ input[type=number]::-webkit-inner-spin-button {
 	}
 
 }
+.order_unit_show_form_headings{
+	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
+	text-align:left;
+	border-bottom-style:solid;
+	border-color:#bdbdbd;
+	border-width:thin;
+	margin-bottom:5px;
+	margin-top:10px;
+	padding-bottom:0px;
+	font-size:14px;
+	color:#bdbdbd;
+}
+textarea {
+    resize: none;
+}
+.order_status_button{
+	background-color: white;
+	border:none;
+	color:blue;
+}
+.order_status_button:hover{
+	text-decoration:underline;
+}
 .merchant_order_products{
 	text-align: center;
 	p{
@@ -2711,6 +2794,9 @@ resize: none;
 }
 .glyphicon-envelope{
 	font-size:18px;
+}
+.glyphicon-info-sign{
+	font-size:12px;
 }
 .badge-notify{
    background:#006dcc;
@@ -3641,6 +3727,7 @@ border:none;
     padding: 8px;
 		background-color: #006dcc;
     color: white;
+		font-size:13px;
 }
 
 .hoverTable td {
@@ -3670,4 +3757,14 @@ border:none;
 .div_selected_categories_modal{
 	margin-bottom: 10px;
 	font-weight: bold;
+}
+
+.popover-title-userforms{
+	background-color: #f7f7f7;
+	color: black;
+	text-align: left;
+}
+
+.popover-content-userforms{
+	color: black;
 }

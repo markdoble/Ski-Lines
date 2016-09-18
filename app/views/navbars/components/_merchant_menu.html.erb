@@ -1,4 +1,11 @@
-<li><%= link_to "MY ORDERS", admin_orders_path %> </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">ORDERS
+  <span class="caret"></span></a>
+  <ul class="dropdown-menu">
+   <li><%= link_to "MY ORDERS", admin_orders_path %> </li>
+   <li><%= link_to "RETURNS", admin_returns_path, id: "new_product" %></li>
+  </ul>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">PRODUCTS
   <span class="caret"></span></a>
