@@ -18,20 +18,20 @@ ActiveRecord::Schema.define(version: 20160918183031) do
 
   create_table "articles", force: :cascade do |t|
     t.text     "location"
-    t.string   "category",                        limit: 255
+    t.string   "category"
     t.text     "title"
     t.text     "description"
-    t.string   "source",                          limit: 255
+    t.string   "source"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "date_published",                  limit: 255
-    t.string   "notes",                           limit: 255
+    t.string   "date_published"
+    t.string   "notes"
     t.text     "image"
-    t.string   "publish",                         limit: 255
-    t.string   "article_format",                  limit: 255
-    t.string   "img_size",                        limit: 255
-    t.string   "orig_content_photo_file_name",    limit: 255
-    t.string   "orig_content_photo_content_type", limit: 255
+    t.string   "publish"
+    t.string   "article_format"
+    t.string   "img_size"
+    t.string   "orig_content_photo_file_name"
+    t.string   "orig_content_photo_content_type"
     t.integer  "orig_content_photo_file_size"
     t.datetime "orig_content_photo_updated_at"
   end
@@ -45,22 +45,22 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   end
 
   create_table "complaints", force: :cascade do |t|
-    t.string   "cust_first_name",       limit: 255
-    t.string   "cust_last_name",        limit: 255
-    t.string   "customer_email",        limit: 255
+    t.string   "cust_first_name"
+    t.string   "cust_last_name"
+    t.string   "customer_email"
     t.text     "complaint_description"
-    t.string   "accused_seller",        limit: 255
-    t.string   "order_id_number",       limit: 255
+    t.string   "accused_seller"
+    t.string   "order_id_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.string   "email",      limit: 255
+    t.string   "email"
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "website",    limit: 255
+    t.string   "website"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -80,12 +80,12 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   add_index "default_permitted_destinations", ["user_id"], name: "index_default_permitted_destinations_on_user_id", using: :btree
 
   create_table "email_digests", force: :cascade do |t|
-    t.string   "first_name", limit: 255
-    t.string   "last_name",  limit: 255
-    t.string   "email",      limit: 255
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status",     limit: 255
+    t.string   "status"
   end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
@@ -145,17 +145,17 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   add_index "mailboxer_receipts", ["receiver_id", "receiver_type"], name: "index_mailboxer_receipts_on_receiver_id_and_receiver_type", using: :btree
 
   create_table "merchant_applications", force: :cascade do |t|
-    t.string   "merchant_name",          limit: 255
-    t.string   "email",                  limit: 255
-    t.string   "country",                limit: 255
-    t.string   "state_prov",             limit: 255
-    t.string   "zip_postal",             limit: 255
-    t.string   "city",                   limit: 255
-    t.string   "street_address",         limit: 255
-    t.string   "contact_name",           limit: 255
-    t.string   "merchant_phone",         limit: 255
+    t.string   "merchant_name"
+    t.string   "email"
+    t.string   "country"
+    t.string   "state_prov"
+    t.string   "zip_postal"
+    t.string   "city"
+    t.string   "street_address"
+    t.string   "contact_name"
+    t.string   "merchant_phone"
     t.boolean  "current_selling_online"
-    t.string   "website_url",            limit: 255
+    t.string   "website_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(version: 20160918183031) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "order_status"
-    t.string   "delivery_method",   limit: 255
+    t.string   "delivery_method"
     t.integer  "product_id"
     t.text     "customer_comments"
   end
@@ -189,20 +189,20 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   create_table "orders", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "street_address",   limit: 255
-    t.string   "prov_state",       limit: 255
-    t.string   "country",          limit: 255
-    t.string   "postal_zip",       limit: 255
-    t.string   "cust_first_name",  limit: 255
-    t.string   "cust_last_name",   limit: 255
-    t.string   "cust_email",       limit: 255
-    t.string   "cust_phone",       limit: 255
+    t.string   "street_address"
+    t.string   "prov_state"
+    t.string   "country"
+    t.string   "postal_zip"
+    t.string   "cust_first_name"
+    t.string   "cust_last_name"
+    t.string   "cust_email"
+    t.string   "cust_phone"
     t.boolean  "marketing_optout"
-    t.decimal  "amount",                       precision: 8, scale: 2
-    t.string   "city",             limit: 255
-    t.decimal  "sales_tax",                    precision: 8, scale: 2
-    t.decimal  "shipping",                     precision: 8, scale: 2
-    t.string   "transaction_id",   limit: 255
+    t.decimal  "amount",           precision: 8, scale: 2
+    t.string   "city"
+    t.decimal  "sales_tax",        precision: 8, scale: 2
+    t.decimal  "shipping",         precision: 8, scale: 2
+    t.string   "transaction_id"
     t.boolean  "success"
     t.string   "currency"
   end
@@ -235,8 +235,8 @@ ActiveRecord::Schema.define(version: 20160918183031) do
     t.integer  "product_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "foto_file_name",    limit: 255
-    t.string   "foto_content_type", limit: 255
+    t.string   "foto_file_name"
+    t.string   "foto_content_type"
     t.integer  "foto_file_size"
     t.datetime "foto_updated_at"
   end
@@ -244,38 +244,38 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   add_index "productfotos", ["product_id"], name: "index_productfotos_on_product_id", using: :btree
 
   create_table "products", force: :cascade do |t|
-    t.string   "name",                  limit: 255
+    t.string   "name"
     t.text     "description"
     t.boolean  "status"
     t.integer  "user_id"
-    t.decimal  "price",                             precision: 8, scale: 2, default: 0.0
-    t.string   "currency",              limit: 255
+    t.decimal  "price",                 precision: 8, scale: 2, default: 0.0
+    t.string   "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "photo_file_name",       limit: 255
-    t.string   "photo_content_type",    limit: 255
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.decimal  "shipping_charge",                   precision: 8, scale: 2
+    t.decimal  "shipping_charge",       precision: 8, scale: 2
     t.text     "size_details"
     t.text     "product_return_policy"
-    t.decimal  "usd_price",                         precision: 8, scale: 2, default: 0.0
-    t.decimal  "cad_price",                         precision: 8, scale: 2, default: 0.0
+    t.decimal  "usd_price",             precision: 8, scale: 2, default: 0.0
+    t.decimal  "cad_price",             precision: 8, scale: 2, default: 0.0
     t.string   "factory_sku"
-    t.decimal  "cad_domestic_shipping",             precision: 8, scale: 2
-    t.decimal  "cad_foreign_shipping",              precision: 8, scale: 2
-    t.decimal  "usd_domestic_shipping",             precision: 8, scale: 2
-    t.decimal  "usd_foreign_shipping",              precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping", precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",  precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping", precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",  precision: 8, scale: 2
     t.string   "brand"
   end
 
   create_table "results", force: :cascade do |t|
-    t.string   "date",       limit: 255
-    t.string   "city",       limit: 255
-    t.string   "country",    limit: 255
-    t.string   "format",     limit: 255
+    t.string   "date"
+    t.string   "city"
+    t.string   "country"
+    t.string   "format"
     t.text     "location"
-    t.string   "category",   limit: 255
+    t.string   "category"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -315,13 +315,13 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
-    t.string   "first_name", limit: 255
-    t.string   "last_name",  limit: 255
-    t.string   "email",      limit: 255
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
     t.text     "summary"
-    t.string   "province",   limit: 255
-    t.string   "city",       limit: 255
-    t.string   "country",    limit: 255
+    t.string   "province"
+    t.string   "city"
+    t.string   "country"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -333,7 +333,7 @@ ActiveRecord::Schema.define(version: 20160918183031) do
     t.integer  "quantity_sold"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "colour",        limit: 255
+    t.string   "colour"
   end
 
   create_table "user_feedback_answers", force: :cascade do |t|
@@ -365,43 +365,43 @@ ActiveRecord::Schema.define(version: 20160918183031) do
   add_index "user_feedbacks", ["article_id"], name: "index_user_feedbacks_on_article_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255,                         default: "",    null: false
-    t.string   "encrypted_password",     limit: 255,                         default: "",    null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                                          default: "",    null: false
+    t.string   "encrypted_password",                             default: "",    null: false
+    t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                              default: 0,     null: false
+    t.integer  "sign_in_count",                                  default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                                                      default: false
-    t.string   "merchant_name",          limit: 255
-    t.string   "contact_first_name",     limit: 255
-    t.string   "country",                limit: 255
-    t.string   "state_prov",             limit: 255
-    t.string   "zip_postal",             limit: 255
-    t.string   "merchant_url",           limit: 255
-    t.string   "merchant_phone",         limit: 255
-    t.string   "street_address",         limit: 255
-    t.decimal  "shipping_cost",                      precision: 8, scale: 2
-    t.decimal  "sales_tax",                          precision: 2, scale: 2
-    t.string   "city",                   limit: 255
+    t.boolean  "admin",                                          default: false
+    t.string   "merchant_name"
+    t.string   "contact_first_name"
+    t.string   "country"
+    t.string   "state_prov"
+    t.string   "zip_postal"
+    t.string   "merchant_url"
+    t.string   "merchant_phone"
+    t.string   "street_address"
+    t.decimal  "shipping_cost",          precision: 8, scale: 2
+    t.decimal  "sales_tax",              precision: 2, scale: 2
+    t.string   "city"
     t.text     "user_return_policy"
-    t.string   "slug",                   limit: 255
-    t.boolean  "merchant",                                                   default: false
-    t.boolean  "article_publisher",                                          default: false
-    t.boolean  "merchant_rep",                                               default: false
+    t.string   "slug"
+    t.boolean  "merchant",                                       default: false
+    t.boolean  "article_publisher",                              default: false
+    t.boolean  "merchant_rep",                                   default: false
     t.string   "stripe_account_id"
     t.string   "stripe_customer_id"
     t.string   "contact_last_name"
     t.string   "email_for_orders"
-    t.decimal  "cad_domestic_shipping",              precision: 8, scale: 2
-    t.decimal  "cad_foreign_shipping",               precision: 8, scale: 2
-    t.decimal  "usd_domestic_shipping",              precision: 8, scale: 2
-    t.decimal  "usd_foreign_shipping",               precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping",  precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",   precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping",  precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",   precision: 8, scale: 2
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

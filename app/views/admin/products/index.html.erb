@@ -2,41 +2,72 @@
 <div class="row">
 	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
 	</div>
-	 <div class="merchant_title col-lg-10 col-md-10 col-sm-9 col-xs-12">
-        <h3><%= current_user.merchant_name%> </h3>
+	<div class="merchant_title col-lg-10 col-md-10 col-sm-9 col-xs-12">
+				<h3><%= current_user.merchant_name%> </h3>
 				<%
-			  # Check to see if we are filtering on a category. If so, we will display this to the user
-			  if params[:category_id]
-			    %><h4><%= @all_categories.find(params[:category_id]).name %></h4><%
-			  else
-			    %>ALL<%
-			  end
-			  %>
+				# Check to see if we are filtering on a category. If so, we will display this to the user
+				if params[:category_id]
+					%>
+					<h4>
+						<%
+						# Get the current category object
+						cur_category_object = @all_categories.find(params[:category_id])
+						# Display the parent categories
+						cur_category_object.get_parent_categories.reverse_each do |parent_category|
+							%><%=parent_category.name + " > "%><%
+						end
+						# Display the current category
+						%><%=cur_category_object.name%><%
+						%>
+					</h4>
+					<%
+				else
+					%><h4>All Products</h4><%
+				end
+				%>
 		<br /><br />
-  </div>
+		</div>
 	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
 	</div>
-	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-		<% if @products.empty? %>
-		<div style="text-align:center">
-			<br />
-			<i>Currently no products exist.</i>
-			<br /><br /><br />
-		<%= link_to "ADD PRODUCT", new_admin_product_path, class: "btn btn-primary add_product"%>
-		</div>
-		<%else%>
+	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
 		<%= render 'admin/products/product_listing_header'%>
 			<div class="products">
-		<%= render 'admin/products/paginate/index'%>
+				<%
+				if @products.empty?
+					%>
+					<div style="text-align:center">
+						<br />
+						<i>No products exist for the selected category.</i>
+						<br /><br />
+						<%
+						if params[:category_id]
+							 %><%= link_to "ADD PRODUCT", new_admin_product_path(:category_id => params[:category_id]), class: "btn btn-primary add_product"%><%
+						else
+							%><%= link_to "ADD PRODUCT", new_admin_product_path, class: "btn btn-primary add_product"%><%
+						end
+						%>
+					</div>
+					<%
+				else
+					%>
+					<%= render 'admin/products/paginate/index'%>
+					<%
+				end
+				%>
 		</div>
-	<%end%>
 	</div>
-	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+	<%
+	if !@products.empty?
+		%><%=will_paginate(@products)%><%
+	end
+	%>
+	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
 	</div>
 	<%=will_paginate(@products)%>
 </div>
 </div>
+<%= render 'admin/modals/category_filter' %>

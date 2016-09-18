@@ -112,7 +112,7 @@ $(document).ready(function() {
 
 	// Devise: Duplicating form field for slug/vanity url
 	$('#user_merchant_name').keyup(function() {
-		document.getElementById('user_slug').value = this.value.replace(/\W/g, '');
+		$('#user_slug').val(this.value.replace(/\W/g, ''));
 	});
 
 
@@ -173,7 +173,4 @@ $(document).ready(function() {
 		$("input[type='submit']", this).attr('disabled', 'disabled');
 		return true;
 	});
-});
-$(document).ready(function() {
-	
 });

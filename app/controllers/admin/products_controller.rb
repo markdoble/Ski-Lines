@@ -45,7 +45,7 @@ class Admin::ProductsController < ApplicationController
           @list_view_products = @list_view_products.search(params[:query])
       end
 
-      # Retrieve all the categories to display in the caterogy filter dropdown
+      # Retrieve the root categories to display in the caterogy filter dropdown
       @all_categories = Category.order(:name)
 
       # Check to see if a user has selected a specific view type
@@ -107,7 +107,7 @@ class Admin::ProductsController < ApplicationController
     @product = Product.new
 
     # Retrieve the root categories to display in the caterogy filter dropdown
-    @root_categories = Category.where(parent_id: nil).order(:name)
+    @all_categories = Category.order(:name)
 
     respond_to do |format|
       format.js
@@ -119,8 +119,8 @@ class Admin::ProductsController < ApplicationController
   def edit
     @product = Product.find(params[:id])
 
-    # Retrieve the root categories to display in the caterogy filter dropdown
-    @root_categories = Category.where(parent_id: nil).order(:name)
+    # Retrieve the categories to display in the caterogy filter dropdown
+    @all_categories = Category.where(parent_id: nil).order(:name)
   end
 
   # Executed on submit of a new product. Will create the entry in the database
@@ -141,8 +141,8 @@ class Admin::ProductsController < ApplicationController
       else
         # Product did not save successfully. Redirect to the products list indicating failure
 
-        # Retrieve the root categories to display in the caterogy filter dropdown
-        @root_categories = Category.where(parent_id: nil).order(:name)
+        # Retrieve the categories to display in the caterogy filter dropdown
+        @all_categories = Category.order(:name)
 
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }
@@ -176,8 +176,8 @@ class Admin::ProductsController < ApplicationController
       else
         # Product did not update successfully
 
-        # Retrieve the root categories to display in the caterogy filter dropdown
-        @root_categories = Category.where(parent_id: nil).order(:name)
+        # Retrieve the categories to display in the caterogy filter dropdown
+        @all_categories = Category.order(:name)
 
         format.html { render :new }
         format.json { render json: @product.errors, status: :unprocessable_entity }

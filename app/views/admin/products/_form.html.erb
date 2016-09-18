@@ -76,13 +76,26 @@
                      # Display the name of the current category
                      %><%=f.object.categories.first.name%><%
                    else
-                     %><%="None Selected"%><%
+                     # We did not have any existing categories, check the category_id parameter. If passed we will set it
+                     if params[:category_id]
+                       category_id_value = params[:category_id]
+                       # Get the current category object
+                       cur_category_object = @all_categories.find(category_id_value)
+                       # Display the parent categories
+                       cur_category_object.get_parent_categories.reverse_each do |parent_category|
+                         %><%=parent_category.name + " > "%><%
+                       end
+                       # Display the current category
+                       %><%=cur_category_object.name%><%
+                     else
+                       %><%="None Selected"%><%
+                     end
                    end
                    %>
                  </span>
                  <%
                  # Display the edit link
-                 %>&nbsp;<a href=# data-toggle="modal" data-target="#modal_category_select">Edit</a><%
+                 %>&nbsp;<a href="#" data-toggle="modal" data-target="#modal_category_select">Edit</a><%
                  # Set the hidden input field to store the form value for the category_id
                  %>
                  <input id="category_id" name="category_id" type="hidden" value="<%=category_id_value%>" />
