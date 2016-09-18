@@ -10,22 +10,33 @@
 			<div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
 			<h3><%=product.name%>, <%= product.brand %></h3>
 			<p><%=product.description%></p><br />
+			<div class="product_detailed_list_headings"><strong>Price:</strong></div>
 			<% if !product.cad_price.blank? && product.cad_price > 0 %>
-			<p><strong>Price in CAD:</strong> <%=number_to_currency(product.cad_price, precision: 2)%></p>
+			<p>CAD<%=number_to_currency(product.cad_price, precision: 2)%></p>
 			<%end%>
 			<% if !product.usd_price.blank? && product.usd_price > 0 %>
-			<p><strong>Price in USD:</strong> <%=number_to_currency(product.usd_price, precision: 2)%></p>
+			<p>USD<%=number_to_currency(product.usd_price, precision: 2)%></p>
+			<%end%>
+			<br />
+			<div class="product_detailed_list_headings"><strong>Domestic Shipping Fee:</strong></div>
+			<% if !product.usd_domestic_shipping.blank? && product.usd_domestic_shipping > 0 && product.usd_price > 0 %>
+			<p>USD<%=number_to_currency(product.usd_domestic_shipping, precision: 2)%></p>
+			<% end %>
+			<% if !product.cad_domestic_shipping.blank? && product.cad_domestic_shipping > 0 && product.cad_price > 0 %>
+			<p>CAD<%=number_to_currency(product.cad_domestic_shipping, precision: 2)%></p>
+			<%end%>
+			<br />
+			<div class="product_detailed_list_headings"><strong>International Shipping Fee:</strong></div>
+			<% if !product.usd_foreign_shipping.blank? && product.usd_foreign_shipping > 0 && product.usd_price > 0 %>
+			<p>USD<%=number_to_currency(product.usd_foreign_shipping, precision: 2)%></p>
+			<% end %>
+			<% if !product.cad_foreign_shipping.blank? && product.cad_foreign_shipping > 0 && product.cad_price > 0 %>
+			<p>CAD<%=number_to_currency(product.cad_foreign_shipping, precision: 2)%></p>
 			<%end%>
 			<br />
 			<% unless product.size_details.blank?%>
-			<div class="row sizing_information col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<a class="size_details_button">
-					<b>Sizing Information</b>
-				</a>
-				<div class="size_details">
-				<%= simple_format(product.size_details) %>
-				</div>
-			</div>
+			<div class="product_detailed_list_headings"><strong>Sizing Details:</strong></div>
+			<p><%= simple_format(product.size_details) %></p><br />
 			<%end%>
 			<% total_units = 0 %>
 			<% total_units_sold = 0 %>
@@ -34,18 +45,21 @@
 				<% total_units_sold += t.quantity_sold %>
 			<%end%>
 			 <% if (total_units + total_units_sold) != 0 %>
-	  		<strong>Inventory:</strong><br />
+	  		<div class="product_detailed_list_headings"><strong>Inventory:</strong>
+					<%if (total_units + total_units_sold) != 0%>
+					<%= link_to 'Manage', admin_product_path(product)%>
+					<%else%>
+				 <p><%= link_to 'Add', admin_product_path(product)%></p>
+					<%end%>
+				</div>
 		  		<% product.units.each do |u| %>
 				<p> <%unless u.size == "n/a" %><%= u.size %><%end%><%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold) </p>
 		  		  <%end%>
 	   		   <%else%>
 	   		 <p><strong>Currently no inventory or units sold.</strong></p>
+				  <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
 	   		 <%end%>
-	  		  <% if (total_units + total_units_sold) != 0 %>
-	  		 <p><%= link_to 'Manage Inventory', admin_product_path(product)%></p>
-	  			 <%else%>
-	  		  <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
-	  			 <%end%>
+
 				 <br />
 	           <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
 				   <% if total_units_sold != 0%>

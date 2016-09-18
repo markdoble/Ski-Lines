@@ -8,11 +8,11 @@
     </div>
   </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <%= f.label :cad_price, "Price (in CAD):"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="CAD Price Notice" data-content="When the field below is blank or set to 0, this product will not be displayed in the Ski-Lines Canada storefront." data-trigger="hover" data-placement="top"></span><br />
+        <%= f.label :cad_price, "Price (in CAD):"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="CAD Price" data-content="When the field below is blank or set to 0, this product will not be displayed in the Canadian storefront." data-trigger="hover" data-placement="top"></span><br />
         <%= f.text_field :cad_price, class: "form-control", placeholder: "Price" %>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <%= f.label :cad_domestic_shipping, "Domestic Shipping (in CAD):"%><br />
+        <%= f.label :cad_domestic_shipping, "Domestic Shipping (in CAD):"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Domestic Shipping" data-content="Domestic shipping price is added to all products purchased for shipping within your country." data-trigger="hover" data-placement="top"></span><br />
         <% if f.object.cad_domestic_shipping.nil? %>
         <%= f.text_field :cad_domestic_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_domestic_shipping, :precision => 2) || 0) %>
         <%else%>
@@ -20,7 +20,7 @@
         <%end%>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-        <%= f.label :cad_foreign_shipping, "Int'l Shipping (in CAD):"%><br />
+        <%= f.label :cad_foreign_shipping, "Int'l Shipping (in CAD):"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="International Shipping" data-content="International shipping price is added to all products purchased for shipping outside of your country." data-trigger="hover" data-placement="top"></span><br />
         <% if f.object.cad_foreign_shipping.nil? %>
         <%= f.text_field :cad_foreign_shipping, class: "form-control", placeholder: "Price", :value => (number_with_precision(current_user.cad_foreign_shipping, :precision => 2) || 0) %>
         <%else%>

@@ -104,7 +104,7 @@ $(document).ready(function() {
 	// Setup the on change function for the prov/state dropdown selector. This will caluculate shipping and tax based on customer's location
 	$('#order_prov_state').change(function() {
 		$thisOrderProv = this;
-		
+
 		var e = document.getElementById('order_country');
 		var $custCountry = e.options[e.selectedIndex].text;
 		var totalShipping = 0;
@@ -182,7 +182,7 @@ $(document).ready(function() {
 				TotalProductPrice += +this.value * (price + shipping) * (tax_rate+1);
 			});
 		});
-		
+
 		$('.total_shipping').html('$' + totalShipping.toFixed(2));
 		$('.sales_tax_total').html('$' + total_tax.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
 		$('.total_order_amount').html('<b>' + '$' + TotalProductPrice.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + '</b>');
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		parObj.find('.quantity_and_shipping_form').delay(400).fadeIn();
 		parObj.find('.show_comments_form_button').delay(400).fadeIn();
 	});
-	
+
 	// Toggle add to cart tab
 	$(document).on('click', '.toggle_sizes', function() {
 		 $(this).next(".size_selections").slideToggle();

@@ -13,7 +13,7 @@
 
         <div id="div_root_categories">
           <select name="category_select_0" id="category_select_0">
-            <option value="0">-- Select --</option>
+            <option value="0">-- Select Category --</option>
             <%
             @all_categories.where(parent_id: nil).each do |root_category|
               %><option value="<%=root_category.id%>"><%=root_category.name%></option><%
@@ -26,7 +26,7 @@
         <br />
 
         <input type="hidden" id="hidden_category_modal_category_id" name="hidden_category_modal_category_id" value="" />
-        <button id="btn_category_modal_save" type="button" class="btn btn-primary disabled">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> or <a href="#" id="href_cancel_category_modal">Cancel</a>
+        <button id="btn_category_modal_save" type="button" class="btn btn-primary disabled">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
       </div>
     </div>
   </div>

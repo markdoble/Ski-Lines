@@ -48,21 +48,21 @@
           <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
         		<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        			<%= f.label :description, "Product Description:" %>
-        			<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>5, placeholder: "Product Description. Describe the product with as much detailed information as you like." %>
+        			<%= f.label :description, "Product Description:" %>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Description" data-content="Provide a detailed description of the product." data-trigger="hover" data-placement="top"></span>
+        			<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>5 %>
         		<br />
         		  </div>
         		</div>
         		<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        			<%= f.label :size_details, "Sizing Details:"%>
-        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2, placeholder: "Provide additional information on how to select the correct size. Leave this blank if sizing is not applicable." %>
+        			<%= f.label :size_details, "Sizing Details:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Sizing Details" data-content="Provide additional information on how to select the correct size." data-trigger="hover" data-placement="top"></span>
+        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2 %>
         		<br />
         		  </div>
         		</div>
 						<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        		     <%= f.label :category, "Product Category:"%>
+        		     <%= f.label :category, "Product Category:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Category" data-content="It is helpful for both you and the user to accurately categorize you products." data-trigger="hover" data-placement="top"></span>
                  <br />
                  <span id="product_form_category_display" name="product_form_category_display">
                    <%
