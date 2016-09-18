@@ -2,27 +2,11 @@
   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
       <div class="row">
        <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
-         <div class="dropdown">
-           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories
-           <span class="caret"></span></button>
-           <ul class="dropdown-menu">
-             <div class="product_categories_admin">
-              <p><%= link_to "ALL", admin_products_path %></p>
-              <%
-              @all_categories.where(parent_id: nil).each do |root_category|
-                subcategories = root_category.get_subcategories
-                subcategories.each do |subcat|
-                  indent = "-" * 4 * subcat[0]
-                  %><p><%= link_to indent.html_safe + subcat[1].name, admin_products_path(:category_id => subcat[1].id) %></p><%
-                end
-              end
-              %>
-            </div>
-           </ul>
-         </div>
-         <br />
+         <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="modal" data-target="#modal_category_select">
+           <span class="glyphicon glyphicon-filter"></span>
+           Categories
+         </a>
        </div>
-
     </div>
   </div>
   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" style="text-align:left">

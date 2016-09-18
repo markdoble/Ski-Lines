@@ -8,7 +8,7 @@
     </div>
   </div>
   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-      <%= f.label :usd_price, "Price (in USD):"%><br />
+      <%= f.label :usd_price, "Price (in USD):"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="USD Price Notice" data-content="When the field below is blank or set to 0, this product will not be displayed in the Ski-Lines U.S. storefront." data-trigger="hover" data-placement="top"></span><br />
       <%= f.text_field :usd_price, class: "form-control", placeholder: "Price" %>
   </div>
   <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
