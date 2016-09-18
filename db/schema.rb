@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160917161354) do
+ActiveRecord::Schema.define(version: 20160918021056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,8 +284,18 @@ ActiveRecord::Schema.define(version: 20160917161354) do
     t.integer  "qty_returned"
     t.text     "reason"
     t.integer  "order_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.decimal  "suggested_sub_total",             precision: 8, scale: 2
+    t.decimal  "suggested_sales_tax",             precision: 8, scale: 2
+    t.decimal  "suggested_shipping_charge",       precision: 8, scale: 2
+    t.decimal  "actual_sub_total_refunded",       precision: 8, scale: 2
+    t.decimal  "actual_sales_tax_refunded",       precision: 8, scale: 2
+    t.decimal  "actual_shipping_charge_refunded", precision: 8, scale: 2
+    t.decimal  "default_sub_total",               precision: 8, scale: 2
+    t.decimal  "default_sales_tax",               precision: 8, scale: 2
+    t.decimal  "default_shipping_charge",         precision: 8, scale: 2
+    t.boolean  "refund_complete"
   end
 
   add_index "returns", ["order_id"], name: "index_returns_on_order_id", using: :btree

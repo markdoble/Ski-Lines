@@ -82,17 +82,7 @@
 									<%end%>
 									<br />
 									<div class="order_unit_show_form_headings">Returns:</div>
-									<%= form_for [:admin, @order, f] do |m| %>
-
-											<%= ff.fields_for :return do |fff| %>
-												<%= fff.label :qty_returned, "Quantity Returned:" %>
-												<%= fff.select :qty_returned, (0..f.quantity), {}, {class: "form-control"} %><br />
-												<%= fff.label :reason, "Reason:"%>
-												<%= fff.text_area :reason, class:"form-control", rows: 3 %><br />
-											<%end%>
-
-										<%= m.submit "Save Changes", data: { confirm: 'Are you sure you want to change the status of this order?' }, class: "btn btn-primary" %>
-									<%end%>
+									<%= link_to "Submit Refund Request", new_admin_return_path(order_unit_id: f.id, order_id: @order.id) %>
 						 	</div>
 						</div>
 						<br /><br />
