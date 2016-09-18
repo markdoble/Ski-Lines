@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160918021056) do
+ActiveRecord::Schema.define(version: 20160918150944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 20160918021056) do
     t.decimal  "sub_total",               precision: 8, scale: 2
     t.decimal  "application_fee_applied", precision: 8, scale: 2
     t.decimal  "sales_tax_rate",          precision: 8, scale: 4
+    t.boolean  "freight_taxable"
   end
 
   create_table "orders", force: :cascade do |t|
