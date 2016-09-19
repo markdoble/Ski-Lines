@@ -1,8 +1,8 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 <div class="row">
-	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
+	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>
-	<div class="merchant_title col-lg-10 col-md-10 col-sm-9 col-xs-12">
+	<div class="merchant_title col-lg-10 col-md-10 col-sm-12 col-xs-12">
 				<h3><%= current_user.merchant_name%> </h3>
 				<%
 				# Check to see if we are filtering on a category. If so, we will display this to the user
@@ -26,14 +26,14 @@
 				end
 				%>
 		<br /><br />
-		</div>
-	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
+	</div>
+	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
+	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>
-	<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
+	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 		<%= render 'admin/products/product_listing_header'%>
 			<div class="products">
 				<%
@@ -65,7 +65,7 @@
 		%><%=will_paginate(@products)%><%
 	end
 	%>
-	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
+	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>
 	<%=will_paginate(@products)%>
 </div>
