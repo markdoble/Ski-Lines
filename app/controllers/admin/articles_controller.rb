@@ -51,9 +51,11 @@ class Admin::ArticlesController < ApplicationController
     if @article.location == "custom_ski_lines_article_location"
       @article.location = @article.id.to_s.prepend("https://www.ski-lines.com/articles/")
     end
-
     respond_to do |format|
       if @article.save
+        if @article.publish == 'Yes'
+          send_to_slack(@article)
+        end
         format.html { redirect_to admin_articles_url, notice: 'Article was successfully created.' }
 
       else
@@ -69,6 +71,9 @@ class Admin::ArticlesController < ApplicationController
   def update
    respond_to do |format|
    if @article.update(article_params)
+     if @article.publish == 'Yes'
+       send_to_slack(@article)
+     end
      format.html {redirect_to admin_articles_url}
      format.json {render json: @article }
      else
@@ -100,6 +105,11 @@ class Admin::ArticlesController < ApplicationController
 
     def verify_is_article_publisher
       (current_user.nil?) ? redirect_to(root_path) : (redirect_to(root_path) unless current_user.article_publisher?)
+    end
+
+    def send_to_slack(article)
+      notifier = Slack::Notifier.new ENV["WEBHOOK_URL"]
+      notifier.ping "New article published, entitled: " << article.title
     end
 
 end

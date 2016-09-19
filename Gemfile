@@ -58,6 +58,7 @@ gem 'spring','~>1.3.6'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+gem 'slack-notifier'
 # Use unicorn as the app server
 # gem 'unicorn'
 
