@@ -148,12 +148,12 @@ class Admin::StripeAccountsController < ApplicationController
         )
         user.update_attribute(:stripe_account_id, account.id)
         if terms_acceptance = params[:tos]
-        update_stripe_attributes(user)
-        redirect_to admin_products_path
-        flash[:notice] = "Congratulations! You have successfully created your Merchant Account!"
+          update_stripe_attributes(user)
+          redirect_to admin_products_path
+          flash[:notice] = "Congratulations! You have successfully created your Merchant Account!"
         else
           redirect_to admin_stripe_accounts_new_stripe_account_path
-          flash[:error] = e.message
+          flash[:error] = "You must agree to the terms of service before continuing."
         end
       rescue Stripe::StripeError => e
         redirect_to admin_stripe_accounts_new_stripe_account_path
