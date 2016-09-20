@@ -31,7 +31,8 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
+	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+		<%= render 'admin/dashboard/merchant_navigation'%>
 	</div>
 	<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
 		<%= render 'admin/products/product_listing_header'%>
@@ -65,8 +66,7 @@
 		%><%=will_paginate(@products)%><%
 	end
 	%>
-	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
-	</div>
+	
 	<%=will_paginate(@products)%>
 </div>
 </div>
