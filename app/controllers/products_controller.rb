@@ -50,7 +50,7 @@ class ProductsController < ApplicationController
     @user = User.find_by_slug(params[:slug])
 
     # Retrieve all the root categories to be displayed
-    @root_categories = Category.where(parent_id: nil)
+    @all_categories = Category.order(:name)
 
     # Check to see if we have an existing merchant with products
     if @user.respond_to? :products

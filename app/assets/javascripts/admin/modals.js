@@ -41,7 +41,7 @@ $(function() {
     // If the user has selected a valid category, we will reload the page with the correct filter
     if (filter_category_id > 0) {
       // Add the category_id to the href before redirecting
-      $(this).attr('href', $(this).attr('href') + '?category_id=' + filter_category_id);
+      $(this).attr('href', $('#category_filter_href').val() + '?category_id=' + filter_category_id);
     }
     else {
       // No valid category has been chosen, we will prevent the href link

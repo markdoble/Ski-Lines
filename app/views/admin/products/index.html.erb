@@ -70,4 +70,5 @@
 	<%=will_paginate(@products)%>
 </div>
 </div>
+<input type="hidden" id="category_filter_href" name="category_filter_href" value="<%=admin_products_path%>" />
 <%= render 'admin/modals/category_filter' %>

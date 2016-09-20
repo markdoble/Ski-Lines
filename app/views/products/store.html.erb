@@ -3,26 +3,51 @@
 	<div class="container">
 	<div class="merchant_brand col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<h1><%= @user.merchant_name %></h1>
+		<%
+		# Check to see if we are filtering on a category. If so, we will display this to the user
+		if params[:category_id]
+			%>
+			<h4>
+				<%
+				# Get the current category object
+				cur_category_object = @all_categories.find(params[:category_id])
+				# Display the parent categories
+				cur_category_object.get_parent_categories.reverse_each do |parent_category|
+					%><%=parent_category.name + " > "%><%
+				end
+				# Display the current category
+				%><%=cur_category_object.name%><%
+				%>
+			</h4>
+			<%
+		else
+			%><h4>All Products</h4><%
+		end
+		%>
 		<br /><br />
 	</div>
 
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="dropdown_for_filter col-lg-4 col-md-4 col-sm-4 col-xs-12">
-				<div class="dropdown">
-					<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Categories<span class="caret"></span></button>
-					<ul class="dropdown-menu">
-						<div class="product_categories_admin">
-							<p><%= link_to "ALL", "#{'/shop/'+@user.slug}" %></p>
-							<%
-							@root_categories.each do |category|
-							%><p><%= link_to category.name, "#{'/shop/'+@user.slug+'?category_id='+category.id.to_s}" %></p><%
-							end
-							%>
-						</div>
-					</ul>
-				</div>
-			</div>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		      <div class="row">
+		       <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		         <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="modal" data-target="#modal_category_select">
+		           <span class="glyphicon glyphicon-filter"></span>
+		           Filter By Category
+		         </a>
+		       </div>
+		    </div>
+		  </div>
+		  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+		      <div class="row">
+		       <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		         <a href="/shop/<%=@user.slug%>" class="btn btn-primary dropdown-toggle">
+		           View All Products
+		         </a>
+		       </div>
+		    </div>
+		  </div>
 
 			<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" style="text-align:left">
 				<div class="field input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -33,20 +58,6 @@
 					<% end %>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-				<strong>Category Displayed:</strong>
-				<%
-				# Check to see if we are filtering on a category. If so, we will display this to the user
-				if params[:category_id]
-				%><%= @root_categories.find(params[:category_id]).name %><%
-				else
-				%>ALL<%
-				end
-				%>
 			</div>
 		</div>
 
@@ -67,3 +78,5 @@
 
 	</div>
 </div>
+<input type="hidden" id="category_filter_href" name="category_filter_href" value="/shop/<%=@user.slug%>" />
+<%= render 'admin/modals/category_filter' %>
