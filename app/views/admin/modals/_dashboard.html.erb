@@ -9,7 +9,7 @@
       <div class="modal-body">
         <div class="col-xs-12">
           <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                 <div class="title">
                   <h3>PRODUCTS</h3>
                 </div>
@@ -34,26 +34,48 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <br />
-              <div class="title">ORDERS</div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="title">
+                <h3>ORDERS</h3>
+              </div>
               <div class="navigation_list">
-                <%= link_to "MY ORDERS", admin_orders_path, :class => is_active?("admin/orders/index")  %>
+                <div class="icon">
+                  <%= link_to admin_orders_path do %>
+                  <span class="glyphicon glyphicon-inbox"></span><br />
+                  <h4>My Orders</h4>
+                  <%end%>
+                </div>
+                <div class="icon">
+                  <%= link_to admin_returns_path do %>
+                  <span class="glyphicon glyphicon-repeat"></span><br />
+                  <h4>My Returns</h4>
+                  <%end%>
+                </div>
+                <div class="icon">
+                  <%= link_to admin_returns_path do %>
+                  <span class="glyphicon glyphicon-transfer"></span><br />
+                  <h4>Transfers</h4>
+                  <%end%>
+                </div>
               </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <br />
-              <div class="title">COUPONS</div>
-              <div class="navigation_list">
-                <%= link_to "MY COUPONS", admin_orders_path %><br />
-                <%= link_to "NEW COUPONS", admin_orders_path %>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="title">
+                <h3>SETTINGS</h3>
               </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-              <br />
-              <div class="title">RETURNS</div>
               <div class="navigation_list">
-                <%= link_to "MY RETURNS", admin_returns_path %>
+                <div class="icon">
+                  <%= link_to edit_user_registration_path do %>
+                  <span class="glyphicon glyphicon-user"></span><br />
+                  <h4>My Profile</h4>
+                  <%end%>
+                </div>
+                <div class="icon">
+                  <%= link_to admin_account_path do %>
+                  <span class="glyphicon glyphicon-cog"></span><br />
+                  <h4>My Account</h4>
+                  <%end%>
+                </div>
               </div>
             </div>
           </div>
