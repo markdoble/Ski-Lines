@@ -40,10 +40,10 @@ $(document).ready(function(){
 	});
 
 	// hide and show the dashboard navigation
-	$('.merchant_navigation').hide();
-	$('.dashboard_button').click(function(){
-			$('.merchant_navigation').toggle();
-	});
+	//$('.merchant_navigation').hide();
+	//$('.dashboard_button').click(function(){
+	//		$('.merchant_navigation').toggle();
+	//});
 
 });
 

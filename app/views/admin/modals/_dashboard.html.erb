@@ -1,0 +1,69 @@
+<div id="dashboard" class="modal fade dashboard" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">MERCHANT DASHBOARD</h4>
+      </div>
+      <div class="modal-body">
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="title">
+                  <h3>PRODUCTS</h3>
+                </div>
+                <div class="navigation_list">
+                    <div class="icon">
+                    <%= link_to admin_products_path do %>
+                    <span class="glyphicon glyphicon-globe"></span><br />
+                    <h4>View My Products</h4>
+                      <% end  %>
+                    </div>
+                    <div class="icon">
+                      <%= link_to new_admin_product_path do %>
+                      <span class="glyphicon glyphicon-plus"></span><br />
+                      <h4>Add New Product</h4>
+                        <%end%>
+                    </div>
+                    <div class="icon">
+                      <%= link_to admin_products_new_import_path do %>
+                      <span class="glyphicon glyphicon-import"></span><br />
+                      <h4>Upload CSV File</h4>
+                      <%end%><br />
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <br />
+              <div class="title">ORDERS</div>
+              <div class="navigation_list">
+                <%= link_to "MY ORDERS", admin_orders_path, :class => is_active?("admin/orders/index")  %>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <br />
+              <div class="title">COUPONS</div>
+              <div class="navigation_list">
+                <%= link_to "MY COUPONS", admin_orders_path %><br />
+                <%= link_to "NEW COUPONS", admin_orders_path %>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+              <br />
+              <div class="title">RETURNS</div>
+              <div class="navigation_list">
+                <%= link_to "MY RETURNS", admin_returns_path %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br /><br /><br /><br /><br /><br />
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

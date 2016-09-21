@@ -102,89 +102,85 @@
 	color:black;
 }
 
-.merchant_navigation_container{
-	padding-left:0px;
-	margin-left:0px;
-	height:100vh;
-	left:0;
-	top:0;
-	bottom:0;
-	background-color:white;
-	text-align:center;
-	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
-
-}
-
-.dashboard_button{
-	padding-top:13px;
-	padding-right:25px;
-	margin:0px;
-	top:0;
-	bottom:0px;
-	position:absolute;
-	.glyphicon-option-vertical{
-		font-size:25px;
-		top:0;
-		bottom:0;
-		padding:0px;
-		margin:0px;
+.dashboard{
+ background-color:0,0,0,0.8;
+ opacity:0.8;
+ text-align:center;
+ color: white;
+	.modal-dialog {
+	  width: 100%;
+	  height: 100%;
+	  margin: 0;
+	  padding: 0;
+		background-color:black;
+		opacity:0.8;
 	}
-}
-.dashboard_button:hover{
-	padding-top:14px;
-	margin-right:25px;
-	margin:0px;
-	top:0;
-	bottom:0px;
-	position:absolute;
-	.glyphicon-option-vertical{
-		color:blue;
-		cursor:pointer;
-		font-size:25px;
-		top:0;
-		bottom:0;
-		padding:0px;
-		margin:0px;
-	}
-}
-.merchant_navigation{
-	margin:0px;
-	padding:20px;
-	position:fixed;
-	top:0;
-	width:auto;
-	height:100%;
-	background-color:black;
-	box-shadow: 0 0 1px black;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #1f1f1f;
 
-	ul{
-		padding:4px;
-		.title{
-			padding:0px;
-			margin-bottom:5px;
-			margin-top:10px;
+	.modal-content {
+		color:white;
+	  height: auto;
+	  min-height: 100%;
+	  border-radius: 0;
+		background-color:black;
+		opacity:0.9;
+		a{
 			color:white;
+			margin-top:10px;
+			font-size:12px;
 		}
-		.navigation_list{
-			padding-left:0px;
-			li{
-			list-style-type: none;
-			padding:0px;
-			mrgin-top:5px;
-			margin-bottom:5px;
-			a{
-				color:white;
-			}
-			a:active{
-				color:blue;
-			}
-			}
+		a:hover{
+			text-decoration:none;
+		}
+
+	}
+
+	.modal-footer{
+		text-align:center;
+		border:none;
+	}
+	.navigation_list{
+		.icon{
+			padding-top:30px;
+		}
+		.glyphicon-import{
+			font-size:40px;
+		}
+		.glyphicon-globe{
+			font-size:40px;
+		}
+		.glyphicon-plus{
+			font-size:40px;
+		}
+		.glyphicon:hover{
+			cursor:pointer;
 		}
 	}
 }
+
+a.dashboard_button{
+	padding-top:8px;
+	padding-right:25px;
+	paddin-bottom:0px;
+	margin:0px;
+	top:0;
+	bottom:0px;
+	position:absolute;
+	.glyphicon-th{
+		font-size:20px;
+		top:0;
+		bottom:0;
+		padding:0px;
+		margin:0px;
+	}
+}
+a.dashboard_button:hover{
+
+	.glyphicon-th{
+		color:#4d4d4d;
+		cursor:pointer;
+	}
+}
+
 .store_header{
 	background: url("landing_4.jpg") no-repeat center center;
 	background-size: cover;
@@ -3688,7 +3684,7 @@ border:none;
 }
 
 /* title */
-.navbar-default .navbar-brand {
+.navbar-brand {
   color: white;
 	vertical-align: middle;
 	font-family: ostrich sans;

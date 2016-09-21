@@ -1,11 +1,10 @@
 <!-- Store Page Navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 	<ul class="nav navbar-nav hidden-xs">
-    <li><a>
-      <div class="dashboard_button">
-        <span class="glyphicon glyphicon-option-vertical">&nbsp; &nbsp;</span>
-      </div>
-      </a>
+    <li>
+			<a type="button" class="dashboard_button" data-toggle="modal" data-target="#dashboard">
+        	<span class="glyphicon glyphicon-th"></span>
+			</a>
     </li>
   </ul>
   <div class="container">
@@ -30,7 +29,6 @@
     <% if current_user.admin? || current_user.article_publisher? %>
     <%= render 'navbars/components/admin_menu' %>
     <%end%>
-
 		<!-- Render the user navbar that sits on the right hand side of the top menu bar -->
 		<%= render 'navbars/components/user_navbar' %>
 	<!-- Collect the nav links, forms, and other content for toggling -->
