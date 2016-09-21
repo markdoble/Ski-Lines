@@ -1,24 +1,27 @@
-  <ul>
-    <div class="title">PRODUCTS</div>
-    <div class="navigation_list">
-      <li><%= link_to "MY PRODUCTS", admin_products_path %></li>
-      <li><%= link_to "NEW PRODUCT", new_admin_product_path, id: "new_product" %></li>
-      <li><%= link_to "BULK UPLOAD", admin_products_new_import_path %></li>
-    </div>
-    <br />
-    <div class="title">ORDERS</div>
-    <div class="navigation_list">
-      <li><%= link_to "MY ORDERS", admin_orders_path, :class => is_active?("admin/orders/index")  %></li>
-    </div>
-    <br />
-    <div class="title">COUPONS</div>
-    <div class="navigation_list">
-      <li><%= link_to "MY COUPONS", admin_orders_path %></li>
-      <li><%= link_to "NEW COUPONS", admin_orders_path %></li>
-    </div>
-    <br />
-    <div class="title">RETURNS</div>
-    <div class="navigation_list">
-      <li><%= link_to "MY RETURNS", admin_returns_path %></li>
-    </div>
-  </ul>
+ <div class="merchant_navigation">
+   <br /><br /><br />
+    <ul>
+      <div class="title">PRODUCTS</div>
+      <div class="navigation_list">
+        <li><%= link_to "MY PRODUCTS", admin_products_path %></li>
+        <li><%= link_to "NEW PRODUCT", new_admin_product_path, id: "new_product" %></li>
+        <li><%= link_to "BULK UPLOAD", admin_products_new_import_path %></li>
+      </div>
+      <br />
+      <div class="title">ORDERS</div>
+      <div class="navigation_list">
+        <li><%= link_to "MY ORDERS", admin_orders_path, :class => is_active?("admin/orders/index")  %></li>
+      </div>
+      <br />
+      <div class="title">COUPONS</div>
+      <div class="navigation_list">
+        <li><%= link_to "MY COUPONS", admin_orders_path %></li>
+        <li><%= link_to "NEW COUPONS", admin_orders_path %></li>
+      </div>
+      <br />
+      <div class="title">RETURNS</div>
+      <div class="navigation_list">
+        <li><%= link_to "MY RETURNS", admin_returns_path %></li>
+      </div>
+    </ul>
+ </div>
