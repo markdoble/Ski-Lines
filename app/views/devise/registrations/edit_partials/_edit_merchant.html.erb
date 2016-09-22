@@ -25,10 +25,10 @@
   					    </div>
   					   <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
   						   <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-  					    <%= f.label :merchant_phone, "Phone Number:"  %>
+  					    <%= f.label :merchant_phone, "Phone:"  %>
   							</div>
   							<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  					    <%= f.text_field :merchant_phone, class: "form-control", placeholder: "Store Phone Number" %><br />
+  					    <%= f.text_field :merchant_phone, class: "form-control", placeholder: "Phone" %><br />
   							</div>
   					    </div>
   					    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -92,38 +92,38 @@
   						<div class="row">
   							<div class="address_fields">
   						  	  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-  						  	    <%= f.label :street_address, "Street Address:"  %>
-  									</div>
-  									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  						  	    <%= f.text_field :street_address, class: "form-control", placeholder: "Street Address" %><br />
-  								</div>
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    						  	    <%= f.label :street_address, "Street Address:"  %>
+    									</div>
+    									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    						  	    <%= f.text_field :street_address, class: "form-control", placeholder: "Street Address" %><br />
+    								  </div>
   						  	  </div>
   						  	  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+  								    <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
   						  	    <%= f.label :city, "City:" %>
-  								</div>
-  								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  						  	    <%= f.text_field :city, class: "form-control", placeholder: "City" %><br />
-  								</div>
+      								</div>
+      								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+      						  	    <%= f.text_field :city, class: "form-control", placeholder: "City" %><br />
+      								</div>
   						  	  </div>
-  							  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-  							    <%= f.label :country, "Country:" %><br />
-  									</div>
-  								<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  							    <%= f.select :country, options_for_select(["United States of America", "Canada"], f.object.country), class: "form-control country", :prompt => true %><br /><br />
-  								</div>
-  							  </div>
-  							  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-  								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-  							    <%= f.label :state_prov, "State/Province:" %><br />
-  								</div>
-  								<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
-  							    <%= f.select :state_prov, grouped_options_for_select(state_prov, f.object.state_prov), class: "form-control", :prompt => true %><br /><br />
-  								</div>
-  							  </div>
-  							  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    							  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    							    <%= f.label :country, "Country:" %><br />
+    									</div>
+    								<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    							    <%= f.select :country, options_for_select(["United States of America", "Canada"], f.object.country), class: "form-control country", :prompt => true %><br /><br />
+    								</div>
+    							  </div>
+    							  <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+    							    <%= f.label :state_prov, "State/Province:" %><br />
+    								</div>
+    								<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+    							    <%= f.select :state_prov, grouped_options_for_select(state_prov, f.object.state_prov), class: "form-control", :prompt => true %><br /><br />
+    								</div>
+    							  </div>
+  							    <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
   								  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
   							    <%= f.label :zip_postal, "ZIP/Postal:" %>
   									</div>
@@ -161,7 +161,7 @@
                         </div>
                         <br />
                       </div>
-                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <%= f.label :cad_domestic_shipping, "Domestic:"  %>
                       </div>
                       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
@@ -176,7 +176,7 @@
                       </div>
                     </div>
                     <div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                      <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <%= f.label :cad_foreign_shipping, "International:"  %>
                       </div>
                       <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">

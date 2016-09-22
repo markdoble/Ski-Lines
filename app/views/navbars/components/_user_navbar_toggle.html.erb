@@ -26,11 +26,11 @@
         # display different links based on the sign-in status of the user
         if user_signed_in?
           %>
-          <li><%= link_to "My Profile", edit_user_registration_path %></li>
+
           <%if current_user.merchant?%>
           <li><%= link_to "My Store", admin_products_path %></li>
-          <li><%= link_to "Account", admin_account_path %></li>
           <%end%>
+          <li><%= link_to "My Profile", edit_user_registration_path %></li>
           <% if current_user.merchant_rep? %>
             <li><%= link_to "Add Merchant", new_user_registration_path %></li>
           <%end%>

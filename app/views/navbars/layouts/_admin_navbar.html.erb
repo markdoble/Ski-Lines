@@ -1,5 +1,6 @@
 <!-- Store Page Navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
+	<% if current_user.merchant? %>
 	<ul class="nav navbar-nav hidden-xs">
     <li>
 			<a type="button" class="dashboard_button" data-toggle="modal" data-target="#dashboard">
@@ -7,6 +8,7 @@
 			</a>
     </li>
   </ul>
+	<%end%>
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
