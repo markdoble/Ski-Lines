@@ -103,6 +103,7 @@
 }
 
 .dashboard{
+ font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
  background-color:0,0,0,0.8;
  opacity:0.8;
  text-align:center;
@@ -123,6 +124,19 @@
 	  border-radius: 0;
 		background-color:black;
 		opacity:0.9;
+
+		.dashboard_close{
+			background-color:black;
+			text-align:left;
+			border:none;
+
+			position:absolute;
+			bottom:0;
+			.glyphicon-remove-circle{
+				color:white;
+				font-size:35px;
+			}
+		}
 		a{
 			color:white;
 			margin-top:10px;
@@ -131,7 +145,15 @@
 		a:hover{
 			text-decoration:none;
 		}
-
+		.modal-header{
+			color:white;
+			.close{
+				.glyphicon-remove-circle{
+					color:white;
+					font-size:35px;
+				}
+			}
+		}
 	}
 
 	.modal-footer{
