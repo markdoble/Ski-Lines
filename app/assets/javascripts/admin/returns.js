@@ -14,7 +14,6 @@ $(document).ready(function(){
         var defaultSubTotal = orderUnitSubtotal*qtyReturned;
         var defaultShipping = 0.00;
         var defaultSalesTax = defaultSubTotal*taxRate;
-        // var defaultSalesTax = orderUnitSalesTax*qtyReturned;
         var defaultTotal = defaultSubTotal+defaultShipping+defaultSalesTax;
 
         $('#default_subtotal').html('$' + defaultSubTotal.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'));
@@ -68,6 +67,5 @@ $(document).ready(function(){
      $('#default_refund_amounts').fadeIn();
      $('.refund_select').change();
    });
-
 
 });
