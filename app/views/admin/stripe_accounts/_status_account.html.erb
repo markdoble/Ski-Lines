@@ -1,17 +1,16 @@
-
+<div class="stripe_form_headings col-xs-12">
+  <h2>Account Status&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Account Status" data-content="Your account status may change from time to time depending on transaction volume associated with your account, and identity verification requirements." data-trigger="hover" data-placement="top"></span></h2>
+</div>
 <% if @fields_needed.blank? %>
-<div class="col-xs-12" style="text-align:center;">
-  <br />
+<div class="col-xs-12">
   <p>Your account is active!</p>
 </div>
 <%end%>
 <% if @transfers_enabled == false %>
   <% if @charges_enabled == true %>
-
     <div class="col-xs-12">
-      <br />
-      <p style="text-align:center;">Your account is currently active, and you are ready to sell!</p><br />
-        <p>However, in order to remain active, and for us to transfer you your funds,
+      <p>Your account is currently active, and you are ready to sell!</p><br />
+      <p>However, in order to remain active, and for us to transfer you your funds,
         the following information is required at some point in the near future:
       </p>
     </div>

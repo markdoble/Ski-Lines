@@ -1,6 +1,6 @@
 <%= form_tag "/admin/stripe_accounts/update_personal_id_number", :id => "id-form", :method => :get do %>
-<div class="merchant_form_headings col-xs-12">
-  <h2>Account Representative Identification:</h2>
+<div class="stripe_form_headings col-xs-12">
+  <h2>Account Representative Identification&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Personal Identification" data-content="This information is required by law in order to verify your identity, and permit transfers to your bank account. Once submitted, this information will never appear on this page, and is sent directly to our payments provider, Stripe." data-trigger="hover" data-placement="top"></span></h2>
 </div>
 <div class="id-errors" style="color:red;"></div>
 <div class="field col-xs-12">
