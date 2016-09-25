@@ -3,64 +3,96 @@
 	<br /><br />
 	<div class="devise_user_registration">
 		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs">
-			</div>
+			<div class="col-lg-2 col-md-2 col-sm-1 hidden-xs"></div>
 			<div class="col-lg-8 col-md-8 col-sm-10 col-sm-12 devise_forms_background">
-					<h1 style="text-align:center;">Add Merchant</h1>
-					<div class="merchant_form_headings">
+				<h1 style="text-align:center;">Add Merchant</h1>
+				<div id="div_error_header" class="div_errors" style="display:none;">
+					<h3>Error: One or more fields are incorrect</h3>
+				</div>
+				<div class="merchant_form_headings">
 					<h2>Store Details:</h2>
-					</div>
-				<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-				  <div class="devise_error"><%= devise_error_messages! %>
-					</div>
+				</div>
+				<%= form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { :onsubmit => "return validateMerchantForm();"}) do |f| %>
+			  <div class="devise_error">
+					<%= devise_error_messages! %>
+				</div>
 
-				  <div class="field col-xs-12">
-					  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    <%= f.label :merchant_name, "Merchant Name:" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-						<%= f.text_field :merchant_name, autofocus: true, class: "form-control", placeholder: "Merchant Name" %>
-						<br />
-						</div>
-				  </div>
-					<%= f.hidden_field :merchant, value: true %>
-					<%= f.hidden_field :user_return_policy, value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense."%>
+			  <div class="field col-xs-12">
+				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    <%= f.label :merchant_name, "Merchant Name:" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+					<%= f.text_field :merchant_name, autofocus: true, class: "form-control", placeholder: "Merchant Name" %>
+					</div>
+			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_merchant_name_required" style="display:none;">
+						Error: Merchant Name is a required field
+					</div>
+				</div>
+				<%= f.hidden_field :merchant, value: true %>
+				<%= f.hidden_field :user_return_policy, value: "Contact the seller within 14 days of receiving the product in order to return the item for a full refund, less shipping fees. Shipping costs for returns will be at the customer's expense."%>
 
-					<div class="field col-xs-12">
-					  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    <%= f.label :contact_first_name, "Contact First Name:" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.text_field :contact_first_name, autofocus: true, class: "form-control", placeholder: "Contact First Name" %>
-						<br />
-						</div>
-				  </div>
-					<div class="field col-xs-12">
-					  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    <%= f.label :contact_last_name, "Contact Last Name:" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.text_field :contact_last_name, autofocus: true, class: "form-control", placeholder: "Contact Last Name" %>
-						<br />
-						</div>
-				  </div>
-			  	<div class="field col-xs-12">
-				    <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    <%= f.label :slug, "ski-lines.com/shop/" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.text_field :slug, class: "form-control", readonly: true%>
-						<br />
-						</div>
-			    </div>
-				  <div class="field col-xs-12">
-					  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				    <%= f.label :email, "Email:" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "Email" %><br />
-						</div>
-				  </div>
+				<div class="field col-xs-12">
+				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    <%= f.label :contact_first_name, "Contact First Name:" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    <%= f.text_field :contact_first_name, autofocus: true, class: "form-control", placeholder: "Contact First Name" %>
+					</div>
+			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_contact_first_name_required" style="display:none;">
+						Error: Contact First Name is a required field
+					</div>
+				</div>
+
+				<div class="field col-xs-12">
+				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    <%= f.label :contact_last_name, "Contact Last Name:" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    <%= f.text_field :contact_last_name, autofocus: true, class: "form-control", placeholder: "Contact Last Name" %>
+					</div>
+			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_contact_last_name_required" style="display:none;">
+						Error: Contact Last Name is a required field
+					</div>
+				</div>
+
+		  	<div class="field col-xs-12">
+			    <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    <%= f.label :slug, "ski-lines.com/shop/" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    <%= f.text_field :slug, class: "form-control", readonly: true%>
+					</div>
+		    </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
+				</div>
+
+			  <div class="field col-xs-12">
+				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    	<%= f.label :email, "Email:" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    	<%= f.email_field :email, class: "form-control", placeholder: "Email" %>
+					</div>
+			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_email_error" style="display:none;">
+						<span id="lbl_user_email_required" class="lbl_required" style="display:none;">Error: Email is a required field</span>
+						<span id="lbl_user_email_invalid" class="lbl_required" style="display:none;">Error: Email address is invalid</span>
+					</div>
+				</div>
+
 			  <div class="field col-xs-12">
 			    <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    <%= f.label :merchant_url, "Website URL:" %>
@@ -70,70 +102,119 @@
 						<br />
 					</div>
 			  </div>
-<!-- Address -->
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9"></div>
+				</div>
+
+				<!-- Address -->
 			  <div class="field col-xs-12">
-				    <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-			    <%= f.label :street_address, "Address:" %>
-						</div>
-						<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-			    <%= f.text_field :street_address, autofocus: true, class: "form-control", placeholder: "Street Address" %><br />
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+			    	<%= f.label :street_address, "Address:" %>
+					</div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    	<%= f.text_field :street_address, autofocus: true, class: "form-control", placeholder: "Street Address" %>
 					</div>
 			  </div>
-		<% state_prov =
-		{'Canada' => ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
-		'United States of America' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-			'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-			'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']} %>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_street_address_required" style="display:none;">
+						Error: Street Address is a required field
+					</div>
+				</div>
+
 				<div class="field col-xs-12">
 					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    <%= f.label :country, "Country:" %>
 					</div>
 					<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.select :country, options_for_select(["United States of America", "Canada"]), class: "form-control", :prompt => 'Country' %><br /><br />
+				    <%= f.select :country, options_for_select(["United States of America", "Canada"]), class: "form-control", :prompt => 'Country' %>
 					</div>
 			  </div>
 				<div class="field col-xs-12">
-						<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
-				     <%= f.label :state_prov, "State/Province:" %>
-						 </div>
-						<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.select :state_prov, grouped_options_for_select(state_prov), class: "form-control", :prompt => 'Province/State' %><br /><br />
-						</div>
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_country_required" style="display:none;">
+						Error: Country is a required field
+					</div>
 				</div>
+
+				<%
+				# Determine the states/provinces to show depending on the country selected
+				state_prov =
+				{'Canada' => ['Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador', 'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island', 'Quebec', 'Saskatchewan', 'Yukon'],
+				'United States of America' => ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+					'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+					'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']}
+				%>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
+						<%= f.label :state_prov, "State/Province:" %>
+				 	</div>
+					<div class="edit_devise_label col-lg-9 col-md-9 col-sm-9 col-xs-9">
+			    	<%= f.select :state_prov, grouped_options_for_select(state_prov), class: "form-control", :prompt => 'Province/State' %>
+					</div>
+				</div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_state_prov_required" style="display:none;">
+						Error: State/Prov is a required field
+					</div>
+				</div>
+
 			  <div class="field col-xs-12">
 				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    <%= f.label :city, "City:" %>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.text_field :city, autofocus: true, class: "form-control", placeholder: "City" %><br />
+				    <%= f.text_field :city, autofocus: true, class: "form-control", placeholder: "City" %>
 					</div>
 			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_city_required" style="display:none;">
+						Error: City is a required field
+					</div>
+				</div>
+
 			  <div class="field col-xs-12">
 				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    <%= f.label :zip_postal, "Zip/Postal:"%>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.text_field :zip_postal, autofocus: true, class: "form-control", placeholder: "Zip/Postal" %><br />
-						<br /><br />
+				    <%= f.text_field :zip_postal, autofocus: true, class: "form-control", placeholder: "Zip/Postal" %>
 					</div>
 			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_zip_postal_required" style="display:none;">
+						Error: Zip/Postal is a required field
+					</div>
+				</div>
+
 				<div class="merchant_form_headings">
 					<h2>Shipping:</h2>
 				</div>
 				<div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<p><i>Select the regions you are willing to ship to:</i></p>
+					<p><i>Select the regions you are willing to ship to:</i></p>
+					<div id="user_shipping_country">
 						<%= f.collection_check_boxes(:country_ids, Country.all, :id, :common_name) do |b| %>
 						<%= b.check_box %>
 						<%= b.label %>
 						<br />
 						<%end%>
+					</div>
 				</div>
+				<div class="field col-lg-12 col-md-12 col-sm-12 col-xs-12 lbl_required" id="lbl_user_shipping_country_required" style="display:none;">
+					Error: At least one shipping country is required
+				</div>
+
 				<%= f.hidden_field :cad_domestic_shipping, value: "10.00" %>
 				<%= f.hidden_field :cad_foreign_shipping, value: "15.00" %>
 				<%= f.hidden_field :usd_domestic_shipping, value: "10.00" %>
 				<%= f.hidden_field :usd_foreign_shipping, value: "15.00" %>
-<!-- Password -->
-				<div class="merchant_form_headings col-xs-12">
+
+				<!-- Password -->
+				<div class="merchant_form_headings">
 					<h2>Password:</h2>
 				</div>
 			  <div class="field col-xs-12">
@@ -144,18 +225,32 @@
 				    <% if @validatable %>
 				    <em>(<%= @minimum_password_length %> characters minimum)</em>
 				    <% end %>
-				    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %><br />
+				    <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control" %>
 					</div>
 			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_password_required" style="display:none;">
+						Error: Password is a required field
+					</div>
+				</div>
+
 			  <div class="field col-xs-12">
 				  <div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3">
 				    <%= f.label :password_confirmation, "Confirm Password:" %>
 					</div>
 					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-				    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control" %><br />
-						<br /><br />
+				    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm", class: "form-control" %>
 					</div>
 			  </div>
+				<div class="field col-xs-12">
+					<div class="devise_label col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+					<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 lbl_required" id="lbl_user_password_confirmation_error" style="display:none;">
+						<span id="lbl_user_password_confirmation_required" class="lbl_required" style="display:none;">Error: Password Confirmation is a required field</span>
+						<span id="lbl_user_password_confirmation_invalid" class="lbl_required" style="display:none;">Error: Password Confirmation does not match Password</span>
+					</div>
+				</div>
+
 				<div class="devise_create actions col-xs-12" style="text-align:center">
 					<%= f.submit "CREATE ACCOUNT	", class: "btn btn-primary btn-large" %>
 					<br /><br />
