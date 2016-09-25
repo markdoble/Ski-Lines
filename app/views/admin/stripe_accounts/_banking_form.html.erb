@@ -1,6 +1,6 @@
 <%= form_tag "/admin/stripe_accounts/update_banking", :id => "banking-form", :method => :get do %>
 <div class="stripe_form_headings col-xs-12">
-  <h2>Connect Bank Account:</h2>
+  <h2>Connect Bank Account&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Money will be deposited into this bank account each day for which transactions occurred, 7 days after that day's transactions." data-trigger="hover" data-placement="top"></span></h2>
 </div>
 <div class="banking-errors" style="color:red;"></div>
 <div class="field col-xs-12">

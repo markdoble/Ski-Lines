@@ -12,29 +12,31 @@
           <h3><%=current_user.merchant_name%></h3>
           <h4>Account Settings</h4>
         </div>
-        <div class="admin_product_well">
-          <div class="row">
-            <%= render :partial => 'status_account' %>
+          <div class="stripe_account_well col-xs-12">
+            <div class="row">
+              <%= render :partial => 'status_account' %>
+            </div>
           </div>
-          </div>
-          <div class="admin_product_well">
+          <div class="stripe_account_well col-xs-12">
             <div class="row">
               <%= render :partial => 'update_account_form' %>
             </div>
           </div>
+
           <% if @personal_id_number_provided.blank? && @fields_needed.include?("legal_entity.personal_id_number") %>
-          <div class="admin_product_well">
+          <div class="stripe_account_well col-xs-12">
             <div class="row">
               <%= render :partial => 'personal_id_numb_form' %>
             </div>
           </div>
           <%end%>
-          <div class="admin_product_well">
+
+          <div class="stripe_account_well col-xs-12">
             <div class="row">
               <%= render :partial => 'update_company_details_form' %>
             </div>
           </div>
-          <div class="admin_product_well">
+          <div class="stripe_account_well col-xs-12">
             <div class="row">
               <% if @external_accounts.empty? %>
               <%= render :partial => 'banking_form' %>
