@@ -68,6 +68,35 @@ class Admin::StripeAccountsController < ApplicationController
     end
   end
 
+  def delete_bank_account
+    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
+    begin
+      user_account = current_user.stripe_account_id.to_s
+      account = Stripe::Account.retrieve(user_account)
+      account.external_accounts.retrieve(params[:bank_id]).delete
+      redirect_to admin_account_path
+      flash[:notice] = "Successfully removed bank account!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
+    end
+  end
+
+  def edit_banking
+    Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
+    begin
+      token = params[:stripeToken]
+      user_account = current_user.stripe_account_id.to_s
+      account = Stripe::Account.retrieve(user_account)
+      account.external_accounts.create({:external_account => token})
+      redirect_to admin_account_path
+      flash[:notice] = "You have successfully added a bank account!"
+    rescue Stripe::StripeError => e
+      redirect_to admin_account_path
+      flash[:error] = e.message
+    end
+  end
+
   def update_company_details
     Stripe.api_key = ENV['PLATFORM_SECRET_KEY']
     begin

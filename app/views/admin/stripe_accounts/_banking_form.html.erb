@@ -37,7 +37,7 @@
 </div>
 <div class="field col-xs-12">
   <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-    <%= label_tag :reouting_number, "Routing Number:" %>
+    <%= label_tag :routing_number, "Routing Number:" %>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Must be a checking account." data-trigger="hover" data-placement="top"></span>
   </div>
   <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
     <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="routing-number" class="form-control routing-number"></span><br />
@@ -45,7 +45,7 @@
 </div>
 <div class="field col-xs-12">
   <div class="devise_label col-lg-3 col-md-3 col-sm-4 col-xs-12">
-    <%= label_tag :account_number, "Account Number:" %>
+    <%= label_tag :account_number, "Account Number:" %>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Must be a checking account." data-trigger="hover" data-placement="top"></span>
   </div>
   <div class="col-lg-7 col-md-7 col-sm-8 col-xs-12">
     <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="account-number" class="form-control account-number"></span><br />

@@ -1,7 +1,7 @@
-<% @external_accounts.each do |f| %>
 <div class="stripe_form_headings col-xs-12">
   <h2>Banking Details&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Money will be deposited into this bank account each day for which transactions occurred, 7 days after that day's transactions." data-trigger="hover" data-placement="top"></span></h2>
 </div>
+<% @external_accounts.each do |f| %>
 <div class="row">
   <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
     Account Country:
@@ -34,4 +34,14 @@
     <%= "XXXXX" + f.last4 %>
   </div>
 </div>
+<div class="col-xs-12" style="text-align:center;">
+<%= link_to "Delete Account", admin_stripe_accounts_delete_bank_account_path(:bank_id => f.id) %>
+</div>
+<br /><br />
 <%end%>
+<br />
+<div class="row">
+  <div class="col-xs-12" style="text-align:center;">
+    <a type="button" href="#" class="btn btn-primary" data-toggle="modal" data-target="#edit_banking">Add Account</a>
+  </div>
+</div>
