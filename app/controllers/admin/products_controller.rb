@@ -78,8 +78,11 @@ class Admin::ProductsController < ApplicationController
   def import
     begin
       file = params[:file]
-      user_id = params[:user_id]
-      user = User.find_by_id(user_id)
+      if params[:user_id]
+        user = User.find_by_id(params[:user_id])
+      else
+        user = current_user
+      end
       CSV.foreach(file.path, headers: true) do |row|
         Product.create!(
           :brand => row['brand'],

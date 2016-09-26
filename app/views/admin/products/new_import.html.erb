@@ -43,18 +43,23 @@
   <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="row">
       <div class="title col-lg-6 col-md-6 col-sm-8 col-xs-12">
-      <%= label_tag :user_id, "Merchant:" %>
-      <%= select_tag options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name)%>
+      <%= label_tag :user_id, "Choose Merchant:" %>
+      <%= select_tag(:user_id, options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name), {:class => 'form-control'})%>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-4 hidden-xs">
       </div>
     </div>
   </div>
-  <%else%>
-    <%= hidden_field_tag :user_id, :value => current_user.id %>
   <%end%>
-    <%= file_field_tag :file, accept: 'text/csv' %>
-    <br /><br />
+  <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="title col-lg-6 col-md-6 col-sm-8 col-xs-12">
+      <%= label_tag :file, "Select File:" %>
+      <%= file_field_tag :file, accept: 'text/csv' %>
+      <br /><br />
+      </div>
+    </div>
+  </div>
     <%= submit_tag "Import CSV", class: 'btn btn-primary' %>
   <% end %>
 </div>
