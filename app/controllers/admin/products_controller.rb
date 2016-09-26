@@ -78,22 +78,24 @@ class Admin::ProductsController < ApplicationController
   def import
     begin
       file = params[:file]
+      user_id = params[:user_id]
+      user = User.find_by_id[user_id]
       CSV.foreach(file.path, headers: true) do |row|
         Product.create!(
           :brand => row['brand'],
           :name => row['model'],
           :description => row['description'],
           :status => false,
-          :user_id => current_user.id,
+          :user_id => user.id,
           :size_details => row['size_details'],
           :product_return_policy => row['return_policy'],
           :usd_price => row['usd_price'].to_i,
           :cad_price => row['cad_price'].to_i,
           :factory_sku => row['sku'],
-          :cad_domestic_shipping => current_user.cad_domestic_shipping,
-          :cad_foreign_shipping => current_user.cad_foreign_shipping,
-          :usd_domestic_shipping => current_user.usd_domestic_shipping,
-          :usd_foreign_shipping => current_user.usd_foreign_shipping)
+          :cad_domestic_shipping => user.cad_domestic_shipping,
+          :cad_foreign_shipping => user.cad_foreign_shipping,
+          :usd_domestic_shipping => user.usd_domestic_shipping,
+          :usd_foreign_shipping => user.usd_foreign_shipping)
       end # end CSV.foreach
       redirect_to admin_products_url, notice: "Products successfully imported."
     rescue

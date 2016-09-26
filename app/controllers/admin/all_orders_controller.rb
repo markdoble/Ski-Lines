@@ -1,7 +1,6 @@
 class Admin::AllOrdersController < ApplicationController
   layout "store_merchant_layout"
   before_action :authenticate_user!
-  before_action :verify_is_admin
 
 
   def index
@@ -12,9 +11,6 @@ class Admin::AllOrdersController < ApplicationController
   def show
     verify_is_admin
     @order = Order.find(params[:id])
-    if @order.transaction_id
-      @transaction = Braintree::Transaction.find(@order.transaction_id)
-    end
   end
 
   def merchants
@@ -23,7 +19,7 @@ class Admin::AllOrdersController < ApplicationController
   end
 
   def rep
-    verify_is_rep
+    verify_is_admin
     @rep = current_user
   end
 

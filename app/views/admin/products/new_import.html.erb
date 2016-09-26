@@ -39,6 +39,20 @@
 <br />
 <br />
   <%= form_tag import_admin_products_path, multipart: true do %>
+  <% if current_user.merchant_rep? %>
+  <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="title col-lg-6 col-md-6 col-sm-8 col-xs-12">
+      <%= label_tag :user_id, "Merchant:" %>
+      <%= select_tag options_from_collection_for_select(User.where(merchant: true), :id, :merchant_name)%>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-4 hidden-xs">
+      </div>
+    </div>
+  </div>
+  <%else%>
+    <%= hidden_field_tag :user_id, :value => current_user.id %>
+  <%end%>
     <%= file_field_tag :file, accept: 'text/csv' %>
     <br /><br />
     <%= submit_tag "Import CSV", class: 'btn btn-primary' %>

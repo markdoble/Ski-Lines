@@ -15,7 +15,6 @@
 			<div class="admin_product_well_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="row">
 					<div class="title col-lg-4 col-md-4 col-sm-12 col-xs-12">
-					<%= f.hidden_field :user_id, :value => current_user.id %>
           <% unless f.object.persisted? %>
 					<%= f.hidden_field :status, :value => "false"%>
           <%end%>
@@ -28,7 +27,20 @@
 					</div>
 				</div>
 			</div>
-
+      <% if current_user.merchant_rep? %>
+      <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="row">
+          <div class="title col-lg-6 col-md-6 col-sm-8 col-xs-12">
+          <%= f.label :user_id, "Merchant:" %>
+          <%= f.collection_select(:user_id, User.where(merchant: true), :id, :merchant_name)%>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-4 hidden-xs">
+          </div>
+        </div>
+      </div>
+      <%else%>
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%end%>
 			<div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
 	      	  <div class="row">
