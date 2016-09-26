@@ -79,7 +79,7 @@ class Admin::ProductsController < ApplicationController
     begin
       file = params[:file]
       user_id = params[:user_id]
-      user = User.find_by_id[user_id]
+      user = User.find_by_id(user_id)
       CSV.foreach(file.path, headers: true) do |row|
         Product.create!(
           :brand => row['brand'],
