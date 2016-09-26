@@ -46,6 +46,9 @@ class Admin::StripeAccountsController < ApplicationController
         @verification_status = account.legal_entity.verification.status
 
         @external_accounts = account.external_accounts.all(:object => "bank_account") unless account.external_accounts.nil?
+        # the default currency for the account, help to determine delete permissions on external accounts
+        @default_currency = account.default_currency unless account.default_currency.nil?
+
 
       rescue Stripe::StripeError => e
         flash[:error] = e.message
@@ -88,7 +91,8 @@ class Admin::StripeAccountsController < ApplicationController
       token = params[:stripeToken]
       user_account = current_user.stripe_account_id.to_s
       account = Stripe::Account.retrieve(user_account)
-      account.external_accounts.create({:external_account => token})
+      params[:default_for_currency]  ? default_for_currency = true : default_for_currency = false
+      account.external_accounts.create({:external_account => token, :default_for_currency => default_for_currency})
       redirect_to admin_account_path
       flash[:notice] = "You have successfully added a bank account!"
     rescue Stripe::StripeError => e

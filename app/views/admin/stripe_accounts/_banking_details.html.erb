@@ -1,47 +1,96 @@
 <div class="stripe_form_headings col-xs-12">
-  <h2>Banking Details&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Money will be deposited into this bank account each day for which transactions occurred, 7 days after that day's transactions." data-trigger="hover" data-placement="top"></span></h2>
+  <h2>Bank Accounts&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Funds from purcahses will be deposited into the default account for the currency of the transaction. If no account exists for the currency, Stripe will complete an exchange at current exchange rates before depositing it into your default account." data-trigger="hover" data-placement="top"></span></h2>
 </div>
-<% @external_accounts.each do |f| %>
-<div class="row">
-  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    Account Country:
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <%= make_country_readable(f.country) %>
-  </div>
-</div>
-<div class="row">
-  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    Account Currency:
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <%= make_currency_readable(f.currency) %>
-  </div>
-</div>
-<div class="row">
-  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    Routing Number:
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <%= f.routing_number %>
-  </div>
-</div>
-<div class="row">
-  <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    Account Number:
-  </div>
-  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <%= "XXXXX" + f.last4 %>
-  </div>
-</div>
-<div class="col-xs-12" style="text-align:center;">
-<%= link_to "Delete Account", admin_stripe_accounts_delete_bank_account_path(:bank_id => f.id) %>
-</div>
-<br /><br />
-<%end%>
+<div class="all_bank_accounts col-xs-12">
+<% @external_accounts.each_with_index do |f, index| %>
 <br />
-<div class="row">
-  <div class="col-xs-12" style="text-align:center;">
-    <a type="button" href="#" class="btn btn-primary" data-toggle="modal" data-target="#edit_banking">Add Account</a>
+  <div class="row">
+    <div class="col-lg-2 col-md-1 hidden-sm hidden-xs">
+    </div>
+    <div class="bank_account col-lg-8 col-lg-10 col-sm-12 col-xs-12">
+        <div class="row">
+          <div class="col-xs-12">
+            <b>Account <%= index + 1 %>:</b>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Bank:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= f.bank_name %>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Country:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="navbarflag flag flag-<%=flag_selector_based_on_currency(f.country)%>"></div>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Currency:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= make_currency_readable(f.currency) %>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Routing No.::
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= f.routing_number %>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Account No.:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= "XXXXX" + f.last4 %>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Default for currency:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= f.default_for_currency %>
+          </div>
+        </div>
+        <div class="row bank_line">
+          <div class="left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            Status:
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <%= f.status %>
+          </div>
+        </div>
+        <% if f.default_for_currency == true && @default_currency == f.currency %>
+        <br />
+        <div class="col-xs-12" style="text-align:center;">
+         You must add another account and make it the default for this currency before deleting this account.
+        </div>
+        <%else%>
+        <br />
+        <div class="col-xs-12" style="text-align:center;">
+        <%= link_to "Remove Account", admin_stripe_accounts_delete_bank_account_path(:bank_id => f.id), :data => {:confirm => 'Are you sure you want to remove this account?'} %>
+        </div>
+        <%end%>
+        <br />
+    </div>
+    <div class="col-lg-2 col-md-1 hidden-sm hidden-xs">
+    </div>
   </div>
+    <br /><br />
+    <%end%>
+    <br />
+    <div class="row">
+      <div class="col-xs-12" style="text-align:center;">
+        <a type="button" href="#" class="btn btn-primary" data-toggle="modal" data-target="#edit_banking">Add Account</a>
+      </div>
+    </div>
 </div>

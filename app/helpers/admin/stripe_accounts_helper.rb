@@ -86,4 +86,8 @@ module Admin::StripeAccountsHelper
     end
   end
 
+  def flag_selector_based_on_currency(country)
+    country.downcase
+  end
+
 end

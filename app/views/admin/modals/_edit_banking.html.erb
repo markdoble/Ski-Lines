@@ -41,9 +41,13 @@
             <%= label_tag :account_number, "Account Number:" %>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Bank Account" data-content="Must be a checking account." data-trigger="hover" data-placement="top"></span>
             <%if @fields_needed.include?("external_account")%><span class="fields_needed_class"><%else%><span><%end%><input type="text" data-stripe="account-number" class="form-control account-number"></span><br />
         </div>
+        <div class="field col-xs-12">
+          <%= label_tag "Make default account for this currency?"%>
+          <%= check_box_tag(:default_for_currency, value = "1", checked = false, options = {}) %>
+        </div>
         <div class="col-xs-12" style="text-align:center">
           <br />
-           <input type="submit" class="submit btn btn-primary btn-large" value="Save">
+           <input type="submit" class="submit btn btn-primary btn-large" value="Add Account">
            <br />
         </div>
         <% end %>
@@ -79,8 +83,8 @@
         <br /><br /><br /><br /><br /><br />
         <br /><br /><br /><br /><br /><br />
         <br /><br /><br /><br /><br /><br />
-        <br /><br /><br /><br /><br /><br />
-        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br />
+
       </div>
     </div>
   </div>
