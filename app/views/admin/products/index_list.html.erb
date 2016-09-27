@@ -24,7 +24,15 @@
   					%><h4>All Products</h4><%
   				end
   				%>
-  		<br /><br />
+  		<br />
+      <% if current_user.merchant_rep? %>
+  		  <%= form_tag admin_products_path, method: :get do %>
+  		  <%= label_tag :merchant_selected, "Viewing As:" %>
+  		  <%= select_tag(:merchant_selected, options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name, :selected => params[:merchant_selected]), {:onchange => "this.form.submit()"})%>
+  		  <%end%>
+  		  <br /><br />
+  		<%end%>
+      <br />
       </div>
   	<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs"></div>
   </div>

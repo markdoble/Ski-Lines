@@ -3,7 +3,7 @@
 	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>
 	<div class="merchant_title col-lg-10 col-md-10 col-sm-12 col-xs-12">
-				<h3><%= current_user.merchant_name%> </h3>
+				<h3><%= @merchant_name%> </h3>
 				<%
 				# Check to see if we are filtering on a category. If so, we will display this to the user
 				if params[:category_id]
@@ -25,7 +25,15 @@
 					%><h4>All Products</h4><%
 				end
 				%>
-		<br /><br />
+		<br />
+		<% if current_user.merchant_rep? %>
+		  <%= form_tag admin_products_path, method: :get do %>
+		  <%= label_tag :merchant_selected, "Viewing As:" %>
+		  <%= select_tag(:merchant_selected, options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name, :selected => params[:merchant_selected]), {:onchange => "this.form.submit()"})%>
+		  <%end%>
+		  <br /><br />
+		<%end%>
+		<br />
 	</div>
 	<div class="col-lg-1 col-md-1 hidden-sm hidden-xs">
 	</div>

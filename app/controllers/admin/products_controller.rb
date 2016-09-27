@@ -17,7 +17,15 @@ class Admin::ProductsController < ApplicationController
       redirect_to admin_stripe_accounts_new_stripe_account_path
     else
       # Retrieve all of the producs that belong to the current user
-      @products = current_user.products.order("updated_at DESC")
+        # filter products for rep based on merchant selected
+      if params[:merchant_selected] && current_user.merchant_rep?
+        user = User.find(params[:merchant_selected])
+        @merchant_name = user.merchant_name
+        @products = user.products.order("updated_at DESC")
+      else
+        @merchant_name = current_user.merchant_name
+        @products = current_user.products.order("updated_at DESC")
+      end
 
       # Check to see if we have a query parameter. This is used for the product search bar
       if params[:query]
