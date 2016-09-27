@@ -330,6 +330,188 @@ $(document).ready(function() {
 });
 
 //***********************************************************************************************
+// Order Validation Functions
+//***********************************************************************************************
+
+// Validation for the cart form
+function validateCartForm() {
+  // We will check to see if any products have been selected
+  if($('#cart_products').html().length == 0) {
+    // No products have been selected, we will show the error div and scroll to the top of the page
+    $('#cart_products_error').show();
+    window.scroll(0,0);
+
+    // Return false to indicate an error
+    return false;
+  }
+
+  // Return true to indicate no errors were found
+  return true;
+}
+
+// Initializations that are needed
+$(document).ready(function() {
+  // Click handler for the error div
+  $('#cart_products_error_dismiss').click(function(event) {
+    $('#cart_products_error').hide();
+  });
+});
+
+//***********************************************************************************************
+// Customer Details Validation Functions
+//***********************************************************************************************
+
+// Validaton for the customer order details form
+function validateCustomerDetailsForm() {
+  // Set the result to true by default
+  var result = true;
+
+  // Reset all of the fields
+  $('.lbl_required').hide();
+  $('.input_required').removeClass('input_required');
+  $('.input_select_required').removeClass('input_select_required');
+  $('#customer_details_error').hide();
+  $('#customer_details_email_error').hide();
+
+  // Validate the customer first name
+  if(!$('#order_cust_first_name').val()) {
+    $('#order_cust_first_name').addClass('input_required');
+    result = false;
+  }
+
+  // Validate the customer last name
+  if(!$('#order_cust_last_name').val()) {
+    $('#order_cust_last_name').addClass('input_required');
+    result = false;
+  }
+
+  // Validate the customer email
+  if(!$('#order_cust_email').val()) {
+    $('#order_cust_email').addClass('input_required');
+    result = false;
+  }
+  else {
+    // We have a value, we will validate that it is a proper email address
+    if(!isValidEmailAddress($('#order_cust_email').val())) {
+      $('#order_cust_email').addClass('input_required');
+      $('#customer_details_email_error').show();
+      result = false;
+    }
+  }
+
+  // Validate the customer email confirmation
+  if(!$('#order_cust_email_confirmation').val()) {
+    $('#order_cust_email_confirmation').addClass('input_required');
+    result = false;
+  }
+  else {
+    // We have a value, we will make sure it matches the password field
+    if($('#order_cust_email').val() != $('#order_cust_email_confirmation').val()) {
+      $('#order_cust_email_confirmation').addClass('input_required');
+      $('#customer_details_email_error').show();
+      result = false;
+    }
+  }
+
+  // Validate the customer street address
+  if(!$('#order_street_address').val()) {
+    $('#order_street_address').addClass('input_required');
+    result = false;
+  }
+
+  // Validate the customer city
+  if(!$('#order_city').val()) {
+    $('#order_city').addClass('input_required');
+    result = false;
+  }
+
+  // Validate the customer postal/zip
+  if(!$('#order_postal_zip').val()) {
+    $('#order_postal_zip').addClass('input_required');
+    result = false;
+  }
+
+  // Validate the customer country
+  if(!$('#order_country').val()) {
+    $('#order_country').addClass('input_select_required');
+    result = false;
+  }
+
+  // Validate the customer province/state
+  if(!$('#order_prov_state').val()) {
+    $('#order_prov_state').addClass('input_select_required');
+    result = false;
+  }
+
+  // If we have errors, we will show the error div
+  if(!result) {
+    $('#customer_details_error').show();
+    window.scroll(0,0);
+  }
+
+  // Return the result of the form validation
+  return result;
+}
+
+// Initializations that are needed
+$(document).ready(function() {
+  // Click handler for the error div
+  $('#customer_details_error_dismiss').click(function(event) {
+    $('#customer_details_error').hide();
+  });
+
+  // Click handler for the email error div
+  $('#customer_details_email_error_dismiss').click(function(event) {
+    $('#customer_details_email_error').hide();
+  });
+
+  // Customer First Name focus
+  $('#order_cust_first_name').focus(function() {
+    $('#order_cust_first_name').removeClass('input_required');
+  });
+
+  // Customer Last Name focus
+  $('#order_cust_last_name').focus(function() {
+    $('#order_cust_last_name').removeClass('input_required');
+  });
+
+  // Customer Email focus
+  $('#order_cust_email').focus(function() {
+    $('#order_cust_email').removeClass('input_required');
+  });
+
+  // Customer Email Confirmation focus
+  $('#order_cust_email_confirmation').focus(function() {
+    $('#order_cust_email_confirmation').removeClass('input_required');
+  });
+
+  // Customer Street Address focus
+  $('#order_street_address').focus(function() {
+    $('#order_street_address').removeClass('input_required');
+  });
+
+  // Customer City focus
+  $('#order_city').focus(function() {
+    $('#order_city').removeClass('input_required');
+  });
+
+  // Customer Postal/Zip focus
+  $('#order_postal_zip').focus(function() {
+    $('#order_postal_zip').removeClass('input_required');
+  });
+
+  // Customer Country focus
+  $('#order_country').focus(function() {
+    $('#order_country').removeClass('input_select_required');
+  });
+
+  // Customer Prov/State focus
+  $('#order_prov_state').focus(function() {
+    $('#order_prov_state').removeClass('input_select_required');
+  });
+});
+
+//***********************************************************************************************
 // Common Validation Functions
 //***********************************************************************************************
 

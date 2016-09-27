@@ -1,10 +1,22 @@
 
-<%= form_for @order, :url => create_customer_details_order_path(@order) do |f| %>
+<%= form_for @order, :url => create_customer_details_order_path(@order), :html => { :onsubmit => "return validateCustomerDetailsForm();"} do |f| %>
 <div class="col-lg-12 col-md-12 col-sm-12">
 <div class="row">
   <div class="col-xs-12">
     <br />
   <h4><%= bootstrap_flash %></h4>
+  <h4>
+		<div id="customer_details_error" class="alert fade in alert-danger" style="display:none;">
+			<button type="button" class="close" id="customer_details_error_dismiss">×</button>
+			Error: Fields marked in red are required
+		</div>
+	</h4>
+  <h4>
+		<div id="customer_details_email_error" class="alert fade in alert-danger" style="display:none;">
+			<button type="button" class="close" id="customer_details_email_error_dismiss">×</button>
+			Error: Email fields are invalid or do not match
+		</div>
+	</h4>
   </div>
     <div class="col-lg-4 col-md-4 col-sm-2 hidden-xs">
     </div>
@@ -62,7 +74,7 @@
                   'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
                   'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'Washington, D.C.', 'West Virginia', 'Wisconsin', 'Wyoming']}
                 %>
-      <div class="form_field_divs input-lg col-lg-6 col-md-6 col-sm-12 col-xs-12" >
+      <div class="form_field_divs input-lg col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <%= f.label :country, "Country:", hidden:true %>
           <%= f.select :country, options_for_select(["United States of America", "Canada"], f.object.country), :prompt => 'Country' %>
       </div>

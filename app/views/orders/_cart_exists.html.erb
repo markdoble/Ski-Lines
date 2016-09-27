@@ -1,7 +1,13 @@
 <br />
-<%= form_for @order do |f|%>
+<%= form_for(@order, :html => { :onsubmit => "return validateCartForm();"}) do |f|%>
 <div class="col-lg-9 col-md-9 col-sm-10 col-xs-12">
 	<h4><%= bootstrap_flash %></h4>
+	<h4>
+		<div id="cart_products_error" class="alert fade in alert-danger" style="display:none;">
+			<button type="button" class="close" id="cart_products_error_dismiss">×</button>
+			You must make a selection before continuing.
+		</div>
+	</h4>
 	<div class="columns_for_products">
 		<div class="purchase_form">
 			<% products = [] %>
@@ -21,8 +27,7 @@
 		<div class="product_list col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<h4 class="order_form_heading" ><b>YOUR SELECTIONS</b></h4>
 			<div class="row">
-				<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-				 <p>- none -</p>
+				<div class="product" class="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="cart_products">
 				</div>
 				<div id="product_qty" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 				</div>
