@@ -26,6 +26,12 @@ class Admin::ProductsController < ApplicationController
         session[:product_admin_view] = params[:product_admin_view]
       end
 
+      # check to see if rep has selected a merchant
+      if params[:merchant_selected]
+        # A merchant was selected, set it in the session
+        session[:merchant_selected] = params[:merchant_selected]
+      end
+
       # Check the session to see if a view type was selected, if not, load the detailed view by default
       if session[:product_admin_view]
         # A session value exists, load the correct view
@@ -33,8 +39,8 @@ class Admin::ProductsController < ApplicationController
           @page_view = 'list'
           # Retrieve all of the producs that belong to the current user
             # filter products for rep based on merchant selected
-          if params[:merchant_selected] && current_user.merchant_rep?
-            user = User.find(params[:merchant_selected])
+          if !session[:merchant_selected].blank? && current_user.merchant_rep?
+            user = User.find(session[:merchant_selected])
             @merchant_name = user.merchant_name
             @products = user.products.order("updated_at DESC")
           else
@@ -52,21 +58,23 @@ class Admin::ProductsController < ApplicationController
             @products = @products.category_specific(Category.find(params[:category_id]).descendents)
           end
 
-          # list view products
-          @products = current_user.products.order("updated_at DESC")
-
         else
           @page_view = 'detailed'
 
           # Retrieve all of the producs that belong to the current user
             # filter products for rep based on merchant selected
-          if params[:merchant_selected] && current_user.merchant_rep?
-            user = User.find(params[:merchant_selected])
+          if !session[:merchant_selected].blank? && current_user.merchant_rep?
+            # find user with param passed in
+            user = User.find(session[:merchant_selected])
+            #set the merchants name
             @merchant_name = user.merchant_name
-            @products = user.products.order("updated_at DESC")
+            # paginate the products for detailed view
+            @products = user.products.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
           else
+            # if rep hasn't selected a merchant, display the rep's name
             @merchant_name = current_user.merchant_name
-            @products = current_user.products.order("updated_at DESC")
+            # if rep hasn't selected a merchant, display the rep's products
+            @products = current_user.products.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
           end
 
           # Check to see if we have a category id. This is used for the category dropdown filter
@@ -79,20 +87,23 @@ class Admin::ProductsController < ApplicationController
               @products = @products.search(params[:query])
           end
 
-          # Paginate the products list
-          @products = @products.paginate(:page => params[:page],:per_page => 5)
-
         end
       else
         # A session value does not exist, load the default detailed view
-        @page_view = 'index'
+        @page_view = 'list'
 
-        if params[:merchant_selected] && current_user.merchant_rep?
-          user = User.find(params[:merchant_selected])
+        # filter products for rep based on merchant selected
+        if session[:merchant_selected] && current_user.merchant_rep?
+          # select the user based on rep's selection
+          user = User.find(session[:merchant_selected])
+          # set the merchant name selected by the rep
           @merchant_name = user.merchant_name
+          # list the products belonging to the selected merchant in list form
           @products = user.products.order("updated_at DESC")
         else
+          # set merchant name to current user's name
           @merchant_name = current_user.merchant_name
+          # list all the products for the current user, merchant or rep
           @products = current_user.products.order("updated_at DESC")
         end
 
@@ -105,9 +116,6 @@ class Admin::ProductsController < ApplicationController
         if params[:category_id]
           @products = @products.category_specific(Category.find(params[:category_id]).descendents)
         end
-
-        # Paginate the products list
-        @products = @products.paginate(:page => params[:page],:per_page => 5)
 
       end
     end
