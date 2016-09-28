@@ -41,7 +41,6 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<%= render 'admin/products/product_listing_header'%>
-			<div class="products">
 				<%
 				if @products.empty?
 					%>
@@ -60,19 +59,25 @@
 					<%
 				else
 					%>
+					<% if @page_view == 'detailed' %>
+					<div class="products">
 					<%= render 'admin/products/paginate/index'%>
+					</div>
+					<%else%>
+
+					<%= render 'admin/products/index_list'%>
+
+					<%end%>
 					<%
 				end
 				%>
-		</div>
 	</div>
-	<%
-	if !@products.empty?
-		%><%=will_paginate(@products)%><%
+
+	<% if @page_view == 'detailed' %>
+	<%=will_paginate(@products)%><%
 	end
 	%>
 
-	<%=will_paginate(@products)%>
 </div>
 </div>
 <input type="hidden" id="category_filter_href" name="category_filter_href" value="<%=admin_products_path%>" />

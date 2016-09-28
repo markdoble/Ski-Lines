@@ -16,42 +16,6 @@ class Admin::ProductsController < ApplicationController
     if current_user.stripe_account_id.blank?
       redirect_to admin_stripe_accounts_new_stripe_account_path
     else
-      # Retrieve all of the producs that belong to the current user
-        # filter products for rep based on merchant selected
-      if params[:merchant_selected] && current_user.merchant_rep?
-        user = User.find(params[:merchant_selected])
-        @merchant_name = user.merchant_name
-        @products = user.products.order("updated_at DESC")
-      else
-        @merchant_name = current_user.merchant_name
-        @products = current_user.products.order("updated_at DESC")
-      end
-
-      # Check to see if we have a query parameter. This is used for the product search bar
-      if params[:query]
-        @products = @products.search(params[:query])
-      end
-
-      # Check to see if we have a category id. This is used for the category dropdown filter
-      if params[:category_id]
-        @products = @products.category_specific(Category.find(params[:category_id]).descendents)
-      end
-
-      # Paginate the products list
-      @products = @products.paginate(:page => params[:page],:per_page => 5)
-
-      # list view products
-      @list_view_products = current_user.products.order("updated_at DESC")
-
-      # Check to see if we have a category id. This is used for the category dropdown filter
-      if params[:category_id]
-        @list_view_products = @list_view_products.category_specific(Category.find(params[:category_id]).descendents)
-      end
-
-      # Check to see if we have a query parameter. This is used for the product search bar on list view
-      if params[:query]
-          @list_view_products = @list_view_products.search(params[:query])
-      end
 
       # Retrieve the root categories to display in the caterogy filter dropdown
       @all_categories = Category.order(:name)
@@ -66,13 +30,85 @@ class Admin::ProductsController < ApplicationController
       if session[:product_admin_view]
         # A session value exists, load the correct view
         if session[:product_admin_view] == "list"
-          render 'index_list'
+          @page_view = 'list'
+          # Retrieve all of the producs that belong to the current user
+            # filter products for rep based on merchant selected
+          if params[:merchant_selected] && current_user.merchant_rep?
+            user = User.find(params[:merchant_selected])
+            @merchant_name = user.merchant_name
+            @products = user.products.order("updated_at DESC")
+          else
+            @merchant_name = current_user.merchant_name
+            @products = current_user.products.order("updated_at DESC")
+          end
+
+          # Check to see if we have a query parameter. This is used for the product search bar
+          if params[:query]
+            @products = @products.search(params[:query])
+          end
+
+          # Check to see if we have a category id. This is used for the category dropdown filter
+          if params[:category_id]
+            @products = @products.category_specific(Category.find(params[:category_id]).descendents)
+          end
+
+          # list view products
+          @products = current_user.products.order("updated_at DESC")
+
         else
-          render 'index'
+          @page_view = 'detailed'
+
+          # Retrieve all of the producs that belong to the current user
+            # filter products for rep based on merchant selected
+          if params[:merchant_selected] && current_user.merchant_rep?
+            user = User.find(params[:merchant_selected])
+            @merchant_name = user.merchant_name
+            @products = user.products.order("updated_at DESC")
+          else
+            @merchant_name = current_user.merchant_name
+            @products = current_user.products.order("updated_at DESC")
+          end
+
+          # Check to see if we have a category id. This is used for the category dropdown filter
+          if params[:category_id]
+            @products = @products.category_specific(Category.find(params[:category_id]).descendents)
+          end
+
+          # Check to see if we have a query parameter. This is used for the product search bar on list view
+          if params[:query]
+              @products = @products.search(params[:query])
+          end
+
+          # Paginate the products list
+          @products = @products.paginate(:page => params[:page],:per_page => 5)
+
         end
       else
         # A session value does not exist, load the default detailed view
-        render 'index'
+        @page_view = 'index'
+
+        if params[:merchant_selected] && current_user.merchant_rep?
+          user = User.find(params[:merchant_selected])
+          @merchant_name = user.merchant_name
+          @products = user.products.order("updated_at DESC")
+        else
+          @merchant_name = current_user.merchant_name
+          @products = current_user.products.order("updated_at DESC")
+        end
+
+        # Check to see if we have a query parameter. This is used for the product search bar
+        if params[:query]
+          @products = @products.search(params[:query])
+        end
+
+        # Check to see if we have a category id. This is used for the category dropdown filter
+        if params[:category_id]
+          @products = @products.category_specific(Category.find(params[:category_id]).descendents)
+        end
+
+        # Paginate the products list
+        @products = @products.paginate(:page => params[:page],:per_page => 5)
+
       end
     end
   end
