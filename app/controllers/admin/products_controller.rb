@@ -93,7 +93,7 @@ class Admin::ProductsController < ApplicationController
         @page_view = 'list'
 
         # filter products for rep based on merchant selected
-        if session[:merchant_selected] && current_user.merchant_rep?
+        if !session[:merchant_selected].blank? && current_user.merchant_rep?
           # select the user based on rep's selection
           user = User.find(session[:merchant_selected])
           # set the merchant name selected by the rep
