@@ -54,7 +54,7 @@ Rails.application.routes.draw do
 
   get 'infos/js_enabled'
   get 'infos/terms'
-
+  get 'infos/merchant_faq'
   get 'infos/about'
 
   get 'articles/cross_country'

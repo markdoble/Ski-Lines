@@ -11,6 +11,7 @@
 				<li><%= link_to "PURCHASE INFO", infos_terms_path %></li>
 				<li><%= link_to "ABOUT", infos_about_path %></li>
 				<li><%= link_to "WE'RE HIRING!", new_team_path %></li>
+				<li><%= link_to "MERCHANT FAQ", infos_merchant_faq_path %></li>
 				<% if user_signed_in? %>
 					<% if current_user.merchant? %>
 				<li><%= link_to "MY STORE", admin_products_path%></li>

@@ -1,24 +1,29 @@
 class InfosController < ApplicationController
   layout 'application'
+  before_action :find_or_create_cart
 
   def js_enabled
-    find_or_create_cart
+
   end
 
   def terms
-    find_or_create_cart
+
   end
 
   def return_policy
-    find_or_create_cart
+
   end
 
   def purchase_information
-    find_or_create_cart
+
   end
 
   def about
-    find_or_create_cart
+
+  end
+
+  def merchant_faq
+
   end
 
   private
