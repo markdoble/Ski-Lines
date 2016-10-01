@@ -161,6 +161,15 @@ class Admin::StripeAccountsController < ApplicationController
     end
   end
 
+  def verify_password
+    if current_user.valid_password?(params[:password])
+      redirect_to admin_account_path
+    else
+      redirect_to admin_products_path
+      flash[:error] = "Your password was incorrect."
+    end
+  end
+
   def new_stripe_account
   end
 

@@ -109,6 +109,7 @@ Rails.application.routes.draw do
     get 'stripe_accounts/edit_banking'
     get 'stripe_accounts/delete_bank_account'
     get 'stripe_accounts/update_personal_id_number'
+    get 'stripe_accounts/verify_password'
     get 'account' => "stripe_accounts#account"
     get 'create_account' => "stripe_accounts#create_account"
     get 'stripe_accounts/new_stripe_account'
