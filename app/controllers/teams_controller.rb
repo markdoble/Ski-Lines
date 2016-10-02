@@ -1,13 +1,12 @@
 class TeamsController < ApplicationController
   layout "application"
+  before_filter :find_categories
+
   def new
     @team = Team.new
     @team_page = true
     find_or_create_cart
   end
-
-
-
 
   def create
     @team = Team.create(contact_params)
@@ -36,5 +35,8 @@ class TeamsController < ApplicationController
     end
   end
 
+  def find_categories
+    @root_categories = Category.where(parent_id: nil).order(:name)
+  end
 
 end

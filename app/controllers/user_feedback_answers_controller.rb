@@ -1,5 +1,6 @@
 class UserFeedbackAnswersController < ApplicationController
   layout "application"
+  before_filter :find_categories
 
   def create
     @feedback_answer = UserFeedbackAnswer.create(feedback_answer_params)
@@ -23,6 +24,10 @@ class UserFeedbackAnswersController < ApplicationController
     def create_form_session_variables
       session[:survey_session] = @feedback_answer.id
       session[:survey_session_expiry] = Time.current + 120
+    end
+
+    def find_categories
+      @root_categories = Category.where(parent_id: nil).order(:name)
     end
 
 end

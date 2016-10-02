@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   layout "order_layout"
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_filter :find_or_create_cart, only: [:index, :edit, :create, :update, :payment_form, :customer_details_form, :confirmation, :create_customer_details]
-
+  before_filter :find_categories
 
 # Cart FUnctions
   def add
@@ -277,6 +277,10 @@ class OrdersController < ApplicationController
               :quantity
               ]
         )
+      end
+
+      def find_categories
+        @root_categories = Category.where(parent_id: nil).order(:name)
       end
 
       def find_or_create_cart

@@ -1,7 +1,7 @@
 class TrackOrdersController < ApplicationController
   layout "application"
   before_filter :find_or_create_cart
-
+  before_filter :find_categories
 
   def my_order
     if session[:myorder]
@@ -58,6 +58,9 @@ class TrackOrdersController < ApplicationController
       end
     end
 
+    def find_categories
+      @root_categories = Category.where(parent_id: nil).order(:name)
+    end
 
 
 

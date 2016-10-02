@@ -1,7 +1,7 @@
 class MerchantApplicationsController < ApplicationController
   layout "application"
   before_filter :find_or_create_cart
-
+  before_filter :find_categories
 
 
   def new
@@ -52,6 +52,9 @@ class MerchantApplicationsController < ApplicationController
     end
   end
 
+  def find_categories
+    @root_categories = Category.where(parent_id: nil).order(:name)
+  end
 
   def create_merchant_app_session
     session[:merchant_application] = @merchant_application.id

@@ -8,14 +8,15 @@
   ga('send', 'pageview');
 
 </script>
-
+<div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
+</div>
 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
 <div class="about">
 	<div class="row">
-	<h2 style="text-align:center" class="col-lg-9 col-md-9 col-sm-12">JOIN OUR TEAM</h2>
+	<h2 style="text-align:center" class="col-lg-12 col-md-12 col-sm-12">JOIN OUR TEAM</h2>
 </div>
 
-<h4>Details of Position:</h4>
+<label>Details of Position:</label>
 <div class="row">
 <p style="text-align:left" class="col-lg-12 col-md-12 col-sm-12">
   We are looking for motivated and talented individuals to join our team.
@@ -27,7 +28,7 @@
 </p>
 </div>
 <br>
-<h4>Name and contact:</h4>
+<label>Name and contact:</label>
 <%= form_for @team do |f| %>
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-12">
@@ -45,7 +46,7 @@
   <%= f.text_field :email, class: "form-control ", style: "width:98%", placeholder: "Email Address" %><br/>
  </div>
 </div>
- <h4>Location:</h4>
+ <label>Location:</label>
  <div class="row">
  <div class="col-lg-6 col-md-6 col-sm-12">
   <%= f.label :country, class: "sr-only", :required => true %>
@@ -63,7 +64,7 @@
   </div>
  </div>
 
-<h4>Summary:</h4>
+<label>Summary:</label>
 <div class="row">
 <div class="textarea col-lg-12 col-md-12 col-sm-12">
   <%= f.label :summary, class: "sr-only" %>
@@ -80,17 +81,5 @@
 <br><br><br><br>
 </div>
 </div>
-<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
-  <div class="google_adsense">
-
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-     <!-- Spring 2016 -->
-     <ins class="adsbygoogle"
-       style="display:inline-block;width:300px;height:600px"
-       data-ad-client="ca-pub-7427467260900360"
-       data-ad-slot="2795898131"></ins>
-     <script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-     </script>
-  </div>
+<div class="col-lg-2 col-md-2 hidden-sm hidden-xs">
 </div>

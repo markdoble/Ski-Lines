@@ -1,6 +1,7 @@
 class EmailDigestsController < ApplicationController
   layout "application"
   before_filter :find_or_create_cart
+  before_filter :find_categories
 
   def new
     @subscriber = EmailDigest.new
@@ -53,6 +54,9 @@ class EmailDigestsController < ApplicationController
     end
   end
 
+  def find_categories
+    @root_categories = Category.where(parent_id: nil).order(:name)
+  end
 
   def create_email_digest_session
     session[:email_digest_session] = @subscriber.id

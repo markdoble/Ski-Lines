@@ -37,7 +37,7 @@ class ProductsController < ApplicationController
   def show
     # Find the product given the ID
     @product = Product.find(params[:id])
-
+    @root_categories = Category.where(parent_id: nil).order(:name)
     respond_to do |format|
       format.js
       format.html
