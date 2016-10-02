@@ -1,0 +1,1 @@
+$(document).ready(function(){$(document).on("click",".question",function(e){e.preventDefault(),$(this).next(".answer").slideToggle()})});
