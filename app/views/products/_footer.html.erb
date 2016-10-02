@@ -1,24 +1,37 @@
 <div class="landing_page_footer">
-	<div class="footer_logo">
-    <%= image_tag('store_logo_bitmap.png', height:'15px') %>
 
-    </div>
-
-		<div class="container footer_links" >
-			<ul>
-				<li><%=link_to "TERMS OF SERVICE", infos_terms_path %></li>
-				<li><%= link_to "CONTACT", "mailto:store@ski-lines.com?Subject=Inquiry" %></li>
-				<li><%= link_to "PURCHASE INFO", infos_terms_path %></li>
-				<li><%= link_to "ABOUT", infos_about_path %></li>
-				<li><%= link_to "WE'RE HIRING!", new_team_path %></li>
-				<li><%= link_to "MERCHANT FAQ", infos_merchant_faq_path %></li>
-				<% if user_signed_in? %>
-					<% if current_user.merchant? %>
-				<li><%= link_to "MY STORE", admin_products_path%></li>
-					<%end%>
-				<%end%>
-			</ul>
+	<div class="container">
+		<div class="footer_logo col-xs-12">
+			<%= image_tag('store_logo_bitmap.png', height:'25px') %>
 		</div>
-
-
+		<div class="footer_links col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		<ul>
+			<li><%=link_to "TERMS OF SERVICE", infos_terms_path %></li>
+			<li><%= link_to "CONTACT", "mailto:store@ski-lines.com?Subject=Inquiry" %></li>
+			<li><%= link_to "SUBMIT COMPLAINT", new_complaint_path %></li>
+			<li><%= link_to "ABOUT", infos_about_path %></li>
+			<li><%= link_to "WE'RE HIRING!", new_team_path %></li>
+			<li><%= link_to "MERCHANT FAQ", infos_merchant_faq_path %></li>
+			<% if user_signed_in? %>
+				<% if current_user.merchant? %>
+			<li><%= link_to "MY STORE", admin_products_path%></li>
+				<%end%>
+			<%else%>
+				<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
+			<%end%>
+		</ul>
+		<br /><br />
+	</div>
+	<div class="footer_links col-lg-6 col-md-6 col-sm-6 col-xs-12">
+		<p>Thunder Bay, ON<br />
+		Canada<br />
+		<%= link_to "info@ski-lines.com", "mailto:info@ski-lines.com" %><br />
+		1-888-374-8160
+		</p>
+		<p>
+			<span class="social_media_logo_footer"><%=link_to image_tag("logo_twitter2.png"), "https://twitter.com/SkiLinesDotCom"%></span>
+			<span class="social_media_logo_footer"><%=link_to image_tag("logo_facebook2.png"), "http://www.facebook.com/skiheadlines"%></span>
+		</p>
+	</div>
+	</div>
 </div>
