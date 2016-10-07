@@ -73,11 +73,18 @@
                   <%end%>
                 </div>
                 <div class="icon">
-                  <div class="col-xs-12" style="text-align:center;">
-                    <a type="button" href="#" class="btn" data-toggle="modal" data-target="#password_verification">  
+
+                    <a type="button" href="#" class="btn" data-toggle="modal" data-target="#password_verification">
                       <span class="glyphicon glyphicon-cog"></span><br />
-                      <h4>My Account</h4></a>
-                  </div>
+                      <h4>My Account</h4>
+                    </a>
+
+                </div>
+                <div class="icon">
+                  <%= link_to admin_supports_index_path do %>
+                  <span class="glyphicon glyphicon-question-sign"></span><br />
+                  <h4>Support</h4>
+                  <%end%>
                 </div>
               </div>
             </div>

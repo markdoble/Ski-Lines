@@ -2,6 +2,7 @@ class Admin::ReturnsController < ApplicationController
   layout "store_merchant_layout"
   before_action :set_return, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :verify_is_merchant
 
   def index
     @user_returns = Return.where(user_id: current_user.id).order("created_at DESC")
@@ -97,6 +98,11 @@ private
     if return_request.actual_shipping_charge_refunded.nil?
       return_request.update_attribute(:actual_shipping_charge_refunded, 0.00)
     end
+  end
+
+  # Verify if the current user is logged in and is a merchant
+  def verify_is_merchant
+    (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
   end
 
 end

@@ -101,7 +101,7 @@ Rails.application.routes.draw do
     get 'products/accessories'
     get 'all_orders/merchants'
     get 'all_orders/rep'
-
+    get 'supports/index'
     # stripe account routes
     get 'stripe_accounts/verify_account'
     get 'stripe_accounts/update_company_details'
