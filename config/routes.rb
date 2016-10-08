@@ -130,6 +130,11 @@ Rails.application.routes.draw do
     get 'articles/contact'
     get 'contacts/contact'
     get 'teams/team'
+
+    # Section for user administration
+    get 'users/edit'
+    get 'users/index'
+    get 'users/update'
   end
 
 end

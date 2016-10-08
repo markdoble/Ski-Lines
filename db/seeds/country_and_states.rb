@@ -62,208 +62,208 @@ params =  { :countries =>
     :common_name => "United States of America",
     :states_attributes => [
       {
-        :abbreviation => 'Alabama',
-        :common_name => 'AL'
+        :common_name => 'Alabama',
+        :abbreviation => 'AL'
       },
       {
-        :abbreviation => 'Alaska',
-        :common_name => 'AK'
+        :common_name => 'Alaska',
+        :abbreviation => 'AK'
       },
       {
-        :abbreviation => 'Arizona',
-        :common_name => 'AZ'
+        :common_name => 'Arizona',
+        :abbreviation => 'AZ'
       },
       {
-        :abbreviation => 'Arkansas',
-        :common_name => 'AR'
+        :common_name => 'Arkansas',
+        :abbreviation => 'AR'
       },
       {
-        :abbreviation => 'California',
-        :common_name => 'CA'
+        :common_name => 'California',
+        :abbreviation => 'CA'
       },
       {
-        :abbreviation => 'Colorado',
-        :common_name => 'CO'
+        :common_name => 'Colorado',
+        :abbreviation => 'CO'
       },
       {
-        :abbreviation => 'Connecticut',
-        :common_name =>'CT'
+        :common_name => 'Connecticut',
+        :abbreviation =>'CT'
       },
       {
-        :abbreviation => 'Delaware',
-        :common_name => 'DE'
+        :common_name => 'Delaware',
+        :abbreviation => 'DE'
       },
       {
-        :abbreviation => 'Florida',
-        :common_name => 'FL'
+        :common_name => 'Florida',
+        :abbreviation => 'FL'
       },
       {
-        :abbreviation => 'Georgia',
-        :common_name => 'GA'
+        :common_name => 'Georgia',
+        :abbreviation => 'GA'
       },
       {
-        :abbreviation => 'Hawaii',
-        :common_name => 'HI'
+        :common_name => 'Hawaii',
+        :abbreviation => 'HI'
       },
       {
-        :abbreviation => 'Idaho',
-        :common_name => 'ID'
+        :common_name => 'Idaho',
+        :abbreviation => 'ID'
       },
       {
-        :abbreviation => 'Illinois',
-        :common_name => 'IL'
+        :common_name => 'Illinois',
+        :abbreviation => 'IL'
       },
       {
-        :abbreviation => 'Indiana',
-        :common_name => 'IN'
+        :common_name => 'Indiana',
+        :abbreviation => 'IN'
       },
       {
-        :abbreviation => 'Iowa',
-        :common_name => 'IA'
+        :common_name => 'Iowa',
+        :abbreviation => 'IA'
       },
       {
-        :abbreviation => 'Kansas',
-        :common_name => 'KS'
+        :common_name => 'Kansas',
+        :abbreviation => 'KS'
       },
       {
-        :abbreviation => 'Kentucky',
-        :common_name => 'KY'
+        :common_name => 'Kentucky',
+        :abbreviation => 'KY'
       },
       {
-        :abbreviation => 'Louisiana',
-        :common_name => 'LA'
+        :common_name => 'Louisiana',
+        :abbreviation => 'LA'
       },
       {
-        :abbreviation =>  'Maine',
-        :common_name =>  'ME'
+        :common_name =>  'Maine',
+        :abbreviation =>  'ME'
       },
       {
-        :abbreviation => 'Maryland',
-        :common_name => 'MD'
+        :common_name => 'Maryland',
+        :abbreviation => 'MD'
       },
       {
-        :abbreviation => 'Massachusetts',
-        :common_name => 'MA'
+        :common_name => 'Massachusetts',
+        :abbreviation => 'MA'
       },
       {
-        :abbreviation => 'Michigan',
-        :common_name => 'MI'
+        :common_name => 'Michigan',
+        :abbreviation => 'MI'
       },
       {
-        :abbreviation => 'Minnesota',
-        :common_name => 'MN'
+        :common_name => 'Minnesota',
+        :abbreviation => 'MN'
       },
       {
-        :abbreviation => 'Mississippi',
-        :common_name => 'MS'
+        :common_name => 'Mississippi',
+        :abbreviation => 'MS'
       },
       {
-        :abbreviation => 'Missouri',
-        :common_name => 'MO'
+        :common_name => 'Missouri',
+        :abbreviation => 'MO'
       },
       {
-        :abbreviation =>  'Montana',
-        :common_name =>  'MT'
+        :common_name =>  'Montana',
+        :abbreviation =>  'MT'
       },
       {
-        :abbreviation => 'Nebraska',
-        :common_name => 'NE'
+        :common_name => 'Nebraska',
+        :abbreviation => 'NE'
       },
       {
-        :abbreviation => 'Nevada',
-        :common_name => 'NV'
+        :common_name => 'Nevada',
+        :abbreviation => 'NV'
       },
       {
-        :abbreviation => 'New Hampshire',
-        :common_name => 'NH'
+        :common_name => 'New Hampshire',
+        :abbreviation => 'NH'
       },
       {
-        :abbreviation => 'New Jersey',
-        :common_name => 'NJ'
+        :common_name => 'New Jersey',
+        :abbreviation => 'NJ'
       },
       {
-        :abbreviation => 'New Mexico',
-        :common_name => 'NM'
+        :common_name => 'New Mexico',
+        :abbreviation => 'NM'
       },
       {
-        :abbreviation => 'New York',
-        :common_name => 'NY'
+        :common_name => 'New York',
+        :abbreviation => 'NY'
       },
       {
-        :abbreviation => 'North Carolina',
-        :common_name => 'NC'
+        :common_name => 'North Carolina',
+        :abbreviation => 'NC'
       },
       {
-        :abbreviation => 'North Dakota',
-        :common_name => 'ND'
+        :common_name => 'North Dakota',
+        :abbreviation => 'ND'
       },
       {
-        :abbreviation => 'Ohio',
-        :common_name => 'OH'
+        :common_name => 'Ohio',
+        :abbreviation => 'OH'
       },
       {
-        :abbreviation => 'Oklahoma',
-        :common_name => 'OK'
+        :common_name => 'Oklahoma',
+        :abbreviation => 'OK'
       },
       {
-        :abbreviation => 'Oregon',
-        :common_name => 'OR'
+        :common_name => 'Oregon',
+        :abbreviation => 'OR'
       },
       {
-        :abbreviation => 'Pennsylvania',
-        :common_name => 'PA'
+        :common_name => 'Pennsylvania',
+        :abbreviation => 'PA'
       },
       {
-        :abbreviation => 'Rhode Island',
-        :common_name => 'RI'
+        :common_name => 'Rhode Island',
+        :abbreviation => 'RI'
       },
       {
-        :abbreviation => 'South Carolina',
-        :common_name => 'SC'
+        :common_name => 'South Carolina',
+        :abbreviation => 'SC'
       },
       {
-        :abbreviation => 'South Dakota',
-        :common_name => 'SD'
+        :common_name => 'South Dakota',
+        :abbreviation => 'SD'
       },
       {
-        :abbreviation => 'Tennessee',
-        :common_name => 'TN'
+        :common_name => 'Tennessee',
+        :abbreviation => 'TN'
       },
       {
-        :abbreviation => 'Texas',
-        :common_name => 'TX'
+        :common_name => 'Texas',
+        :abbreviation => 'TX'
       },
       {
-        :abbreviation => 'Utah',
-        :common_name => 'UT'
+        :common_name => 'Utah',
+        :abbreviation => 'UT'
       },
       {
-        :abbreviation => 'Vermont',
-        :common_name => 'VT'
+        :common_name => 'Vermont',
+        :abbreviation => 'VT'
       },
       {
-        :abbreviation => 'Virginia',
-        :common_name => 'VA'
+        :common_name => 'Virginia',
+        :abbreviation => 'VA'
       },
       {
-        :abbreviation => 'Washington',
-        :common_name => 'WA'
+        :common_name => 'Washington',
+        :abbreviation => 'WA'
       },
       {
-        :abbreviation => 'Washington, D.C.',
-        :common_name => 'DC'
+        :common_name => 'Washington, D.C.',
+        :abbreviation => 'DC'
       },
       {
-        :abbreviation =>  'West Virginia',
-        :common_name => 'WV'
+        :common_name =>  'West Virginia',
+        :abbreviation => 'WV'
       },
       {
-        :abbreviation => 'Wisconsin',
-        :common_name => 'WI'
+        :common_name => 'Wisconsin',
+        :abbreviation => 'WI'
       },
       {
-        :abbreviation =>  'Wyoming',
-        :common_name => 'WY'
+        :common_name =>  'Wyoming',
+        :abbreviation => 'WY'
       },
     ]
     }]

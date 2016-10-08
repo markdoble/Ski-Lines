@@ -1,0 +1,57 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#user_list').DataTable();
+} );
+</script>
+
+<table id="user_list" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+    <th>ID</th>
+    <th>Email</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Country</th>
+    <th>State/Prov</th>
+    <th>User Type</th>
+    <th>Create Date</th>
+    <th>Edit Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+    @all_users.each do |user|
+      %>
+      <tr>
+        <td><%=link_to user.id, admin_users_edit_path(:id => user.id)%></td>
+        <td><%=user.email%></td>
+        <td><%=user.contact_first_name%></td>
+        <td><%=user.contact_last_name%></td>
+        <td><%=user.country%></td>
+        <td><%=user.state_prov%></td>
+        <td>
+          <%
+          # Determine the user type to display
+          if user.admin
+            %><%="Admin"%><%
+          elsif user.merchant_rep
+            %><%="Merchant Rep"%><%
+          elsif user.merchant
+            %><%="Merchant"%><%
+          elsif user.article_publisher
+            %><%="Article Publisher"%><%
+          else
+            %><%=""%><%
+          end
+          %>
+        </td>
+        <td><%=user.created_at%></td>
+        <td><%=user.updated_at%></td>
+      </tr>
+      <%
+    end
+    %>
+  </tbody>
+</table>
