@@ -1,21 +1,18 @@
-class Admin::ProductsController < ApplicationController
+class Admin::StockproductsController < ApplicationController
   require 'csv'
   # Define the layout to be used
   layout "store_merchant_layout"
 
   # Define the before_action elements
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_stockproduct, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_action :verify_is_merchant
+  before_action :verify_is_admin
 
   # Define the required objects
   require 'paperclip'
 
   # Displays the index of all products for the current user
   def index
-    if current_user.stripe_account_id.blank?
-      redirect_to admin_stripe_accounts_new_stripe_account_path
-    else
 
       # Retrieve the root categories to display in the caterogy filter dropdown
       @all_categories = Category.order(:name)
@@ -123,7 +120,7 @@ class Admin::ProductsController < ApplicationController
 
   # Will retrieve a single product to be displayed
   def show
-    @product = Product.find(params[:id])
+    @product = Stockproduct.find(params[:id])
   end
 
   # CSV upload to this action
@@ -161,7 +158,7 @@ class Admin::ProductsController < ApplicationController
   # Setup for the creation of a new product
   def new
 
-    @product = Product.new
+    @product = Stockproduct.new
 
     # Retrieve the root categories to display in the caterogy filter dropdown
     @all_categories = Category.order(:name)
@@ -174,16 +171,16 @@ class Admin::ProductsController < ApplicationController
 
   # Will retrieve a single product to be edited
   def edit
-    @product = Product.find(params[:id])
+    @product = Stockproduct.find(params[:id])
 
     # Retrieve the categories to display in the caterogy filter dropdown
-    @all_categories = Category.where(parent_id: nil).order(:name)
+    @all_categories = Stockproduct.where(parent_id: nil).order(:name)
   end
 
   # Executed on submit of a new product. Will create the entry in the database
   def create
     # Create the new product object from the parameters received
-    @product = Product.create(product_params)
+    @product = Stockproduct.create(product_params)
 
     respond_to do |format|
       # Try and save the product to the database
@@ -210,7 +207,7 @@ class Admin::ProductsController < ApplicationController
   # Executed on submit of an existing product. We will update the entry in the database
   def update
     # Find the existing product in the database
-    @product = Product.find(params[:id])
+    @product = Stockproduct.find(params[:id])
 
     respond_to do |format|
       # Try and update the product in the database
@@ -245,7 +242,7 @@ class Admin::ProductsController < ApplicationController
   # Executed when we want to delete a product
   def destroy
     # Find the existing product in the database
-    @product = Product.find(params[:id])
+    @product = Stockproduct.find(params[:id])
 
     # Delete all of the entries in the product_categories table associated with this product
     @product.product_categories.destroy_all
@@ -262,8 +259,8 @@ class Admin::ProductsController < ApplicationController
   # Private functions
   private
     # To Do: Define what this function does
-    def set_product
-      @products = Product.find(params[:id])
+    def set_stockproduct
+      @products = Stockproduct.find(params[:id])
     end
 
     # Define the required and permitted parameters for product request variables
@@ -273,41 +270,8 @@ class Admin::ProductsController < ApplicationController
         :name,
         :brand,
         :description,
-        :status,
-        :user_id,
-        :price,
-        :usd_price,
-        :cad_price,
-        :currency,
-        :created_at,
-        :updated_at,
-        :photo,
         :size_details,
-        :shipping_charge,
-        :product_return_policy,
-        :category_id,
-        :cad_domestic_shipping,
-        :cad_foreign_shipping,
-        :usd_domestic_shipping,
-        :usd_foreign_shipping,
-        :factory_sku,
-        :units_attributes => [
-          :id,
-          :product_id,
-          :size,
-          :quantity,
-          :quantity_sold,
-          :colour,
-          :_destroy
-          ],
-        :order_ids => [],
-        :country_ids => [],
-        :productfotos_attributes => [
-          :id,
-          :product_id,
-          :foto,
-          :_destroy
-        ],
+        :sku,
         :stockphotos_attributes => [
           :id,
           :photo,
@@ -318,29 +282,8 @@ class Admin::ProductsController < ApplicationController
         )
     end
 
-    def update_nil_values(product)
-      if product.usd_price == nil
-        product.update_attribute(:usd_price, 0)
-      end
-      if product.cad_price == nil
-        product.update_attribute(:cad_price, 0)
-      end
-      if product.cad_domestic_shipping == nil
-        product.update_attribute(:cad_domestic_shipping, 0)
-      end
-      if product.cad_foreign_shipping == nil
-        product.update_attribute(:cad_foreign_shipping, 0)
-      end
-      if product.usd_domestic_shipping == nil
-        product.update_attribute(:usd_domestic_shipping, 0)
-      end
-      if product.usd_foreign_shipping == nil
-        product.update_attribute(:usd_foreign_shipping, 0)
-      end
-    end
-
     # Verify if the current user is logged in and is a merchant
-    def verify_is_merchant
-      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.merchant?)
+    def verify_is_admin
+      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.admin?)
     end
 end

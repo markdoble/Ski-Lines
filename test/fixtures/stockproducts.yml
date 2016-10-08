@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  msrp: 9.99
+  size_details: MyText
+  sku: MyString
+  brand: MyString
+  stockphoto_id: 
+
+two:
+  name: MyString
+  description: MyText
+  msrp: 9.99
+  size_details: MyText
+  sku: MyString
+  brand: MyString
+  stockphoto_id: 

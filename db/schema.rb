@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008173807) do
+ActiveRecord::Schema.define(version: 20161008195511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -328,6 +328,20 @@ ActiveRecord::Schema.define(version: 20161008173807) do
     t.datetime "photo_updated_at"
   end
 
+  create_table "stockproducts", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.decimal  "msrp",          precision: 8, scale: 2
+    t.text     "size_details"
+    t.string   "sku"
+    t.string   "brand"
+    t.integer  "stockphoto_id"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "stockproducts", ["stockphoto_id"], name: "index_stockproducts_on_stockphoto_id", using: :btree
+
   create_table "teams", force: :cascade do |t|
     t.string   "first_name", limit: 255
     t.string   "last_name",  limit: 255
@@ -433,5 +447,6 @@ ActiveRecord::Schema.define(version: 20161008173807) do
   add_foreign_key "returns", "orders"
   add_foreign_key "returns", "users"
   add_foreign_key "states", "countries"
+  add_foreign_key "stockproducts", "stockphotos"
   add_foreign_key "user_feedback_answers", "user_feedbacks"
 end
