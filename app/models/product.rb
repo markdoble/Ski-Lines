@@ -3,6 +3,7 @@ class Product < ActiveRecord::Base
   belongs_to :user
   belongs_to :merchant_order
   has_and_belongs_to_many :orders
+  has_one :stockphoto
 
   # Associations needed to implement the product_categories join relationships
   has_many :product_categories
@@ -44,7 +45,7 @@ class Product < ActiveRecord::Base
   validates_numericality_of :cad_foreign_shipping, :allow_nil => true
   validates_numericality_of :usd_domestic_shipping, :allow_nil => true
   validates_numericality_of :usd_foreign_shipping, :allow_nil => true
-  
+
   validates :name, :presence => {:message => 'cannot be blank.'}
   #validates :description, :presence => {:message => 'cannot be blank.'}
   #validates :price, :presence => {:message => 'cannot be blank.'}
