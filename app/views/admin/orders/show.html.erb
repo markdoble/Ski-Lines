@@ -20,7 +20,7 @@
  	 				Sales Tax: <%= number_to_currency(merchant_order_tax(@order), unit: '$')%><br />
  	 				Total: <%= number_to_currency(merchant_order_total(@order), unit: '$') %><br />
 					Currency:
-					<div class="navbarflag flag flag-<%=flag_selector_based_on_currency(@order.currency)%>"></div></p>
+					<div class="navbarflag flag flag-<%=order_flag_selector_based_on_currency(@order.currency)%>"></div></p>
 
 					<br /><br />
 					</div>

@@ -1,6 +1,6 @@
 module Admin::ReturnHelper
 
-  def flag_selector_based_on_currency(currency)
+  def order_flag_selector_based_on_currency(currency)
     case currency
     when "CAD"
       "ca"

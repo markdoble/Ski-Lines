@@ -13,7 +13,7 @@
     Sales Tax: <%= number_to_currency(@order_unit.sales_tax_charged, unit: '$')%><br />
     Total: <%= number_to_currency(@order_unit.sub_total+@order_unit.shipping_charged+@order_unit.sales_tax_charged, unit: '$') %><br />
     Currency:
-    <div class="navbarflag flag flag-<%=flag_selector_based_on_currency(@order.currency)%>"></div></p>
+    <div class="navbarflag flag flag-<%=order_flag_selector_based_on_currency(@order.currency)%>"></div></p>
   </div>
 </div>
 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 return_form">

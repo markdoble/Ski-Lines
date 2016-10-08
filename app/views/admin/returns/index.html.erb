@@ -25,7 +25,7 @@
 				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
 				<td><%= f.order.cust_last_name %>, <%= f.order.cust_first_name %></td>
 				<td><%= f.order.street_address %>, <%= f.order.city %><br /><%= f.order.prov_state %>, <%=f.order.country %><br /><%= f.order.postal_zip %></td>
-				<td><div class="navbarflag flag flag-<%=flag_selector_based_on_currency(f.order.currency)%>"></div> </td>
+				<td><div class="navbarflag flag flag-<%=order_flag_selector_based_on_currency(f.order.currency)%>"></div> </td>
 				<td><%= number_to_currency(refund_total(f), unit: '$')%></td>
         <td><%= refund_status_indicator(f.refund_complete) %></td>
 			</tr>

@@ -28,7 +28,7 @@
 				<td><%= simple_format(f.created_at.strftime("%B %-d, %Y <br /> %l:%M%P %Z")) %></td>
 				<td><%= f.cust_last_name %>, <%= f.cust_first_name %></td>
 				<td><%= f.street_address %>, <%= f.city %><br /><%= f.prov_state %>, <%=f.country %><br /><%= f.postal_zip %></td>
-				<td><div class="navbarflag flag flag-<%=flag_selector_based_on_currency(f.currency)%>"></div> </td>
+				<td><div class="navbarflag flag flag-<%=order_flag_selector_based_on_currency(f.currency)%>"></div> </td>
 				<td><%= number_to_currency(merchant_order_subtotal(f), unit: '$')%></td>
 				<td> <%= number_to_currency(merchant_order_shipping(f), unit: '$') %></td>
 				<td> <%= number_to_currency(merchant_order_tax(f), unit: '$')%></td>
