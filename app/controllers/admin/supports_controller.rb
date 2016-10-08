@@ -3,7 +3,7 @@ class Admin::SupportsController < ApplicationController
   before_action :authenticate_user!
   before_action :verify_is_merchant
 
-  def merchant_faq
+  def index
   end
 
   private
