@@ -2,10 +2,13 @@
 <div class="col-lg-2 col-md-1 hidden-sm hidden-xs">
 </div>
 <div class="about col-lg-8 col-md-8 col-sm-12 col-xs-12">
-  <h4>Hi <%= current_user.merchant_name %></h4>
-  <p>
-    Here are some frequently asked questions that may provide you with some assistance:
-  </p>
+  <div class="merchant_title">
+		<div class="row">
+	        <h3><%= current_user.merchant_name%> </h3>
+        	<h4><i>Frequently Asked Questions</i></h4>
+	    </div>
+	</div>
+  <br /><br />
 
   <a href="#" class="question">
 1.	How do I prevent my products from being sold to out of country mailing addresses?
@@ -18,7 +21,7 @@
   </div>
 
   <a href="#" class="question">
-4.	How often do I get paid?
+2.	How often do I get paid?
 <br />
   </a>
   <div class="answer" style="display:none;">
@@ -28,57 +31,92 @@ By default, you will be paid daily for the transactions that occurred 7 days pre
   </div>
 
   <a href="#" class="question">
-5.	Can I customize which email address my orders get sent to?
+3.	How do I get paid?
 <br />
   </a>
   <div class="answer" style="display:none;">
     <p>
-Currently, no. However, this will be a new feature to be added in the very near future.
+  On your dashboard, you will see a link labelled "My Account". If you follow this link, you will see a form requesting your bank details.
+  Completing this form permits our payments provider, Stripe, the ability to make direct deposits into your bank account.
+  Completing this banking form is necessary in order to get paid.
+    </p>
+    <p>
+    Since we permit you to sell in both CAD and USD currencies, we also allow you to connect both a USD and a CAD bank account.
+    Funds from any orders placed in USD will be deposited into your USD account, and likewise for any orders received in CAD.
+    </p>
+    <p>
+    If you only have either a CAD bank account or a USD bank account, Stripe will exchange your funds into the currency of your bank at the time of transfer at current exchange rates.
     </p>
   </div>
 
   <a href="#" class="question">
-6.	How can I upload products to my Ski-Lines store?
+4.	How do I upload products to my Ski-Lines store?
 <br />
   </a>
   <div class="answer" style="display:none;">
     <p>
-For a limited time, you will have your own Ski-Lines representative to act as your e-commerce liaison to answer whatever questions you may have. In addition, your Ski-Lines rep can assist you with getting your account up to speed, including adding products to your store. If you are not sure how to add your products, you have a couple of options. First, you can make a list of all the inventory you would like to be listed for sale on Ski-Lines in a Microsoft Excel file, and email that file to your rep. It would be even easier, however, if you could export a file from your in-store inventory management software, and save that file in Microsoft Excel or as a .csv, and then email that file to your rep. Provided all the necessary information is included, your store should be fully up and running in only a few days!
+One of our main goals is to make adding products and managing inventory as easy as possible.
+On your dashboard, you will see a button labelled “Add New Product”. Once you click this button, you will be shown a form requesting all the information related to a single product.
 
-However, it is important that you continue to track your inventory, and ensure that you don’t put yourself in a position where you can’t fill an order because you have run out of stock.  Therefore, it is in your best interest that you become as familiar with managing your store as possible, right from the very beginning.
-
-If you would rather manage the entire product listing yourself, this is also a very simple process. One of our main goals is to make adding products and managing inventory as easy as possible. On your merchant products page, you will see a button labelled “Add Product”. Once you click this button, you will be shown a form requesting all the information related to a single product. In the very near future, bulk uploading of products will be made very simple by uploading a csv file with all the products you want to list for sale.
+  </p>
+  <p>
+Also on your dashboard, you will see another button labelled "Upload CSV File". If you follow this link, you will be shown instructions for how to add products listed in a file with a .csv extension. You can easily export an Excel file to a .csv file from within your Excel file.
+Once you have completed the bulk upload, you will then have add photos, inventory, and any other peices of information required to start selling those products.
     </p>
   </div>
 
   <a href="#" class="question">
-7.	Can I sell my summer products, such as running or cycling gear?
+5.	How do I charge for shipping?
 <br />
   </a>
   <div class="answer" style="display:none;">
     <p>
-We don’t just operate ski-lines.com. We also own the rights to bike-lines.com, run-lines.com, swim-lines.com, and product-lines.com. By spring of 2017, you will be able to publish your products to all of our sites which are specifically branded for your e-commerce needs, based entirely on the product category. Stay tuned for more information on the launch of these other sites.
+The evidence is quite clear that the checkout experience is significantly improved the sooner the customer knows exactly how much they will be charged.
+As such, we have committed to a simple, one size fits all shipping charge system. Meaning, you set a flat fee for shipping for each product, which will be applied to all customers across the board, regardless of where they live in your country.
+If the customer lives outside of your country, you can set a different fee for international shipments. You may also set both these prices in CAD and USD.
+  </p>
+  <p>
+All in all, you have to make an educated estimation as to what your average shipping cost will be fore each product, and set that as the shipping fee.
+If you are selling in both currencies, you will have 4 shipping prices to enter: domestic shipping charges in both CAD and USD, and international shipping charges in both CAD and USD.
     </p>
   </div>
 
   <a href="#" class="question">
-8.	What information do you need for us to start selling?
+6.	Can I sell my summer products, such as running or cycling gear?
 <br />
   </a>
   <div class="answer" style="display:none;">
     <p>
-All we need for you to begin is for you to accept our terms and conditions. However, in order to permit transfers to your bank account, there is a certain amount of information required to verify your identity. This information is requested in the “My Account” page in your dashboard. This is not only a legal requirement, but also makes complete practical sense for us to mitigate against the potential for fraud. Furthermore, as your account becomes increasingly active, and you start to process large volumes of transactions, greater measures for identity verification are required. As such, there is a multi-step process for identity verification. We do this in order to permit you to start selling as fast as possible.
+We don’t just operate ski-lines.com. We also own the rights to bike-lines.com, run-lines.com, swim-lines.com, and product-lines.com, which will be launching in spring of 2017. In the meantime, we suggest that you focus on your skiing equipment, but anticipate having a very similar solution, accessible through a single platform, for your summer products come the spring.
+    </p>
+  </div>
 
+  <a href="#" class="question">
+7.	What information do you need for us to start selling?
+<br />
+  </a>
+  <div class="answer" style="display:none;">
+    <p>
+All we need for you to begin is for you to accept our terms and conditions.
+However, in order to permit transfers to your bank account, there is a certain amount of information required to verify your identity.
+This information is requested in the “My Account” page in your dashboard.
+This is not only a legal requirement, but also makes complete practical sense for us to mitigate against the potential for fraud.
+Furthermore, as your account becomes increasingly active, and you start to process large volumes of transactions, greater measures for identity verification are required.
+As such, there is a multi-step process for identity verification. We do this in order to permit you to start selling as fast as possible.
+<br /><br />
+</p>
 <p><b>Step 1—To start selling:</b></p>
-
+<p>
 The only actions required by you to start selling is to accept the terms and conditions on your account, add products, list the inventory available, and mark your products as “Active”.
-
+<br /><br />
+</p>
 <p><b>Step 2—To receive bank transfers:</b></p>
-
+<p>
 To receive bank transfers, you must update your account with some identifying pieces of information: merchant Business Number, account representative’s last four digits of social security number, social insurance number, and, of course, your bank account details. What we ask for really depends on the state of verification. Once you submit this information, it will not subsequently be available for display. In most cases, this is sufficient to fully verify your account.
-
+<br /><br />
+</p>
 <p><b>Step 3—Not yet verified, and selling more than $20,000:</b></p>
-
+<p>
 In rare cases, we may require the account representative to upload a photocopy of a piece of government issued identification.
 
 No sensitive data is stored on our servers, or even on the Ski-Lines site. Once this information is submitted, you will no longer see these form fields.
@@ -86,7 +124,7 @@ No sensitive data is stored on our servers, or even on the Ski-Lines site. Once 
   </div>
 
   <a href="#" class="question">
-9.	Are there any pricing restrictions?
+8.	Are there any pricing restrictions?
 <br />
   </a>
   <div class="answer" style="display:none;">
@@ -96,17 +134,7 @@ A few select manufacturers have strict policies with respect to selling online, 
   </div>
 
   <a href="#" class="question">
-10.	Can I set up user accounts for my staff?
-<br />
-  </a>
-  <div class="answer" style="display:none;">
-    <p>
-Currently, no. However, we are working on adding in features such as this in the near future. Additionally, no sensitive data is stored on your account profile, and, as such, you should feel comfortable with trusted staff having access to your merchant login credentials.
-    </p>
-  </div>
-
-  <a href="#" class="question">
-11.	Do we have our own URL we can point customers to?
+9.	Do we have our own URL we can point customers to?
 <br />
   </a>
   <div class="answer" style="display:none;">
@@ -116,7 +144,7 @@ Yes, you can tell your customers to go to Ski-Lines.com/shop/YourStoreName to se
   </div>
 
   <a href="#" class="question">
-12.	Can we have promo codes to give to customers to make a purchase through or site?
+10.	Can we have promo codes to give to customers to make a purchase through or site?
 <br />
   </a>
   <div class="answer" style="display:none;">
@@ -126,17 +154,31 @@ This feature will be coming soon! But, we do not currently have any promo codes 
   </div>
 
   <a href="#" class="question">
-13.	What if a customer wants a refund or a return?
+11.	What if a customer wants a refund or a return?
 <br />
   </a>
   <div class="answer" style="display:none;">
     <p>
-The customer is to contact the store the product was purchased from, and, if exchanging an item, coordinate the exchange directly with them. If the customer wants to do a straight return, the customer, again, contacts the store directly to coordinate the shipping for a return. The merchant then indicates in the specific order to which the return is related that the item was returned. The customer will be refunded the product and the tax paid on the product, but not the shipping or the tax paid on the shipping.
+The customer is to contact the store the product was purchased from, and, if exchanging an item, coordinate the exchange directly with them. If the customer wants to do a straight return, the customer, again, contacts the store directly to coordinate the shipping for a return.
+The merchant then follows the link in the specific order to which the return is related to complete a refund for the customer. The customer will be refunded the product and the tax paid on the product, but not the shipping or any tax paid on the shipping by default, but the merchant can customize this on the returns form.
+    </p>
+  </div>
+
+  <a href="#" class="question">
+12.	How is sales tax calculated?
+<br />
+  </a>
+  <div class="answer" style="display:none;">
+    <p>
+Calculating sales tax can be incredibly tricky when dealing with three different levels of sales tax in the U.S., and the harmonized sales tax in Canada.
+In addition, there is no standard formula accross the board for deciding whether it is the customer or the retailer's sales tax rates that apply.
+As such, we use TaxJar to do all the heavy lisfting of these various sales tax calculations.
+It is their primary focus to stay on top of any changes in local sales tax rates or policies, which allows us to stay focused on providing an exceptional marketplace.
     </p>
   </div>
 
     <a href="#" class="question">
-14.	Who pays for shipping in a return?
+13.	Who pays for shipping in a return?
 <br />
     </a>
     <div class="answer" style="display:none;">
@@ -146,7 +188,7 @@ The customer is responsible for any shipping fee and taxes payable for returning
     </div>
 
     <a href="#" class="question">
-15.	Can I set my own return policy?
+14.	Can I set my own return policy?
 <br />
     </a>
     <div class="answer" style="display:none;">
@@ -156,17 +198,7 @@ Yes, merchants can set their own return policy as a default for their account, a
     </div>
 
     <a href="#" class="question">
-16.	How do I charge for shipping?
-<br />
-    </a>
-    <div class="answer" style="display:none;">
-      <p>
-Our goal is to make selling products as simple as possible, and, as such, we have made pricing for shipping as simple as possible. Further, we want the user to know how much a product will cost to ship very early in their shopping experience. Free shipping is becoming increasingly common is e-commerce, and is a very attractive aspect for many online shoppers. However, we recognize that shipping can often be expensive. For these reasons, we allow the merchant to set a default amount for shipping in their account profile, and then customize on a per product basis. This pricing strategy appropriately balances the interests of both parties—the consumer and the merchant—and maximizes the shopping experience for everyone.
-      </p>
-    </div>
-
-    <a href="#" class="question">
-17.	How are products ranked for display on the website?
+15.	How are products ranked for display on the website?
 <br />
     </a>
     <div class="answer" style="display:none;">
