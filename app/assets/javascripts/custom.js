@@ -41,6 +41,7 @@ $(document).ready(function(){
 
 });
 
+
 /*
  * Function to be executed once the DOM has been fully loaded and ready
  * Contains file upload initialization

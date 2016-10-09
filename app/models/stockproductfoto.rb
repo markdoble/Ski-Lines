@@ -11,9 +11,7 @@ class Stockproductfoto < ActiveRecord::Base
                         :bucket => ENV['S3_BUCKET'],
                         :access_key_id => ENV['AWS_KEY_ID'],
                         :secret_access_key => ENV['AWS_ACCESS_KEY']
-
                       }
-
 
   validates_attachment_content_type :foto, :content_type => /\Aimage\/.*\Z/
 end

@@ -1,6 +1,5 @@
 class Stockphoto < ActiveRecord::Base
-  belongs_to :stockproduct
-
+  belongs_to :stockproduct 
   has_attached_file :photo,
                       :styles => { :medium => "300x300>",
                                    :thumb => "100x100>",

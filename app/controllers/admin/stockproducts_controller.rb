@@ -14,16 +14,16 @@ class Admin::StockproductsController < ApplicationController
   # Displays the index of all products for the current user
   def index
 
-      @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }
+      @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }.uniq
 
       # check to see if admin has selected a brand
       if params[:brand_selected]
-        # A merchant was selected, set it in the session
+        # A brand was selected, set it in the session
         session[:brand_selected] = params[:brand_selected]
       end
 
-      # Retrieve all of the producs that belong to the current user
-        # filter products for rep based on merchant selected
+      # Retrieve all of the producs that belong to the brand
+        # filter products for admin based on brand selected
       if !session[:brand_selected].blank?
         @stockproducts = Stockproduct.where(brand: session[:brand_selected]).paginate(:page => params[:page],:per_page => 5)
       else
@@ -34,12 +34,6 @@ class Admin::StockproductsController < ApplicationController
       if params[:query]
         @stockproducts = @stockproducts.search(params[:query])
       end
-
-      # Check to see if we have a category id. This is used for the category dropdown filter
-      if params[:category_id]
-        @stockproducts = @stockproducts.category_specific(Category.find(params[:category_id]).descendents)
-      end
-
   end
 
   # Will retrieve a single product to be displayed
@@ -82,6 +76,7 @@ class Admin::StockproductsController < ApplicationController
   # Setup for the creation of a new product
   def new
     @stockproduct = Stockproduct.new
+    @stockproduct.build_stockphoto
     respond_to do |format|
       format.js
       format.html
@@ -96,13 +91,13 @@ class Admin::StockproductsController < ApplicationController
   # Executed on submit of a new product. Will create the entry in the database
   def create
     # Create the new product object from the parameters received
-    @stockproduct = Stockproduct.create(product_params)
+    @stockproduct = Stockproduct.create(stockproduct_params)
 
     respond_to do |format|
       # Try and save the product to the database
       if @stockproduct.save
         # Redirect to the products list indicating success
-        format.html { redirect_to admin_products_url, notice: 'Product was successfully added.' }
+        format.html { redirect_to admin_stockproducts_url, notice: 'Product was successfully added.' }
       else
         # Product did not save successfully. Redirect to the products list indicating failure
         format.html { render :new }
@@ -118,9 +113,9 @@ class Admin::StockproductsController < ApplicationController
 
     respond_to do |format|
       # Try and update the product in the database
-      if @stockproduct.update(product_params)
+      if @stockproduct.update(stockproduct_params)
         # Redirect to the products list
-        format.html {redirect_to admin_products_url}
+        format.html {redirect_to admin_stockproducts_url}
         format.json {respond_with_bip(@stockproduct) }
       else
         format.html { render :new }
@@ -138,7 +133,7 @@ class Admin::StockproductsController < ApplicationController
     @stockproduct.destroy
     respond_to do |format|
       # Redirect to the products list indicating success
-      format.html { redirect_to admin_products_url, notice: 'Product was successfully deleted.' }
+      format.html { redirect_to admin_stockproducts_url, notice: 'Product was successfully deleted.' }
       format.json { head :no_content }
     end
   end
@@ -151,21 +146,31 @@ class Admin::StockproductsController < ApplicationController
     end
 
     # Define the required and permitted parameters for product request variables
-    def product_params
-      params.require(:product).permit(
-        :id,
+    def stockproduct_params
+      params.require(:stockproduct).permit(
         :name,
         :brand,
         :description,
         :size_details,
         :sku,
-        :stockphotos_attributes => [
+        :cad_msrp,
+        :usd_msrp,
+        :us_status,
+        :ca_status,
+        :stockphoto_attributes => [
           :id,
           :photo,
+          :stockproduct_id,
           :sku,
           :name,
           :_destroy
-        ]
+        ],
+        :stockproductfotos_attributes => [
+          :id,
+          :stockproduct_id,
+          :foto,
+          :_destroy
+        ],
         )
     end
 

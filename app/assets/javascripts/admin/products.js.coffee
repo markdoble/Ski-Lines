@@ -16,3 +16,6 @@ jQuery ->
 			$('.pagination').text("One second...We're finding more products...");
 			$.getScript(url);
 	$('.products').scroll();
+
+jQuery ->
+	$(".best_in_place").best_in_place();

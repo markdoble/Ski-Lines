@@ -1,0 +1,25 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="merchant_title col-xs-12">
+      <br />
+      <h1>Select Your Products</h1>
+    </div>
+		<br /><br />
+		  <%= form_tag admin_products_stock_product_upload_path, method: :get do %>
+		  <%= label_tag :brand_selected, "Brand:" %>
+		  <%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
+		  <%end%>
+		  <br />
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <% @stockproducts.each do |stockproduct| %>
+			<div class="products">
+			<%= render 'admin/products/stock_product', :stockproduct => stockproduct %>
+			</div>
+    <%end%>
+	</div>
+</div>
+</div>

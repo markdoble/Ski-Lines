@@ -28,16 +28,18 @@
 					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
 	      	  <div class="row">
 	      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	      		        <% if @stockproduct.photo.exists? %>
-	          	   		<div class="upload-preview img-responsive">
-	          	  	    <%= image_tag @stockproduct.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
-	          			  </div>
-	      	      	  <%= f.label :photo, "Replace Photo:" %><br />
-	      	          <%= f.file_field :photo, class: 'file' %><br />
+	      		        <%= f.fields_for :stockphoto, html: { class: "directUpload"} do |ff| %>
+                    <% if ff.object.new_record? %>
+                    <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+ 	      	    	     <%= ff.label :photo, "Upload Photo:" %><br />
+ 	      	           <%= ff.file_field :photo, class:'file img-responsive' %>
 	      	  		    <%else%>
-	      			     <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
-	      	    	     <%= f.label :photo, "Upload Photo:" %><br />
-	      	           <%= f.file_field :photo, class:'file img-responsive' %>
+                     <div class="upload-preview img-responsive">
+ 	          	  	    <%= image_tag @stockproduct.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
+ 	          			   </div>
+ 	      	      	  <%= ff.label :photo, "Replace Photo:" %><br />
+ 	      	          <%= ff.file_field :photo, class: 'file' %><br />
+                     <%end%>
 	      	  	  <% end %>
 	      			  </div>
 	      		 </div>
@@ -57,7 +59,27 @@
         		<br />
         		  </div>
         		</div>
-
+            <div class="row">
+        		  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        			<%= f.label :cad_msrp, "CAD MSRP:"%>
+        			<%= f.text_field :cad_msrp, class: "form-control" %>
+        		<br />
+        		  </div>
+        		</div>
+            <div class="row">
+        		  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        			<%= f.label :usd_msrp, "USD MSRP:"%>
+        			<%= f.text_field :usd_msrp, class: "form-control" %>
+        		<br />
+        		  </div>
+        		</div>
+            <div class="row">
+        		  <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        			<%= f.label :sku, "SKU:"%>
+        			<%= f.text_field :sku, class: "form-control" %>
+        		<br />
+        		  </div>
+        		</div>
 						<br />
 				 </div>
 			 </div>
@@ -72,15 +94,15 @@
 		      			</div>
 		      		</div>
 		      		<div class="row">
-		      					<%= f.fields_for :productfotos, build_productfotos(@product), html: { class: "directUpload"} do |ff| %>
+		      					<%= f.fields_for :stockproductfotos, build_stockproductfotos(@stockproduct), html: { class: "directUpload"} do |ff| %>
 		      				<div class="admin_productfotos col-lg-3 col-md-4 col-sm-6 col-xs-12" style="height:200px">
 		      						  <% if ff.object.new_record? %>
 		      						  <%= ff.label :foto, "Add Photo:" %>
-		      				          <%= ff.file_field :foto %>
+		      				      <%= ff.file_field :foto %>
 		      						  <%else%>
 		      						  <%= image_tag ff.object.foto.url(:thumb), class: "img-responsive" %>
 		      						  <%= ff.label :foto, "Replace Photo:" %>
-		      				          <%= ff.file_field :foto %>
+		      				      <%= ff.file_field :foto %>
 		      						  <%= ff.label :foto, "Remove Photo:"%>
 		      						  <%= ff.check_box '_destroy' %>
 		      						  <%end%>
@@ -95,7 +117,7 @@
 	      	<div class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	             <div class="actions">
                  <%
-                 if @product.persisted?
+                 if @stockproduct.persisted?
                    %><%= f.submit "SAVE", class: "btn btn-large btn-primary purchase_button" %><%
                  else
                    %><%= f.submit "ADD PRODUCT", class: "btn btn-large btn-primary purchase_button" %><%
@@ -107,4 +129,3 @@
       <% end %>
    </div>
   <br /><br /><br /><br /><br /><br /><br /><br />
-<%= render 'admin/modals/category_select' %>

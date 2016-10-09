@@ -98,6 +98,7 @@ Rails.application.routes.draw do
     get 'products/clothing'
     get 'products/waxing'
     get 'products/new_import'
+    get 'products/stock_product_upload'
     get 'products/accessories'
     get 'all_orders/merchants'
     get 'all_orders/rep'
@@ -116,6 +117,7 @@ Rails.application.routes.draw do
 
     resources :products do
       collection { post :import }
+      collection { post :choose_from_stock }
     end
     resources :articles, :except => [:show]
     resources :all_orders

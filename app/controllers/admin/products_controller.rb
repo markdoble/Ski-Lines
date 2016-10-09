@@ -158,6 +158,30 @@ class Admin::ProductsController < ApplicationController
     end
   end
 
+  def choose_from_stock
+
+  end
+
+  def stock_product_upload
+    # create array of brands to filter with
+    @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }.uniq
+
+    # check to see if admin has selected a brand
+    if params[:brand_selected]
+      # A brand was selected, set it in the session
+      session[:brand_selected] = params[:brand_selected]
+    end
+
+    # Retrieve all of the producs that belong to the brand
+      # filter products for admin based on brand selected
+    if !session[:brand_selected].blank?
+      @stockproducts = Stockproduct.where(brand: session[:brand_selected])
+    else
+      @stockproducts = Stockproduct.all
+    end
+
+  end
+
   # Setup for the creation of a new product
   def new
 
@@ -306,13 +330,6 @@ class Admin::ProductsController < ApplicationController
           :id,
           :product_id,
           :foto,
-          :_destroy
-        ],
-        :stockphotos_attributes => [
-          :id,
-          :photo,
-          :sku,
-          :name,
           :_destroy
         ]
         )

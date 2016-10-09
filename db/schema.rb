@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161009143934) do
+ActiveRecord::Schema.define(version: 20161009170117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -346,12 +346,15 @@ ActiveRecord::Schema.define(version: 20161009143934) do
   create_table "stockproducts", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.decimal  "msrp",         precision: 8, scale: 2
+    t.decimal  "cad_msrp",     precision: 8, scale: 2
     t.text     "size_details"
     t.string   "sku"
     t.string   "brand"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.boolean  "ca_status"
+    t.boolean  "us_status"
+    t.decimal  "usd_msrp",     precision: 8, scale: 2
   end
 
   create_table "teams", force: :cascade do |t|
