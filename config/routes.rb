@@ -122,6 +122,7 @@ Rails.application.routes.draw do
     resources :orders
     resources :returns
     resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]
+    resources :stockproducts
     get 'email_digests/index'
     get 'email_digests/new_digest'
     get 'email_digests/send_digest' => "email_digests#send_digest"

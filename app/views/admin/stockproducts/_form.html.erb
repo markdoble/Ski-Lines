@@ -1,0 +1,110 @@
+<div class="container ">
+      <%= form_for [:admin, @stockproduct], :html => { :class => "directUpload" } do |f| %>
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <% if @stockproduct.errors.any? %>
+	      <div id="error_explanation">
+	          <h2><%= pluralize(@stockproduct.errors.count, "error") %> prohibited this product from being saved:</h2>
+	          <ul>
+	          <% @stockproduct.errors.full_messages.each do |message| %>
+	            <li><%= message %></li>
+	          <% end %>
+	          </ul>
+	      </div>
+      <% end %>
+			</div>
+			<div class="admin_product_well_title col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="row">
+					<div class="title col-lg-4 col-md-4 col-sm-12 col-xs-12">
+          <%= f.label :brand, "Brand:", hidden: true %>
+					<%= f.text_field :brand, class: "form-control input-lg", placeholder: "Brand" %>
+					</div>
+          <div class="title col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <%= f.label :name, "Product Model:", hidden: true %>
+  					<%= f.text_field :name, class: "form-control input-lg", placeholder: "Product Name", autofocus: !@stockproduct.persisted? %>
+					</div>
+				</div>
+			</div>
+			<div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+	      	  <div class="row">
+	      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	      		        <% if @stockproduct.photo.exists? %>
+	          	   		<div class="upload-preview img-responsive">
+	          	  	    <%= image_tag @stockproduct.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
+	          			  </div>
+	      	      	  <%= f.label :photo, "Replace Photo:" %><br />
+	      	          <%= f.file_field :photo, class: 'file' %><br />
+	      	  		    <%else%>
+	      			     <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+	      	    	     <%= f.label :photo, "Upload Photo:" %><br />
+	      	           <%= f.file_field :photo, class:'file img-responsive' %>
+	      	  	  <% end %>
+	      			  </div>
+	      		 </div>
+	      	</div>
+          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+        		<div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        			<%= f.label :description, "Product Description:" %>
+        			<%= f.text_area :description, class: "form-control", :cols => 80, :rows=>5 %>
+        		<br />
+        		  </div>
+        		</div>
+        		<div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        			<%= f.label :size_details, "Sizing Details:"%>
+        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2 %>
+        		<br />
+        		  </div>
+        		</div>
+
+						<br />
+				 </div>
+			 </div>
+			 <!-- Additional Product Photos -->
+				<div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		      <div class="row">
+		      	<div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		      		<div class="row">
+		      			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		      				<h4><b>Additional Product Photos:</b></h4>
+		      				<br />
+		      			</div>
+		      		</div>
+		      		<div class="row">
+		      					<%= f.fields_for :productfotos, build_productfotos(@product), html: { class: "directUpload"} do |ff| %>
+		      				<div class="admin_productfotos col-lg-3 col-md-4 col-sm-6 col-xs-12" style="height:200px">
+		      						  <% if ff.object.new_record? %>
+		      						  <%= ff.label :foto, "Add Photo:" %>
+		      				          <%= ff.file_field :foto %>
+		      						  <%else%>
+		      						  <%= image_tag ff.object.foto.url(:thumb), class: "img-responsive" %>
+		      						  <%= ff.label :foto, "Replace Photo:" %>
+		      				          <%= ff.file_field :foto %>
+		      						  <%= ff.label :foto, "Remove Photo:"%>
+		      						  <%= ff.check_box '_destroy' %>
+		      						  <%end%>
+		      				  <br /><br /><br /><br />
+		      				</div>
+		      					<%end%>
+		      		</div>
+		      	</div>
+		      </div>
+				</div>
+	      <div class="row">
+	      	<div class="order_form_button col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	             <div class="actions">
+                 <%
+                 if @product.persisted?
+                   %><%= f.submit "SAVE", class: "btn btn-large btn-primary purchase_button" %><%
+                 else
+                   %><%= f.submit "ADD PRODUCT", class: "btn btn-large btn-primary purchase_button" %><%
+                 end
+	               %>
+	             </div>
+	      	</div>
+	      </div>
+      <% end %>
+   </div>
+  <br /><br /><br /><br /><br /><br /><br /><br />
+<%= render 'admin/modals/category_select' %>

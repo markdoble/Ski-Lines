@@ -14,113 +14,37 @@ class Admin::StockproductsController < ApplicationController
   # Displays the index of all products for the current user
   def index
 
-      # Retrieve the root categories to display in the caterogy filter dropdown
-      @all_categories = Category.order(:name)
+      @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }
 
-      # Check to see if a user has selected a specific view type
-      if params[:product_admin_view]
-        # A view was selected, set it in the session
-        session[:product_admin_view] = params[:product_admin_view]
-      end
-
-      # check to see if rep has selected a merchant
-      if params[:merchant_selected]
+      # check to see if admin has selected a brand
+      if params[:brand_selected]
         # A merchant was selected, set it in the session
-        session[:merchant_selected] = params[:merchant_selected]
+        session[:brand_selected] = params[:brand_selected]
       end
 
-      # Check the session to see if a view type was selected, if not, load the detailed view by default
-      if session[:product_admin_view]
-        # A session value exists, load the correct view
-        if session[:product_admin_view] == "list"
-          @page_view = 'list'
-          # Retrieve all of the producs that belong to the current user
-            # filter products for rep based on merchant selected
-          if !session[:merchant_selected].blank? && current_user.merchant_rep?
-            user = User.find(session[:merchant_selected])
-            @merchant_name = user.merchant_name
-            @products = user.products.order("updated_at DESC")
-          else
-            @merchant_name = current_user.merchant_name
-            @products = current_user.products.order("updated_at DESC")
-          end
-
-          # Check to see if we have a query parameter. This is used for the product search bar
-          if params[:query]
-            @products = @products.search(params[:query])
-          end
-
-          # Check to see if we have a category id. This is used for the category dropdown filter
-          if params[:category_id]
-            @products = @products.category_specific(Category.find(params[:category_id]).descendents)
-          end
-
-        else
-          @page_view = 'detailed'
-
-          # Retrieve all of the producs that belong to the current user
-            # filter products for rep based on merchant selected
-          if !session[:merchant_selected].blank? && current_user.merchant_rep?
-            # find user with param passed in
-            user = User.find(session[:merchant_selected])
-            #set the merchants name
-            @merchant_name = user.merchant_name
-            # paginate the products for detailed view
-            @products = user.products.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
-          else
-            # if rep hasn't selected a merchant, display the rep's name
-            @merchant_name = current_user.merchant_name
-            # if rep hasn't selected a merchant, display the rep's products
-            @products = current_user.products.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
-          end
-
-          # Check to see if we have a category id. This is used for the category dropdown filter
-          if params[:category_id]
-            @products = @products.category_specific(Category.find(params[:category_id]).descendents)
-          end
-
-          # Check to see if we have a query parameter. This is used for the product search bar on list view
-          if params[:query]
-              @products = @products.search(params[:query])
-          end
-
-        end
-      else
-        # A session value does not exist, load the default detailed view
-        @page_view = 'list'
-
+      # Retrieve all of the producs that belong to the current user
         # filter products for rep based on merchant selected
-        if !session[:merchant_selected].blank? && current_user.merchant_rep?
-          # select the user based on rep's selection
-          user = User.find(session[:merchant_selected])
-          # set the merchant name selected by the rep
-          @merchant_name = user.merchant_name
-          # list the products belonging to the selected merchant in list form
-          @products = user.products.order("updated_at DESC")
-        else
-          # set merchant name to current user's name
-          @merchant_name = current_user.merchant_name
-          # list all the products for the current user, merchant or rep
-          @products = current_user.products.order("updated_at DESC")
-        end
-
-        # Check to see if we have a query parameter. This is used for the product search bar
-        if params[:query]
-          @products = @products.search(params[:query])
-        end
-
-        # Check to see if we have a category id. This is used for the category dropdown filter
-        if params[:category_id]
-          @products = @products.category_specific(Category.find(params[:category_id]).descendents)
-        end
-
+      if !session[:brand_selected].blank?
+        @stockproducts = Stockproduct.where(brand: session[:brand_selected]).paginate(:page => params[:page],:per_page => 5)
+      else
+        @stockproducts = Stockproduct.all.paginate(:page => params[:page],:per_page => 5)
       end
-    end
+
+      # Check to see if we have a query parameter. This is used for the product search bar
+      if params[:query]
+        @stockproducts = @stockproducts.search(params[:query])
+      end
+
+      # Check to see if we have a category id. This is used for the category dropdown filter
+      if params[:category_id]
+        @stockproducts = @stockproducts.category_specific(Category.find(params[:category_id]).descendents)
+      end
+
   end
 
   # Will retrieve a single product to be displayed
   def show
-    @product = Stockproduct.find(params[:id])
+    @stockproduct = Stockproduct.find(params[:id])
   end
 
   # CSV upload to this action
@@ -157,12 +81,7 @@ class Admin::StockproductsController < ApplicationController
 
   # Setup for the creation of a new product
   def new
-
-    @product = Stockproduct.new
-
-    # Retrieve the root categories to display in the caterogy filter dropdown
-    @all_categories = Category.order(:name)
-
+    @stockproduct = Stockproduct.new
     respond_to do |format|
       format.js
       format.html
@@ -171,35 +90,23 @@ class Admin::StockproductsController < ApplicationController
 
   # Will retrieve a single product to be edited
   def edit
-    @product = Stockproduct.find(params[:id])
-
-    # Retrieve the categories to display in the caterogy filter dropdown
-    @all_categories = Stockproduct.where(parent_id: nil).order(:name)
+    @stockproduct = Stockproduct.find(params[:id])
   end
 
   # Executed on submit of a new product. Will create the entry in the database
   def create
     # Create the new product object from the parameters received
-    @product = Stockproduct.create(product_params)
+    @stockproduct = Stockproduct.create(product_params)
 
     respond_to do |format|
       # Try and save the product to the database
-      if @product.save
-        update_nil_values(@product)
-        # Product saved successfully. We will create the entry in the product_categories table
-        @category = Category.find(params[:category_id])
-        @product.product_categories.create(category: @category)
-
+      if @stockproduct.save
         # Redirect to the products list indicating success
         format.html { redirect_to admin_products_url, notice: 'Product was successfully added.' }
       else
         # Product did not save successfully. Redirect to the products list indicating failure
-
-        # Retrieve the categories to display in the caterogy filter dropdown
-        @all_categories = Category.order(:name)
-
         format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json { render json: @stockproduct.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -207,34 +114,17 @@ class Admin::StockproductsController < ApplicationController
   # Executed on submit of an existing product. We will update the entry in the database
   def update
     # Find the existing product in the database
-    @product = Stockproduct.find(params[:id])
+    @stockproduct = Stockproduct.find(params[:id])
 
     respond_to do |format|
       # Try and update the product in the database
-      if @product.update(product_params)
-        update_nil_values(@product)
-        # Product updated successfully. We will update the entry in the product_categories table if required
-        if !params[:category_id].nil?
-          @category = Category.find(params[:category_id])
-            # Check to see if we have product_categories to update
-           if @product.product_categories.exists?
-             @product.product_categories.update_all(category_id: @category.id)
-           else
-             @product.product_categories.create(category: @category)
-           end
-        end
-
+      if @stockproduct.update(product_params)
         # Redirect to the products list
         format.html {redirect_to admin_products_url}
-        format.json {respond_with_bip(@product) }
+        format.json {respond_with_bip(@stockproduct) }
       else
-        # Product did not update successfully
-
-        # Retrieve the categories to display in the caterogy filter dropdown
-        @all_categories = Category.order(:name)
-
         format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
+        format.json { render json: @stockproduct.errors, status: :unprocessable_entity }
       end
    end
  end
@@ -242,13 +132,10 @@ class Admin::StockproductsController < ApplicationController
   # Executed when we want to delete a product
   def destroy
     # Find the existing product in the database
-    @product = Stockproduct.find(params[:id])
-
-    # Delete all of the entries in the product_categories table associated with this product
-    @product.product_categories.destroy_all
+    @stockproduct = Stockproduct.find(params[:id])
 
     # Delete the product record itself
-    @product.destroy
+    @stockproduct.destroy
     respond_to do |format|
       # Redirect to the products list indicating success
       format.html { redirect_to admin_products_url, notice: 'Product was successfully deleted.' }
@@ -260,7 +147,7 @@ class Admin::StockproductsController < ApplicationController
   private
     # To Do: Define what this function does
     def set_stockproduct
-      @products = Stockproduct.find(params[:id])
+      @stockproduct = Stockproduct.find(params[:id])
     end
 
     # Define the required and permitted parameters for product request variables

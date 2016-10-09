@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161008195511) do
+ActiveRecord::Schema.define(version: 20161009143934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -326,21 +326,33 @@ ActiveRecord::Schema.define(version: 20161008195511) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.integer  "stockproduct_id"
   end
+
+  add_index "stockphotos", ["stockproduct_id"], name: "index_stockphotos_on_stockproduct_id", using: :btree
+
+  create_table "stockproductfotos", force: :cascade do |t|
+    t.integer  "stockproduct_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "foto_file_name"
+    t.string   "foto_content_type"
+    t.integer  "foto_file_size"
+    t.datetime "foto_updated_at"
+  end
+
+  add_index "stockproductfotos", ["stockproduct_id"], name: "index_stockproductfotos_on_stockproduct_id", using: :btree
 
   create_table "stockproducts", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.decimal  "msrp",          precision: 8, scale: 2
+    t.decimal  "msrp",         precision: 8, scale: 2
     t.text     "size_details"
     t.string   "sku"
     t.string   "brand"
-    t.integer  "stockphoto_id"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
-
-  add_index "stockproducts", ["stockphoto_id"], name: "index_stockproducts_on_stockphoto_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "first_name", limit: 255
@@ -447,6 +459,7 @@ ActiveRecord::Schema.define(version: 20161008195511) do
   add_foreign_key "returns", "orders"
   add_foreign_key "returns", "users"
   add_foreign_key "states", "countries"
-  add_foreign_key "stockproducts", "stockphotos"
+  add_foreign_key "stockphotos", "stockproducts"
+  add_foreign_key "stockproductfotos", "stockproducts"
   add_foreign_key "user_feedback_answers", "user_feedbacks"
 end

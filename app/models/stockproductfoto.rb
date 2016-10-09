@@ -1,7 +1,7 @@
-class Stockphoto < ActiveRecord::Base
+class Stockproductfoto < ActiveRecord::Base
   belongs_to :stockproduct
 
-  has_attached_file :photo,
+  has_attached_file :foto,
                       :styles => { :medium => "300x300>",
                                    :thumb => "100x100>",
                                    :large => "500x500" },
@@ -14,5 +14,6 @@ class Stockphoto < ActiveRecord::Base
 
                       }
 
-  validates_attachment_content_type :photo, :content_type => /\Aimage\/.*\Z/
+
+  validates_attachment_content_type :foto, :content_type => /\Aimage\/.*\Z/
 end
