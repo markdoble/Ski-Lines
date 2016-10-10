@@ -25,10 +25,10 @@
     </p><br />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-         <p class="selling_button btn btn-primary"><%= best_in_place [:admin, stockproduct], :ca_status, as: :checkbox, collection: {false: "Not Active in CA", true: "Active in CA!"}, inner_class: 'form-control'%></p>
+         <p class="selling_button btn btn-primary"><%= best_in_place [:admin, stockproduct], :ca_status, as: :checkbox, collection: {false: "Not Active in Canada", true: "Active in Canada"}, inner_class: 'form-control'%></p>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-         <p class="selling_button btn btn-primary"><%= best_in_place [:admin, stockproduct], :us_status, as: :checkbox, collection: {false: "Not Active US", true: "Active in US!"}, inner_class: 'form-control'%></p>
+         <p class="selling_button btn btn-primary"><%= best_in_place [:admin, stockproduct], :us_status, as: :checkbox, collection: {false: "Not Active the U.S.", true: "Active in the U.S."}, inner_class: 'form-control'%></p>
       </div>
     </div>
     <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -159,7 +159,57 @@ class Admin::ProductsController < ApplicationController
   end
 
   def choose_from_stock
+    begin
+      if params[:user_id]
+        user = User.find_by_id(params[:user_id])
+      else
+        user = current_user
+      end
+      stock_product = Stockproduct.find_by_id(params[:stock_product])
 
+      # if MSRP is nil or zero, set price variables to 0.
+      (stock_product.usd_msrp.nil? || stock_product.usd_msrp == 0) ? (usd_price = 0) : usd_price = stock_product.usd_msrp
+      (stock_product.cad_msrp.nil? || stock_product.cad_msrp == 0) ? (cad_price = 0) : cad_price = stock_product.cad_msrp
+
+      # if shipping prices are nil, set to zero
+      (user.cad_domestic_shipping.nil?) ? (cad_domestic_shipping = 0) : ( cad_domestic_shipping = user.cad_domestic_shipping )
+      (user.cad_foreign_shipping.nil?) ? (cad_foreign_shipping = 0) : ( cad_foreign_shipping = user.cad_foreign_shipping )
+      (user.usd_domestic_shipping.nil?) ? (usd_domestic_shipping = 0) : ( usd_domestic_shipping = user.usd_domestic_shipping )
+      (user.usd_foreign_shipping.nil?) ? (usd_foreign_shipping = 0) : ( usd_foreign_shipping = user.usd_foreign_shipping )
+
+      # create new product from the stock product
+      new_product = Product.create!(
+        :brand => stock_product.brand,
+        :name => stock_product.name,
+        :description => stock_product.description,
+        :status => false,
+        :user_id => user.id,
+        :size_details => stock_product.size_details,
+        :product_return_policy => user.user_return_policy,
+        :usd_price => usd_price,
+        :cad_price => cad_price,
+        :factory_sku => stock_product.sku,
+        :cad_domestic_shipping => cad_domestic_shipping,
+        :cad_foreign_shipping => cad_foreign_shipping,
+        :usd_domestic_shipping => usd_domestic_shipping,
+        :usd_foreign_shipping => usd_foreign_shipping,
+        :photo => stock_product.stockphoto.photo,
+      )
+
+      # for each stockproductfoto, create a new nested productfoto for the product
+      stock_product.stockproductfotos.each do |f|
+        new_product.productfotos.create!(
+          :foto => f.foto
+        )
+      end
+
+      respond_to do |format|
+            format.js { render 'admin/products/choose_from_stock' }
+            format.html { redirect_to admin_products_path, notice: 'Product was successfully added.' }
+        end
+    rescue
+      redirect_to admin_products_path, notice: 'Product was successfully added.'
+    end
   end
 
   def stock_product_upload

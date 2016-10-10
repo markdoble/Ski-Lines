@@ -9,18 +9,18 @@
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
     <h3><%=stockproduct.name%>, <%= stockproduct.brand %></h3>
-    <p><%=stockproduct.description%></p><br />
-    <p>
-      <b>USD MSRP:</b> <%=number_to_currency(stockproduct.usd_msrp, unit: "$")%><br />
-      <b>CAD MSRP:</b> <%=number_to_currency(stockproduct.cad_msrp, unit: "$")%>
-    </p><br />
+    <p><%=stockproduct.description%></p>
+    <br />
+    <% unless stockproduct.sku.blank? %>
     <p>
       <b>Manufacturer's SKU:</b> <%= stockproduct.sku %>
     </p>
-    <br /><br />
+    <%end%>
+    <br />
+    <div class="row">
     <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <%if stockproduct.stockproductfotos.any?%>
       <b>More Photos:</b>
+      <%if stockproduct.stockproductfotos.any?%>
       <div class="row">
         <% stockproduct.stockproductfotos.each do |ph| %>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -32,6 +32,12 @@
       </div>
       <%end%>
     </div>
+  </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <%= button_to "Add To My Inventory", choose_from_stock_admin_products_path(:stock_product => stockproduct.id), :method => :post, class: "select_product btn btn-primary" %>
     </div>
   </div>
 </div>
