@@ -3,7 +3,14 @@ class Product < ActiveRecord::Base
   belongs_to :user
   belongs_to :merchant_order
   has_and_belongs_to_many :orders
-  has_one :stockphoto
+
+  # associations needed for stock photos
+  has_one :product_stockphoto
+  has_one :stockphoto, :through => :product_stockphoto
+
+  has_many :product_stockproductfotos
+  has_many :stockproductfotos, :through => :product_stockproductfotos
+
 
   # Associations needed to implement the product_categories join relationships
   has_many :product_categories
