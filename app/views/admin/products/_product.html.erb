@@ -1,10 +1,12 @@
 	<div class="admin_products">
 		<div class="row">
 			<div class="col-lg-7 col-md-6 col-sm-6 col-xs-12">
-				<% if product.photo.blank? %>
-				<%= image_tag "blank_photo.jpg", class: "img-responsive", width:"100%" %>
-				<%else%>
+				<% if !product.photo.blank? %>
 				<%= image_tag product.photo.url(:large), class: "img-responsive", width:"100%" %>
+				<%elsif !product.stockphoto.blank? %>
+				<%= image_tag product.stockphoto.photo.url(:large), class: "img-responsive", width:"100%" %>
+				<%else%>
+				<%= image_tag "blank_photo.jpg", class: "img-responsive", width:"100%" %>
 				<%end%>
 			</div>
 			<div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
@@ -81,6 +83,17 @@
 					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 						<div class="image_frame" style="height:100px">
 							<a class="fancybox fancybox.image" rel="<%=ph.product.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
+						</div>
+					</div>
+					<%end%>
+				</div>
+				<%elsif product.stockproductfotos.any? %>
+				<b>More Photos:</b>
+				<div class="row">
+					<% product.stockproductfotos.each do |ph| %>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="image_frame" style="height:100px">
+							<a class="fancybox fancybox.image" rel="<%=ph.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
 						</div>
 					</div>
 					<%end%>

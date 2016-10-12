@@ -2,12 +2,18 @@
 		<div class="admin_product_well">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+					<% if !@product.photo.blank? %>
 		    	<div class="prod_img">
 						<%= image_tag @product.photo.url(:large), class:"img-responsive" %>
 		    	</div>
+					<%elsif !@product.stockphoto.blank? %>
+					<div class="prod_img">
+						<%= image_tag @product.stockphoto.photo.url(:large), class:"img-responsive" %>
+		    	</div>
+					<%end%>
 				</div>
 				<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
-					<h3><%=@product.name%></h3>
+					<h3><%=@product.name%>, <%= @product.brand %></h3>
 					 <div class="old_unit_form">
 						  <% if @product.units.exists? %>
 								  <% if @product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
