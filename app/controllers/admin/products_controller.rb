@@ -193,13 +193,18 @@ class Admin::ProductsController < ApplicationController
         :cad_foreign_shipping => cad_foreign_shipping,
         :usd_domestic_shipping => usd_domestic_shipping,
         :usd_foreign_shipping => usd_foreign_shipping,
-        :photo => stock_product.stockphoto.photo,
+      )
+
+      ProductStockphoto.create!(
+        :product_id => new_product.id,
+        :stockphoto_id => stock_product.stockphoto.id
       )
 
       # for each stockproductfoto, create a new nested productfoto for the product
       stock_product.stockproductfotos.each do |f|
-        new_product.productfotos.create!(
-          :foto => f.foto
+        ProductStockproductfoto.create!(
+          :product_id => new_product.id,
+          :stockproductfoto_id => f.id
         )
       end
 
@@ -208,7 +213,7 @@ class Admin::ProductsController < ApplicationController
             format.html { redirect_to admin_products_path, notice: 'Product was successfully added.' }
         end
     rescue
-      redirect_to admin_products_path, notice: 'Product was successfully added.'
+      redirect_to admin_products_path, alert: 'Product addition failed.'
     end
   end
 
