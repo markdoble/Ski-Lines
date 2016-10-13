@@ -207,13 +207,13 @@ class Admin::ProductsController < ApplicationController
           :stockproductfoto_id => f.id
         )
       end
-
+      @product_id = stock_product.id
       respond_to do |format|
-            format.js { render 'admin/products/choose_from_stock' }
-            format.html { redirect_to admin_products_path, notice: 'Product was successfully added.' }
+            format.js { render 'admin/products/choose_from_stock', notice: 'Product was successfully added.' }
+            format.html { redirect_to admin_products_stock_product_upload_path, notice: 'Product was successfully added.' }
         end
     rescue
-      redirect_to admin_products_path, alert: 'Product addition failed.'
+      redirect_to admin_products_stock_product_upload_path, alert: 'Product addition failed.'
     end
   end
 
@@ -226,13 +226,31 @@ class Admin::ProductsController < ApplicationController
       # A brand was selected, set it in the session
       session[:brand_selected] = params[:brand_selected]
     end
+    # create array of products owned by the merchant that were created by stock product
+    merchants_stockproducts = current_user.products.where(photo_file_name: nil)
+    # create an array of Stockproducts that were used to create the product owned by user
+    # and use the excluded_products array to prevent those products from rendering on page
+       # by subtracting the excluded_products array from the @stockproducts array below.
+    excluded_products = []
+    merchants_stockproducts.each do |prod|
+      excluded_products << prod.stockphoto.stockproduct
+    end
 
     # Retrieve all of the producs that belong to the brand
       # filter products for admin based on brand selected
     if !session[:brand_selected].blank?
-      @stockproducts = Stockproduct.where(brand: session[:brand_selected])
+      if current_user.country == "United States of America"
+          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(us_status: true) - excluded_products
+      elsif current_user.country == "Canada"
+          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(ca_status: true) - excluded_products
+      end
     else
-      @stockproducts = Stockproduct.all
+      if current_user.country == "United States of America"
+          @stockproducts = Stockproduct.where(us_status: true) - excluded_products
+      elsif current_user.country == "Canada"
+          @stockproducts = Stockproduct.where(ca_status: true) - excluded_products
+      end
+
     end
 
   end

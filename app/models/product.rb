@@ -5,10 +5,10 @@ class Product < ActiveRecord::Base
   has_and_belongs_to_many :orders
 
   # associations needed for stock photos
-  has_one :product_stockphoto
+  has_one :product_stockphoto, dependent: :destroy
   has_one :stockphoto, :through => :product_stockphoto
 
-  has_many :product_stockproductfotos
+  has_many :product_stockproductfotos, dependent: :destroy
   has_many :stockproductfotos, :through => :product_stockproductfotos
 
 
@@ -72,6 +72,7 @@ class Product < ActiveRecord::Base
 
   scope :country_specific, -> (site_country) { where("('ca' = ? AND cad_price > 0) OR ('us' = ? AND usd_price > 0)", site_country, site_country) }
 
+  
   # Will return the correct value depending on the site country specified
   # If a product does not have a value in the given currency, the value of 0 will be returned
   def currency_price(site_country)

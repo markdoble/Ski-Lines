@@ -47,14 +47,22 @@
 	      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	      		        <% if @product.photo.exists? %>
 	          	   		<div class="upload-preview img-responsive">
-	          	  	    <%= image_tag @product.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
+	          	  	  <%= image_tag @product.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
 	          			  </div>
 	      	      	  <%= f.label :photo, "Replace Photo:" %><br />
 	      	          <%= f.file_field :photo, class: 'file' %><br />
 	      	  		    <%else%>
-	      			     <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
-	      	    	     <%= f.label :photo, "Upload Photo:" %><br />
-	      	           <%= f.file_field :photo, class:'file img-responsive' %>
+                      <% if !@product.stockphoto.blank? %>
+                        <div class="upload-preview img-responsive">
+                        <%= image_tag @product.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
+                        </div>
+                        <%= f.label :photo, "Replace Photo:" %><br />
+    	      	          <%= f.file_field :photo, class: 'file' %><br />
+                      <%else%>
+                        <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+                        <%= f.label :photo, "Upload Photo:" %><br />
+                        <%= f.file_field :photo, class:'file img-responsive' %>
+                      <%end%>
 	      	  	      <% end %>
 	      			  </div>
 	      		 </div>
@@ -140,7 +148,25 @@
 			 <!-- Addiitonal Product Photos -->
 				<div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		      <div class="row">
-		      	<div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <% if @product.stockproductfotos.any? %>
+            <div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		      		<div class="row">
+		      			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		      				<h4><b>Stock Photos:</b></h4>
+		      				<br />
+		      			</div>
+		      		</div>
+		      		<div class="row">
+		      					<% @product.stockproductfotos.each do |ff| %>
+  		      				<div class="admin_productfotos col-lg-3 col-md-4 col-sm-6 col-xs-12" style="height:200px">
+  		      						  <%= image_tag ff.foto.url(:thumb), class: "img-responsive" %>
+  		      				  <br /><br /><br /><br />
+  		      				</div>
+		      					<%end%>
+		      		</div>
+		      	</div>
+            <%else%>
+            <div class="more_photos col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		      		<div class="row">
 		      			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		      				<h4><b>Additional Product Photos:</b></h4>
@@ -156,7 +182,7 @@
 		      						  <%else%>
 		      						  <%= image_tag ff.object.foto.url(:thumb), class: "img-responsive" %>
 		      						  <%= ff.label :foto, "Replace Photo:" %>
-		      				          <%= ff.file_field :foto %>
+		      				      <%= ff.file_field :foto %>
 		      						  <%= ff.label :foto, "Remove Photo:"%>
 		      						  <%= ff.check_box '_destroy' %>
 		      						  <%end%>
@@ -165,6 +191,7 @@
 		      					<%end%>
 		      		</div>
 		      	</div>
+            <%end%>
 		      </div>
 				</div>
 	      <div class="row">

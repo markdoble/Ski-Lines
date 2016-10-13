@@ -4,6 +4,11 @@
  */
 $(document).ready(function(){
 
+	// hide flash messages after 3 seconds
+	setTimeout(function() {
+    $('#flash').fadeOut();
+  }, 3000);
+
 	// Initialize fancybox
 	$('a.fancybox').fancybox();
 
