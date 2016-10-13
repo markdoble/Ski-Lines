@@ -19,13 +19,16 @@
 </div>
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	<% if !@stockproducts.empty? %>
     <% @stockproducts.each do |stockproduct| %>
 			<div class="products" id="<%=stockproduct.id%>">
 			<%= render 'admin/products/stock_product', :stockproduct => stockproduct %>
+			<div class="product_cover">
+		    <br /><br />
+		    <h4>Successfully Added</h4>
+		    <br /><br />
+		  </div>
 			</div>
     <%end%>
-	<%end%>
 	</div>
 </div>
 </div>
