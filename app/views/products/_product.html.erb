@@ -1,6 +1,10 @@
 <div class="public_product_well">
 	<a href="<%=product_path(product)%>">
-			<%= image_tag(product.photo.url(:medium), class:"img-responsive", width:"100%") %>
+		<% if !product.photo.blank? %>
+		<%= image_tag product.photo.url(:medium), class: "img-responsive", width:"100%" %>
+		<%elsif !product.stockphoto.blank? %>
+		<%= image_tag product.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %>
+		<%end%>
 		<div class="product_text">
 			<h3><%= product.name %></h3>
 			<p><b><%=number_to_currency(product.currency_price(session[:site_country]), precision: 2)%></b></p>

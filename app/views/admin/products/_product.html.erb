@@ -69,7 +69,7 @@
 				   <%else%>
 	           &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-			    <% if total_units != 0 && product.photo.present? && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
+			    <% if total_units != 0 && (product.photo.present? || product.stockphoto.photo.present?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
 			   <%else%><br />
 			   <p><strong>You must have inventory, a photo, and a price listed before you can start selling.</strong></p>

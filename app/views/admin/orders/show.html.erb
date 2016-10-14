@@ -35,7 +35,12 @@
 						<% @merchant_order_units.each do |f|%>
 					  <div class="form_for_merchant_order_status row">
 							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-								<%= image_tag(f.unit.product.photo.url(:large), class: "img-responsive") %>
+								<% if !f.unit.product.photo.blank? %>
+								<%= image_tag f.unit.product.photo.url(:large), class: "img-responsive", width: "100%" %>
+								<%elsif !f.unit.product.stockphoto.blank? %>
+								<%= image_tag f.unit.product.stockphoto.photo.url(:large), class: "img-responsive", width: "100%" %>
+								<%end%>
+							<br />
 							</div>
 					  	<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 								<h4><b><%= f.unit.product.name %></b></h4>

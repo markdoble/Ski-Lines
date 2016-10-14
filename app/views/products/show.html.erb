@@ -2,7 +2,11 @@
 <div class="container">
   <div class="row">
     <div id="image" class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-      <%= image_tag(@product.photo.url(:large), class: "img-responsive", width:"100%") %>
+      <% if !@product.photo.blank? %>
+  		<%= image_tag @product.photo.url(:medium), class: "img-responsive", width:"100%" %>
+  		<%elsif !@product.stockphoto.blank? %>
+  		<%= image_tag @product.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %>
+  		<%end%>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
       <br /><br />
@@ -99,22 +103,33 @@
         </div>
         <%end%>
       <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
         <br /> <br />
-        <%if @product.productfotos.any?%>
-        <b>More Photos:</b>
-        <%end%>
-        <div class="row">
-          <% @product.productfotos.each do |ph| %>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <div class="image_frame" style="height:100px">
-              <%if ph.foto.exists?%>
-              <a class="fancybox fancybox.image" rel="<%=ph.product.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
-              <%end%>
-            </div>
-            <br />
-          </div>
-          <%end%>
-        </div>
+				<%if @product.productfotos.any?%>
+				<b>More Photos:</b>
+				<div class="row">
+					<% @product.productfotos.each do |ph| %>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="image_frame" style="height:100px">
+							<a class="fancybox fancybox.image" rel="<%=ph.product.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
+						</div>
+					</div>
+					<%end%>
+				</div>
+				<%elsif @product.stockproductfotos.any? %>
+				<b>More Photos:</b>
+				<div class="row">
+					<% @product.stockproductfotos.each do |ph| %>
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="image_frame" style="height:100px">
+							<a class="fancybox fancybox.image" rel="<%=ph.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
+						</div>
+					</div>
+					<%end%>
+				</div>
+				<%end%>
+
+
       </div>
     </div>
   </div>

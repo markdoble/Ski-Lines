@@ -25,7 +25,12 @@
       			<div class="purchase_order_show">
       				<% @order.order_units.where.not(quantity: 0).each do |f|%>
       				<div class="order_show_product">
-                <%= image_tag(f.unit.product.photo.url(:thumb)) %><br />
+                <% if !f.unit.product.photo.blank? %>
+        	  		<%= image_tag f.unit.product.photo.url(:thumb) %>
+        	  		<%elsif !f.unit.product.stockphoto.blank? %>
+        	  		<%= image_tag f.unit.product.stockphoto.photo.url(:thumb) %>
+        	  		<%end%>
+              <br />
       				<h5><%= f.unit.product.name %></h5>
       				<%=number_to_currency(f.unit.product.currency_price(session[:site_country]), unit: '$') %><br />
               <% if (f.unit.size != 'n/a') and (f.unit.colour != 'n/a')%>
