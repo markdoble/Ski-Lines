@@ -77,6 +77,8 @@ class Admin::StockproductsController < ApplicationController
   def new
     @stockproduct = Stockproduct.new
     @stockproduct.build_stockphoto
+    # Retrieve the root categories to display in the caterogy filter dropdown
+    @all_categories = Category.order(:name)
     respond_to do |format|
       format.js
       format.html
@@ -86,6 +88,9 @@ class Admin::StockproductsController < ApplicationController
   # Will retrieve a single product to be edited
   def edit
     @stockproduct = Stockproduct.find(params[:id])
+
+    # Retrieve the categories to display in the caterogy filter dropdown
+    @all_categories = Category.where(parent_id: nil).order(:name)
   end
 
   # Executed on submit of a new product. Will create the entry in the database
@@ -95,11 +100,18 @@ class Admin::StockproductsController < ApplicationController
 
     respond_to do |format|
       # Try and save the product to the database
-      if @stockproduct.save
+      if @stockproduct.save 
+        update_status(@stockproduct)
+        @category = Category.find(params[:category_id])
+        @stockproduct.stockproduct_categories.create(category: @category)
         # Redirect to the products list indicating success
         format.html { redirect_to admin_stockproducts_url, notice: 'Product was successfully added.' }
       else
         # Product did not save successfully. Redirect to the products list indicating failure
+
+        # Retrieve the categories to display in the caterogy filter dropdown
+        @all_categories = Category.order(:name)
+
         format.html { render :new }
         format.json { render json: @stockproduct.errors, status: :unprocessable_entity }
       end
@@ -114,6 +126,17 @@ class Admin::StockproductsController < ApplicationController
     respond_to do |format|
       # Try and update the product in the database
       if @stockproduct.update(stockproduct_params)
+
+        if !params[:category_id].nil?
+          @category = Category.find(params[:category_id])
+            # Check to see if we have product_categories to update
+           if @stockproduct.stockproduct_categories.exists?
+             @stockproduct.stockproduct_categories.update_all(category_id: @category.id)
+           else
+             @stockproduct.stockproduct_categories.create(category: @category)
+           end
+        end
+
         # Redirect to the products list
         format.html {redirect_to admin_stockproducts_url}
         format.json {respond_with_bip(@stockproduct) }
@@ -177,5 +200,14 @@ class Admin::StockproductsController < ApplicationController
     # Verify if the current user is logged in and is a merchant
     def verify_is_admin
       (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.admin?)
+    end
+
+    def update_status(stockproduct)
+      if stockproduct.us_status == nil
+        stockproduct.update_attribute(:us_status, false)
+      end
+      if stockproduct.ca_status == nil
+        stockproduct.update_attribute(:ca_status, false)
+      end
     end
 end

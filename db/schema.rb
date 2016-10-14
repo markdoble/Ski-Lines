@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161011121446) do
+ActiveRecord::Schema.define(version: 20161013232916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -350,6 +350,16 @@ ActiveRecord::Schema.define(version: 20161011121446) do
   end
 
   add_index "stockphotos", ["stockproduct_id"], name: "index_stockphotos_on_stockproduct_id", using: :btree
+
+  create_table "stockproduct_categories", force: :cascade do |t|
+    t.integer  "stockproduct_id"
+    t.integer  "category_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stockproduct_categories", ["category_id"], name: "index_stockproduct_categories_on_category_id", using: :btree
+  add_index "stockproduct_categories", ["stockproduct_id"], name: "index_stockproduct_categories_on_stockproduct_id", using: :btree
 
   create_table "stockproductfotos", force: :cascade do |t|
     t.integer  "stockproduct_id"

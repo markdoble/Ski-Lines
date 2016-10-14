@@ -1,0 +1,6 @@
+$('.products').append('<%= j render(:partial => 'admin/stockproducts/index') %>');
+<% if @stockproducts.next_page %>
+$('.pagination').replaceWith('<%= j will_paginate(@stockproducts) %>');
+<% else %>
+$('.pagination').remove();
+<% end %>

@@ -10,6 +10,10 @@ class Category < ActiveRecord::Base
   has_many :product_categories
   has_many :products, through: :product_categories
 
+  # Associations needed to implement the stockproduct_categories join relationships
+  has_many :stockproduct_categories
+  has_many :stockproducts, through: :stockproduct_categories
+
   # Recursive function that will retrieve a count of products within a given category and all its subcategories
   def get_total_product_count
     # Get the count of products that belong to the current category

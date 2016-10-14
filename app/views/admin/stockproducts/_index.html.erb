@@ -1,0 +1,5 @@
+<% @stockproducts.each do |stockproduct| %>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+  <%= render 'admin/stockproducts/product', :stockproduct => stockproduct %>
+  </div>
+<%end%>

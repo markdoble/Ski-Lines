@@ -80,6 +80,47 @@
         		<br />
         		  </div>
         		</div>
+            <div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        		     <%= f.label :category, "Product Category:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Category" data-content="It is helpful for both you and the user to accurately categorize you products." data-trigger="hover" data-placement="top"></span>
+                 <br />
+                 <span id="product_form_category_display" name="product_form_category_display">
+                   <%
+                   # Loop through all of the parent categories and display them if any exist
+                   category_id_value = "0"
+                   if(!f.object.categories.first.nil?)
+                     category_id_value = f.object.categories.first.id
+                     f.object.categories.first.get_parent_categories.reverse_each do |parent_category|
+                       %><%=parent_category.name + " > "%><%
+                     end
+                     # Display the name of the current category
+                     %><%=f.object.categories.first.name%><%
+                   else
+                     # We did not have any existing categories, check the category_id parameter. If passed we will set it
+                     if params[:category_id]
+                       category_id_value = params[:category_id]
+                       # Get the current category object
+                       cur_category_object = @all_categories.find(category_id_value)
+                       # Display the parent categories
+                       cur_category_object.get_parent_categories.reverse_each do |parent_category|
+                         %><%=parent_category.name + " > "%><%
+                       end
+                       # Display the current category
+                       %><%=cur_category_object.name%><%
+                     else
+                       %><%="None Selected"%><%
+                     end
+                   end
+                   %>
+                 </span>
+                 <%
+                 # Display the edit link
+                 %>&nbsp;<a href="#" data-toggle="modal" data-target="#modal_category_select">Edit</a><%
+                 # Set the hidden input field to store the form value for the category_id
+                 %>
+                 <input id="category_id" name="category_id" type="hidden" value="<%=category_id_value%>" />
+        		  </div>
+        	  </div>
 						<br />
 				 </div>
 			 </div>
@@ -128,4 +169,5 @@
 	      </div>
       <% end %>
    </div>
+   <%= render 'admin/modals/category_select' %>
   <br /><br /><br /><br /><br /><br /><br /><br />

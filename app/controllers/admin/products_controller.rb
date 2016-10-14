@@ -199,6 +199,7 @@ class Admin::ProductsController < ApplicationController
         :product_id => new_product.id,
         :stockphoto_id => stock_product.stockphoto.id
       )
+      
 
       # for each stockproductfoto, create a new nested productfoto for the product
       stock_product.stockproductfotos.each do |f|
@@ -207,6 +208,7 @@ class Admin::ProductsController < ApplicationController
           :stockproductfoto_id => f.id
         )
       end
+      # make instance variable available for javascript response choose_from_stock.js.erb
       @product_id = stock_product.id
       respond_to do |format|
             format.js { render 'admin/products/choose_from_stock', notice: 'Product was successfully added.' }
@@ -233,22 +235,24 @@ class Admin::ProductsController < ApplicationController
        # by subtracting the excluded_products array from the @stockproducts array below.
     excluded_products = []
     merchants_stockproducts.each do |prod|
-      excluded_products << prod.stockphoto.stockproduct
+      unless prod.stockphoto.blank?
+      excluded_products << prod.stockphoto.stockproduct.id
+      end
     end
 
     # Retrieve all of the producs that belong to the brand
       # filter products for admin based on brand selected
     if !session[:brand_selected].blank?
       if current_user.country == "United States of America"
-          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(us_status: true) - excluded_products
+          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(us_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       elsif current_user.country == "Canada"
-          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(ca_status: true) - excluded_products
+          @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(ca_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       end
     else
       if current_user.country == "United States of America"
-          @stockproducts = Stockproduct.where(us_status: true) - excluded_products
+          @stockproducts = Stockproduct.where(us_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       elsif current_user.country == "Canada"
-          @stockproducts = Stockproduct.where(ca_status: true) - excluded_products
+          @stockproducts = Stockproduct.where(ca_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       end
 
     end

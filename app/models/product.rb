@@ -72,6 +72,8 @@ class Product < ActiveRecord::Base
 
   scope :country_specific, -> (site_country) { where("('ca' = ? AND cad_price > 0) OR ('us' = ? AND usd_price > 0)", site_country, site_country) }
 
+  scope :select_us_status, -> { where(us_status: true) }
+  scope :select_ca_status, -> { where(ca_status: true) }
   
   # Will return the correct value depending on the site country specified
   # If a product does not have a value in the given currency, the value of 0 will be returned
