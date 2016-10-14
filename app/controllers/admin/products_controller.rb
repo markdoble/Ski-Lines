@@ -215,7 +215,7 @@ class Admin::ProductsController < ApplicationController
       # make instance variable available for javascript response choose_from_stock.js.erb
       @product_id = stock_product.id
       respond_to do |format|
-            format.js { render 'admin/products/choose_from_stock', notice: 'Product was successfully added.' }
+            format.js { render 'admin/products/choose_from_stock' }
             format.html { redirect_to admin_products_stock_product_upload_path, notice: 'Product was successfully added.' }
         end
     rescue
