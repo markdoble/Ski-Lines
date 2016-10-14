@@ -199,7 +199,11 @@ class Admin::ProductsController < ApplicationController
         :product_id => new_product.id,
         :stockphoto_id => stock_product.stockphoto.id
       )
-      
+
+      if stock_product.categories.any?
+        @category = Category.find(stock_product.categories.first.id)
+        new_product.product_categories.create(category: @category)
+      end
 
       # for each stockproductfoto, create a new nested productfoto for the product
       stock_product.stockproductfotos.each do |f|
