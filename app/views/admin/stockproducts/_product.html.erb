@@ -19,6 +19,16 @@
       <b>Manufacturer's SKU:</b> <%= stockproduct.sku %>
     </p>
     <br />
+    <b>Sizes:</b><br />
+    <% if !stockproduct.stockunits.any? %>
+    Add Available Sizes!<br /><br />
+    <%else%>
+    <% stockproduct.stockunits.each do |u| %>
+  <p> <%unless u.size == "n/a" %><%= u.size %><%end%>
+      <%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock) </p>
+      <%end%>
+    <%end%>
+    <br />
     <p><%= link_to 'Edit Product', edit_admin_stockproduct_path(stockproduct)%>
       &nbsp|&nbsp
       <%= link_to 'Delete Product', admin_stockproduct_path(stockproduct), method: :delete, data: { confirm: 'Are you sure?' } %>
