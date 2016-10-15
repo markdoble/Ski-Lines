@@ -4,6 +4,14 @@
  */
 $(document).ready(function(){
 
+	// Slide toggle available sizes
+	$(document).on('click', '.toggle_sizes', function() {
+		 $(this).next(".size_selections").slideToggle();
+	});
+	$(document).on('click', '.size_details_button', function() {
+		 $(this).next('.size_details').slideToggle();
+	});
+
 	// hide flash messages after 3 seconds
 	setTimeout(function() {
     $('#flash').fadeOut();

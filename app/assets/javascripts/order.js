@@ -221,13 +221,7 @@ $(document).ready(function() {
 		parObj.find('.show_comments_form_button').delay(400).fadeIn();
 	});
 
-	// Toggle add to cart tab
-	$(document).on('click', '.toggle_sizes', function() {
-		 $(this).next(".size_selections").slideToggle();
-	});
-	$(document).on('click', '.size_details_button', function() {
-		 $(this).next('.size_details').slideToggle();
-	});
+	
 
 	// Storedropdown selections for session
 	$('.quantity_for_sum').each(function() {

@@ -19,14 +19,19 @@
       <b>Manufacturer's SKU:</b> <%= stockproduct.sku %>
     </p>
     <br />
-    <b>Sizes:</b><br />
+    
     <% if !stockproduct.stockunits.any? %>
     Add Available Sizes!<br /><br />
     <%else%>
+    <div class="toggle_sizes">
+      <strong>Available Sizes</strong>
+    </div>
+    <div class="size_selections">
     <% stockproduct.stockunits.each do |u| %>
   <p> <%unless u.size == "n/a" %><%= u.size %><%end%>
       <%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock) </p>
       <%end%>
+    </div>
     <%end%>
     <br />
     <p><%= link_to 'Edit Product', edit_admin_stockproduct_path(stockproduct)%>
