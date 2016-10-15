@@ -1,32 +1,25 @@
 				<div class="inventory_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
 				    <div class="row">
-
 				        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
 				        <p><b>Inventory:</b></p>
 				        </div>
-
 			        </div>
-		     	    <%= form_for [:admin, @product] do |product_units| %>
-					 <% @product.units.build %>
-				        <%= product_units.fields_for :units do |unit_fields| %>
-
-
+		     	    <%= form_for [:admin, @stockproduct] do |product_units| %>
+					 <% @stockproduct.stockunits.build %>
+				        <%= product_units.fields_for :stockunits do |unit_fields| %>
 					         <div class="row">
 							    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
 								<p><%= unit_fields.select :quantity, (0..50), class: "form-control", height:"40px", :include_blank => true %></p>
-								<%= unit_fields.hidden_field :quantity_sold, :value => 0 %>
 								<%= unit_fields.hidden_field :size, :value => "n/a" %>
 								<%= unit_fields.hidden_field :colour, :value => "n/a" %>
 								<br />
 							    </div>
 					         </div>
-
 				        <% end %>
 						 <br />
 		            <div class="actions">
 		            <%= product_units.submit "Save", class: "btn btn-small btn-primary"%>&nbsp
-					<%= link_to 'Cancel', admin_products_path %>
+					<%= link_to 'Cancel', admin_stockproducts_path %>
 
 		     	    </div>
 

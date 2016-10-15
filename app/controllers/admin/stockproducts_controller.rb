@@ -25,9 +25,9 @@ class Admin::StockproductsController < ApplicationController
       # Retrieve all of the producs that belong to the brand
         # filter products for admin based on brand selected
       if !session[:brand_selected].blank?
-        @stockproducts = Stockproduct.where(brand: session[:brand_selected]).paginate(:page => params[:page],:per_page => 5)
+        @stockproducts = Stockproduct.where(brand: session[:brand_selected]).order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
       else
-        @stockproducts = Stockproduct.all.paginate(:page => params[:page],:per_page => 5)
+        @stockproducts = Stockproduct.all.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
       end
 
       # Check to see if we have a query parameter. This is used for the product search bar
@@ -100,7 +100,7 @@ class Admin::StockproductsController < ApplicationController
 
     respond_to do |format|
       # Try and save the product to the database
-      if @stockproduct.save 
+      if @stockproduct.save
         update_status(@stockproduct)
         @category = Category.find(params[:category_id])
         @stockproduct.stockproduct_categories.create(category: @category)
@@ -194,6 +194,14 @@ class Admin::StockproductsController < ApplicationController
           :foto,
           :_destroy
         ],
+        :stockunits_attributes => [
+          :id,
+          :stockproduct_id,
+          :size,
+          :quantity,
+          :colour,
+          :_destroy
+          ],
         )
     end
 

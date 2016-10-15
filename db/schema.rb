@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013232916) do
+ActiveRecord::Schema.define(version: 20161015122421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,6 +386,17 @@ ActiveRecord::Schema.define(version: 20161013232916) do
     t.boolean  "us_status"
     t.decimal  "usd_msrp",     precision: 8, scale: 2
   end
+
+  create_table "stockunits", force: :cascade do |t|
+    t.integer  "stockproduct_id"
+    t.string   "size"
+    t.string   "quantity"
+    t.string   "colour"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "stockunits", ["stockproduct_id"], name: "index_stockunits_on_stockproduct_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "first_name", limit: 255

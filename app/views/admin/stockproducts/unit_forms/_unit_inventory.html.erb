@@ -1,7 +1,5 @@
 				<div class="inventory_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
 				    <div class="row">
-
 				        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
 				        <p><b>Inventory:</b></p>
 				        </div>
@@ -9,9 +7,8 @@
 						<p><b>Quantity Sold:</b></p>
 						</div>
 			        </div>
-		     	    <%= form_for [:admin, @product] do |product_units| %>
-				        <%= product_units.fields_for :units do |unit_fields| %>
-
+		     	    <%= form_for [:admin, @stockproduct] do |product_units| %>
+				        <%= product_units.fields_for :stockunits do |unit_fields| %>
 							<% if unit_fields.object.new_record? %>
 					         <div class="row">
 							    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
@@ -19,7 +16,6 @@
 								<br />
 							    </div>
 							    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
-								<%= unit_fields.hidden_field :quantity_sold, :value => 0 %>
 								<%= unit_fields.hidden_field :size, :value => "n/a" %>
 								<%= unit_fields.hidden_field :colour, :value => "n/a" %>
 								<br />
@@ -32,12 +28,7 @@
 								<br />
 							    </div>
 							    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
-								<% if unit_fields.object.quantity_sold.to_i == 0 %>
-								<p><%= unit_fields.object.quantity_sold %>, delete: <%= unit_fields.check_box '_destroy' %></p>
-								<%else%>
-								<p><%= unit_fields.object.quantity_sold %></p>
-
-								<%end%>
+								<p>delete: <%= unit_fields.check_box '_destroy' %></p>
 							    </div>
 					         </div>
 							 <%end%>
@@ -45,10 +36,7 @@
 						 <br />
 		            <div class="actions">
 		            <%= product_units.submit "Save", class: "btn btn-small btn-primary"%>&nbsp
-					<%= link_to 'Cancel', admin_products_path %>
-
+					<%= link_to 'Cancel', admin_stockproducts_path %>
 		     	    </div>
-
 		        </div>
-
 		 		 <%end%>

@@ -205,6 +205,16 @@ class Admin::ProductsController < ApplicationController
         new_product.product_categories.create(category: @category)
       end
 
+      # create product units
+      stock_product.stockunits.each do |f|
+        new_product.units.create(
+          :size => f.size,
+          :quantity => f.quantity,
+          :colour => f.colour,
+          :quantity_sold => 0
+        )
+      end
+
       # for each stockproductfoto, create a new nested productfoto for the product
       stock_product.stockproductfotos.each do |f|
         ProductStockproductfoto.create!(

@@ -1,67 +1,54 @@
 				<div class="inventory_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
 				    <div class="row">
-				        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+				        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
 				        <p><b>Size:</b></p>
 				        </div>
-				        <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+				        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+				        <p><b>Colour:</b></p>
+				        </div>
+				        <div class="quant_unit col-lg-4 col-md-4 col-sm-4 col-xs-4">
 				        <p><b>Inventory:</b></p>
 				        </div>
-						<div class="delete_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
-						<p><b>Quantity Sold:</b></p>
-						</div>
 			        </div>
-		     	    <%= form_for [:admin, @product] do |product_units| %>
-			        <% 3.times {@product.units.build}%>
-					<%= product_units.fields_for :units do |unit_fields| %>
-
-
+		     	    <%= form_for [:admin, @stockproduct] do |product_units| %>
+			        <% 3.times {@stockproduct.stockunits.build}%>
+					<%= product_units.fields_for :stockunits do |unit_fields| %>
 			  		  <% if unit_fields.object.new_record? %>
-
 			        <div class="row">
-
-					    <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
-						<p><%= unit_fields.text_field :size, class: "form-control", placeholder: "Add Unit or Size" %></p>
+					    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+						<p><%= unit_fields.text_field :size, class: "form-control", placeholder: "Add Size" %></p>
+					    </div>
+					    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+						<p><%= unit_fields.text_field :colour, class: "form-control", placeholder: "Colour" %></p>
 					    </div>
 					    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
 						<p><%= unit_fields.select :quantity, (0..50), class: "form-control", height:"40px", :include_blank => true %></p>
-						   <%= unit_fields.hidden_field :quantity_sold, :value => 0 %>
-						   <%= unit_fields.hidden_field :colour, :value => "n/a" %>
 						<br />
 					    </div>
-						<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+						<div class="col-lg-2 col-md-2 col-sm-2 col-xs-3">
 						</div>
-
 			        </div>
-
 					  <%else%>
 			        <div class="row">
-					    <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+					    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 						<p><%= unit_fields.object.size %></p>
+					    </div>
+					    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+						<p><%= unit_fields.object.colour %></p>
 					    </div>
 					    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
 						<p><%= unit_fields.select :quantity, (0..50), class: "form-control", height:"40px", :include_blank => true %></p>
-
-
 					    </div>
 					    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
-						<% if unit_fields.object.quantity_sold.to_i == 0 %>
-						<p><%= unit_fields.object.quantity_sold %>, delete: <%= unit_fields.check_box '_destroy' %></p>
-						<%else%>
-						<p><%= unit_fields.object.quantity_sold %></p>
-
-						<%end%>
+								<p>delete: <%= unit_fields.check_box '_destroy' %></p>
 					    </div>
-
 			         </div>
-
 			  		  <%end%>
-
 			        <% end %>
-					<br />
+							<br />
 		            <div class="actions">
 		            <%= product_units.submit "Save", class: "btn btn-small btn-primary"%>&nbsp
-					<%= link_to 'Cancel', admin_products_path %>
+					<%= link_to 'Cancel', admin_stockproducts_path %>
 
 		     	    </div>
 
