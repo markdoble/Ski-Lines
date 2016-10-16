@@ -16,4 +16,17 @@ class Stockproduct < ActiveRecord::Base
 
 
   scope :search, ->(query) { where('name ilike :q', q: "%#{query}%") }
+
+
+
+  validates :name, :presence => {:message => 'cannot be blank.'}
+  #validates :description, :presence => {:message => 'cannot be blank.'}
+  #validates :price, :presence => {:message => 'cannot be blank.'}
+  #validates :currency, :presence => {:message => 'cannot be blank.'}
+  #validates :shipping_charge, :presence => {:message => 'cannot be blank.'}
+  # validates :photo, :presence => {:message => 'cannot be blank.'}
+  validates_length_of :name, :minimum => 0, :maximum => 60
+  validates_length_of :brand, :minimum => 0, :maximum => 40
+  validates_length_of :description, :minimum => 0, :maximum => 1000
+
 end

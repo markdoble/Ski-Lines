@@ -59,7 +59,8 @@ class Product < ActiveRecord::Base
   #validates :currency, :presence => {:message => 'cannot be blank.'}
   #validates :shipping_charge, :presence => {:message => 'cannot be blank.'}
   # validates :photo, :presence => {:message => 'cannot be blank.'}
-  validates_length_of :name, :minimum => 0, :maximum => 40
+  validates_length_of :name, :minimum => 0, :maximum => 60
+  validates_length_of :brand, :minimum => 0, :maximum => 40
   validates_length_of :description, :minimum => 0, :maximum => 1000
 
   # Define the scopes to be used
@@ -74,7 +75,7 @@ class Product < ActiveRecord::Base
 
   scope :select_us_status, -> { where(us_status: true) }
   scope :select_ca_status, -> { where(ca_status: true) }
-  
+
   # Will return the correct value depending on the site country specified
   # If a product does not have a value in the given currency, the value of 0 will be returned
   def currency_price(site_country)
