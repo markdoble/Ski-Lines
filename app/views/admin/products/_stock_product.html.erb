@@ -19,8 +19,8 @@
     <br />
     <div class="row">
     <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <b>More Photos:</b>
       <%if stockproduct.stockproductfotos.any?%>
+      <b>More Photos:</b>
       <div class="row">
         <% stockproduct.stockproductfotos.each do |ph| %>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
@@ -37,6 +37,7 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
+      <br /><br />
       <%= button_to "Add To My Inventory", choose_from_stock_admin_products_path(:stock_product => stockproduct.id), :method => :post, class: "select_product btn btn-primary", remote: true %>
     </div>
   </div>
