@@ -24,23 +24,32 @@
 			%><h4>All Products</h4><%
 		end
 		%>
+    <br /><br />
 	</div>
-	<%= form_tag admin_stockproducts_path, method: :get do %>
-	<%= label_tag :brand_selected, "Brand:" %>
-	<%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
-	<%end%>
-	<br />
-	<%= link_to "New Product", new_admin_stockproduct_path, class: "btn btn-primary" %>
-	<br /><br />
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="text-align:left">
+      <%= form_tag admin_stockproducts_path, method: :get do %>
+    	<%= label_tag :brand_selected, "Brand:" %>
+    	<%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
+    	<%end%>
+      <br />
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6" style="text-align:right">
+      <%= link_to "New Product", new_admin_stockproduct_path, class:"btn btn-primary" %>
+      <br />
+    </div>
+    </div>
   </div>
 </div>
-
+<div class="row">
+  <div class="col-xs-12">
+    <%= render 'admin/stockproducts/stockproducts_listing_header'%>
+  </div>
+</div>
 <div class="row">
 	<div class="products">
-		<%= render 'admin/stockproducts/stockproducts_listing_header'%>
     <%= render 'admin/stockproducts/index' %>
 	</div>
-
 </div>
 </div>
 <%=will_paginate(@stockproducts)%>
