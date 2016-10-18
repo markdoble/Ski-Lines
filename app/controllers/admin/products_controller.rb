@@ -24,6 +24,8 @@ class Admin::ProductsController < ApplicationController
       if params[:product_admin_view]
         # A view was selected, set it in the session
         session[:product_admin_view] = params[:product_admin_view]
+      else
+        session[:product_admin_view] = 'detailed'
       end
 
       # check to see if rep has selected a merchant
