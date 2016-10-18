@@ -7,22 +7,46 @@
 			<% if !@stockproducts.empty? %>
 			<p>Below is a collection of suggested products to add to your inventory. Click "Add To My Inventory" to move the product to My Products.</p>
 			<%end%>
+			<% if @stockproducts.empty? %>
+				<p><i>There are currently no products to select. Check back often for updates.</i></p>
+			<%end%>
     </div>
-		<% if @stockproducts.empty? %>
-			<p><i>There are currently no products to select. Check back often for updates.</i></p>
-		<%end%>
 		<br /><br />
 	  <%= form_tag admin_products_stock_product_upload_path, method: :get do %>
 	  <%= label_tag :brand_selected, "Filter by Brand:" %>
 	  <%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
 	  <%end%>
-	  <br /><br />
+		<%
+		# Check to see if we are filtering on a category. If so, we will display this to the user
+		if params[:category_id]
+			%>
+			<h4>
+				<%
+				# Get the current category object
+				cur_category_object = @all_categories.find(params[:category_id])
+				# Display the parent categories
+				cur_category_object.get_parent_categories.reverse_each do |parent_category|
+					%><%=parent_category.name + " > "%><%
+				end
+				# Display the current category
+				%><%=cur_category_object.name%><%
+				%>
+			</h4>
+			<%
+		else
+			%><h4>All Products</h4><%
+		end
+		%>
+		<br /><br />
 	</div>
 </div>
 <div class="row">
 	<div class="products">
+		<%= render 'admin/products/stock_product_listing_header'%>
 		<%= render 'admin/products/stock_product_list' %>
 	</div>
 </div>
 </div>
 <%=will_paginate(@stockproducts)%>
+<input type="hidden" id="category_filter_href" name="category_filter_href" value="<%=admin_products_stock_product_upload_path%>" />
+<%= render 'admin/modals/category_filter' %>
