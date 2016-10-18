@@ -16,6 +16,9 @@ class Admin::StockproductsController < ApplicationController
 
       @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }.uniq
 
+      # Retrieve the root categories to display in the caterogy filter dropdown
+      @all_categories = Category.order(:name)
+
       # check to see if admin has selected a brand
       if params[:brand_selected]
         # A brand was selected, set it in the session
@@ -28,6 +31,11 @@ class Admin::StockproductsController < ApplicationController
         @stockproducts = Stockproduct.where(brand: session[:brand_selected]).order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
       else
         @stockproducts = Stockproduct.all.order("updated_at DESC").paginate(:page => params[:page],:per_page => 5)
+      end
+
+      # Check to see if we have a category id. This is used for the category dropdown filter
+      if params[:category_id]
+        @stockproducts = @stockproducts.category_specific(Category.find(params[:category_id]).descendents)
       end
 
       # Check to see if we have a query parameter. This is used for the product search bar

@@ -239,6 +239,9 @@ class Admin::ProductsController < ApplicationController
     # create array of brands to filter with
     @brands = Stockproduct.uniq { |p| p.brand }.map{|b| b.brand }.uniq
 
+    # Retrieve the root categories to display in the caterogy filter dropdown
+    @all_categories = Category.order(:name)
+
     # check to see if admin has selected a brand
     if params[:brand_selected]
       # A brand was selected, set it in the session
@@ -270,7 +273,16 @@ class Admin::ProductsController < ApplicationController
       elsif current_user.country == "Canada"
           @stockproducts = Stockproduct.where(ca_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       end
+    end
 
+    # Check to see if we have a category id. This is used for the category dropdown filter
+    if params[:category_id]
+      @stockproducts = @stockproducts.category_specific(Category.find(params[:category_id]).descendents)
+    end
+
+    # Check to see if we have a query parameter. This is used for the product search bar
+    if params[:query]
+      @stockproducts = @stockproducts.search(params[:query])
     end
 
   end
