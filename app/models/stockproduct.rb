@@ -14,8 +14,8 @@ class Stockproduct < ActiveRecord::Base
        inverse_of: :stockproduct, dependent: :destroy
   accepts_nested_attributes_for :stockunits, :allow_destroy => true, :reject_if => lambda { |a| a[:quantity].blank? }
 
-
-  scope :search, ->(query) { where('name ilike :q', q: "%#{query}%") }
+  scope :category_specific, -> (category_id) { joins(:stockproduct_categories).where("stockproduct_categories.category_id IN (?)", category_id) }
+  scope :search, ->(query) { where('name ilike ? OR brand ilike ?', "%#{query}%", "%#{query}%") }
 
 
 

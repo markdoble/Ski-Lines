@@ -1,0 +1,56 @@
+<%
+# Check to see if we are filtering on a category. If so, we will display this to the user
+if params[:category_id]
+	%>
+
+		<%
+    # Get the current category object
+    cur_category_object = "Viewing: " << @all_categories.find(params[:category_id]).name
+    %>
+	<% else %>
+  <%cur_category_object = "Filter Products" %>
+  <% end %>
+
+<div class="row">
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <div class="row">
+       <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <a href="#" class="btn btn-primary dropdown-toggle" data-toggle="modal" data-target="#modal_category_select">
+           <span class="glyphicon glyphicon-filter"></span>
+          <%= cur_category_object %>
+         </a>
+       </div>
+    </div>
+    <br />
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <div class="row">
+       <div class="product_brand_select col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <%= form_tag admin_products_stock_product_upload_path, method: :get do %>
+     	  <%= label_tag :brand_selected, "Filter by Brand:", hidden:true %>
+     	  <%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
+     	  <%end%>
+        <br />
+       </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="text-align:left">
+      <div class="field input-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <%= form_tag("/admin/products/stock_product_upload", :method => 'get') do %>
+             <%= text_field_tag :query, params[:query], class:"form-control", style: "width:80%", placeholder: "Search" %>
+                 <span class="input-group-btn">
+                  <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            <% end %>
+                </span>
+                <br />
+        </div>
+  </div>
+  <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+      <div class="row">
+        <div class="dropdown_for_filter col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <%= link_to "Clear Filter", admin_products_stock_product_upload_path, class:"btn btn-primary dropdown-toggle" %>
+        </div>
+    </div>
+    <br />
+  </div>
+</div>
