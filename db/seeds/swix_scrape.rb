@@ -26,7 +26,7 @@ else
       product.name = name
       product.brand = "Swix"
       product.ca_status = false
-      product.us_status = false 
+      product.us_status = false
       end
     Stockphoto.create(
       photo: open(image),
