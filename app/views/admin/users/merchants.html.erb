@@ -15,6 +15,7 @@ $(document).ready(function() {
     <th>Address</th>
     <th>Products (CAD) </th>
     <th>Products (USD)</th>
+    <th>Stripe Key</th>
     <th>Create Date</th>
     </tr>
   </thead>
@@ -33,6 +34,7 @@ $(document).ready(function() {
         </td>
         <td><%=cad_value(user)%>
         <td><%=usd_value(user)%></td>
+        <td><%=user.stripe_account_id%></td>
         <td><%=user.created_at%></td>
       </tr>
       <%
