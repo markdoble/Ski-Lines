@@ -11,6 +11,10 @@ class Admin::UsersController < ApplicationController
     @all_users = User.order(:id)
   end
 
+  def merchants
+    @merchants = User.where(merchant: true).where(merchant_rep: false)
+  end
+
   # Gather the required information needed on the edit form
   def edit
     @userToEdit = User.find(params[:id])

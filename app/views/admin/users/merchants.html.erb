@@ -1,0 +1,42 @@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#user_list').DataTable();
+} );
+</script>
+
+<table id="user_list" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+    <th>Merchant</th>
+    <th>Email</th>
+    <th>Contact Person</th>
+    <th>Address</th>
+    <th>Products (CAD) </th>
+    <th>Products (USD)</th>
+    <th>Create Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+    @merchants.each do |user|
+      %>
+      <tr>
+        <td><%= link_to user.merchant_name, admin_users_edit_path(:id => user.id) %></td>
+        <td><%=user.email%></td>
+        <td><%=user.contact_first_name%> <%=user.contact_last_name%></td>
+        <td>
+          <%=user.street_address%><br />
+          <%=user.city%>, <%=user.state_prov%><br />
+          <%=user.zip_postal%>
+        </td>
+        <td><%=cad_value(user)%>
+        <td><%=usd_value(user)%></td>
+        <td><%=user.created_at%></td>
+      </tr>
+      <%
+    end
+    %>
+  </tbody>
+</table>
