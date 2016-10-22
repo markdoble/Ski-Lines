@@ -138,6 +138,7 @@ Rails.application.routes.draw do
     get 'users/edit'
     get 'users/index'
     get 'users/update'
+    get 'users/merchants'
   end
 
 end
