@@ -13,7 +13,7 @@ class Admin::ProductsController < ApplicationController
 
   # Displays the index of all products for the current user
   def index
-    if current_user.stripe_account_id.blank?
+    if current_user.stripe_account_id.blank? && !current_user.merchant_rep?
       redirect_to admin_stripe_accounts_new_stripe_account_path
     else
 
