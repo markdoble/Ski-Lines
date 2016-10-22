@@ -59,6 +59,10 @@ gem 'spring','~>1.3.6'
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'slack-notifier'
+
+# for vanity urls for products
+gem 'friendly_id'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

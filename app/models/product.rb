@@ -1,4 +1,19 @@
 class Product < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  def should_generate_new_friendly_id?
+    name_changed?
+  end
+
+  def slug_candidates
+    [
+      :name,
+      [:name, :id]
+    ]
+  end
+
+
   # Associations needed for the users and orders
   belongs_to :user
   belongs_to :merchant_order
