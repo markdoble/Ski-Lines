@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   before_filter :site_stats
   before_filter :find_or_create_cart
   before_filter :site_country_selection
+  before_filter :get_site_categories
 
   # helper for mailboxer
   helper_method :mailbox, :conversation
@@ -24,6 +25,11 @@ class ApplicationController < ActionController::Base
     @featured_articles = Article.publish.where(article_format: 'standard').where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC")[2..6]
     @front_page_featured_articles = Article.publish.where(article_format: 'standard').where(notes: 'Featured').order("date_published DESC", "created_at DESC", "description ASC").first(2)
     @featured_videos = Article.publish.where("article_format like ? OR article_format like ?", "%facebook_video%", "%youtube_video%").order("date_published DESC", "created_at DESC", "description ASC").first(3)
+  end
+
+  # Defines the categories that are available on the site. Will be used for filtering purposes
+  def get_site_categories
+    @site_root_categories = Category.where(parent_id: nil).order(:name)
   end
 
   # To Do: Define what this does

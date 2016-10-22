@@ -1,0 +1,48 @@
+<div id="filter" class="modal fade dashboard" role="dialog" tabindex="-1">
+  <div class="modal-dialog" role="document">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle"></span></button>
+        <h4 class="modal-title">FILTER</h4>
+      </div>
+      <div class="modal-body">
+        <%
+        # Loop through all the categories and display the entire tree in nested lists
+        # Set the prevLevel variable as this will be needed to make decisions on when to open and close lists
+        prevLevel = 0
+  			@site_root_categories.each do |root_category|
+          # We only want to close the ul tag after at least one of the root categories has been displayed
+          if prevLevel > 0
+            %></ul><%
+          end
+          # Open the ul tag every time here as we are beginning a new root category
+          %><ul><%
+          # Loop through all of the subcategories of the root category
+  				subcategories = root_category.get_subcategories
+  				subcategories.each do |subcat|
+            # If the node level of our subcategory is higher than our previous level, we have to create a new list
+            if subcat[0] > prevLevel
+              %><ul><%
+            end
+            # If the node level of our subcategory is lower than our previous level and we're not at the root, we have to close the current list
+            if subcat[0] < prevLevel && subcat[0] != 0
+              %></ul><%
+            end
+            # Display the category name in a list item element
+            %>
+  					<li>
+  						<%=subcat[1].name%>
+  					</li>
+            <%
+            # Update the value of the prevLevel for the next loop
+            prevLevel = subcat[0]
+  				end
+          # Close the last ul tag before exiting out of the loop
+          %></ul><%
+  			end
+  			%>
+      </div>
+    </div>
+  </div>
+</div>

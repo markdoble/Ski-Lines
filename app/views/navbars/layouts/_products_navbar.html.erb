@@ -1,8 +1,12 @@
 <!-- Store Page Navbar -->
 	<nav class="navbar navbar-default navbar-fixed-top">
-		<!--
-		<%= render 'navbars/components/category_dropdown' %>
-	-->
+		<ul class="nav navbar-nav hidden-xs">
+	    <li>
+				<a type="button" href="#" class="dashboard_button btn" data-toggle="modal" data-target="#filter">
+	        	<span class="glyphicon glyphicon-filter">FILTER</span>
+				</a>
+	    </li>
+	  </ul>
 	  <div class="container">
 	    <!-- Brand and toggle get grouped for better mobile display -->
 	    <div class="navbar-header">
@@ -31,7 +35,7 @@
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			 <ul class="nav navbar-nav main_menu hidden-lg hidden-md hidden-sm">
-					<%= render 'navbars/components/user_navbar_toggle' %> 
+					<%= render 'navbars/components/user_navbar_toggle' %>
 					<li><%= link_to "BECOME A MERCHANT", new_merchant_application_path %></li>
 			 </ul>
 		  </div><!-- /.navbar-collapse -->
