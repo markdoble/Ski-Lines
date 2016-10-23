@@ -63,6 +63,9 @@ gem 'slack-notifier'
 # for vanity urls for products
 gem 'friendly_id'
 
+# gem for dynamically adding nested form fields
+gem 'nested_form_fields'
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

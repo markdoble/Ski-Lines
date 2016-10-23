@@ -66,35 +66,31 @@
 				<% total_units_sold += t.quantity_sold %>
 			<%end%>
 			 <% if (total_units + total_units_sold) != 0 %>
-				<div class="toggle_sizes">
-					<p><b>Inventory</p></b>
-				</div>
-				<div class="size_selections">
-					<% product.units.each do |u| %>
-				<p>
-					<%unless u.size == "n/a" %><%= u.size %><%end%>
-					<%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold)
-				</p>
-		  		<%end%>
-					<%if (total_units + total_units_sold) != 0%>
-					<p><%= link_to 'Manage', admin_product_path(product)%></p>
-					<%else%>
-				 <p><%= link_to 'Add', admin_product_path(product)%></p>
-					<%end%>
-					<br />
-				</div>
+					<div class="toggle_sizes">
+						<p><b>Inventory</p></b>
+					</div>
+					<div class="size_selections">
+						<% product.units.each do |u| %>
+					<p>
+						<%unless u.size == "n/a" %><%= u.size %><%end%>
+						<%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold)
+					</p>
+			  		<%end%>
+						<p><%= link_to 'Manage', admin_product_path(product)%></p>
+						<br />
+					</div>
    		  <%else%>
-	   		 <p><strong>Currently no inventory or units sold.</strong></p>
+	   		 <p><strong>Currently no units sold.</strong></p>
 				  <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
-	   		 <%end%>
+	   		<%end%>
 				 <br />
-	           <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
-				   <% if total_units_sold != 0%>
-				   &nbsp&nbsp(Amount sold: <%= total_units_sold %>)
-				   <%else%>
-	           &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
+	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
+			   <% if total_units_sold != 0%>
+			   &nbsp&nbsp(Amount sold: <%= total_units_sold %>)
+			   <%else%>
+         &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-			    <% if total_units != 0 && (!product.photo.blank? || !product.stockphoto.blank?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
+			   <% if total_units != 0 && (product.photo.present? || product.stockphoto.photo.present?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
 			   <%else%><br />
 			   <p><strong>You must have inventory, a photo, and a price listed before you can start selling.</strong></p>
