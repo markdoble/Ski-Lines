@@ -70,14 +70,23 @@
 						<p><b>Inventory</p></b>
 					</div>
 					<div class="size_selections">
-						<% product.units.each do |u| %>
-					<p>
-						<%unless u.size == "n/a" %><%= u.size %><%end%>
-						<%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold)
-					</p>
-			  		<%end%>
-						<p><%= link_to 'Manage', admin_product_path(product)%></p>
-						<br />
+						<% if product.units.exists? %>
+								<% if product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
+								<div id="units_inventory">
+								<%= render 'admin/products/unit_forms/unit_inventory', :locals => {:product => product}%>
+								</div>
+								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour != "n/a" }%>
+								<%= render 'admin/products/unit_forms/sizes_colours_inventory', :locals => {:product => product}%>
+								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour == "n/a" }%>
+								<div id="colours_inventory">
+								<%= render 'admin/products/unit_forms/sizes_inventory', :locals => {:product => product}%>
+								</div>
+								<%elsif product.units.any?{|a| a.size == "n/a" && a.colour != "n/a" }%>
+								<div id="sizes_inventory">
+								<%= render 'admin/products/unit_forms/colours_inventory', :locals => {:product => product}%>
+								</div>
+								<%end%>
+						<%end%>
 					</div>
    		  <%else%>
 	   		 <p><strong>Currently no units sold.</strong></p>
@@ -85,16 +94,23 @@
 	   		<%end%>
 				 <br />
 	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
-			   <% if total_units_sold != 0%>
+
+				 <%
+				 # prevent the deletion of a product if it has units sold
+				 if total_units_sold != 0%>
 			   &nbsp&nbsp(Amount sold: <%= total_units_sold %>)
 			   <%else%>
          &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-			   <% if total_units != 0 && (product.photo.present? || product.stockphoto.photo.present?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
+
+				 <% if total_units != 0 && (product.photo.present? || product.stockphoto.photo.present?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
 			   <%else%><br />
 			   <p><strong>You must have inventory, a photo, and a price listed before you can start selling.</strong></p>
 			   <%end%>
+ <%
+# productfotos if present
+ %>
 			<div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<br /> <br />
 				<%if product.productfotos.any?%>
