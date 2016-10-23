@@ -70,22 +70,22 @@
 						<p><b>Inventory</p></b>
 					</div>
 					<div class="size_selections">
-						<% if product.units.exists? %>
+
+					<% if product.units.exists? %>
+						<%= form_for [:admin, product] do |f| %>
+							<%= f.nested_fields_for :units do |ff| %>
 								<% if product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
-								<div id="units_inventory">
-								<%= render 'admin/products/unit_forms/unit_inventory', :locals => {:product => product}%>
-								</div>
+								<%= render partial: 'admin/products/index_forms/unit_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour != "n/a" }%>
-								<%= render 'admin/products/unit_forms/sizes_colours_inventory', :locals => {:product => product}%>
+								<%= render 'admin/products/index_forms/sizes_colours_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour == "n/a" }%>
-								<div id="colours_inventory">
-								<%= render 'admin/products/unit_forms/sizes_inventory', :locals => {:product => product}%>
-								</div>
+								<%= render partial: 'admin/products/index_forms/sizes_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size == "n/a" && a.colour != "n/a" }%>
-								<div id="sizes_inventory">
-								<%= render 'admin/products/unit_forms/colours_inventory', :locals => {:product => product}%>
-								</div>
+								<%= render 'admin/products/index_forms/colours_inventory', :locals => {:ff => ff}%>
 								<%end%>
+							<%end%>
+							<%= f.add_nested_fields_link :units %>
+						<%end%>
 						<%end%>
 					</div>
    		  <%else%>
@@ -94,7 +94,6 @@
 	   		<%end%>
 				 <br />
 	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
-
 				 <%
 				 # prevent the deletion of a product if it has units sold
 				 if total_units_sold != 0%>

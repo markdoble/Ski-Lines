@@ -10,8 +10,8 @@
 		<p><b>Quantity Sold:</b></p>
 		</div>
   </div>
-    <%= form_for [:admin, product], url: admin_product_path(product), html: { method: :put } do |product_units| %>
-	  <% 3.times {product.units.build}%>
+    <%= form_for [:admin, @product] do |product_units| %>
+	  <% 3.times {@product.units.build}%>
 		<%= product_units.nested_fields_for :units do |unit_fields| %>
 	  <% if unit_fields.object.new_record? %>
   <div class="row">
