@@ -11,7 +11,7 @@
 		</div>
   </div>
     <%= form_for [:admin, @product] do |product_units| %>
-	  <% 3.times {@product.units.build}%>
+	  <% @product.units.build %>
 		<%= product_units.nested_fields_for :units do |unit_fields| %>
 	  <% if unit_fields.object.new_record? %>
   <div class="row">
@@ -25,6 +25,7 @@
 			<br />
     </div>
 		<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+			  <%= unit_fields.remove_nested_fields_link :units %><br />
 		</div>
   </div>
   	<%else%>
@@ -44,7 +45,6 @@
     </div>
   </div>
   <%end%>
-
   <%end%>
 	<%= product_units.add_nested_fields_link :units %>
 	<br /><br />
@@ -52,5 +52,5 @@
   <%= product_units.submit "Save", class: "btn btn-small btn-primary"%>&nbsp
 	<%= link_to 'Cancel', admin_products_path %>
   </div>
+	<%end%>
 </div>
- <%end%>

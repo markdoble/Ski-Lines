@@ -70,28 +70,29 @@
 						<p><b>Inventory</p></b>
 					</div>
 					<div class="size_selections">
-
 					<% if product.units.exists? %>
 						<%= form_for [:admin, product] do |f| %>
 							<%= f.nested_fields_for :units do |ff| %>
 								<% if product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
 								<%= render partial: 'admin/products/index_forms/unit_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour != "n/a" }%>
-								<%= render 'admin/products/index_forms/sizes_colours_inventory', :locals => {:ff => ff}%>
+								<%= render partial: 'admin/products/index_forms/sizes_colours_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size != "n/a" && a.colour == "n/a" }%>
 								<%= render partial: 'admin/products/index_forms/sizes_inventory', :locals => {:ff => ff}%>
 								<%elsif product.units.any?{|a| a.size == "n/a" && a.colour != "n/a" }%>
-								<%= render 'admin/products/index_forms/colours_inventory', :locals => {:ff => ff}%>
+								<%= render partial: 'admin/products/index_forms/colours_inventory', :locals => {:ff => ff}%>
 								<%end%>
 							<%end%>
-							<%= f.add_nested_fields_link :units %>
+							<%= f.add_nested_fields_link :units %><br />
+							<%= f.submit "Save", class: "btn btn-primary" %>
 						<%end%>
 						<%end%>
+						<%= link_to "Manage Inventory", admin_product_path(product) %>
 					</div>
-   		  <%else%>
+   		<%else%>
 	   		 <p><strong>Currently no units sold.</strong></p>
 				  <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
-	   		<%end%>
+	   	<%end%>
 				 <br />
 	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
 				 <%
