@@ -162,8 +162,8 @@ class Admin::ProductsController < ApplicationController
 
   def choose_from_stock
     begin
-      if params[:user_id]
-        user = User.find_by_id(params[:user_id])
+      if params[:merchant_selected]
+        user = User.find_by_id(params[:merchant_selected])
       else
         user = current_user
       end
@@ -244,13 +244,23 @@ class Admin::ProductsController < ApplicationController
     # Retrieve the root categories to display in the caterogy filter dropdown
     @all_categories = Category.order(:name)
 
+    # check to see if rep has selected a merchant or a session has been created
+    if !params[:merchant_selected].blank? || !session[:merchant_selected].blank?
+      # if a merchant was selected , create a session
+      if !params[:merchant_selected].blank?
+        session[:merchant_selected] = params[:merchant_selected]
+      end
+      user = User.find_by_id(session[:merchant_selected])
+    else
+      user = current_user
+    end
     # check to see if admin has selected a brand
     if params[:brand_selected]
       # A brand was selected, set it in the session
       session[:brand_selected] = params[:brand_selected]
     end
     # create array of products owned by the merchant that were created by stock product
-    merchants_stockproducts = current_user.products.where(photo_file_name: nil)
+    merchants_stockproducts = user.products.where(photo_file_name: nil)
     # create an array of Stockproducts that were used to create the product owned by user
     # and use the excluded_products array to prevent those products from rendering on page
        # by subtracting the excluded_products array from the @stockproducts array below.
@@ -264,15 +274,15 @@ class Admin::ProductsController < ApplicationController
     # Retrieve all of the producs that belong to the brand
       # filter products for admin based on brand selected
     if !session[:brand_selected].blank?
-      if current_user.country == "United States of America"
+      if user.country == "United States of America"
           @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(us_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
-      elsif current_user.country == "Canada"
+      elsif user.country == "Canada"
           @stockproducts = Stockproduct.where(brand: session[:brand_selected]).where(ca_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       end
     else
-      if current_user.country == "United States of America"
+      if user.country == "United States of America"
           @stockproducts = Stockproduct.where(us_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
-      elsif current_user.country == "Canada"
+      elsif user.country == "Canada"
           @stockproducts = Stockproduct.where(ca_status: true).where.not(id: excluded_products).paginate(:page => params[:page],:per_page => 5)
       end
     end
