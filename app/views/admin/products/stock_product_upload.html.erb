@@ -5,13 +5,13 @@
       <br />
       <h1>Add Products To Your Inventory</h1>
 			<% if !@stockproducts.empty? %>
-				<p>Below is a collection of suggested products to add to your inventory. Click "Add To My Inventory" to move the product to "My Products".</p>
+				<p>Below is a collection of suggested products to add to your inventory. Click "Add To <%= @user.merchant_name%>" to move the product to "My Products".</p>
 				<% if current_user.merchant_rep? %>
 					<%= form_tag admin_products_stock_product_upload_path, method: :get do %>
 					<%= label_tag :merchant_selected, "Viewing As:" %>
-					<%= select_tag(:merchant_selected, options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name, :selected => session[:merchant_selected]), {:onchange => "this.form.submit()", :prompt => "My Store"})%>
+					<%= select_tag(:merchant_selected, options_from_collection_for_select(User.where(merchant: true).where(merchant_rep: false), :id, :merchant_name, :selected => session[:merchant_selected]), {:onchange => "this.form.submit()", :prompt => "--select--"})%>
 					<%end%>
-					<br /><br />
+					<br />
 				<%end%>
 			<%end%>
 			<% if @stockproducts.empty? %>
