@@ -38,8 +38,9 @@
 		<%= render 'admin/products/stock_product_list' %>
 	</div>
 </div>
+<%=will_paginate(@stockproducts)%>
 <%end%>
 </div>
-<%=will_paginate(@stockproducts)%>
+
 <input type="hidden" id="category_filter_href" name="category_filter_href" value="<%=admin_products_stock_product_upload_path%>" />
 <%= render 'admin/modals/category_filter' %>
