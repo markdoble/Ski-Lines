@@ -34,7 +34,7 @@ $(document).ready(function() {
         </td>
         <td><%=cad_value(user)%>
         <td><%=usd_value(user)%></td>
-        <td><%=user.stripe_account_id%></td>
+        <td><% if !user.stripe_account_id.blank? %><%=link_to user.stripe_account_id, "https://dashboard.stripe.com/#{user.stripe_account_id}/dashboard", :target => "_blank" %><%end%></td>
         <td><%=user.created_at%></td>
       </tr>
       <%
@@ -42,3 +42,6 @@ $(document).ready(function() {
     %>
   </tbody>
 </table>
+<br /><br /><br />
+<br /><br /><br />
+<br /><br /><br />
