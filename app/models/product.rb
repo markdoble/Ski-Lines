@@ -41,9 +41,9 @@ class Product < ActiveRecord::Base
   has_many :productfotos
   accepts_nested_attributes_for :productfotos, :allow_destroy => true, :reject_if => lambda { |a| a[:foto].blank? }
   has_attached_file :photo,
-                      :styles => { :medium => "300x300>",
+                      :styles => { :medium => "600x600>",
                                    :thumb => "100x100>",
-                                   :large => "500x500" },
+                                   :large => "1000x1000" },
                       :storage => :s3,
                       :s3_protocol => :https,
                       :s3_credentials => {

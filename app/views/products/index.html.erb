@@ -32,7 +32,7 @@
 			<%
 			Product.category_specific(root_category.descendents).active_products.index_products.country_specific(session[:site_country]).each do |product|
 				%>
-				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+				<div class="product_row col-lg-3 col-md-4 col-sm-6 col-xs-6">
 					<%= render :partial => "products/product", :locals => {:product => product} %>
 				</div>
 				<%
@@ -40,7 +40,7 @@
 			%>
 		</div>
 	</div>
-	<div class="product_row">
+	<div class="product_category_row">
 			<p style="text-align:right"><%= link_to "See All " + root_category.name, products_all_products_path(:category_id => root_category.id) %></p>
 	</div>
 	<%end%>
