@@ -1,15 +1,28 @@
 source 'https://rubygems.org'
 ruby "2.3.0"
 
-gem "braintree"
+# used for locating users and mapping to user location
+gem 'geocoder'
+
+# used for photo uploads
 gem "paperclip", "~> 4.3"
+
+# used for storing photos on AWS
 gem 'aws-sdk', '~> 1.6'
+
+# for pagination
 gem 'will_paginate', '> 3.0'
+
+# google translate
 gem 'easy_translate'
+
+# for web scraping
 gem 'nokogiri'
 
 # for sales tax calculations
 gem 'taxjar-ruby', require: 'taxjar'
+
+# payments services
 gem 'stripe'
 
 gem 'therubyracer'
@@ -19,19 +32,28 @@ gem 'builder', '~> 3.2.2'
 
 gem 'newrelic_rpm'
 gem 'rails_12factor'
+
+# database configurations
 gem 'puma'
+gem 'pg'
 
 # Use mailboxer for in app user messaging
 gem 'mailboxer'
 
+# task scheduler (currently not using)
 gem 'whenever', :require => false
 
 gem 'fancybox2-rails', '~> 0.2.8'
+
 gem 'rails', '4.2.0'
 
-gem 'pg'
+# user authentication
 gem 'devise', '~> 4.1.1'
+
+# update database with ajax
 gem 'best_in_place', github: 'bernat/best_in_place'
+
+# for performing asynchronous tasks 
 gem 'sidekiq', '3.2.5'
 gem 'redis'
 
