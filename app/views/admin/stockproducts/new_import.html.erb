@@ -1,0 +1,41 @@
+<div class="store col-xs-12">
+<h3 style="text-align:center;">Import a CSV File</h3>
+<br />
+<p>Your csv file should have at least some of the following fields, with these names (matching exactly). </p>
+<div class="admin_performance">
+  <table style="width:100%">
+    <tr class="table_row_standard">
+      <th>brand</th>
+      <th>model</th>
+      <th>description</th>
+      <th>size_details</th>
+      <th>usd_msrp</th>
+      <th>cad_msrp</th>
+      <th>sku</th>
+    </tr>
+    <tr class="table_row_standard">
+      <td><p>This is the name of the company the manufactures the product. </p></td>
+      <td><p>After the brand, the model is the primary way users will identify the product.</p></td>
+      <td><p>The Description provides more details about the product that may not be readily available from the photo or Name.</p></td>
+      <td><p>This attribute provides the customer with additional details about the proper sizing.</p></td>
+      <td><p>This is the manufacturer suggested retail price in American dollars. </p></td>
+      <td><p>This is the manufacturer suggested retail price in in Canadian dollars.</p></td>
+      <td><p>This field should contain the unique stock keeping unit (sku) identifier provided by the manufacturer.</p></td>
+    </tr>
+  </table>
+</div>
+<br />
+<br />
+  <%= form_tag import_admin_stockproducts_path, multipart: true do %>
+  <div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+      <div class="title col-lg-6 col-md-6 col-sm-8 col-xs-12">
+      <%= label_tag :file, "Select File:" %>
+      <%= file_field_tag :file, accept: 'text/csv' %>
+      <br /><br />
+      </div>
+    </div>
+  </div>
+    <%= submit_tag "Import CSV", class: 'btn btn-primary' %>
+  <% end %>
+</div>

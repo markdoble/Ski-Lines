@@ -53,31 +53,22 @@ class Admin::StockproductsController < ApplicationController
   def import
     begin
       file = params[:file]
-      if params[:user_id]
-        user = User.find_by_id(params[:user_id])
-      else
-        user = current_user
-      end
       CSV.foreach(file.path, headers: true) do |row|
-        Product.create!(
+        Stockproduct.create!(
           :brand => row['brand'],
           :name => row['model'],
           :description => row['description'],
-          :status => false,
-          :user_id => user.id,
+          :ca_status => false,
+          :us_status => false,
           :size_details => row['size_details'],
-          :product_return_policy => row['return_policy'],
-          :usd_price => row['usd_price'].to_i,
-          :cad_price => row['cad_price'].to_i,
-          :factory_sku => row['sku'],
-          :cad_domestic_shipping => user.cad_domestic_shipping,
-          :cad_foreign_shipping => user.cad_foreign_shipping,
-          :usd_domestic_shipping => user.usd_domestic_shipping,
-          :usd_foreign_shipping => user.usd_foreign_shipping)
+          :cad_msrp => row['cad_msrp'].to_i,
+          :usd_msrp => row['usd_msrp'].to_i,
+          :sku => row['sku']
+          )
       end # end CSV.foreach
-      redirect_to admin_products_url, notice: "Products successfully imported."
+      redirect_to admin_stockproducts_url, notice: "Products successfully imported."
     rescue
-      redirect_to admin_products_new_import_url, alert: "There was an error. Check your file and try again."
+      redirect_to admin_stockproducts_new_import_url, alert: "There was an error. Check your file and try again."
     end
   end
 

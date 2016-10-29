@@ -94,12 +94,8 @@ Rails.application.routes.draw do
   resources :user_feedback_answers, :except => [:index, :show]
 
   namespace :admin do
-    get 'products/hard_goods'
-    get 'products/clothing'
-    get 'products/waxing'
     get 'products/new_import'
     get 'products/stock_product_upload'
-    get 'products/accessories'
     get 'all_orders/merchants'
     get 'all_orders/rep'
     get 'supports/index'
@@ -124,7 +120,11 @@ Rails.application.routes.draw do
     resources :orders
     resources :returns
     resources :user_feedbacks, :except => [:edit, :update, :destroy, :create, :new]
-    resources :stockproducts
+
+    get 'stockproducts/new_import'
+    resources :stockproducts do
+      collection { post :import }
+    end
     get 'email_digests/index'
     get 'email_digests/new_digest'
     get 'email_digests/send_digest' => "email_digests#send_digest"
