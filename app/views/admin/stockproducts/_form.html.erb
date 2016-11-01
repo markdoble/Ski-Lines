@@ -28,18 +28,27 @@
 					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
 	      	  <div class="row">
 	      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	      		        <%= f.fields_for :stockphoto, html: { class: "directUpload"} do |ff| %>
-                    <% if ff.object.new_record? %>
-                    <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
- 	      	    	     <%= ff.label :photo, "Upload Photo:" %><br />
- 	      	           <%= ff.file_field :photo, class:'file img-responsive' %>
-	      	  		    <%else%>
-                     <div class="upload-preview img-responsive">
- 	          	  	    <%= image_tag @stockproduct.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
- 	          			   </div>
- 	      	      	  <%= ff.label :photo, "Replace Photo:" %><br />
- 	      	          <%= ff.file_field :photo, class: 'file' %><br />
-                     <%end%>
+                  <% if @stockproduct.stockphoto.blank? %>
+                      <%@stockproduct.build_stockphoto%>
+  	      		        <%= f.fields_for :stockphoto, html: { class: "directUpload"} do |ff| %>
+                      <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+   	      	    	    <%= ff.label :photo, "Upload Photo:" %><br />
+   	      	          <%= ff.file_field :photo, class:'file img-responsive' %>
+  	      	  	      <%end%>
+                  <%else%>
+                    <%= f.fields_for :stockphoto, html: { class: "directUpload"} do |ff| %>
+                      <% if ff.object.new_record? %>
+                        <div class="upload-preview img-responsive" ><img class="img-responsive" /></div>
+     	      	    	    <%= ff.label :photo, "Upload Photo:" %><br />
+     	      	          <%= ff.file_field :photo, class:'file img-responsive' %>
+                      <%else%>
+                        <div class="upload-preview img-responsive">
+     	          	  	  <%= image_tag @stockproduct.stockphoto.photo.url(:medium), class: "img-responsive", width:"100%" %><br/><br>
+     	          			  </div>
+     	      	      	  <%= ff.label :photo, "Replace Photo:" %><br />
+     	      	          <%= ff.file_field :photo, class: 'file' %><br />
+                      <%end%>
+                    <%end%>
 	      	  	  <% end %>
 	      			  </div>
 	      		 </div>
