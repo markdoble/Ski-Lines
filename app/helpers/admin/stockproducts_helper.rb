@@ -5,4 +5,12 @@ module Admin::StockproductsHelper
     times_build.times {@stockproduct.stockproductfotos.build}
   end
 
+  def product_created_from_stockproduct(stockphoto_id)
+    if ProductStockphoto.where(stockphoto_id: stockphoto_id).empty?
+      true
+    else
+      false
+    end
+  end
+
 end

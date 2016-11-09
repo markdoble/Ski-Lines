@@ -45,9 +45,14 @@
     <br />
     <p><%= link_to 'Edit Product', edit_admin_stockproduct_path(stockproduct)%>
       &nbsp|&nbsp
-      <%= link_to 'Delete Product', admin_stockproduct_path(stockproduct), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% if stockproduct.stockphoto.blank? || product_created_from_stockproduct(stockproduct.stockphoto.id) %>
+        <%= link_to 'Delete Product', admin_stockproduct_path(stockproduct), method: :delete, data: { confirm: 'Are you sure?' } %>
         &nbsp|&nbsp
-        <%= link_to "Inventory", admin_stockproduct_path(stockproduct) %>
+      <%else%>
+        <span>Delete Prevented</span>
+        &nbsp|&nbsp
+      <%end%>
+      <%= link_to "Inventory", admin_stockproduct_path(stockproduct) %>
     </p><br />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
