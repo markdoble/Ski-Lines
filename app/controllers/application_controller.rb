@@ -117,8 +117,19 @@ class ApplicationController < ActionController::Base
 
   # Will determine the user's country and set it in the session to use throughout the site
   def site_country_selection
-    if !session[:site_country] then
+    if !session[:site_country]
+      create_session_from_user_ip_address
+    end
+  end
+
+  def create_session_from_user_ip_address
+    case request.location.country_code
+    when "US"
+      session[:site_country] = "us"
+    when "CA"
       session[:site_country] = "ca"
+    else
+      session[:site_country] = "us"
     end
   end
 
