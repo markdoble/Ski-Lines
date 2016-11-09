@@ -24,6 +24,7 @@
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
     <ul class="dropdown-menu" role="menu" style="text-align:center;">
+        <li><%= request.location.country_code %></li>
       <%
       # display different links based on the sign-in status of the user
       if user_signed_in?
@@ -31,6 +32,7 @@
 
         <%if current_user.merchant?%>
         <li><%= link_to "My Store", admin_products_path %></li>
+
         <%end%>
         <li><%= link_to "My Profile", edit_user_registration_path %></li>
         <% if current_user.merchant_rep? %>
