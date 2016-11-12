@@ -15,27 +15,9 @@
 				<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
 					<h3><%=@product.name%>, <%= @product.brand %></h3>
 					 <div class="old_unit_form">
-						  <% if @product.units.exists? %>
-								  <% if @product.units.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
-									<div id="units_inventory">
-									<%= render 'admin/products/unit_forms/unit_inventory', :locals => {:product => @product}%>
-									</div>
-									<%elsif @product.units.any?{|a| a.size != "n/a" && a.colour != "n/a" }%>
-									<%= render 'admin/products/unit_forms/sizes_colours_inventory', :locals => {:product => @product}%>
-									<%elsif @product.units.any?{|a| a.size != "n/a" && a.colour == "n/a" }%>
-									<div id="colours_inventory">
-									<%= render 'admin/products/unit_forms/sizes_inventory', :locals => {:product => @product}%>
-									</div>
-									<%elsif @product.units.any?{|a| a.size == "n/a" && a.colour != "n/a" }%>
-									<div id="sizes_inventory">
-									<%= render 'admin/products/unit_forms/colours_inventory', :locals => {:product => @product}%>
-									</div>
-									<%end%>
-	 					  <%else%>
 							<div class="unit_inventory_intro_form">
-									<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+									<%= form_tag inventory_admin_products_path do %>
 									<div class="diff_size">
 									<h4>Does this product have different sizes? </h4>
 									<%= label_tag "Yes"%>
@@ -51,15 +33,16 @@
 									<%= radio_button_tag :colours, "false" %><br />
 									</div>
 									<br />
+									<%= hidden_field_tag :id, @product.id%>
 									<div class="units_button">
-									<%= button_tag "Create Inventory!", class: "btn btn-primary btn-large create_unit_form"%>
+									<%= submit_tag "Create Inventory!", class: "btn btn-primary btn-large create_unit_form"%>
 									</div>
 									<br /><br />
-									</div>
-									<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-									</div>
+									<%end%>
+								</div>
+								<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+								</div>
 							</div>
-					 		<%end%>
 					 </div>
 					 <div class="new_form_units_inventory">
 						 <%= render 'admin/products/unit_forms/new_unit_inventory', :locals => {:product => @product}%>

@@ -126,7 +126,52 @@ class Admin::ProductsController < ApplicationController
   # Will retrieve a single product to be displayed
   def show
     @product = Product.find(params[:id])
+    # if no units, don't redirect.
+    if @product.units.any?
+      if @product.units.any?{ |m| m.size != 'n/a' && m.colour != 'n/a' }
+        redirect_to admin_product_size_and_colour_path(:product_id => @product.id)
+      elsif @product.units.any?{ |m| m.size == 'n/a' && m.colour != 'n/a' }
+        redirect_to admin_product_colour_only_path(:product_id => @product.id)
+      elsif @product.units.any?{ |m| m.size != 'n/a' && m.colour == 'n/a' }
+        redirect_to admin_product_size_only_path(:product_id => @product.id)
+      elsif @product.units.any?{|m| m.size == 'n/a' && m.colour == 'n/a' }
+        redirect_to admin_product_unit_only_path(:product_id => @product.id)
+      end
+    end
   end
+
+  def inventory
+    @product = Product.find(params[:id])
+    inventory_type = [params[:size], params[:colours]]
+    case inventory_type
+    when ["true", "true"]
+      redirect_to admin_product_size_and_colour_path(:product_id => @product.id)
+    when ["false", "true"]
+      redirect_to admin_product_colour_only_path(:product_id => @product.id)
+    when ["true", "false"]
+      redirect_to admin_product_size_only_path(:product_id => @product.id)
+    when ["false", "false"]
+      redirect_to admin_product_unit_only_path(:product_id => @product.id)
+    end
+  end
+
+  # following four actions are specific show pages for eidting inventory. See above show action.
+  def size_and_colour
+    @product = Product.find(params[:product_id])
+  end
+
+  def colour_only
+    @product = Product.find(params[:product_id])
+  end
+
+  def size_only
+    @product = Product.find(params[:product_id])
+  end
+
+  def unit_only
+    @product = Product.find(params[:product_id])
+  end
+
 
   # CSV upload to this action
   def import

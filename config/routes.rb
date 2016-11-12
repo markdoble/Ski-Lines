@@ -114,6 +114,11 @@ Rails.application.routes.draw do
     resources :products do
       collection { post :import }
       collection { post :choose_from_stock }
+      collection { post :inventory }
+      get 'size_and_colour'
+      get 'colour_only'
+      get 'size_only'
+      get 'unit_only'
     end
     resources :articles, :except => [:show]
     resources :all_orders

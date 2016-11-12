@@ -104,27 +104,6 @@ $(document).ready(function() {
 		$('.units_button').fadeIn();
 	});
 
-	// Setup the click event
-	$('.create_unit_form').click(function() {
-		$('.old_unit_form').fadeOut();
-		if ($('#size_true').is(':checked')) {
-			if ($('#colours_false').is(':checked')) {
-				$('.new_form_sizes_inventory').delay(1000).fadeIn(1000);
-			}
-			else if ($('#colours_true').is(':checked')) {
-				$('.new_form_sizes_colours_inventory').delay(1000).fadeIn(1000);
-			}
-		}
-		else if ($('#size_false').is(':checked')) {
-			if ($('#colours_true').is(':checked')) {
-				$('.new_form_colours_inventory').delay(1000).fadeIn(1000);
-			}
-			else if ($('#colours_false').is(':checked')) {
-				$('.new_form_units_inventory').delay(1000).fadeIn(1000);
-			}
-		}
-	});
-
 	// Devise: Duplicating form field for slug/vanity url
 	$('#user_merchant_name').keyup(function() {
 		$('#user_slug').val(this.value.replace(/\W/g, ''));

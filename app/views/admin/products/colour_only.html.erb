@@ -1,0 +1,79 @@
+<div class="container col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div class="admin_product_well">
+			<div class="row">
+				<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+					<% if !@product.photo.blank? %>
+		    	<div class="prod_img">
+						<%= image_tag @product.photo.url(:large), class:"img-responsive" %>
+		    	</div>
+					<%elsif !@product.stockphoto.blank? %>
+					<div class="prod_img">
+						<%= image_tag @product.stockphoto.photo.url(:large), class:"img-responsive" %>
+		    	</div>
+					<%end%>
+				</div>
+				<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+					<h2><%=@product.name%>, <%= @product.brand %></h2><br />
+					 <div class="old_unit_form">
+							<div class="inventory_form col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<div class="row">
+							    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+							    <p><b>Colour:</b></p>
+							    </div>
+							    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+							    <p><b>Inventory:</b></p>
+							    </div>
+									<div class="delete_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+									<p><b>Quantity Sold:</b></p>
+									</div>
+								</div>
+								<%build_product_units(@product)%>
+							  <%= form_for [:admin, @product] do |product_units| %>
+								<%=product_units.nested_fields_for :units do |unit_fields| %>
+									<% if unit_fields.object.new_record? %>
+								  <div class="row">
+								    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+											<p><%= unit_fields.text_field :colour, class: "form-control", placeholder: "Colour" %></p>
+								    </div>
+								    <div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+											<p><%= unit_fields.select :quantity, (0..50), class: "form-control", height:"40px", :include_blank => true %></p>
+											   <%= unit_fields.hidden_field :quantity_sold, :value => 0 %>
+											   <%= unit_fields.hidden_field :size, :value => 'n/a' %>	<br />
+								    </div>
+										<div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+												<p><%= unit_fields.remove_nested_fields_link "Remove" %></p>
+										</div>
+								  </div>
+									<%else%>
+									<div class="row">
+										<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+											<p><%= unit_fields.object.colour %></p>
+										</div>
+										<div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+											<p><%= unit_fields.select :quantity, (0..50), class: "form-control", height:"40px", :include_blank => true %></p>
+										</div>
+										<div class="quant_unit col-lg-2 col-md-2 col-sm-3 col-xs-3">
+											<% if unit_fields.object.quantity_sold.to_i == 0 %>
+											<p><%= unit_fields.object.quantity_sold %>, delete: <%= unit_fields.check_box '_destroy' %></p>
+											<%else%>
+											<p><%= unit_fields.object.quantity_sold %></p>
+											<%end%>
+										</div>
+									</div>
+									<%end%>
+								<%end%>
+								<p><%= product_units.add_nested_fields_link :units, "Add Field" %></p>
+								<br />
+								<div class="row">
+									<div class="col-lg-7 col-md-8 col-sm-10 col-xs-12 actions">
+									<%= product_units.submit "Save", class: "btn btn-small btn-primary save_inventory"%><br />
+									<%= link_to 'Cancel', admin_products_path, class: "btn btn-small btn-primary save_inventory" %>
+									</div>
+								</div>
+								<%end%>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
