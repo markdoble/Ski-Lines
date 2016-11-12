@@ -27,63 +27,66 @@
 				</p>
 			</div>
 			<br />
-			<div class="toggle_sizes">
-				<p><b>Shipping Fees</p></b>
-			</div>
-			<div class="size_selections">
-				<br />
-				<p>Domestic:</p>
-				<% if !product.usd_domestic_shipping.blank? %>
-				<p>USD<%=number_to_currency(product.usd_domestic_shipping, precision: 2)%></p>
-				<% end %>
-				<% if !product.cad_domestic_shipping.blank? %>
-				<p>CAD<%=number_to_currency(product.cad_domestic_shipping, precision: 2)%></p>
-				<%end%>
-				<br />
-				<p>International:</p>
-				<% if !product.usd_foreign_shipping.blank? %>
-				<p>USD<%=number_to_currency(product.usd_foreign_shipping, precision: 2)%></p>
-				<% end %>
-				<% if !product.cad_foreign_shipping.blank? %>
-				<p>CAD<%=number_to_currency(product.cad_foreign_shipping, precision: 2)%></p>
-				<%end%>
-			</div>
 
-			<br />
-			<% unless product.size_details.blank?%>
-			<div class="toggle_sizes">
-				<p><b>Sizing Details</b></p>
-			</div>
-			<div class="size_selections">
-				<p><%= simple_format(product.size_details) %></p><br />
-			</div>
-			<br />
-			<%end%>
+
+				<div id="content">
+						<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+								 <li class="active"><a data-toggle="tab" href='#shipping<%=product.id%>'>Shipping Fees</a></li>
+								 <li ><a data-toggle="tab" href='#sizing<%=product.id%>'>Sizing Details</a></li>
+								 <li ><a data-toggle="tab" href='#inventory<%=product.id%>'>Inventory</a></li>
+						</ul>
+						<div id="my-tab-content" class="tab-content">
+								<div class="tab-pane active" id='shipping<%=product.id%>'>
+									<div class="row">
+										<p>Domestic:</p>
+										<% if !product.usd_domestic_shipping.blank? %>
+										<p>USD<%=number_to_currency(product.usd_domestic_shipping, precision: 2)%></p>
+										<% end %>
+										<% if !product.cad_domestic_shipping.blank? %>
+										<p>CAD<%=number_to_currency(product.cad_domestic_shipping, precision: 2)%></p>
+										<%end%>
+										<br />
+										<p>International:</p>
+										<% if !product.usd_foreign_shipping.blank? %>
+										<p>USD<%=number_to_currency(product.usd_foreign_shipping, precision: 2)%></p>
+										<% end %>
+										<% if !product.cad_foreign_shipping.blank? %>
+										<p>CAD<%=number_to_currency(product.cad_foreign_shipping, precision: 2)%></p>
+										<%end%>
+									</div>
+								</div>
+								<div class="tab-pane" id='sizing<%=product.id%>'>
+									<div class="row">
+										<p><%= simple_format(product.size_details) %></p><br />
+									</div>
+								</div>
+								<div class="tab-pane" id='inventory<%=product.id%>'>
+									<div class="row">
+									 	<% if product.units.any? %>
+										<% product.units.each do |u| %>
+										<p>
+											<%unless u.size == "n/a" %><%= u.size %><%end%>
+											<%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold)
+										</p>
+							  		<%end%>
+										<p><%= link_to 'Manage', admin_product_path(product)%></p>
+										<%else%>
+								   		 <p><strong>You have no inventory listed.</strong></p>
+											 <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
+								   	<%end%>
+									<br />
+									</div>
+								</div>
+
+						</div>
+				</div>
 			<% total_units = 0 %>
 			<% total_units_sold = 0 %>
 			<% product.units.each do |t|%>
 				<% total_units += t.quantity  %>
 				<% total_units_sold += t.quantity_sold %>
 			<%end%>
-			 <% if product.units.any? %>
-					<div class="toggle_sizes">
-						<p><b>Inventory</p></b>
-					</div>
-					<div class="size_selections">
-						<% product.units.each do |u| %>
-						<p>
-							<%unless u.size == "n/a" %><%= u.size %><%end%>
-							<%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock; <%= u.quantity_sold %> units sold)
-						</p>
-			  		<%end%>
-						<p><%= link_to 'Manage', admin_product_path(product)%></p>
-						<br />
-					</div>
-   		<%else%>
-	   		 <p><strong>Currently no units sold.</strong></p>
-				 <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
-	   	<%end%>
-				 <br />
+			 <br />
 	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
 				 <%
 				 # prevent the deletion of a product if it has units sold
