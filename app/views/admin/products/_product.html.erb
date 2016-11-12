@@ -91,7 +91,7 @@
 					</div>
    		<%else%>
 	   		 <p><strong>Currently no units sold.</strong></p>
-				  <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
+				 <p><%= link_to 'Add Inventory', admin_product_path(product)%></p>
 	   	<%end%>
 				 <br />
 	      <p><%= link_to 'Edit Product', edit_admin_product_path(product)%>
@@ -102,7 +102,7 @@
 			   <%else%>
          &nbsp|&nbsp<%= link_to 'Delete Product', admin_product_path(product), method: :delete, data: { confirm: 'Are you sure?' } %>
 			   <%end%></p><br />
-
+				 <!-- if missing key attribute, prevent ability to start selling -->
 				 <% if total_units != 0 && (product.photo.present? || product.stockphoto.photo.present?) && ((!product.cad_price.nil? && product.cad_price > 0) || (!product.usd_price.nil? && product.usd_price > 0)) %>
 			   <p class="selling_button btn btn-primary"><%= best_in_place [:admin, product], :status, as: :checkbox, collection: {false: "START SELLING", true: "ACTIVE"}, inner_class: 'form-control'%></p>
 			   <%else%><br />
@@ -137,6 +137,8 @@
 				</div>
 				<%end%>
 			</div>
+<!-- End productfotos -->
+
 			</div>
 		</div>
 	</div>
