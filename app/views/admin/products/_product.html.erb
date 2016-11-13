@@ -11,9 +11,8 @@
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<h3><%=product.name%>, <%= product.brand %></h3>
-			<p><%=product.description%></p>
 			<div class="product_price">
-				<p>
+				<p><strong>
 					<% if !product.cad_price.blank? && product.cad_price > 0 %>
 					CAD<%=number_to_currency(product.cad_price, precision: 2)%>
 					<%else%>
@@ -24,8 +23,10 @@
 					<%else%>
 					No USD Price Set
 					<%end%>
-				</p>
+				</strong></p>
 			</div>
+			<p><%=product.description%></p>
+
 			<br />
 
 			<ul class="nav nav-tabs">
