@@ -2,34 +2,20 @@
 		<div class="admin_product_well">
 			<div class="row">
 				<div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
+					<% if @stockproduct.stockphoto.present? %>
 					<div class="prod_img">
 						<%= image_tag @stockproduct.stockphoto.photo.url(:large), class:"img-responsive" %>
 		    	</div>
+					<%else%>
+					<%= image_tag "blank_photo.jpg", class: "img-responsive", width:"100%" %>
+					<%end%>
 				</div>
 				<div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
 					<h3><%=@stockproduct.name%>, <%= @stockproduct.brand %></h3>
 					 <div class="old_unit_form">
-						  <% if @stockproduct.stockunits.exists? %>
-								  <% if @stockproduct.stockunits.any?{|a| a.size == "n/a" && a.colour == "n/a"} %>
-									<div id="units_inventory">
-									<%= render 'admin/stockproducts/unit_forms/unit_inventory', :locals => {:product => @stockproduct}%>
-									</div>
-									<%elsif @stockproduct.stockunits.any?{|a| a.size != "n/a" && a.colour != "n/a" }%>
-									<%= render 'admin/stockproducts/unit_forms/sizes_colours_inventory', :locals => {:product => @stockproduct}%>
-									<%elsif @stockproduct.stockunits.any?{|a| a.size != "n/a" && a.colour == "n/a" }%>
-									<div id="colours_inventory">
-									<%= render 'admin/stockproducts/unit_forms/sizes_inventory', :locals => {:product => @stockproduct}%>
-									</div>
-									<%elsif @stockproduct.stockunits.any?{|a| a.size == "n/a" && a.colour != "n/a" }%>
-									<div id="sizes_inventory">
-									<%= render 'admin/stockproducts/unit_forms/colours_inventory', :locals => {:product => @stockproduct}%>
-									</div>
-									<%end%>
-	 					  <%else%>
 							<div class="unit_inventory_intro_form">
-									<div class="col-lg-1 col-md-1 col-sm-1 hidden-xs">
-									</div>
-									<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+								<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+									<%= form_tag inventory_admin_stockproducts_path do %>
 									<div class="diff_size">
 									<h4>Does this product have different sizes? </h4>
 									<%= label_tag "Yes"%>
@@ -45,27 +31,16 @@
 									<%= radio_button_tag :colours, "false" %><br />
 									</div>
 									<br />
+									<%= hidden_field_tag :id, @stockproduct.id%>
 									<div class="units_button">
-									<%= button_tag "Create Inventory!", class: "btn btn-primary btn-large create_unit_form"%>
+									<%= submit_tag "Create Inventory!", class: "btn btn-primary btn-large create_unit_form"%>
 									</div>
 									<br /><br />
-									</div>
-									<div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
-									</div>
+									<%end%>
+								</div>
+								<div class="col-lg-4 col-md-4 hidden-sm hidden-xs">
+								</div>
 							</div>
-					 		<%end%>
-					 </div>
-					 <div class="new_form_units_inventory">
-						 <%= render 'admin/stockproducts/unit_forms/new_unit_inventory', :locals => {:product => @stockproduct}%>
-					 </div>
-					 <div class="new_form_sizes_inventory">
-						 <%= render 'admin/stockproducts/unit_forms/new_sizes_inventory', :locals => {:product => @stockproduct}%>
-					 </div>
-					 <div class="new_form_sizes_colours_inventory">
-					 	 <%= render 'admin/stockproducts/unit_forms/new_sizes_colours_inventory', :locals => {:product => @stockproduct}%>
-					 </div>
-					 <div class="new_form_colours_inventory">
-					 	 <%= render 'admin/stockproducts/unit_forms/new_colours_inventory', :locals => {:product => @stockproduct}%>
 					 </div>
 				</div><br />
 			</div>

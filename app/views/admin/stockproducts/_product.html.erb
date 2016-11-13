@@ -10,49 +10,63 @@
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
     <h3><%=stockproduct.name%>, <%= stockproduct.brand %></h3>
     <p><%=stockproduct.description%></p><br />
-    <p>
-      <b>USD MSRP:</b> <%=number_to_currency(stockproduct.usd_msrp, unit: "$")%><br />
-      <b>CAD MSRP:</b> <%=number_to_currency(stockproduct.cad_msrp, unit: "$")%>
-    </p>
-    <br />
-    <p>
-      <b>Manufacturer's SKU:</b> <%= stockproduct.sku %>
-    </p>
-    <br />
-    <% unless stockproduct.size_details.blank?%>
-    <div class="toggle_sizes">
-      <p><b>Sizing Details</b></p>
-    </div>
-    <div class="size_selections">
-      <p><%= simple_format(stockproduct.size_details) %></p><br />
-    </div>
-    <br />
-    <%end%>
 
-    <% if !stockproduct.stockunits.any? %>
-    Add Inventory!<br /><br />
-    <%else%>
-    <div class="toggle_sizes">
-      <p><b>Available Inventory</b></p>
+    <ul class="nav nav-tabs">
+         <li class="active"><a href='#'>Inventory</a></li>
+         <li ><a href='#'>Price</a></li>
+         <li ><a href='#'>SKU</a></li>
+         <li ><a href='#'>Size Details</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane in active">
+        <div class="row">
+          <% if !stockproduct.stockunits.any? %>
+          <p>
+            <%= link_to "Add Inventory!", admin_stockproduct_path(stockproduct) %>
+          </p>
+          <br />
+          <%else%>
+            <% stockproduct.stockunits.each do |u| %>
+            <p>
+              <%unless u.size == "n/a" %><strong><%= u.size %></strong><%end%>
+              <%unless u.colour == "n/a" %><strong><%= u.colour %></strong><%end%>
+              (<%= u.quantity %> units in stock)
+            </p>
+            <%end%>
+            <p><%= link_to "Manage Inventory", admin_stockproduct_path(stockproduct) %></p>
+          <%end%>
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p>
+            <b>USD MSRP:</b> <%=number_to_currency(stockproduct.usd_msrp, unit: "$")%><br />
+            <b>CAD MSRP:</b> <%=number_to_currency(stockproduct.cad_msrp, unit: "$")%>
+          </p>
+          <br />
+        <br />
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= stockproduct.sku %></p>
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= simple_format(stockproduct.size_details) %></p><br />
+        </div>
+      </div>
     </div>
-    <div class="size_selections">
-    <% stockproduct.stockunits.each do |u| %>
-  <p> <%unless u.size == "n/a" %><%= u.size %><%end%>
-      <%unless u.colour == "n/a" %> <%= u.colour %><%end%> (<%= u.quantity %> units in stock) </p>
-      <%end%>
-    </div>
-    <%end%>
+
     <br />
     <p><%= link_to 'Edit Product', edit_admin_stockproduct_path(stockproduct)%>
       &nbsp|&nbsp
       <% if stockproduct.stockphoto.blank? || product_created_from_stockproduct(stockproduct.stockphoto.id) %>
         <%= link_to 'Delete Product', admin_stockproduct_path(stockproduct), method: :delete, data: { confirm: 'Are you sure?' } %>
-        &nbsp|&nbsp
       <%else%>
-        <span>Delete Prevented</span>
-        &nbsp|&nbsp
+        <span>You cannot delete this stock, as it is in use by a merchant.</span>
       <%end%>
-      <%= link_to "Inventory", admin_stockproduct_path(stockproduct) %>
     </p><br />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

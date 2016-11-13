@@ -129,6 +129,11 @@ Rails.application.routes.draw do
     get 'stockproducts/new_import'
     resources :stockproducts do
       collection { post :import }
+      collection { post :inventory }
+      get 'size_and_colour'
+      get 'colour_only'
+      get 'size_only'
+      get 'unit_only'
     end
     get 'email_digests/index'
     get 'email_digests/new_digest'

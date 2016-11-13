@@ -47,6 +47,50 @@ class Admin::StockproductsController < ApplicationController
   # Will retrieve a single product to be displayed
   def show
     @stockproduct = Stockproduct.find(params[:id])
+    # if no units, don't redirect.
+    if @stockproduct.stockunits.any?
+      if @stockproduct.stockunits.any?{ |m| m.size != 'n/a' && m.colour != 'n/a' }
+        redirect_to admin_stockproduct_size_and_colour_path(:stockproduct_id => @stockproduct.id)
+      elsif @stockproduct.stockunits.any?{ |m| m.size == 'n/a' && m.colour != 'n/a' }
+        redirect_to admin_stockproduct_colour_only_path(:stockproduct_id => @prostockproductduct.id)
+      elsif @stockproduct.stockunits.any?{ |m| m.size != 'n/a' && m.colour == 'n/a' }
+        redirect_to admin_stockproduct_size_only_path(:stockproduct_id => @stockproduct.id)
+      elsif @stockproduct.stockunits.any?{|m| m.size == 'n/a' && m.colour == 'n/a' }
+        redirect_to admin_stockproduct_unit_only_path(:stockproduct_id => @stockproduct.id)
+      end
+    end
+  end
+
+  def inventory
+    @stockproduct = Stockproduct.find(params[:id])
+    inventory_type = [params[:size], params[:colours]]
+    case inventory_type
+    when ["true", "true"]
+      redirect_to admin_stockproduct_size_and_colour_path(:stockproduct_id => @stockproduct.id)
+    when ["false", "true"]
+      redirect_to admin_stockproduct_colour_only_path(:stockproduct_id => @stockproduct.id)
+    when ["true", "false"]
+      redirect_to admin_stockproduct_size_only_path(:stockproduct_id => @stockproduct.id)
+    when ["false", "false"]
+      redirect_to admin_stockproduct_unit_only_path(:stockproduct_id => @stockproduct.id)
+    end
+  end
+
+  # following four actions are specific show pages for eidting inventory. See above show action.
+  def size_and_colour
+    @stockproduct = Stockproduct.find(params[:stockproduct_id])
+  end
+
+  def colour_only
+    @stockproduct = Stockproduct.find(params[:stockproduct_id])
+  end
+
+  def size_only
+    @stockproduct = Stockproduct.find(params[:stockproduct_id])
+  end
+
+  def unit_only
+    @stockproduct = Stockproduct.find(params[:stockproduct_id])
   end
 
   # CSV upload to this action
