@@ -4,6 +4,19 @@
  */
 $(document).ready(function(){
 
+// keep active tabs on merchant product list pages.
+
+	  $( ".admin_products" ).find('.nav-tabs a').click(function(e){
+	    e.preventDefault();
+	    var tabIndex = $('.nav-tabs a').index(this);
+	      $(this).parent().siblings().removeClass("active");
+	      $(this).parent().addClass("active");
+	      $('.tab-pane:eq( '+tabIndex+' )').siblings().removeClass("in active");
+	      $('.tab-pane:eq( '+tabIndex+' )').addClass("in active");
+	  });
+
+
+
 	// Slide toggle available sizes
 	$(document).on('click', '.toggle_sizes', function() {
 		 $(this).next(".size_selections").slideToggle();

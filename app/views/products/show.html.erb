@@ -31,6 +31,7 @@
             </p>
           </div>
           <p><%= simple_format(@product.description) %></p>
+          <br /><br />
         </div>
         <div class="product_tabs col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div id="content">
@@ -43,52 +44,60 @@
                <li ><a data-toggle="tab" href='#<%= @product.id%>D'>Shipping</a></li>
               </ul>
               <div id="my-tab-content" class="tab-content">
-              <div class="tab-pane active" id='<%= @product.id%>A'>
-                <p>
-                <% if @product.user.merchant_url.blank? %>
-                <%= @product.user.merchant_name %><br />
+                <div class="tab-pane active" id='<%= @product.id%>A'>
+                  <div class="row">
+                    <p>
+                    <% if @product.user.merchant_url.blank? %>
+                    <%= @product.user.merchant_name %><br />
+                    <%else%>
+                    <i> <%= @product.user.merchant_name %> </i><br />
+                    <%end%>
+                    <%= @product.user.city %>, <%= @product.user.state_prov%>	<br />
+                    </p>
+                  </div>
+                </div>
+                <div class="tab-pane" id='<%= @product.id%>B'>
+                  <div class="row">
+                    <% if @product.product_return_policy.blank? %>
+                  <p>There is no return policy for this product.</p>
                 <%else%>
-                <i> <%= @product.user.merchant_name %> </i><br />
+                  <p><%= simple_format(@product.product_return_policy) %></p>
                 <%end%>
-                <%= @product.user.city %>, <%= @product.user.state_prov%>	<br />
-                </p>
                   </div>
-              <div class="tab-pane" id='<%= @product.id%>B'>
-                  <% if @product.product_return_policy.blank? %>
-                <p>There is no return policy for this product.</p>
-              <%else%>
-                <p><%= simple_format(@product.product_return_policy) %></p>
-              <%end%>
-                  </div>
+                </div>
               <% unless @product.units.any?{|a| a.size == 'n/a' }%>
-              <div class="tab-pane" id='<%= @product.id%>C'>
-                         <% if @product.size_details.blank?%>
-                         <p>No sizing details to show.</p>
-                 <%else%>
-                 <p><%= simple_format(@product.size_details) %></p>
+                <div class="tab-pane" id='<%= @product.id%>C'>
+                  <div class="row">
+                   <% if @product.size_details.blank?%>
+                   <p>No sizing details to show.</p>
+                   <%else%>
+                   <p><%= simple_format(@product.size_details) %></p>
                    <%end%>
                   </div>
-                  <%end%>
-                  <div class="tab-pane" id='<%= @product.id%>D'>
-                <% if @product.currency_domestic_shipping(session[:site_country]).blank? && @product.currency_foreign_shipping(session[:site_country]).blank? %>
-                  <p>There is no shipping information to show.</p>
-                <%else%>
-                  <% if @product.currency_domestic_shipping(session[:site_country]) == 0 && @product.currency_foreign_shipping(session[:site_country]) == 0 %>
-                  <p>This product has free shipping!</p>
-                  <%else%>
-                  <p>
-                    <%= number_to_currency(@product.currency_domestic_shipping(session[:site_country]), unit: '$') %> per unit for deliveries within <%=@product.user.country%>, and
-                    <%= number_to_currency(@product.currency_foreign_shipping(session[:site_country]), unit: '$') %> per unit for deliveries outside of <%=@product.user.country%>.
-                   </p>
-                  <%end%>
-                <%end%>
-                <p>
-                  Shipping to:<br />
-                <% @product.user.default_permitted_destinations.each do |country| %>
-                   - <%= country.country.common_name %><br />
-                <%end%>
-               </p>
+                </div>
+              <%end%>
+                <div class="tab-pane" id='<%= @product.id%>D'>
+                  <div class="row">
+                    <% if @product.currency_domestic_shipping(session[:site_country]).blank? && @product.currency_foreign_shipping(session[:site_country]).blank? %>
+                    <p>There is no shipping information to show.</p>
+                    <%else%>
+                    <% if @product.currency_domestic_shipping(session[:site_country]) == 0 && @product.currency_foreign_shipping(session[:site_country]) == 0 %>
+                    <p>This product has free shipping!</p>
+                    <%else%>
+                    <p>
+                      <%= number_to_currency(@product.currency_domestic_shipping(session[:site_country]), unit: '$') %> per unit for deliveries within <%=@product.user.country%>, and
+                      <%= number_to_currency(@product.currency_foreign_shipping(session[:site_country]), unit: '$') %> per unit for deliveries outside of <%=@product.user.country%>.
+                    </p>
+                      <%end%>
+                    <%end%>
+                    <p>
+                      Shipping to:<br />
+                      <% @product.user.default_permitted_destinations.each do |country| %>
+                       - <%= country.country.common_name %><br />
+                       <%end%>
+                    </p>
                   </div>
+                </div>
               </div>
           </div>
         </div>
@@ -128,8 +137,6 @@
 					<%end%>
 				</div>
 				<%end%>
-
-
       </div>
     </div>
   </div>
