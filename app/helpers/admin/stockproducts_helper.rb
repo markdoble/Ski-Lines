@@ -13,7 +13,7 @@ module Admin::StockproductsHelper
     end
   end
 
-  def build_product_units(stockproduct)
+  def build_stockproduct_units(stockproduct)
     unless stockproduct.stockunits.count > 1
       times_build = 1 - stockproduct.stockunits.count
       times_build.times {@stockproduct.stockunits.build}

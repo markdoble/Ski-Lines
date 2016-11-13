@@ -28,7 +28,7 @@
 
 									</div>
 								</div>
-								<%build_product_units(@stockproduct)%>
+								<%build_stockproduct_units(@stockproduct)%>
 							  <%= form_for [:admin, @stockproduct] do |product_units| %>
   								<%= product_units.nested_fields_for :stockunits do |unit_fields| %>
   								    <div class="row">
