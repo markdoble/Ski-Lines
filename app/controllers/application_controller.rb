@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
   before_filter :find_or_create_cart
   before_filter :site_country_selection
 
+  # attempting to spoof geocoder.
+  before_filter :spoof_ip_for_development
   # helper for mailboxer
   helper_method :mailbox, :conversation
 
@@ -131,6 +133,12 @@ class ApplicationController < ActionController::Base
     else
       session[:site_country] = "us"
     end
+  end
+
+  def spoof_ip_for_development
+    env['REMOTE_ADDR'] = '1.2.3.4' if Rails.env.development?
+    location = request.location
+
   end
 
   # Will return the correct currency string depending on the site country specified
