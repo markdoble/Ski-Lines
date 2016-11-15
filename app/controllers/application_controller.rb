@@ -125,7 +125,7 @@ class ApplicationController < ActionController::Base
 
   def create_session_from_user_ip_address
     begin
-      case location.country_code
+      case request.location.country_code
       when "US"
         session[:site_country] = "us"
       when "CA"
