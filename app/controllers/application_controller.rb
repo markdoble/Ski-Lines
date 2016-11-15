@@ -10,8 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :find_or_create_cart
   before_filter :site_country_selection
 
-  # attempting to spoof geocoder.
-  before_filter :spoof_ip_for_development
+
   # helper for mailboxer
   helper_method :mailbox, :conversation
 
@@ -125,21 +124,21 @@ class ApplicationController < ActionController::Base
   end
 
   def create_session_from_user_ip_address
-    case request.location.country_code
-    when "US"
-      session[:site_country] = "us"
-    when "CA"
-      session[:site_country] = "ca"
-    else
+    begin
+      case location.country_code
+      when "US"
+        session[:site_country] = "us"
+      when "CA"
+        session[:site_country] = "ca"
+      else
+        session[:site_country] = "ca"
+      end
+    rescue
       session[:site_country] = "us"
     end
   end
 
-  def spoof_ip_for_development
-    env['REMOTE_ADDR'] = '1.2.3.4' if Rails.env.development?
-    location = request.location
-
-  end
+  # see here for testing in development: http://hankstoever.com/posts/11-Pro-Tips-for-Using-Geocoder-with-Rails
 
   # Will return the correct currency string depending on the site country specified
   # If a country does not belong to the select case, a blank string will be returned
