@@ -6,7 +6,8 @@ class Admin::StockproductsController < ApplicationController
   # Define the before_action elements
   before_action :set_stockproduct, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_action :verify_is_admin
+  
+  before_action :verify_permission
 
   # Define the required objects
   require 'paperclip'
@@ -248,9 +249,9 @@ class Admin::StockproductsController < ApplicationController
         )
     end
 
-    # Verify if the current user is logged in and is a merchant
-    def verify_is_admin
-      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.admin?)
+    # Verify if the current user is logged in and has permission to access stock products
+    def verify_permission
+      (current_user.nil?) ? redirect_to(shop_path) : (redirect_to(shop_path) unless current_user.stockproduct_permission?)
     end
 
     def update_status(stockproduct)

@@ -101,6 +101,11 @@
         </label>
         <br />
         <label class="form-check-label">
+          <%= check_box_tag :stockproduct_role , 1 , @userToEdit.stockproduct_permission, class: "form-check-input" %>
+          Stockproduct Permissions
+        </label>
+        <br />
+        <label class="form-check-label">
           <%= check_box_tag :article_publisher_role , 1 , @userToEdit.article_publisher, class: "form-check-input" %>
           Article Publisher
         </label>

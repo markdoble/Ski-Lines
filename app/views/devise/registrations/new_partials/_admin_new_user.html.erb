@@ -112,6 +112,12 @@
 		    </div>
 				<div class="field">
 					<div class="devise_label col-xs-12">
+				    <%= f.label :stockproduct_permission, "Stockproduct Permissions?", hidden: true %>
+				    <%= f.select :stockproduct_permission, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Stockproduct Permission?" %>
+					</div>
+		    </div>
+				<div class="field">
+					<div class="devise_label col-xs-12">
 				    <%= f.label :merchant_rep, "Merchant Rep?", hidden: true %>
 				    <%= f.select :merchant_rep, [['Yes', true], ['No', false]], class: "form-control", :prompt => "Merchant Rep?" %>
 					<br /><br /><br />

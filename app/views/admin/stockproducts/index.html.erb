@@ -27,14 +27,14 @@
     <br /><br />
 	</div>
   <div class="row">
-    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6" style="text-align:left">
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="text-align:left">
       <%= form_tag admin_stockproducts_path, method: :get do %>
     	<%= label_tag :brand_selected, "Brand:" %>
     	<%= select_tag(:brand_selected, options_for_select(@brands, :selected => session[:brand_selected]), {:onchange => "this.form.submit()", :prompt => "All Brands"})%>
     	<%end%>
       <br />
     </div>
-    <div class="col-lg-10 col-md-9 col-sm-6 col-xs-6" style="text-align:left;">
+    <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6" style="text-align:left;">
       <%= link_to "New Product", new_admin_stockproduct_path %> &nbsp;|&nbsp;
       <%= link_to "CSV Upload", admin_stockproducts_new_import_url %>
       <br />

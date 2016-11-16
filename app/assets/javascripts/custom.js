@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 // keep active tabs on merchant product list pages.
 
-	  $( ".admin_products" ).find('.nav-tabs a').click(function(e){
+	  $(document).on('click', '.nav-tabs a', function(e){
 	    e.preventDefault();
 	    var tabIndex = $('.nav-tabs a').index(this);
 	      $(this).parent().siblings().removeClass("active");

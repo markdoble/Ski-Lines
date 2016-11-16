@@ -59,6 +59,7 @@ class ApplicationController < ActionController::Base
                             :sales_tax,
                             :user_return_policy,
                             :merchant_rep,
+                            :stockproduct_permission,
                             :email_for_orders,
                             :country_ids => [],
                             :merchant_order_attributes => [:id,

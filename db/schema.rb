@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028002120) do
+ActiveRecord::Schema.define(version: 20161116012052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -451,45 +451,46 @@ ActiveRecord::Schema.define(version: 20161028002120) do
   add_index "user_feedbacks", ["article_id"], name: "index_user_feedbacks_on_article_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  limit: 255,                         default: "",    null: false
-    t.string   "encrypted_password",     limit: 255,                         default: "",    null: false
-    t.string   "reset_password_token",   limit: 255
+    t.string   "email",                   limit: 255,                         default: "",    null: false
+    t.string   "encrypted_password",      limit: 255,                         default: "",    null: false
+    t.string   "reset_password_token",    limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                              default: 0,     null: false
+    t.integer  "sign_in_count",                                               default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "admin",                                                      default: false
-    t.string   "merchant_name",          limit: 255
-    t.string   "contact_first_name",     limit: 255
-    t.string   "country",                limit: 255
-    t.string   "state_prov",             limit: 255
-    t.string   "zip_postal",             limit: 255
-    t.string   "merchant_url",           limit: 255
-    t.string   "merchant_phone",         limit: 255
-    t.string   "street_address",         limit: 255
-    t.decimal  "shipping_cost",                      precision: 8, scale: 2
-    t.decimal  "sales_tax",                          precision: 2, scale: 2
-    t.string   "city",                   limit: 255
+    t.boolean  "admin",                                                       default: false
+    t.string   "merchant_name",           limit: 255
+    t.string   "contact_first_name",      limit: 255
+    t.string   "country",                 limit: 255
+    t.string   "state_prov",              limit: 255
+    t.string   "zip_postal",              limit: 255
+    t.string   "merchant_url",            limit: 255
+    t.string   "merchant_phone",          limit: 255
+    t.string   "street_address",          limit: 255
+    t.decimal  "shipping_cost",                       precision: 8, scale: 2
+    t.decimal  "sales_tax",                           precision: 2, scale: 2
+    t.string   "city",                    limit: 255
     t.text     "user_return_policy"
-    t.string   "slug",                   limit: 255
-    t.boolean  "merchant",                                                   default: false
-    t.boolean  "article_publisher",                                          default: false
-    t.boolean  "merchant_rep",                                               default: false
+    t.string   "slug",                    limit: 255
+    t.boolean  "merchant",                                                    default: false
+    t.boolean  "article_publisher",                                           default: false
+    t.boolean  "merchant_rep",                                                default: false
     t.string   "stripe_account_id"
     t.string   "stripe_customer_id"
     t.string   "contact_last_name"
     t.string   "email_for_orders"
-    t.decimal  "cad_domestic_shipping",              precision: 8, scale: 2
-    t.decimal  "cad_foreign_shipping",               precision: 8, scale: 2
-    t.decimal  "usd_domestic_shipping",              precision: 8, scale: 2
-    t.decimal  "usd_foreign_shipping",               precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping",               precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",                precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping",               precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",                precision: 8, scale: 2
     t.float    "latitude"
     t.float    "longitude"
+    t.boolean  "stockproduct_permission"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

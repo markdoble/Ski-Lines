@@ -50,6 +50,12 @@ class Admin::UsersController < ApplicationController
       @userToEdit.merchant = false
     end
 
+    if params.has_key?(:stockproduct_role)
+      @userToEdit.stockproduct_permission = true
+    else
+      @userToEdit.stockproduct_permission = false
+    end
+
     if params.has_key?(:merchant_rep_role)
       @userToEdit.merchant_rep = true
     else
