@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116012052) do
+ActiveRecord::Schema.define(version: 20161118233852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,13 @@ ActiveRecord::Schema.define(version: 20161116012052) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status",     limit: 255
+  end
+
+  create_table "features", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
@@ -231,6 +238,16 @@ ActiveRecord::Schema.define(version: 20161116012052) do
     t.integer  "category_id"
   end
 
+  create_table "product_features", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "feature_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "product_features", ["feature_id"], name: "index_product_features_on_feature_id", using: :btree
+  add_index "product_features", ["product_id"], name: "index_product_features_on_product_id", using: :btree
+
   create_table "product_stockphotos", force: :cascade do |t|
     t.integer  "product_id"
     t.integer  "stockphoto_id"
@@ -362,6 +379,16 @@ ActiveRecord::Schema.define(version: 20161116012052) do
 
   add_index "stockproduct_categories", ["category_id"], name: "index_stockproduct_categories_on_category_id", using: :btree
   add_index "stockproduct_categories", ["stockproduct_id"], name: "index_stockproduct_categories_on_stockproduct_id", using: :btree
+
+  create_table "stockproduct_features", force: :cascade do |t|
+    t.integer  "stockproduct_id"
+    t.integer  "feature_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "stockproduct_features", ["feature_id"], name: "index_stockproduct_features_on_feature_id", using: :btree
+  add_index "stockproduct_features", ["stockproduct_id"], name: "index_stockproduct_features_on_stockproduct_id", using: :btree
 
   create_table "stockproductfotos", force: :cascade do |t|
     t.integer  "stockproduct_id"
@@ -503,12 +530,16 @@ ActiveRecord::Schema.define(version: 20161116012052) do
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
   add_foreign_key "permitted_destinations", "countries"
   add_foreign_key "permitted_destinations", "products"
+  add_foreign_key "product_features", "features"
+  add_foreign_key "product_features", "products"
   add_foreign_key "products", "stockphotos"
   add_foreign_key "returns", "order_units", column: "order_units_id"
   add_foreign_key "returns", "orders"
   add_foreign_key "returns", "users"
   add_foreign_key "states", "countries"
   add_foreign_key "stockphotos", "stockproducts"
+  add_foreign_key "stockproduct_features", "features"
+  add_foreign_key "stockproduct_features", "stockproducts"
   add_foreign_key "stockproductfotos", "stockproducts"
   add_foreign_key "user_feedback_answers", "user_feedbacks"
 end

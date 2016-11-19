@@ -10,6 +10,9 @@ class Product < ActiveRecord::Base
     ]
   end
 
+  # association set up for listing product features
+  has_many :product_features, dependent: :destroy
+  has_many :features, through: :product_features
 
   # Associations needed for the users and orders
   belongs_to :user
