@@ -17,9 +17,7 @@ class Stockproduct < ActiveRecord::Base
   scope :category_specific, -> (category_id) { joins(:stockproduct_categories).where("stockproduct_categories.category_id IN (?)", category_id) }
   scope :search, ->(query) { where('name ilike ? OR brand ilike ? OR sku ilike ?', "%#{query}%", "%#{query}%", "%#{query}%") }
 
-  # association set up for listing product features
-  has_many :stockproduct_features, dependent: :destroy
-  has_many :features, through: :stockproduct_features
+  
 
   validates :name, :presence => {:message => 'cannot be blank.'}
   #validates :description, :presence => {:message => 'cannot be blank.'}

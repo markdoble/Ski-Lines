@@ -82,6 +82,39 @@
         		<br />
         		  </div>
         		</div>
+            <label>Product Features:</label>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Features" data-content="List any special features or technologies related to this product." data-trigger="hover" data-placement="top"></span><br />
+            <% if f.object.new_record? %>
+            <% @product.features.build %>
+            <%end%>
+            <%= f.nested_fields_for :features do |ff| %>
+            <div class="row">
+        		  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <%= ff.label :name, "Name", hidden:true %>
+                <%= ff.text_field :name, class: "form-control", placeholder: "Name" %>
+        		  </div>
+              <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                <%= ff.label :description, "Description", hidden:true %>
+                <%= ff.text_area :description, class: "form-control", placeholder: "Description", :rows=>2 %><br />
+        		  </div>
+              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <p><%= ff.remove_nested_fields_link "Remove" %></p>
+              </div>
+        		</div>
+            <%end%>
+            <p><%= f.add_nested_fields_link :features, "Add Feature" %></p>
+            <br /><br />
+            <div class="row">
+	 						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	 						 <%= f.label :product_return_policy, "Return Policy:"%>
+	 						 <% if current_user.user_return_policy.blank? %>
+	 							 <%= f.text_area :product_return_policy, class: "form-control", :cols => 80, :rows=>2 %>
+	 							 <%= link_to "Set Default Return Policy", edit_user_registration_path(anchor: "user_return_policy") %><br />
+	 						 <%else%>
+	 							 <%= f.text_area :product_return_policy, value: current_user.user_return_policy, class: "form-control", :cols => 80, :rows=>3 %>
+	 						 <%end%>
+	 					 <br />
+	 						 </div>
+	 				 </div>
 						<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         		     <%= f.label :category, "Product Category:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Category" data-content="It is helpful for both you and the user to accurately categorize you products." data-trigger="hover" data-placement="top"></span>
@@ -124,18 +157,6 @@
         		  </div>
         	  </div>
 						<br />
-						<div class="row">
-	 						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-	 						 <%= f.label :product_return_policy, "Return Policy:"%>
-	 						 <% if current_user.user_return_policy.blank? %>
-	 							 <%= f.text_area :product_return_policy, class: "form-control", :cols => 80, :rows=>2 %>
-	 							 <%= link_to "Set Default Return Policy", edit_user_registration_path(anchor: "user_return_policy") %><br />
-	 						 <%else%>
-	 							 <%= f.text_area :product_return_policy, value: current_user.user_return_policy, class: "form-control", :cols => 80, :rows=>3 %>
-	 						 <%end%>
-	 					 <br />
-	 						 </div>
-	 				 </div>
 				 </div>
 			 </div>
 			 <!-- Pricing and permitted destinations -->

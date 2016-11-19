@@ -493,6 +493,12 @@ class Admin::ProductsController < ApplicationController
           :product_id,
           :foto,
           :_destroy
+        ],
+        :features_attributes => [
+          :id,
+          :name,
+          :description,
+          :_destroy
         ]
         )
     end
