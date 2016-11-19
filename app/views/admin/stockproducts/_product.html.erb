@@ -8,11 +8,15 @@
       <%end%>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-    <h3><%=stockproduct.name%>, <%= stockproduct.brand %></h3>
-    <p><%=stockproduct.description%></p><br />
-
+    <h3><%=stockproduct.name%></h3>
+    <p><%= stockproduct.brand.upcase %></p>
+    <br />
     <ul class="nav nav-tabs">
-         <li class="active"><a href='#'>Inventory</a></li>
+         <li class="active"><a href='#'>Unit Details</a></li>
+         <li ><a href='#'>Description</a></li>
+         <% unless stockproduct.stockfeatures.empty? %>
+         <li><a href='#'>Features</a></li>
+         <%end%>
          <li ><a href='#'>Price</a></li>
          <li ><a href='#'>SKU</a></li>
          <li ><a href='#'>Size Details</a></li>
@@ -22,7 +26,7 @@
         <div class="row">
           <% if !stockproduct.stockunits.any? %>
           <p>
-            <%= link_to "Add Inventory!", admin_stockproduct_path(stockproduct) %>
+            <%= link_to "Add Unit Details!", admin_stockproduct_path(stockproduct) %>
           </p>
           <br />
           <%else%>
@@ -33,10 +37,33 @@
               (<%= u.quantity %> units in stock)
             </p>
             <%end%>
-            <p><%= link_to "Manage Inventory", admin_stockproduct_path(stockproduct) %></p>
+            <p><%= link_to "Edit Unit Details", admin_stockproduct_path(stockproduct) %></p>
           <%end%>
         </div>
       </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= stockproduct.description %></p>
+        </div>
+      </div>
+      <% unless stockproduct.stockfeatures.empty? %>
+       <div class="tab-pane">
+         <% stockproduct.stockfeatures.each do |f| %>
+         <div class="row">
+           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" style="text-align:left;">
+             <div class="row">
+             <p><label><%= f.name %></label></p>
+             </div>
+           </div>
+           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="text-align:left;">
+             <div class="row">
+              <p><%= f.description %></p>
+             </div>
+           </div>
+         </div>
+          <%end%>
+       </div>
+      <%end%>
       <div class="tab-pane">
         <div class="row">
           <p>

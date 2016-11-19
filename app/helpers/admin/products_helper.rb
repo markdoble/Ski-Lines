@@ -24,21 +24,21 @@ module Admin::ProductsHelper
     def missing_attributes(product, total_units)
       case create_key_attributes_array(product, total_units)
       when [true, true, false]
-        "You must have a price listed in either USD or CAD, or both, before you can begin selling this product."
+        "You must have a price listed in either USD or CAD, or both, before you can begin selling this product. Click Edit Product below to add a price."
       when [true, false, true]
-        "You must have available inventory listed before you can start selling this product."
+        "You must have available inventory listed before you can start selling this product. Click Add Inventory above to list your available inventory."
       when [false, true, true]
-        "You must add a photo to this produt before you can start selling."
+        "You must add a photo to this product before you can start selling. Click Edit Product below to add a photo."
       when [true, false, false]
-        "You must have inventory listed and a price before you can start selling this product."
+        "You must have inventory listed and a price before you can start selling this product. Click Add Inventory above to list your inventory, and click Edit Product below to add a price."
       when [false, true, false]
-        "You must have a photo and a price listed before you can start selling this product."
+        "You must have a photo and a price listed before you can start selling this product. Click Edit Product below to add a photo and a price."
       when [false, false, true]
-        "You must have a photo and available inventory before you can start selling this product."
+        "You must have a photo and available inventory before you can start selling this product. Click Edit Product below to add a photo, and Add Inventory above to list your available inventory."
       when [false, false, false]
-        "You must have a photo, availalbe inventory listed, and a price before you can start selling this product."
+        "You must have a photo, a price, and availalbe inventory listed before you can start selling this product. Click Edit Product below to add a photo and price, and Add Inventory above to list your available inventory."
       else
-        "You must have a photo, availalbe inventory listed, and a price before you can start selling this product."
+        "You must have a photo, a price, and availalbe inventory listed before you can start selling this product. Click Edit Product below to add a photo and price, and Add Inventory above to list your available inventory."
       end
     end
 

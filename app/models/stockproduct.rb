@@ -9,6 +9,10 @@ class Stockproduct < ActiveRecord::Base
   has_many :stockproduct_categories
   has_many :categories, through: :stockproduct_categories
 
+  # association set up for listing product features
+  has_many :stockfeatures, dependent: :destroy
+  accepts_nested_attributes_for :stockfeatures, :allow_destroy => true, :reject_if => lambda { |a| a[:name].blank? }
+
   # Associations needed for the units
   has_many :stockunits,
        inverse_of: :stockproduct, dependent: :destroy
@@ -17,7 +21,7 @@ class Stockproduct < ActiveRecord::Base
   scope :category_specific, -> (category_id) { joins(:stockproduct_categories).where("stockproduct_categories.category_id IN (?)", category_id) }
   scope :search, ->(query) { where('name ilike ? OR brand ilike ? OR sku ilike ?', "%#{query}%", "%#{query}%", "%#{query}%") }
 
-  
+
 
   validates :name, :presence => {:message => 'cannot be blank.'}
   #validates :description, :presence => {:message => 'cannot be blank.'}

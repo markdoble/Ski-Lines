@@ -10,27 +10,27 @@
 				<%end%>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-			<h3><%=product.name%>, <%= product.brand %></h3>
+			<h3><%=product.name%></h3>
+			<p><%= product.brand.upcase %></p>
 			<div class="product_price">
-				<p><strong>
+				<p>
 					<% if !product.cad_price.blank? && product.cad_price > 0 %>
-					CAD<%=number_to_currency(product.cad_price, precision: 2)%>
-					<%else%>
-					No CAD Price Set
+					CAD <%=number_to_currency(product.cad_price, precision: 2)%><br />
 					<%end%>
 					<% if !product.usd_price.blank? && product.usd_price > 0 %>
-					| USD<%=number_to_currency(product.usd_price, precision: 2)%>
-					<%else%>
-					No USD Price Set
+					USD <%=number_to_currency(product.usd_price, precision: 2)%>
 					<%end%>
-				</strong></p>
+				</p>
 			</div>
-			<p><%=product.description%></p>
-
 			<br />
-
 			<ul class="nav nav-tabs">
 					 <li class="active"><a href='#'>Inventory</a></li>
+					 <% unless product.features.empty? %>
+					 <li ><a href='#'>Features</a></li>
+					 <%end%>
+					 <% unless product.description.blank? %>
+					 <li><a href='#'>Description</a></li>
+					 <%end%>
 					 <% unless product.size_details.blank? %>
 					 <li ><a href='#'>Sizing Details</a></li>
 					 <%end%>
@@ -55,6 +55,31 @@
 					<br />
 					</div>
 				</div>
+				<% unless product.features.empty? %>
+				 <div class="tab-pane">
+					 <% product.features.each do |f| %>
+					 <div class="row">
+						 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" style="text-align:left;">
+							 <div class="row">
+							 <p><label><%= f.name %></label></p>
+						 	 </div>
+						 </div>
+						 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="text-align:left;">
+							 <div class="row">
+							 	<p><%= f.description %></p>
+						 	 </div>
+						 </div>
+					 </div>
+					  <%end%>
+				 </div>
+				<%end%>
+				<% unless product.description.blank? %>
+				 <div class="tab-pane">
+					 <div class="row">
+						 <p><%=product.description%></p><br />
+					 </div>
+				 </div>
+				 <%end%>
 				<% unless product.size_details.blank? %>
 			 <div class="tab-pane">
 				 <div class="row">
@@ -64,23 +89,23 @@
 			 <%end%>
 				<div class="tab-pane">
 						<div class="row">
-								<p>
-									<strong>Domestic:</strong>
-									<% if !product.usd_domestic_shipping.blank? %>
-									USD<%=number_to_currency(product.usd_domestic_shipping, precision: 2)%>;
-									<% end %>
-									<% if !product.cad_domestic_shipping.blank? %>
-									CAD<%=number_to_currency(product.cad_domestic_shipping, precision: 2)%>
-									<%end%>
-								</p>
+							<p>
+								<strong>Domestic:</strong>
+								<% if !product.usd_domestic_shipping.blank? && (!product.usd_price.blank? && product.usd_price > 0) %>
+								USD<%=number_to_currency(product.usd_domestic_shipping, precision: 2)%>;
+								<% end %>
+								<% if !product.cad_domestic_shipping.blank? && (!product.cad_price.blank? && product.cad_price > 0) %>
+								CAD<%=number_to_currency(product.cad_domestic_shipping, precision: 2)%>
+								<%end%>
+							</p>
 						</div>
 						<div class="row">
 							<p>
 								<strong>International:</strong>
-								<% if !product.usd_foreign_shipping.blank? %>
+								<% if !product.usd_foreign_shipping.blank? && (!product.usd_price.blank? && product.usd_price > 0) %>
 								USD<%=number_to_currency(product.usd_foreign_shipping, precision: 2)%>;
 								<% end %>
-								<% if !product.cad_foreign_shipping.blank? %>
+								<% if !product.cad_foreign_shipping.blank? && (!product.cad_price.blank? && product.cad_price > 0) %>
 								CAD<%=number_to_currency(product.cad_foreign_shipping, precision: 2)%>
 								<%end%>
 							</p>

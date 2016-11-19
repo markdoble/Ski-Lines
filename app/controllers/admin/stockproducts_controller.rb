@@ -6,7 +6,7 @@ class Admin::StockproductsController < ApplicationController
   # Define the before_action elements
   before_action :set_stockproduct, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  
+
   before_action :verify_permission
 
   # Define the required objects
@@ -246,6 +246,12 @@ class Admin::StockproductsController < ApplicationController
           :colour,
           :_destroy
           ],
+          :stockfeatures_attributes => [
+            :id,
+            :name,
+            :description,
+            :_destroy
+          ]
         )
     end
 

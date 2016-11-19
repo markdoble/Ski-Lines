@@ -8,19 +8,86 @@
       <%end%>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-    <h3><%=stockproduct.name%>, <%= stockproduct.brand %></h3>
-    <p><%=stockproduct.description%></p>
-    <br />
-    <% unless stockproduct.sku.blank? %>
-    <p>
-      <b>Manufacturer's SKU:</b> <%= stockproduct.sku %>
-    </p>
-    <%end%>
-    <br />
+    <h3><%=stockproduct.name%></h3>
+    <p><%= stockproduct.brand.upcase %></p>
+    <br /><br />
+    <ul class="nav nav-tabs">
+         <li class="active"><a href='#'>Unit Details</a></li>
+         <li ><a href='#'>Description</a></li>
+         <% unless stockproduct.stockfeatures.empty? %>
+         <li><a href='#'>Features</a></li>
+         <%end%>
+         <li ><a href='#'>MSRP</a></li>
+         <li ><a href='#'>SKU</a></li>
+         <% unless stockproduct.size_details.blank? %>
+         <li ><a href='#'>Size Details</a></li>
+         <%end%>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane in active">
+        <div class="row">
+          <% unless !stockproduct.stockunits.any? %>
+            <% stockproduct.stockunits.each do |u| %>
+            <p>
+              <%unless u.size == "n/a" %><strong><%= u.size %></strong><%end%>
+              <%unless u.colour == "n/a" %><strong><%= u.colour %></strong><%end%>
+              (<%= u.quantity %> units in stock)
+            </p>
+            <%end%>
+          <%end%>
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= stockproduct.description %></p>
+        </div>
+      </div>
+      <% unless stockproduct.stockfeatures.empty? %>
+       <div class="tab-pane">
+         <% stockproduct.stockfeatures.each do |f| %>
+         <div class="row">
+           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" style="text-align:left;">
+             <div class="row">
+             <p><label><%= f.name %></label></p>
+             </div>
+           </div>
+           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="text-align:left;">
+             <div class="row">
+              <p><%= f.description %></p>
+             </div>
+           </div>
+         </div>
+          <%end%>
+       </div>
+      <%end%>
+      <div class="tab-pane">
+        <div class="row">
+          <p>
+            <b>USD:</b> <%=number_to_currency(stockproduct.usd_msrp, unit: "$")%><br />
+            <b>CAD:</b> <%=number_to_currency(stockproduct.cad_msrp, unit: "$")%>
+          </p>
+          <br />
+        <br />
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= stockproduct.sku %></p>
+        </div>
+      </div>
+       <% unless stockproduct.size_details.blank? %>
+      <div class="tab-pane">
+        <div class="row">
+          <p><%= simple_format(stockproduct.size_details) %></p><br />
+        </div>
+      </div>
+      <%end%>
+    </div>
+
+    <br /><br /><br />
     <div class="row">
     <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <%if stockproduct.stockproductfotos.any?%>
-      <b>More Photos:</b>
       <div class="row">
         <% stockproduct.stockproductfotos.each do |ph| %>
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">

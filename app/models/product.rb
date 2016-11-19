@@ -11,7 +11,7 @@ class Product < ActiveRecord::Base
   end
 
   # association set up for listing product features
-  has_many :features
+  has_many :features, dependent: :destroy
   accepts_nested_attributes_for :features, :allow_destroy => true, :reject_if => lambda { |a| a[:name].blank? }
 
   # Associations needed for the users and orders

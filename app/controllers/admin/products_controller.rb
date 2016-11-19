@@ -264,6 +264,16 @@ class Admin::ProductsController < ApplicationController
         end
       end
 
+      # create features if there are any stockfeatures
+      if stock_product.stockfeatures.any?
+        stock_product.stockfeatures.each do |f|
+          new_product.features.create(
+            :name => f.name,
+            :description => f.description
+          )
+        end
+      end
+
       # for each stockproductfoto, create a new nested productfoto for the product
       stock_product.stockproductfotos.each do |f|
         ProductStockproductfoto.create!(

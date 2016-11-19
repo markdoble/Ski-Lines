@@ -42,7 +42,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id %>
       <%end%>
 			<div class="admin_product_well col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 	      	  <div class="row">
 	      		  	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	      		        <% if @product.photo.exists? %>
@@ -67,7 +67,7 @@
 	      			  </div>
 	      		 </div>
 	      	</div>
-          <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+          <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         		<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         			<%= f.label :description, "Product Description:" %>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Description" data-content="Provide a detailed description of the product." data-trigger="hover" data-placement="top"></span>
@@ -75,13 +75,7 @@
         		<br />
         		  </div>
         		</div>
-        		<div class="row">
-        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        			<%= f.label :size_details, "Sizing Details:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Sizing Details" data-content="Provide additional information on how to select the correct size." data-trigger="hover" data-placement="top"></span>
-        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2 %>
-        		<br />
-        		  </div>
-        		</div>
+            <br />
             <label>Product Features:</label>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Features" data-content="List any special features or technologies related to this product." data-trigger="hover" data-placement="top"></span><br />
             <% if f.object.new_record? %>
             <% @product.features.build %>
@@ -92,17 +86,24 @@
                 <%= ff.label :name, "Name", hidden:true %>
                 <%= ff.text_field :name, class: "form-control", placeholder: "Name" %>
         		  </div>
-              <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+              <div class="col-lg-8 col-md-7 col-sm-12 col-xs-12">
                 <%= ff.label :description, "Description", hidden:true %>
-                <%= ff.text_area :description, class: "form-control", placeholder: "Description", :rows=>2 %><br />
+                <%= ff.text_area :description, class: "form-control", placeholder: "Description", :rows=>1 %><br />
         		  </div>
-              <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
                 <p><%= ff.remove_nested_fields_link "Remove" %></p>
               </div>
         		</div>
             <%end%>
-            <p><%= f.add_nested_fields_link :features, "Add Feature" %></p>
+            <p><%= f.add_nested_fields_link :features, "List Another Feature" %></p>
             <br /><br />
+            <div class="row">
+        		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        			<%= f.label :size_details, "Sizing Details:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Sizing Details" data-content="Provide additional information on how to select the correct size." data-trigger="hover" data-placement="top"></span>
+        			<%= f.text_area :size_details, class: "form-control", :cols => 80, :rows=>2, placeholder: "Provide additional information on selecting the correct size." %>
+        		  </div>
+        		</div>
+            <br />
             <div class="row">
 	 						 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 	 						 <%= f.label :product_return_policy, "Return Policy:"%>
@@ -117,9 +118,11 @@
 	 				 </div>
 						<div class="row">
         		  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        		     <%= f.label :category, "Product Category:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Category" data-content="It is helpful for both you and the user to accurately categorize you products." data-trigger="hover" data-placement="top"></span>
+        		     <%= f.label :category, "Product Category:"%>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Product Category" data-content="It is helpful for both you and the user to accurately categorize your products." data-trigger="hover" data-placement="top"></span>
                  <br />
+                 <p>
                  <span id="product_form_category_display" name="product_form_category_display">
+
                    <%
                    # Loop through all of the parent categories and display them if any exist
                    category_id_value = "0"
@@ -147,6 +150,7 @@
                      end
                    end
                    %>
+
                  </span>
                  <%
                  # Display the edit link
@@ -154,6 +158,7 @@
                  # Set the hidden input field to store the form value for the category_id
                  %>
                  <input id="category_id" name="category_id" type="hidden" value="<%=category_id_value%>" />
+                 </p>
         		  </div>
         	  </div>
 						<br />
