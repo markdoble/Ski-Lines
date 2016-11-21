@@ -64,7 +64,7 @@
             <br />
             <label>Product Features:</label>&nbsp;<span class="glyphicon glyphicon-info-sign" rel="popover" title="Features" data-content="List any special features or technologies related to this product." data-trigger="hover" data-placement="top"></span><br />
             <% if f.object.new_record? %>
-            <% @product.features.build %>
+            <% @stockproduct.stockfeatures.build %>
             <%end%>
             <%= f.nested_fields_for :stockfeatures do |ff| %>
             <div class="row">
