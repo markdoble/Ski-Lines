@@ -1,0 +1,23 @@
+<h1>Lightspeed integration</h1>
+
+<%
+if !@user_authenticated
+  # We do not have a code, the user has not yet authenticated their Lightspeed access with oAuth
+  # Launch the oAuth authentication from Lightspeed
+  %>
+  <div>
+    <h4>Before using this feature, you must authenticate yourself with your Lightspeed account</h4>
+    <h4><a href="https://cloud.merchantos.com/oauth/authorize.php?response_type=code&client_id=SkiLines&scope=employee:all">Launch Authentication</a></h4>
+  </div>
+  <%
+else
+  %>
+  <div>
+    <h4>Choose your desired action</h4>
+    <ul>
+      <li><%= link_to "View Inventory", admin_integrations_lightspeed_view_inventory_path %></li>
+    </ul>
+  </div>
+  <%
+end
+%>

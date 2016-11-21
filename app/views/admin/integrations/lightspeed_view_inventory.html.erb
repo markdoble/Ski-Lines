@@ -1,0 +1,55 @@
+View Inventory
+<br />
+<br />
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#inventory_list').DataTable();
+} );
+</script>
+
+<table id="inventory_list" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>System Sku</th>
+      <th>Manufacturer ID</th>
+      <th>Manufacturer Sku</th>
+      <th>Description</th>
+      <th>Category ID</th>
+      <th>Item Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+    @inventory_items["Item"].each do |item|
+      %>
+      <tr>
+        <td><%=item["itemID"]%></td>
+        <td><%=item["systemSku"]%></td>
+        <td><%=item["manufacturerID"]%></td>
+        <td><%=item["manufacturerSku"]%></td>
+        <td><%=item["description"]%></td>
+        <td><%=item["categoryID"]%></td>
+        <td>
+          <%
+          item["Prices"]["ItemPrice"].each do |itemPrice|
+            if itemPrice["useType"] == "Default"
+              %><%=itemPrice["amount"]%><%
+            end
+          end
+          %>
+        </td>
+      </tr>
+      <%
+    end
+    %>
+  </tbody>
+</table>
+
+<br />
+<br />
+DEGUGGING
+<%=@inventory_items%>
