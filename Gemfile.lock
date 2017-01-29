@@ -59,6 +59,8 @@ GEM
     bootstrap (4.0.0.alpha6)
       autoprefixer-rails (>= 6.0.3)
       sass (>= 3.4.19)
+    bootstrap-sass-extras (0.0.7)
+      rails (>= 3.1.0)
     builder (3.2.3)
     carrierwave (1.0.0)
       activemodel (>= 4.0.0)
@@ -267,6 +269,7 @@ DEPENDENCIES
   aws-sdk (~> 1.6)
   best_in_place!
   bootstrap
+  bootstrap-sass-extras
   builder (~> 3.2.2)
   devise (~> 4.1.1)
   easy_translate

@@ -54,6 +54,8 @@ gem "font-awesome-rails"
 
 gem 'normalize-rails'
 
+gem 'bootstrap-sass-extras'
+
 # --- End of stlye related Gems ---
 
 gem 'builder', '~> 3.2.2'

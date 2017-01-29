@@ -1,0 +1,14 @@
+<div class="full_page_features visible-lg-inline">
+      <% @front_page_featured_articles.each do |front_page| %>
+      <% if front_page.image.blank? %>
+    <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.orig_content_photo.url(:large) %>)">
+       <%else%>
+    <div class="front_page_image col-lg-6 col-md-6" style="background-image: url(<%=front_page.image %>)">
+       <%end%>
+       <div class="font_page_spacer">
+         <h4 class="font_page_article_title"><%= link_to front_page.title, article_path(front_page) %></h4>
+         <p class="front_page_source"><%= front_page.source%> | <%= Date.parse(front_page.date_published).strftime("%b %d, %Y") %> </p>
+       </div>
+    </div>
+      <%end%>
+</div>
