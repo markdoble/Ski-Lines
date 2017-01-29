@@ -32,7 +32,7 @@ gem 'therubyracer'
 
 gem 'sass-rails'
 
-gem 'bootstrap'
+gem 'bootstrap-sass'
 
 # Sprckets implementation for Asset Pipeline
 gem 'sprockets-rails', :require => 'sprockets/railtie'

@@ -1,0 +1,294 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: $footerHeight;
+  background-image: url("../img/footer-bg@2x.jpg");
+  background-size: 1440px 632px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  overflow-x: hidden;
+}
+
+img,
+svg,
+iframe {
+  max-width: 100%;
+}
+
+.m-t-160 {
+  margin-top: rem-calc(160px);
+}
+.m-t-60 {
+  margin-top: 60px;
+}
+.m-t-0 {
+  margin-top: 0;
+}
+
+.m-b-80 {
+  margin-bottom: rem-calc(80px);
+}
+.m-b-30 {
+  margin-bottom: 30px;
+}
+.m-b-0 {
+  margin-bottom: 0;
+}
+
+.p-y-0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.p-r-0 {
+  padding-right: 0;
+}
+
+.font-painted-lady {
+  font-family: 'Painted Lady';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.font-questrial {
+  font-family: "Questrial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.letter-spacing {
+  letter-spacing: 5.3px;
+}
+.text-white {
+  color: #fff;
+}
+
+.btn-white {
+  color: $brand-info;
+  border-color: $brand-info;
+  background-color: white;
+  &:hover {
+    color: #fff;
+    background-color: $brand-info;
+  }
+}
+.btn-default {
+  padding: 9px 15px;
+  border-width: 1px;
+}
+.btn-rounded {
+  letter-spacing: 2px;
+  border-radius: 50px;
+}
+.btn {
+  &.text-left {
+    text-align: left;
+  }
+  &.text-right {
+    text-align: right;
+  }
+  &.text-info {
+    color: $brand-info;
+  }
+  &.readonly {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      cursor: auto;
+      background-color: #f9f9f9;
+      box-shadow: none;
+      border-color: $btn-default-border;
+    }
+  }
+}
+
+.dropdown-menu a {
+  @extend .font-questrial;
+  .fa-square {
+    margin-left: -10px;
+    margin-right: 8px;
+    vertical-align: -5px;
+  }
+}
+
+.logo {
+  display: inline-block;
+  width: 150px;
+  height: 37px;
+  text-indent: -999em;
+  background-image: url("../img/logo.svg");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  &.logo-big {
+    width: 273px;
+    height: 59px;
+  }
+}
+
+.jumbotron {
+  height: rem-calc(300px);
+  background-repeat: no-repeat;
+  background-size: cover;
+  h1 {
+    font-size: rem-calc(50px);
+    letter-spacing: rem-calc(28px);
+  }
+
+  .container {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+  }
+}
+
+hr.dotted {
+  border-top: dotted 2px #e4e9f0;
+}
+
+.with-left-line {
+  position: relative;
+  &:after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 65px;
+    height: 2px;
+    top: 8px;
+    left: -95px;
+    background-color: $brand-info;
+  }
+}
+
+.with-right-line {
+  position: relative;
+  &:before {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 65px;
+    height: 2px;
+    top: 8px;
+    right: -85px;
+    left: auto;
+    background-color: $brand-info;
+  }
+}
+
+.social {
+  li {
+    > a {
+      font-size: $font-size-base;
+      line-height: 2.1;
+      display: inline-block;
+      width: 29px;
+      height: 29px;
+      text-align: center;
+      color: #fff;
+      border-radius: 50%;
+      background-color: $brand-info;
+    }
+  }
+}
+
+
+/* 480px and bigger */
+@media (min-width: $screen-xs-min) {
+}
+
+
+/* 480px and smaller */
+@media (max-width: $screen-xs) {
+  html {
+    font-size: 16.5px;
+  }
+
+  .col-xs-10,
+  .col-xs-8 {
+    margin-left: 0;
+    width: 100%;
+    float: none;
+  }
+}
+
+
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+/* Retina */
+@media #{$retina-media-query} {
+  body {
+    background-image: url("../img/footer-bg@2x.jpg");
+  }
+}
+
+
+/* 768px and smaller */
+@media (max-width: $screen-xs-max) {
+  body {
+    font-size: 14px;
+    line-height: 1.57142;
+  }
+}
+
+
+/* 768px and bigger */
+@media (min-width: $screen-sm-min) {
+}
+
+
+
+/* 480px to 767px */
+@media (min-width: $screen-xs-min) and (max-width: $screen-xs-max) {
+  html {
+    font-size: 17px;
+  }
+}
+
+
+/* 768px to 991px */
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  html {
+    font-size: 16px;
+  }
+}
+
+
+/* 992px and smaller */
+@media (max-width: $screen-sm-max) {
+  body {
+    margin-bottom: 0;
+  }
+}
+
+
+/* 992px and bigger */
+@media (min-width: $screen-md-min) {
+}
+
+/* 992px to 1199px */
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  html {
+    font-size: 19px;
+  }
+}
+
+/* 1200px and bigger */
+@media (min-width: $screen-lg-min) {
+  html {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1500px) {
+  html {
+    font-size: 26px;
+  }
+  .container {
+    width: 1310px;
+  }
+}

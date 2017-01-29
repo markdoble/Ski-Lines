@@ -1,0 +1,68 @@
+.rating {
+  font-size: $font-size-small;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  &.font-size-18 {
+    font-size: 18px;
+  }
+}
+.rating:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+  clip: rect(0,0,0,0);
+}
+
+.rating:not(:checked) > label {
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  overflow: hidden;
+  padding-right: 1px;
+  cursor: pointer;
+  vertical-align: middle;
+  white-space: nowrap;
+  color: $brand-primary;
+}
+
+.rating:not(:checked) > label:before {
+  content: "\f006";
+}
+
+.rating > input:checked ~ label:before {
+  content: "\f005";
+}
+
+.rating:not(:checked) > label:hover:before,
+.rating:not(:checked) > label:hover ~ label:before {
+  content: "\f005";
+}
+
+.rating > input:checked + label:hover:before,
+.rating > input:checked + label:hover ~ label:before,
+.rating > input:checked ~ label:hover:before,
+.rating > input:checked ~ label:hover ~ label:before,
+.rating > label:hover ~ input:checked ~ label:before {
+  content: "\f005";
+}
+
+
+.rating span.star {
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  color: $brand-info;
+}
+.rating span.star:before {
+  padding-right: 1px;
+  padding-left: 2px;
+  content: "\f006";
+}
+.rating span.star.active:before,
+.rating span.star.active ~ span.star:before {
+  content: "\f005";
+}
