@@ -12,7 +12,7 @@ body.home-page #nav {
   animation-fill-mode: forwards;
 
   .navbar-brand {
-    background-image: url("../img/logo-white.svg");
+    background-image: image-url("logo-white.svg");
   }
   .navbar-right a {
     color: #fff;
@@ -36,7 +36,7 @@ body.home-page #nav {
       color: #000;
     }
     .navbar-brand {
-      background-image: url("../img/logo.svg");
+      background-image: url("logo.svg");
     }
   }
 
@@ -291,7 +291,7 @@ body.home-page #nav {
     }
   }
 
-  
+
   /* 768px and smaller */
   @media (max-width: $screen-xs-max) {
     margin-top: 0;

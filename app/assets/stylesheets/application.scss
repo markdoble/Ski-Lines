@@ -15,7 +15,12 @@
  // Custom bootstrap variables must be set or imported *before* bootstrap.
  @import "bootstrap-sprockets";
  @import "bootstrap";
+ @import "functions";
+ @import "style";
+ @import "home-page";
+ @import "common";
+ @import "product-details";
  @import "custom";
  @import "flags";
  @import "scaffolds";
- @import "style";
+ @import "category";
