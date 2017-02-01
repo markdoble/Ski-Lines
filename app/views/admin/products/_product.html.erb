@@ -11,7 +11,7 @@
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 			<h3><%=product.name%></h3>
-			<p><%= product.brand.upcase %></p>
+			<p><%= product.brand.try(:upcase) %></p>
 			<div class="product_price">
 				<p>
 					<% if !product.cad_price.blank? && product.cad_price > 0 %>

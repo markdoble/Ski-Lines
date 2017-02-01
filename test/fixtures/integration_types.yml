@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  desc: MyString
+  status: 
+  auth_method: MyString
+  always_authenticate: 
+
+two:
+  name: MyString
+  desc: MyString
+  status: 
+  auth_method: MyString
+  always_authenticate: 

@@ -1,0 +1,45 @@
+<h1> Add New Integration </h1>
+<%
+# Check to see if we have any available integration types
+if @integration_types.count == 0
+  # We do not have any available integration types
+  %>
+  <div>
+    No integrations are currently available. Please check again at a later time.
+  </div>
+  <%
+else
+  # We have available integration types, we will show them in a select box
+  %>
+  <div>
+    <h4>To begin, please select an available integration type.</h4>
+    <select id="integration_type_select" name="integration_type_select">
+      <option value="0">--Select Integration Type--</option>
+      <%
+      @integration_types.each do |integration_type|
+        %>
+        <option value="<%=integration_type.id%>"><%=integration_type.name%></option>
+        <%
+      end
+      %>
+    </select>
+  </div>
+  <br />
+  <%
+end
+
+# We will want to display a different div based on
+%>
+<div id="lightspeed_retail" name="lightspeed_retail" style="display:none;">
+  Lightspeed Retail integration requires authentication via OAuth to access your POS system.<br />
+  During authentication, you will temporarily be redirected away from Ski-Lines and return once completed.<br />
+  Please click the start button below:<br /><br />
+  <a href="https://cloud.merchantos.com/oauth/authorize.php?response_type=code&client_id=SkiLines&scope=employee:all" class="btn btn-large btn-primary">Start</a>
+</div>
+
+<br />
+<div>
+  <%=link_to integrations_path do%>
+    Return to Integrations
+  <%end%>
+</div>

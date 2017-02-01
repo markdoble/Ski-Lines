@@ -1,0 +1,38 @@
+<%= form_for @integration_type do |f| %>
+  <% if @integration_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@integration_type.errors.count, "error") %> prohibited this integration type from being saved:</h2>
+      <ul>
+      <% @integration_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<div class="row">
+	<div class="col-lg-4 col-md-4 col-sm-6 cl-xs-12">
+      <%= f.label :name %><br />
+      <%= f.text_field :name %><br /><br />
+
+      <%= f.label :desc %><br />
+      <%= f.text_area :desc, cols: "100", rows: "5" %><br /><br />
+
+      <%= f.label :status %><br />
+      <%= f.select :status, options_for_select([['Active', true], ['Inactive', false]], @integration_type.status)%><br /><br />
+
+      <%= f.label :auth_method %><br />
+      <%= f.text_field :auth_method %><br /><br />
+
+      <%= f.label :always_authenticate %><br />
+      <%= f.select :always_authenticate, options_for_select([['Yes', true], ['No', false]], @integration_type.always_authenticate)%><br /><br />
+	</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-6 cl-xs-12 actions">
+    <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+    <%= link_to "Cancel", integration_types_path, class: "btn btn-large btn-primary" %>
+  </div>
+</div>
+<% end %>

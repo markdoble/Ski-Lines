@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  integration_type_id: 
+  account_external_id: MyString
+  api_key: MyString
+  access_token: MyString
+  allow_auto_scrape: 
+
+two:
+  user_id: 
+  integration_type_id: 
+  account_external_id: MyString
+  api_key: MyString
+  access_token: MyString
+  allow_auto_scrape: 

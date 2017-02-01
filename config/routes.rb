@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-
   devise_for :users, :controllers => { registrations: 'users/registrations' }
   as :user do
     get 'users', :to => 'admin/products#index', :as => :user_root
@@ -150,5 +149,11 @@ Rails.application.routes.draw do
     get 'users/update'
     get 'users/merchants'
   end
+
+  # Section for integrations
+  get 'integrations/lightspeed'
+  post 'integrations/sync_inventory'
+  resources :integrations
+  resources :integration_types
 
 end

@@ -1,0 +1,90 @@
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Initialization of the javascript and stylesheets for the JQuery DataTables
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#integration_type_list').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'aTargets': [-1] /* 1st one, start by the right */
+      }]
+    });
+});
+</script>
+
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Page Header Display & Create New
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<h1>Integration Types</h1>
+
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+		<div>
+      <%=link_to 'Add New', new_integration_type_path, class: "btn btn-large btn-primary" %>
+		</div>
+	</div>
+</div>
+<br /><br />
+
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Display of all data in the integration_types table
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<table id="integration_type_list" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>Auth Method</th>
+    <th>Always Authenticate</th>
+    <th>Create Date</th>
+    <th>Edit Date</th>
+    <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+    @all_integration_types.each do |integration_type|
+      %>
+      <tr>
+        <td><%=link_to integration_type.id, edit_integration_type_path(:id => integration_type.id)%></td>
+        <td><%=integration_type.name%></td>
+        <td>
+          <%
+          # Display Active/Inactive based on boolean value
+          if integration_type.status
+            %><%="Active"%><%
+          else
+            %><%="Inactive"%><%
+          end
+          %>
+        </td>
+        <td><%=integration_type.auth_method%></td>
+        <td>
+          <%
+          # Display Yes/No based on boolean value
+          if integration_type.always_authenticate
+            %><%="Yes"%><%
+          else
+            %><%="No"%><%
+          end
+          %>
+        </td>
+        <td><%=integration_type.created_at%></td>
+        <td><%=integration_type.updated_at%></td>
+        <%# mtrottier:todo Only display the delete icon if the integration_id does not exist in the integrrations table%>
+        <td><%=link_to integration_type_path(integration_type.id), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%></td>
+      </tr>
+      <%
+    end
+    %>
+  </tbody>
+</table>

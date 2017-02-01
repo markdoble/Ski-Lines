@@ -1,0 +1,101 @@
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Initialization of the javascript and stylesheets for the JQuery DataTables
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#integration_list').DataTable({
+      'aoColumnDefs': [{
+        'bSortable': false,
+        'className': 'dt-center',
+        'aTargets': [-1] /* 1st one, start by the right */
+      }]
+    });
+});
+</script>
+
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Page Header Display & Create New
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<h1>Integrations</h1>
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+		<div>
+      <%=link_to 'Add New', new_integration_path, class: "btn btn-large btn-primary" %>
+		</div>
+	</div>
+</div>
+<br /><br />
+
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Display of an error during integration creation
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<%
+if !@error.blank?
+  %>
+  <%#mtrottier:todo This div should be styled to indicate an error visually to the user%>
+  <div class="row">
+  	<div class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
+  		<div>
+        An error occured while trying to add a new integration.<br />
+        Please try again.
+  		</div>
+  	</div>
+  </div>
+  <br /><br />
+  <%
+end
+%>
+
+<%
+#------------------------------------------------------------------------------------------------------------------------
+# Display of all data in the integration_types table
+#------------------------------------------------------------------------------------------------------------------------
+%>
+<table id="integration_list" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+    <th>ID</th>
+    <th>Type</th>
+    <th>Allow Auto Scrape</th>
+    <th>Create Date</th>
+    <th>Edit Date</th>
+    <th>Options</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%
+    @all_merchant_integrations.each do |merchant_integration|
+      %>
+      <tr>
+        <td><%=link_to merchant_integration.id, edit_integration_path(:id => merchant_integration.id)%></td>
+        <td><%=merchant_integration.integration_type.name%></td>
+        <td>
+          <%
+          # Display Yes/No based on boolean value
+          if merchant_integration.allow_auto_scrape
+            %><%="Yes"%><%
+          else
+            %><%="No"%><%
+          end
+          %>
+        </td>
+        <td><%=merchant_integration.created_at%></td>
+        <td><%=merchant_integration.updated_at%></td>
+        <td>
+          <%=link_to integration_path(merchant_integration.id), method: :delete, data: { confirm: 'Are you sure?' } do%><span class="glyphicon glyphicon-trash"></span><%end%>
+          <%=link_to integrations_sync_inventory_path(merchant_integration.id), data: { confirm: 'You are about to sync your integration products. Are you sure?' } do%><span class="glyphicon glyphicon-refresh"></span><%end%>
+        </td>
+      </tr>
+      <%
+    end
+    %>
+  </tbody>
+</table>

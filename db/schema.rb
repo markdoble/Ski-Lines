@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161119181037) do
+ActiveRecord::Schema.define(version: 20161204002430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,30 @@ ActiveRecord::Schema.define(version: 20161119181037) do
   end
 
   add_index "features", ["product_id"], name: "index_features_on_product_id", using: :btree
+
+  create_table "integration_types", force: :cascade do |t|
+    t.string   "name",                limit: 150
+    t.string   "desc",                limit: 300
+    t.binary   "status"
+    t.string   "auth_method",         limit: 150
+    t.binary   "always_authenticate"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  create_table "integrations", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "integration_type_id"
+    t.string   "account_external_id", limit: 150
+    t.string   "api_key",             limit: 300
+    t.string   "access_token",        limit: 300
+    t.binary   "allow_auto_scrape"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "integrations", ["integration_type_id"], name: "index_integrations_on_integration_type_id", using: :btree
+  add_index "integrations", ["user_id"], name: "index_integrations_on_user_id", using: :btree
 
   create_table "mailboxer_conversation_opt_outs", force: :cascade do |t|
     t.integer "unsubscriber_id"
@@ -278,7 +302,7 @@ ActiveRecord::Schema.define(version: 20161119181037) do
     t.text     "description"
     t.boolean  "status"
     t.integer  "user_id"
-    t.decimal  "price",                 precision: 8, scale: 2, default: 0.0
+    t.decimal  "price",                               precision: 8, scale: 2, default: 0.0
     t.string   "currency"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -286,19 +310,21 @@ ActiveRecord::Schema.define(version: 20161119181037) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
-    t.decimal  "shipping_charge",       precision: 8, scale: 2
+    t.decimal  "shipping_charge",                     precision: 8, scale: 2
     t.text     "size_details"
     t.text     "product_return_policy"
-    t.decimal  "usd_price",             precision: 8, scale: 2, default: 0.0
-    t.decimal  "cad_price",             precision: 8, scale: 2, default: 0.0
+    t.decimal  "usd_price",                           precision: 8, scale: 2, default: 0.0
+    t.decimal  "cad_price",                           precision: 8, scale: 2, default: 0.0
     t.string   "factory_sku"
-    t.decimal  "cad_domestic_shipping", precision: 8, scale: 2
-    t.decimal  "cad_foreign_shipping",  precision: 8, scale: 2
-    t.decimal  "usd_domestic_shipping", precision: 8, scale: 2
-    t.decimal  "usd_foreign_shipping",  precision: 8, scale: 2
+    t.decimal  "cad_domestic_shipping",               precision: 8, scale: 2
+    t.decimal  "cad_foreign_shipping",                precision: 8, scale: 2
+    t.decimal  "usd_domestic_shipping",               precision: 8, scale: 2
+    t.decimal  "usd_foreign_shipping",                precision: 8, scale: 2
     t.string   "brand"
     t.integer  "stockphoto_id"
     t.string   "slug"
+    t.integer  "integration_id"
+    t.string   "integration_external_id", limit: 150
   end
 
   add_index "products", ["slug"], name: "index_products_on_slug", using: :btree
@@ -519,6 +545,8 @@ ActiveRecord::Schema.define(version: 20161119181037) do
   add_foreign_key "default_permitted_destinations", "countries"
   add_foreign_key "default_permitted_destinations", "users"
   add_foreign_key "features", "products"
+  add_foreign_key "integrations", "integration_types"
+  add_foreign_key "integrations", "users"
   add_foreign_key "mailboxer_conversation_opt_outs", "mailboxer_conversations", column: "conversation_id", name: "mb_opt_outs_on_conversations_id"
   add_foreign_key "mailboxer_notifications", "mailboxer_conversations", column: "conversation_id", name: "notifications_on_conversation_id"
   add_foreign_key "mailboxer_receipts", "mailboxer_notifications", column: "notification_id", name: "receipts_on_notification_id"
