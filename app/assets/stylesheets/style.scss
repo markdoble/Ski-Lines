@@ -1,0 +1,43 @@
+$footerHeight: 350px;
+
+$retina-media-query: "only screen and (-webkit-min-device-pixel-ratio: 2)," +
+"only screen and (min--moz-device-pixel-ratio: 2)," +
+"only screen and (-o-min-device-pixel-ratio: 2/1)," +
+"only screen and (min-device-pixel-ratio: 2)," +
+"only screen and (min-resolution: 192dpi)," +
+"only screen and (min-resolution: 2dppx)";
+
+@font-face {
+  font-family: 'Painted Lady';
+  src: url('../fonts/aintedLady.eot');
+  src: url('../fonts/PaintedLady.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/PaintedLady.woff') format('woff'),
+    url('../fonts/PaintedLady.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+@import "functions";
+@import "layout/header";
+@import "layout/footer";
+@import "elements/form";
+@import "elements/modal";
+@import "elements/rating";
+@import "home-page";
+@import "category";
+@import "product-details";
+@import "common";
+
+
+#hero-alpine {
+  background-image: url("../img/alpine-header.jpg");
+}
+
+/* Retina */
+@media #{$retina-media-query} {
+  #hero-alpine {
+    background-image: url("../img/alpine-header@2x.jpg");
+  }
+}

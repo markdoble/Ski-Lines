@@ -1,0 +1,381 @@
+$animation-duration: 2s;
+
+body.home-page #nav {
+  background-color: transparent;
+  border: 0 none;
+  position: absolute;
+  opacity: 0;
+
+  animation-name: slideDown;
+  animation-delay: $animation-duration;
+  animation-duration: $animation-duration - .8;
+  animation-fill-mode: forwards;
+
+  .navbar-brand {
+    background-image: image-url("logo-white.svg");
+  }
+  .navbar-right a {
+    color: #fff;
+  }
+  + #nav-push {
+    display: none;
+  }
+
+  &.scrolled {
+    height: $navbar-height;
+    background-color: white;
+    position: fixed;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+    animation-name: fadeIn;
+    animation-delay: .1s;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+
+    .navbar-right a {
+      color: #000;
+    }
+    .navbar-brand {
+      background-image: url("logo.svg");
+    }
+  }
+
+  /* 768px and smaller */
+  @media (max-width: $screen-xs-max) {
+    .navbar-collapse {
+      background-color: #fff;
+      box-shadow: 0 3px 12px rgba(0,0,0,.3);
+      a {
+        color: $brand-info;
+      }
+    }
+  }
+}
+
+#home-page-header {
+  background-image: url('../img/home-page/home-page-header-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 102vh;
+  min-height: 500px;
+  position: relative;
+  overflow: hidden;
+  &:after {
+    position: absolute;
+    content: "";
+    display: block;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 140px;
+    z-index: 8;
+    @include gradient-vertical(rgba(255,255,255,.0), rgba(255,255,255,1));
+  }
+  .container {
+    position: relative;
+    top: 50%;
+    z-index: 5;
+
+    transform: translateY(-60%);
+  }
+  .lead {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: rem-calc(56px);
+    letter-spacing: 5px;
+  }
+  .letter-spacing {
+    letter-spacing: 9px;
+    display: inline-block;
+    position: relative;
+    opacity: 0;
+
+    animation-name: slideDown;
+    animation-delay: $animation-duration - .2;
+    animation-duration: $animation-duration - .8;
+    animation-fill-mode: forwards;
+  }
+  .btn-holder {
+    animation-name: slideUp;
+    animation-delay: $animation-duration - .2;
+    animation-duration: $animation-duration - .8;
+    animation-fill-mode: forwards;
+    position: relative;
+    opacity: 0;
+  }
+  .btn {
+    padding: 12px 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,.7);
+    position: relative;
+
+    &:before {
+      position: absolute;
+      display: block;
+      top: 78%;
+      left: -10%;
+      font-size: 34px;
+      z-index: -1;
+      content: attr(data-shadow);
+      opacity: .5;
+      @extend .font-painted-lady;
+    }
+  }
+
+  .right-mountain {
+    z-index: 3;
+    bottom: 0;
+    right: -10px;
+    width: 68vw;
+    padding-top: 52%;
+    background-image: url('../img/home-page/right-mountain.png');
+    background-position: bottom left;
+
+    animation-name: appearMountain;
+  }
+
+  .left-mountain {
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    width: 68vw;
+    padding-top: 54%;
+    background-image: url('../img/home-page/left-mountain.png');
+    background-position: bottom right;
+
+    animation-name: appearMountain;
+  }
+  .skier {
+    background-image: url("../img/home-page/skier.png");
+    background-position: right bottom;
+    bottom: 70px;
+    padding-top: 40%;
+    right: 22vw;
+    width: 8.5vw;
+    z-index: 4;
+    animation-name: skier;
+  }
+
+
+  .skier,
+  .left-mountain,
+  .right-mountain {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: all $animation-duration;
+    animation-duration: $animation-duration + .3;
+  }
+
+  .appear-after-mountains {
+    animation-name: appearAfterMountains;
+    animation-delay: $animation-duration - 1.1;
+    animation-duration: $animation-duration - 1;
+    animation-fill-mode: forwards;
+    position: relative;
+    opacity: 0;
+    z-index: 5;
+  }
+
+  &.scrolled {
+    .left-mountain,
+    .right-mountain {
+      animation-name: hideMountain;
+      animation-direction: reverse;
+      animation-fill-mode: forwards;
+      animation-duration: $animation-duration - 1;
+    }
+    .skier {
+      animation-delay: .1;
+      animation-duration: $animation-duration + .4;
+      animation-name: hideSkier;
+      animation-fill-mode: forwards;
+    }
+  }
+}
+
+.home-page {
+  p.font-questrial {
+    margin-top: 15px;
+    line-height: 1.5;
+    /* 768px and smaller */
+    @media (max-width: $screen-xs-max) {
+      text-shadow: 0 0 4px rgba(255, 255, 255, 1);
+    }
+  }
+}
+
+#section-cross-country,
+#section-alpine-skiing,
+#section-clothing {
+  padding-top: rem-calc(80px);
+  padding-bottom: rem-calc(130px);
+
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  position: relative;
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+  h2 {
+    letter-spacing: rem-calc(26px);
+    font-size: rem-calc(40px);
+    position: relative;
+    + .shadow {
+      position: absolute;
+      top: -30%;
+      color: #c9d6e5;
+      letter-spacing: rem-calc(26px);
+      font-size: rem-calc(58px);
+      margin-left: rem-calc(140px);
+      line-height: 1.2;
+      z-index: -1;
+      @extend .font-painted-lady;
+      span {
+        margin-left: rem-calc(-210px);
+      }
+    }
+  }
+  h5:first-child {
+    margin-top: 0;
+    margin-bottom: 0;
+    position: absolute;
+    right: -120px;
+    top: 50%;
+    transform: rotate(90deg) translateY(-45%);
+  }
+}
+
+#section-alpine-skiing {
+  background-image: url('../img/home-page/alpine.png');
+  background-position: 100% 50%;
+}
+#section-cross-country {
+  background-image: url('../img/home-page/cross-country.png');
+  background-position: 0 50%;
+  h5:first-child {
+    left: -160px;
+    right: auto;
+    transform: rotate(-90deg) translateY(-45%);
+  }
+  h2 {
+    + .shadow {
+      letter-spacing: rem-calc(13px);
+      margin-left: rem-calc(-60px);
+      font-size: rem-calc(42px);
+      b {
+        font-family: Arial;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+#section-clothing {
+  position: relative;
+  background-color: #f9f9f9;
+  border-bottom-left-radius: 80px;
+  border-top-right-radius: 80px;
+  h5:first-child {
+    margin-top: -170px;
+    right: -90px;
+  }
+  h2 {
+    + .shadow {
+      letter-spacing: rem-calc(14px);
+      width: 100%;
+      text-align: center;
+      margin-left: rem-calc(-55px);
+      top: -5%;
+    }
+  }
+
+
+  /* 768px and smaller */
+  @media (max-width: $screen-xs-max) {
+    margin-top: 0;
+    margin-bottom: -50px;
+    img {
+      margin: 20px auto 50px !important;
+      display: block;
+    }
+  }
+}
+
+
+@keyframes appearMountain {
+  from {
+    width: 96vw;
+  }
+  to {
+    width: 68vw;
+  }
+}
+@keyframes hideMountain {
+  from {
+    width: 96vw;
+  }
+  to {
+    width: 68vw;
+  }
+}
+
+@keyframes skier {
+  from {
+    background-size: 100% auto;
+    right: 8vw;
+    width: 23vw;
+  }
+  to {
+    background-size: contain;
+    right: 22vw;
+    width: 8.5vw;
+  }
+}
+
+@keyframes hideSkier {
+  from {
+    opacity: 1;
+    right: 22vw;
+  }
+  to {
+    opacity: 0;
+    right: 38vw;
+  }
+}
+
+@keyframes appearAfterMountains {
+  0% {
+    opacity: 0;
+    bottom: -15px;
+    transform: scale(.85);
+  }
+  100% {
+    opacity: 1;
+    bottom: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    top: -20px;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    bottom: -20px;
+  }
+  100% {
+    opacity: 1;
+    bottom: 0;
+  }
+}

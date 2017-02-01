@@ -1,0 +1,25 @@
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  min-height: $footerHeight - 170px;
+  margin-top: 170px;
+
+  ul {
+    > li {
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+  }
+
+  /* 768px and smaller */
+  @media (max-width: $screen-xs-max) {
+    text-align: center;
+  }
+
+  /* 992px and smaller */
+  @media (max-width: $screen-sm-max) {
+    position: static;
+  }
+}

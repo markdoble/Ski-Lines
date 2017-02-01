@@ -114,10 +114,10 @@ module Admin::AllOrdersHelper
 
   def subtotal(f)
     subtotal = 0
-    f.order_units.where.not(quantity: 0).each do |p|
-      subtotal += (p.unit.product.price*p.quantity)
+    if !f.amount.blank? && !f.sales_tax.blank? && !f.shipping.blank?
+    subtotal = f.amount - f.sales_tax - f.shipping
     end
-    subtotal
+    subtotal 
   end
 
 end

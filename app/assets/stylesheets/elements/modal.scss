@@ -1,0 +1,29 @@
+.modal {
+  .close {
+    font-weight: 100!important;
+    position: absolute;
+    
+    top: 0;
+    right: 0;
+    opacity: 1;
+    color: #fff;
+    border: 1px solid white;
+    width: 21px;
+    height: 21px;
+    &:hover {
+      opacity: .5;
+    }
+
+    /* 768px and bigger */
+    @media (min-width: $screen-sm-min) {
+      top: -2px;
+      right: -15px;
+    }
+  }
+}
+
+#modal-filters {
+  .modal-content {
+    padding: 15px 75px 40px;
+  }
+}

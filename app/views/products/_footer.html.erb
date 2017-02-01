@@ -1,52 +1,53 @@
-<div class="landing_page_footer">
-
+<!-- Footer -->
+<footer id="footer">
 	<div class="container">
-		<div class="footer_logo col-xs-12">
-			<%= image_tag('store_logo_bitmap.png', height:'25px') %>
+		<div class="row">
+			<div class="col-md-3 col-sm-4">
+				<ul class="list-unstyled">
+					<li><a href="#">CROSS-COUNTRY SKIING</a></li>
+					<li><a href="#">ALPINE SKIING</a></li>
+					<li><a href="#">SUMMER SKIING</a></li>
+					<li><a href="#">CLOTHING</a></li>
+					<li><a href="#">BAGS &amp; LUGGAGE</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4">
+				<ul class="list-unstyled">
+					<li><a href="#">MEN</a></li>
+					<li><a href="#">WOMEN</a></li>
+					<li><a href="#">KIDS</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3 col-sm-4">
+				<ul class="list-unstyled">
+					<li><a href="#">ABOUT US</a></li>
+					<li><a href="#">CONTACT US</a></li>
+					<li><a href="#">BECOME A MERCHANT</a></li>
+					<li><a href="#">MERCHANT FAQ</a></li>
+					<li><a href="#">BLOG</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-4">
+				<ul class="list-unstyled">
+					<li><a href="#">TERMS OF SERVICE</a></li>
+					<li><a href="#">SUBMIT A COMPLAIN</a></li>
+					<li><a href="#">WE’RE HIRING</a></li>
+				</ul>
+			</div>
+			<div class="col-md-2 col-sm-12 text-center">
+				<address class="font-questrial">
+					Thunder Bay, ON <br>
+					Canada  <br>
+					info@ski-lines.com <br>
+					1-888-374-8160
+				</address>
+				<br>
+				<ul class="social list-unstyled list-inline">
+					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="#"><i class="fa fa-instagram"></i></a></li>
+				</ul>
+			</div>
 		</div>
-		<div class="footer_links col-lg-4 col-md-4 col-sm-6 col-xs-12">
-			<ul>
-				<li class="list_header"><a>PRODUCTS</a></li>
-				<% @root_categories.order('name ASC').each do |root_category| %>
-				<li><%=link_to root_category.name.downcase, products_all_products_path(:category_id => root_category.id) %></li>
-				<%end%>
-				<br />
-			</ul>
-			<br /><br />
 	</div>
-	<div class="footer_links col-lg-4 col-md-4 col-sm-6 col-xs-12">
-		<p>Thunder Bay, ON<br />
-		Canada<br />
-		<%= link_to "info@ski-lines.com", "mailto:info@ski-lines.com" %><br />
-		1-888-374-8160
-		</p>
-		<p>
-			<span class="social_media_logo_footer"><%=link_to image_tag("logo_twitter2.png"), "https://twitter.com/SkiLinesDotCom"%></span>
-			<span class="social_media_logo_footer"><%=link_to image_tag("logo_facebook2.png"), "http://www.facebook.com/skiheadlines"%></span>
-		</p>
-		<ul>
-			<li class="logo_font"><%= link_to "BIKE-LINES.com", "http://www.bike-lines.com" %></li>
-			<li class="logo_font"><%= link_to "RUN-LINES.com", "http://www.run-lines.com" %></li>
-		</ul>
-		<br /><br />
-	</div>
-	<div class="footer_links col-lg-4 col-md-4 col-sm-6 col-xs-12">
-		<ul>
-			<li class="list_header"><a>NAVIGATION</a></li>
-			<li><%=link_to "terms of service", infos_terms_path %></li>
-			<li><%= link_to "submit a complaint", new_complaint_path %></li>
-			<li><%= link_to "about us", infos_about_path %></li>
-			<li><%= link_to "we're hiring!", new_team_path %></li>
-			<li><%= link_to "merchant faq", infos_merchant_faq_path %></li>
-			<% if user_signed_in? %>
-				<% if current_user.merchant? %>
-			<li><%= link_to "my store", admin_products_path%></li>
-				<%end%>
-			<%else%>
-				<li><%= link_to "become a merchant", new_merchant_application_path %></li>
-			<%end%>
-		</ul>
-		<br /><br />
-	</div>
-	</div>
-</div>
+</footer>

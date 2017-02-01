@@ -25,9 +25,39 @@ gem 'taxjar-ruby', require: 'taxjar'
 # payments services
 gem 'stripe'
 
+# --- All style related Gems ---
+
+# allow for JS code within Ruby, and ruby code in JS
 gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+
+gem 'sass-rails'
+
+gem 'bootstrap-sass'
+
+# Sprckets implementation for Asset Pipeline
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+
+# Use Uglifier as compressor for JavaScript assets
+gem 'uglifier', '>= 1.3.0'
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+
+# Rails asset pipeline integration for WOW
+gem 'wow-rails'
+
+# adds animate.css to asset pipeline
+gem "animate-rails"
+
+gem "font-awesome-rails"
+
+gem 'normalize-rails'
+
+gem 'bootstrap-sass-extras'
+
+# --- End of stlye related Gems ---
+
 gem 'builder', '~> 3.2.2'
 
 gem 'newrelic_rpm'
@@ -53,20 +83,11 @@ gem 'devise', '~> 4.1.1'
 # update database with ajax
 gem 'best_in_place', github: 'bernat/best_in_place'
 
-# for performing asynchronous tasks 
+# for performing asynchronous tasks
 gem 'sidekiq', '3.2.5'
 gem 'redis'
 
-gem 'sass-rails', '~> 4.0.3'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'

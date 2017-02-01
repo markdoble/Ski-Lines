@@ -11,15 +11,16 @@
 // about supported directives.
 //
 //= require jquery
+
 //= require best_in_place
 //= require best_in_place.purr
 //= require jquery.purr
 
 //= require jquery-ui
 //= require jquery_ujs
-//= require twitter/bootstrap
 
 
 //= require fancybox
 //= require_tree .
 //= require nested_form_fields
+//= require bootstrap-sprockets
