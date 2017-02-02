@@ -53,7 +53,7 @@ body.home-page #nav {
 }
 
 #home-page-header {
-  background-image: url('../img/home-page/home-page-header-bg.png');
+  background-image: url('home-page/home-page-header-bg.png');
   background-size: cover;
   background-repeat: no-repeat;
   height: 102vh;
@@ -128,7 +128,7 @@ body.home-page #nav {
     right: -10px;
     width: 68vw;
     padding-top: 52%;
-    background-image: url('../img/home-page/right-mountain.png');
+    background-image: url('home-page/right-mountain.png');
     background-position: bottom left;
 
     animation-name: appearMountain;
@@ -140,13 +140,13 @@ body.home-page #nav {
     left: 0;
     width: 68vw;
     padding-top: 54%;
-    background-image: url('../img/home-page/left-mountain.png');
+    background-image: url('home-page/left-mountain.png');
     background-position: bottom right;
 
     animation-name: appearMountain;
   }
   .skier {
-    background-image: url("../img/home-page/skier.png");
+    background-image: url("home-page/skier.png");
     background-position: right bottom;
     bottom: 70px;
     padding-top: 40%;
@@ -248,11 +248,11 @@ body.home-page #nav {
 }
 
 #section-alpine-skiing {
-  background-image: url('../img/home-page/alpine.png');
+  background-image: url('home-page/alpine.png');
   background-position: 100% 50%;
 }
 #section-cross-country {
-  background-image: url('../img/home-page/cross-country.png');
+  background-image: url('home-page/cross-country.png');
   background-position: 0 50%;
   h5:first-child {
     left: -160px;

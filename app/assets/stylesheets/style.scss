@@ -9,10 +9,10 @@ $retina-media-query: "only screen and (-webkit-min-device-pixel-ratio: 2)," +
 
 @font-face {
   font-family: 'Painted Lady';
-  src: url('../fonts/aintedLady.eot');
-  src: url('../fonts/PaintedLady.eot?#iefix') format('embedded-opentype'),
-    url('../fonts/PaintedLady.woff') format('woff'),
-    url('../fonts/PaintedLady.ttf') format('truetype');
+  src: url('PaintedLady.eot');
+  src: url('PaintedLady.eot?#iefix') format('embedded-opentype'),
+    url('PaintedLady.woff') format('woff'),
+    url('PaintedLady.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -32,12 +32,12 @@ $retina-media-query: "only screen and (-webkit-min-device-pixel-ratio: 2)," +
 
 
 #hero-alpine {
-  background-image: url("../img/alpine-header.jpg");
+  background-image: url("alpine-header.jpg");
 }
 
 /* Retina */
 @media #{$retina-media-query} {
   #hero-alpine {
-    background-image: url("../img/alpine-header@2x.jpg");
+    background-image: url("alpine-header@2x.jpg");
   }
 }

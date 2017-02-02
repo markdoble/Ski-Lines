@@ -5,7 +5,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: $footerHeight;
-  background-image: url("../img/footer-bg@2x.jpg");
+  background-image: url("footer-bg@2x.jpg");
   background-size: 1440px 632px;
   background-repeat: repeat-x;
   background-position: bottom;
@@ -117,7 +117,7 @@ iframe {
   width: 150px;
   height: 37px;
   text-indent: -999em;
-  background-image: url("../img/logo.svg");
+  background-image: url("logo.svg");
   background-repeat: no-repeat;
   background-size: 100% auto;
   &.logo-big {
@@ -222,7 +222,7 @@ hr.dotted {
 /* Retina */
 @media #{$retina-media-query} {
   body {
-    background-image: url("../img/footer-bg@2x.jpg");
+    background-image: url("footer-bg@2x.jpg");
   }
 }
 

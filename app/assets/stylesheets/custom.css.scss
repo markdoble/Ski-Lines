@@ -1,5 +1,5 @@
 
-@font-face{font-family:'Painted Lady';src:url("../fonts/aintedLady.eot");src:url("../fonts/PaintedLady.eot?#iefix") format("embedded-opentype"),url("../fonts/PaintedLady.woff") format("woff"),url("../fonts/PaintedLady.ttf") format("truetype");font-weight:normal;font-style:normal}
+@font-face{font-family:'Painted Lady';src:url("PaintedLady.eot");src:url("PaintedLady.eot?#iefix") format("embedded-opentype"),url("PaintedLady.woff") format("woff"),url("PaintedLady.ttf") format("truetype");font-weight:normal;font-style:normal}
 
 .sponsor_bkgd{
 	background: url("OW_back_2_fade.png") no-repeat center center;
@@ -212,7 +212,7 @@
 a.dashboard_button{
 	padding-top:8px;
 	padding-right:25px;
-	paddin-bottom:0px;
+	padding-bottom:0px;
 	margin:0px;
 	top:0;
 	bottom:0px;
@@ -311,7 +311,7 @@ body.order{
 	top:0;
 	left:0;
 	position:fixed;
-	background: url(dark_landing.jpg) no-repeat center center;
+	background: url("dark_landing.jpg") no-repeat center center;
 
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -445,7 +445,7 @@ color:black;
 
 .store_clothing_background{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
-	background: url(dark_clothing.jpg) no-repeat center center;
+	background: url("dark_clothing.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -494,7 +494,7 @@ color:black;
 }
 .store_hg_background{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
-	background: url(dark_hg_bkgd_3.jpg) no-repeat center center;
+	background: url("dark_hg_bkgd_3.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -524,7 +524,7 @@ color:black;
 }
 .store_waxing_background{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
-	background: url(dark_waxing_2.jpg) no-repeat center center;
+	background: url("dark_waxing_2.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -554,7 +554,7 @@ color:black;
 }
 .store_acc_background{
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
-	background: url(store_accessories_bkgd.jpg) no-repeat center center;
+	background: url("store_accessories_bkgd.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -599,7 +599,7 @@ color:black;
 }
 
 .order_thank_you{
-	background: url(store_accessories_bkgd.jpg) no-repeat center center;
+	background: url("store_accessories_bkgd.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -1854,7 +1854,7 @@ input[type=number]::-webkit-inner-spin-button {
 	top:0;
 	left:0;
 	position:fixed;
-	background: url(store_accessories_bkgd.jpg) no-repeat center center;
+	background: url("store_accessories_bkgd.jpg") no-repeat center center;
 	min-height:100%;
 	background-attachment: fixed;
       -webkit-background-size: cover;
@@ -2071,7 +2071,7 @@ input[type=number]::-webkit-inner-spin-button {
 }
 
 .new_session{
-	background: url(login_bkgd_2.jpg) no-repeat center center;
+	background: url("login_bkgd_2.jpg") no-repeat center center;
 	font-family: Optima, Segoe, 'Segoe UI', Candara, Calibri, Arial, sans-serif;
 	min-height:100%;
 
