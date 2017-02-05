@@ -1,8 +1,9 @@
-if ($('.wow').length){
-  new WOW().init();
-}
+
 
 $(document).ready(function(){
+  if ($('.wow').length){
+    new WOW().init();
+  }
   
   if( $('.list-grid-toggler').length ) {
     $('.list-grid-toggler > a').on('click', function(e){
