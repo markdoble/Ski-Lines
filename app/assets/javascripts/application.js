@@ -21,7 +21,9 @@
 
 
 //= require fancybox
-//= require_tree .
+
 //= require nested_form_fields
 //= require bootstrap-sprockets
 //= require wow
+
+//= require_tree .

@@ -17,20 +17,6 @@ $retina-media-query: "only screen and (-webkit-min-device-pixel-ratio: 2)," +
   font-style: normal;
 }
 
-
-
-@import "functions";
-@import "layout/header";
-@import "layout/footer";
-@import "elements/form";
-@import "elements/modal";
-@import "elements/rating";
-@import "home-page";
-@import "category";
-@import "product-details";
-@import "common";
-
-
 #hero-alpine {
   background-image: url("alpine-header.jpg");
 }
