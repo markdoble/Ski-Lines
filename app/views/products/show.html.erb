@@ -1,146 +1,253 @@
-<br /><br /><br /><br /><br /><br />
-<div class="container">
-  <div class="row">
-    <div id="image" class="col-lg-6 col-md-6 col-sm-8 col-xs-12">
-      <% if !@product.photo.blank? %>
-  		<%= image_tag @product.photo.url(:large), class: "img-responsive", width:"100%" %>
-  		<%elsif !@product.stockphoto.blank? %>
-  		<%= image_tag @product.stockphoto.photo.url(:large), class: "img-responsive", width:"100%" %>
-  		<%end%>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-4 col-xs-12">
-      <br /><br />
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="product_name">
-            <h3><%= @product.name %>, <%= @product.brand%></h3>
-          </div>
-          <% if @product.currency_price(session[:site_country]) == 0 %>
-          <div class="product_price">
-              <h4>This product is not available in selected Country!</h4>
-          </div>
-          <%else%>
-          <div class="product_price">
-              <h4 > <%= number_to_currency(@product.currency_price(session[:site_country]), unit: '$') %></h4>
-          </div>
-          <%end%>
-          <div class="contact_merchant">
-            <p>
-              <a href="<%= new_conversation_path(product_id: @product.id) %>">
-              <span class="glyphicon glyphicon-envelope"></span> Message <%= @product.user.merchant_name %>
-              </a>
-            </p>
-          </div>
-          <p><%= simple_format(@product.description) %></p>
-          <br /><br />
-        </div>
-        <div class="product_tabs col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div id="content">
-              <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                   <li class="active"><a data-toggle="tab" href='#<%= @product.id%>A'>Merchant</a></li>
-                   <li ><a data-toggle="tab" href='#<%= @product.id%>B'>Returns</a></li>
-               <% unless @product.units.any?{|a| a.size == 'n/a' }%>
-                   <li ><a data-toggle="tab" href='#<%= @product.id%>C'>Sizing</a></li>
-               <%end%>
-               <li ><a data-toggle="tab" href='#<%= @product.id%>D'>Shipping</a></li>
-              </ul>
-              <div id="my-tab-content" class="tab-content">
-                <div class="tab-pane active" id='<%= @product.id%>A'>
-                  <div class="row">
-                    <p>
-                    <% if @product.user.merchant_url.blank? %>
-                    <%= @product.user.merchant_name %><br />
-                    <%else%>
-                    <i> <%= @product.user.merchant_name %> </i><br />
-                    <%end%>
-                    <%= @product.user.city %>, <%= @product.user.state_prov%>	<br />
-                    </p>
-                  </div>
-                </div>
-                <div class="tab-pane" id='<%= @product.id%>B'>
-                  <div class="row">
-                    <% if @product.product_return_policy.blank? %>
-                  <p>There is no return policy for this product.</p>
-                <%else%>
-                  <p><%= simple_format(@product.product_return_policy) %></p>
-                <%end%>
-                  </div>
-                </div>
-              <% unless @product.units.any?{|a| a.size == 'n/a' }%>
-                <div class="tab-pane" id='<%= @product.id%>C'>
-                  <div class="row">
-                   <% if @product.size_details.blank?%>
-                   <p>No sizing details to show.</p>
-                   <%else%>
-                   <p><%= simple_format(@product.size_details) %></p>
-                   <%end%>
-                  </div>
-                </div>
-              <%end%>
-                <div class="tab-pane" id='<%= @product.id%>D'>
-                  <div class="row">
-                    <% if @product.currency_domestic_shipping(session[:site_country]).blank? && @product.currency_foreign_shipping(session[:site_country]).blank? %>
-                    <p>There is no shipping information to show.</p>
-                    <%else%>
-                    <% if @product.currency_domestic_shipping(session[:site_country]) == 0 && @product.currency_foreign_shipping(session[:site_country]) == 0 %>
-                    <p>This product has free shipping!</p>
-                    <%else%>
-                    <p>
-                      <%= number_to_currency(@product.currency_domestic_shipping(session[:site_country]), unit: '$') %> per unit for deliveries within <%=@product.user.country%>, and
-                      <%= number_to_currency(@product.currency_foreign_shipping(session[:site_country]), unit: '$') %> per unit for deliveries outside of <%=@product.user.country%>.
-                    </p>
-                      <%end%>
-                    <%end%>
-                    <p>
-                      Shipping to:<br />
-                      <% @product.user.default_permitted_destinations.each do |country| %>
-                       - <%= country.country.common_name %><br />
-                       <%end%>
-                    </p>
-                  </div>
-                </div>
-              </div>
-          </div>
-        </div>
-        <% unless @product.currency_price(session[:site_country]) == 0 %>
-        <div class="add_to_cart col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <br />
-          <a href='/cart/"<%= @product.id %>"'>
-            <div class="toggle_sizes btn btn-primary">
-              ADD TO CART
-            </div>
-          </a>
-        </div>
-        <%end%>
-      <div class="thumbnails col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!-- nav-push is used to push the content to the bottom when navbar has .navbar-fixed-top class and equals to navbar height  -->
+<div id="nav-push" class="hidden-xs"></div>
 
-        <br /> <br />
-				<%if @product.productfotos.any?%>
-				<b>More Photos:</b>
-				<div class="row">
-					<% @product.productfotos.each do |ph| %>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="image_frame" style="height:100px">
-							<a class="fancybox fancybox.image" rel="<%=ph.product.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
-						</div>
-					</div>
-					<%end%>
-				</div>
-				<%elsif @product.stockproductfotos.any? %>
-				<b>More Photos:</b>
-				<div class="row">
-					<% @product.stockproductfotos.each do |ph| %>
-					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<div class="image_frame" style="height:100px">
-							<a class="fancybox fancybox.image" rel="<%=ph.id%>" href="<%= (ph.foto.url(:large))%>"><img src="<%= (ph.foto.url(:thumb))%>" class="img-responsive"/></a>
-						</div>
-					</div>
-					<%end%>
-				</div>
-				<%end%>
+<!-- Begin page content -->
+<main class="container">
+  <ol class="breadcrumb font-questrial">
+    <li>
+      <a href="#">
+        <i class="fa fa-long-arrow-left"></i> &nbsp; Back
+      </a>
+    </li>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Cross-Country Skiing</a></li>
+    <li class="active"><%=@product.name%>, <%=@product.brand%></li>
+  </ol>
+
+
+  <div class="row m-b-80">
+
+
+    <div class="col-sm-5 col-sm-offset-0 col-xs-8 col-xs-offset-2">
+
+      <div id="carousel-product-original">
+        <%
+        if !@product.photo.blank?
+          %>
+          <img src="<%=@product.photo.url(:large)%>" alt="<%=@product.name%>">
+          <%
+        elsif !@product.stockphoto.blank?
+          %>
+          <img src="<%=@product.stockphoto.photo.url(:large)%>" alt="<%=@product.name%>">
+          <%
+        end
+        %>
       </div>
+
+      <div id="carousel-product-thumbs" class="carousel slide m-b-30" data-ride="carousel" data-interval="false">
+        <%
+        if @product.productfotos.any?
+          %>
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <ul class="list-inline list-unstyled m-b-0 carousel-indicators">
+                <%
+                @product.productfotos.each do |ph|
+                  %>
+                  <li data-original="<%=(ph.foto.url(:large))%>">
+                    <img src="<%=(ph.foto.url(:thumb))%>" alt="">
+                  </li>
+                  <%
+                end
+                %>
+              </ul>
+            </div>
+            <div class="item">
+              <ul class="list-inline list-unstyled m-b-0 carousel-indicators">
+                <%
+                @product.productfotos.each do |ph|
+                  %>
+                  <li data-original="<%=(ph.foto.url(:large))%>">
+                    <img src="<%=(ph.foto.url(:thumb))%>" alt="">
+                  </li>
+                  <%
+                end
+                %>
+              </ul>
+            </div>
+          </div>
+          <%
+        elsif @product.stockproductfotos.any?
+          %>
+          <div class="carousel-inner" role="listbox">
+            <div class="item active">
+              <ul class="list-inline list-unstyled m-b-0 carousel-indicators">
+                <%
+                @product.stockproductfotos.each do |ph|
+                  %>
+                  <li data-original="<%=(ph.foto.url(:large))%>">
+                    <img src="<%=(ph.foto.url(:thumb))%>" alt="">
+                  </li>
+                  <%
+                end
+                %>
+              </ul>
+            </div>
+            <div class="item">
+              <ul class="list-inline list-unstyled m-b-0 carousel-indicators">
+                <%
+                @product.stockproductfotos.each do |ph|
+                  %>
+                  <li data-original="<%=(ph.foto.url(:large))%>">
+                    <img src="<%=(ph.foto.url(:thumb))%>" alt="">
+                  </li>
+                  <%
+                end
+                %>
+              </ul>
+            </div>
+          </div>
+          <%
+        end
+        %>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-product-thumbs" role="button" data-slide="prev">
+          <span class="fa fa-long-arrow-left icon-prev" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-product-thumbs" role="button" data-slide="next">
+          <span class="fa fa-long-arrow-right icon-next" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+    </div>
+
+
+    <div class="col-sm-6 col-xs-10 col-xs-offset-1">
+      <h4 class="m-b-0"><%=@product.name%>, <%=@product.brand%></h4>
+      <p class="small text-muted">
+        by <%=@product.user.merchant_name%>
+      </p>
+
+      <br>
+
+      <div class="m-b-30 pull-right">
+        <!--
+        <span class="rating">
+            <span class="star"></span>
+        <span class="star"></span>
+        <span class="star active"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+        </span>
+        <span class="pull-right">&nbsp; 25</span>
+        -->
+      </div>
+
+      <div class="m-b-30">
+        <!--<del class="text-muted">$559.99</del> &nbsp;-->
+        <strong><%=number_to_currency(@product.currency_price(session[:site_country]), unit: '$')%></strong>
+      </div>
+
+      <hr class="dotted m-b-30">
+
+      <form action="#" class="m-b-0">
+
+        <div class="row">
+          <div class="col-lg-3 col-md-4 col-xs-6">
+
+            <label for="dropdownSize">Size</label>
+            <div class="dropdown m-b-30">
+              <button class="btn btn-default font-questrial dropdown-toggle" type="button" id="dropdownSize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select size &nbsp;
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownSize">
+                <li><a href="#">S</a></li>
+                <li><a href="#">M</a></li>
+                <li><a href="#">L</a></li>
+              </ul>
+            </div>
+          </div>
+
+
+          <div class="col-lg-3 col-md-4 col-xs-6">
+
+            <label for="dropdownColor">Color</label>
+            <div class="dropdown m-b-30">
+              <button class="btn btn-default font-questrial dropdown-toggle" type="button" id="dropdownColor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Select color &nbsp;
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownColor">
+                <li><a href="#"><i class="fa fa-square fa-2x" style="color: #4990e2;"></i> Blue</a></li>
+                <li><a href="#"><i class="fa fa-square fa-2x" style="color: #d0011b;"></i> Red</a></li>
+                <li><a href="#"><i class="fa fa-square fa-2x" style="color: #4cde8e;"></i> Green</a></li>
+                <li><a href="#"><i class="fa fa-square fa-2x" style="color: #f8e81c;"></i> Yellow</a></li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div class="col-lg-3 col-md-4 col-sm-6">
+
+            <label for="dropdownColor">Quantity</label>
+            <div class="btn-toolbar m-b-30" role="toolbar">
+              <div class="btn-group" role="group" aria-label="First group">
+                <button type="button" class="btn btn-default">-</button>
+                <button type="button" class="btn btn-default readonly">1</button>
+                <button type="button" class="btn btn-default">+</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <input type="hidden" name="size">
+        <input type="hidden" name="color">
+        <input type="hidden" name="quantity">
+      </form>
+
+      <hr class="dotted m-b-30 m-t-0">
+
+      <a href="<%=new_conversation_path(product_id: @product.id)%>" class="btn btn-link text-info pull-right m-b-30"><u>Message <%=@product.user.merchant_name%></u></a>
+      <a href="#" class="btn btn-info btn-rounded m-b-30">&nbsp; <i class="fa fa-shopping-cart"></i>&nbsp; ADD TO CART &nbsp; </a>
+      <br>
+      <br>
+
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs m-b-30" role="tablist">
+        <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">Description</a></li>
+        <li role="presentation"><a href="#returns" aria-controls="returns" role="tab" data-toggle="tab">Returns</a></li>
+        <li role="presentation"><a href="#savings" aria-controls="savings" role="tab" data-toggle="tab">Savings</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="description">
+          <p class="font-questrial">
+            <%=@product.description%>
+          </p>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="returns">
+          <%
+          if @product.product_return_policy.blank?
+            %>
+            <p>There is no return policy for this product.</p>
+            <%
+          else
+            %>
+            <p><%=@product.product_return_policy%></p>
+            <%
+          end
+          %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="savings">...</div>
+      </div>
+
     </div>
   </div>
-  <br /><br /><br /><br />
-  <br /><br /><br /><br />
-</div>
-<%= render 'products/footer'%>
+
+  <!--
+  <h5 class="text-center text-uppercase m-b-80 letter-spacing">Related items</h5>
+  <div class="products-list">
+    <div class="row">
+    </div>
+  </div>
+  -->
+
+</main>
