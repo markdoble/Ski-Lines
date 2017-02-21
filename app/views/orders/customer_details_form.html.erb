@@ -1,3 +1,5 @@
+<!-- nav-push is used to push the content to the bottom when navbar has .navbar-fixed-top class and equals to navbar height  -->
+<div id="nav-push" class="hidden-xs"></div>
 
 <%= form_for @order, :url => create_customer_details_order_path(@order), :html => { :onsubmit => "return validateCustomerDetailsForm();"} do |f| %>
 <div class="col-lg-12 col-md-12 col-sm-12">

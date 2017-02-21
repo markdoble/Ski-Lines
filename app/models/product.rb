@@ -79,11 +79,11 @@ class Product < ActiveRecord::Base
   validates_length_of :description, :minimum => 0, :maximum => 1000
 
   # Define the scopes to be used
-  scope :search, ->(query) { where('name LIKE ? OR brand LIKE ?', "%#{query}%", "%#{query}%") }
+  scope :search, ->(query) { where('lower(name) LIKE ? OR lower(brand) LIKE ?', "%#{query.downcase}%", "%#{query.downcase}%") }
   scope :user_products, -> { where(user_id: current_user.id) }
   scope :index_products, -> { limit(4) }
   scope :active_products, -> { includes(:units).where("units.quantity > ?", 0).references(:units).where(:status => "TRUE") }
-  scope :query, ->(query) { where('name LIKE ? OR brand LIKE ?', "%#{query}%", "%#{query}%") }
+  scope :query, ->(query) { where('lower(name) LIKE ? OR lower(brand) LIKE ?', "%#{query.downcase}%", "%#{query.downcase}%") }
   scope :category_specific, -> (category_id) { joins(:product_categories).where("product_categories.category_id IN (?)", category_id) }
 
   scope :country_specific, -> (site_country) { where("('ca' = ? AND cad_price > 0) OR ('us' = ? AND usd_price > 0)", site_country, site_country) }

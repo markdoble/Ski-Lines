@@ -1,3 +1,6 @@
+<!-- nav-push is used to push the content to the bottom when navbar has .navbar-fixed-top class and equals to navbar height  -->
+<div id="nav-push" class="hidden-xs"></div>
+
 <% if @cart.empty? %>
 	<%= render :partial => "orders/empty_cart" %>
 	<% @nofooter = true %>
